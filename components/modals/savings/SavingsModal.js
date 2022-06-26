@@ -41,7 +41,7 @@ const SavingsModal = () => {
           <Text style={styles.modalHeaderText}>Savings</Text>
           <Text></Text>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.modalSearchContainer, { backgroundColor: colors.greenDarkColor }]}>
             <Text style={styles.modalHeaderTex}>NGN 0.00</Text>
             <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>Main Balance</Text>

@@ -101,7 +101,7 @@ const ProductsModal = () => {
           </View>
         </View>
 
-        <ScrollView ref={scrollViewRef}>
+        <ScrollView ref={scrollViewRef} showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
             {toggleButton === "ALL_PRODUCTS" ? <AllProducts /> : <MyProducts />}
           </View>

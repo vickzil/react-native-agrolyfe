@@ -42,7 +42,7 @@ const ReferralModal = () => {
           <Text style={styles.modalHeaderText}>Referrals</Text>
           <Text></Text>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[{ backgroundColor: colors.greenDarkColor }]}>
             <View style={[styles.modalSearchContainer]}>
               <Text style={styles.modalHeaderTex}>NGN 0.00</Text>

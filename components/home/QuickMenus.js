@@ -4,6 +4,7 @@ import { globalStyles } from "../../styles/global";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Feathericons from "react-native-vector-icons/Feather";
 import colors from "../../styles/colors";
 import { useDispatch } from "react-redux";
 import {
@@ -74,12 +75,8 @@ const QuickMenus = ({ navigation }) => {
         </View>
         <View style={{ padding: 5, width: "50%" }}>
           <TouchableOpacity style={styles.quickMenusItem}>
-            <Ionicons
-              name="shield-checkmark"
-              size={25}
-              style={[styles.quickMenusItemIcon, { color: colors.greenColor }]}
-            />
-            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Support</Text>
+            <Feathericons name="key" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
+            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Change pin</Text>
           </TouchableOpacity>
         </View>
         {/* <View style={{ padding: 5, width: "50%" }}>

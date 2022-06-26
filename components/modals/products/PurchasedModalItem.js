@@ -4,7 +4,7 @@ import colors from "../../../styles/colors";
 
 const PurchasedModalItem = ({ item }) => {
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.productCard}>
         <View style={styles.productCardContent}>
           <View style={styles.productCardContentItem}>

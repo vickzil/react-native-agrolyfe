@@ -1,26 +1,15 @@
-import {
-  Dimensions,
-  FlatList,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setTransactionModal } from "../../../store/alert/alertSlice";
-import IconSearch from "react-native-vector-icons/AntDesign";
+import { setNextOfKinModal } from "../../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import AllTransactions from "../../transactions/AllTransactions";
-import colors from "../../../styles/colors";
+import colors from "../../../../styles/colors";
+import NextOfKinForm from "./NextOfKinForm";
 
 const { width } = Dimensions.get("screen");
 
-const TransactionModal = () => {
-  const modal = useSelector((state) => state.alert.transactionModal);
+const NextOfKinModal = () => {
+  const modal = useSelector((state) => state.alert.nextOfKinModal);
   const dispatch = useDispatch();
 
   return (
@@ -28,31 +17,25 @@ const TransactionModal = () => {
       visible={modal}
       animationType="slide"
       onRequestClose={() => {
-        dispatch(setTransactionModal(false));
+        dispatch(setNextOfKinModal(false));
       }}
     >
-      <View>
+      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
             size={25}
             style={[styles.modalHeaderIcon, { color: "#fff" }]}
-            onPress={() => dispatch(setTransactionModal(false))}
+            onPress={() => dispatch(setNextOfKinModal(false))}
           />
-          <Text style={styles.modalHeaderText}>Transactions</Text>
+          <Text style={styles.modalHeaderText}>Next of kin</Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={[styles.modalSearchContainer, { backgroundColor: colors.greenDarkColor }]}>
-            <Text style={styles.modalHeaderTex}>NGN 0.00</Text>
-            <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>Main Balance</Text>
-          </View>
           <View style={[styles.productContainer]}>
-            <AllTransactions />
+            <NextOfKinForm />
           </View>
         </ScrollView>
-
-        {/* <Cards /> */}
       </View>
     </Modal>
     // </GestureRecognizer>
@@ -98,26 +81,56 @@ const styles = StyleSheet.create({
   },
 
   modalHeaderTex: {
-    fontStyle: "normal",
     fontWeight: "700",
     fontSize: 27,
-    // lineHeight: 29,
-    marginTop: 0,
+    lineHeight: 29,
+    marginTop: 10,
     fontFamily: "Montserrat",
     color: "#fff",
   },
 
   modalHeaderText2: {
-    fontSize: 16,
+    fontSize: 15,
   },
 
   productContainer: {
-    flexDirection: "row",
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    flexWrap: "wrap",
     paddingTop: 30,
     paddingBottom: 100,
   },
+
+  modalSearch: {
+    width: "98%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f8f8f8",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 12,
+  },
+
+  searchIcon: {
+    marginRight: 15,
+  },
+
+  searchInput: {
+    fontSize: 16,
+    color: "#444",
+    width: "72%",
+    textAlign: "left",
+  },
+
+  buttonCopy: {
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 10,
+  },
+
+  buttonCopyText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
 });
-export default TransactionModal;
+export default NextOfKinModal;

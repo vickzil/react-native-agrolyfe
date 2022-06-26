@@ -1,16 +1,16 @@
 import { Dimensions, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setEditProfileModal } from "../../../../store/alert/alertSlice";
+import { setAntiPhizingModal } from "../../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../../styles/colors";
-import EditProfileHeaderImageTop from "./EditProfileHeaderImageTop";
-import EditProfileForm from "./EditProfileForm";
+import HeaderImageTop from "../../../extra/HeaderImageTop";
+import AntiPhizingForm from "./AntiPhizingForm";
 
 const { width } = Dimensions.get("screen");
 
-const EditProfileModal = () => {
-  const modal = useSelector((state) => state.alert.editProfileModal);
+const AntiPhizingModal = () => {
+  const modal = useSelector((state) => state.alert.antiPhizingModal);
   const dispatch = useDispatch();
 
   return (
@@ -18,7 +18,7 @@ const EditProfileModal = () => {
       visible={modal}
       animationType="slide"
       onRequestClose={() => {
-        dispatch(setEditProfileModal(false));
+        dispatch(setAntiPhizingModal(false));
       }}
     >
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
@@ -27,18 +27,18 @@ const EditProfileModal = () => {
             name="arrow-left"
             size={25}
             style={[styles.modalHeaderIcon, { color: "#fff" }]}
-            onPress={() => dispatch(setEditProfileModal(false))}
+            onPress={() => dispatch(setAntiPhizingModal(false))}
           />
-          <Text style={styles.modalHeaderText}>Edit Profile</Text>
+          <Text style={styles.modalHeaderText}>Update Anti-phishing</Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[{ backgroundColor: colors.greenDarkColor, paddingTop: 20, paddingBottom: 30 }]}>
-            <EditProfileHeaderImageTop />
+            <HeaderImageTop />
           </View>
 
           <View style={[styles.productContainer]}>
-            <EditProfileForm />
+            <AntiPhizingForm />
           </View>
         </ScrollView>
       </View>
@@ -74,30 +74,6 @@ const styles = StyleSheet.create({
     marginLeft: -45,
   },
 
-  modalSearchContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    width,
-    paddingVertical: 0,
-    paddingHorizontal: 20,
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
-    paddingBottom: 30,
-  },
-
-  modalHeaderTex: {
-    fontWeight: "700",
-    fontSize: 27,
-    lineHeight: 29,
-    marginTop: 10,
-    fontFamily: "Montserrat",
-    color: "#fff",
-  },
-
-  modalHeaderText2: {
-    fontSize: 15,
-  },
-
   productContainer: {
     width: "100%",
     justifyContent: "center",
@@ -105,37 +81,5 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 100,
   },
-
-  modalSearch: {
-    width: "98%",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f8f8f8",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 12,
-  },
-
-  searchIcon: {
-    marginRight: 15,
-  },
-
-  searchInput: {
-    fontSize: 16,
-    color: "#444",
-    width: "72%",
-    textAlign: "left",
-  },
-
-  buttonCopy: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 10,
-  },
-
-  buttonCopyText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
 });
-export default EditProfileModal;
+export default AntiPhizingModal;

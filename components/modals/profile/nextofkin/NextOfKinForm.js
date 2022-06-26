@@ -1,22 +1,18 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
 import colors from "../../../../styles/colors";
 import RadioGroup from "react-native-radio-buttons-group";
-// import SelectDropdown from "react-native-select-dropdown";
 import { Dropdown } from "react-native-element-dropdown";
-import { countries } from "../../../../api/countries/countries";
 import { globalStyles } from "../../../../styles/global";
 
 const EditProfileForm = () => {
-  // const [allCountries] = useState(countries);
-  const [country, setCountry] = useState("");
-  const [middleName, setMiddleName] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("male");
+  const [relationship, setRelationship] = useState("sibling");
 
-  // useEffect(() => {
-  //   console.log(countries);
-  // }, []);
   const radioButtonsData = [
     {
       id: "1", // acts as primary key, should be unique and non-empty string
@@ -30,6 +26,8 @@ const EditProfileForm = () => {
     },
   ];
 
+  const Relationships = ["spouse", "parent", "child", "sibling", "other"];
+
   const [radioButtons, setRadioButtons] = useState(radioButtonsData);
 
   function onPressRadioButton(radioButtonsArray) {
@@ -40,8 +38,7 @@ const EditProfileForm = () => {
   const _renderItem = (item) => {
     return (
       <View style={styles.item}>
-        <Text style={styles.textItem}>{item.name}</Text>
-        <Image style={styles.selectImage} source={{ uri: item.flag }} />
+        <Text style={styles.textItem}>{item}</Text>
       </View>
     );
   };
@@ -49,13 +46,38 @@ const EditProfileForm = () => {
   return (
     <View style={styles.form}>
       <View style={{ marginBottom: 20, width: "100%" }}>
-        <Text style={styles.label}>Middle name</Text>
+        <Text style={styles.label}>Full name</Text>
         <View style={[styles.inputContainer]}>
           <TextInput
-            value={middleName}
-            onChangeText={(text) => setMiddleName(text)}
+            value={fullName}
+            onChangeText={(text) => setFullName(text)}
             autoCorrect={false}
-            placeholder="Enter middle name"
+            placeholder="Enter full name"
+            style={globalStyles.inputTextt}
+          />
+        </View>
+      </View>
+      <View style={{ marginBottom: 20, width: "100%" }}>
+        <Text style={styles.label}>Email</Text>
+        <View style={[styles.inputContainer]}>
+          <TextInput
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            autoCorrect={false}
+            placeholder="Enter email"
+            style={globalStyles.inputTextt}
+          />
+        </View>
+      </View>
+      <View style={{ marginBottom: 20, width: "100%" }}>
+        <Text style={styles.label}>Phone</Text>
+        <View style={[styles.inputContainer]}>
+          <TextInput
+            value={phone}
+            onChangeText={(text) => setPhone(text)}
+            autoCorrect={false}
+            keyboardType="numeric"
+            placeholder="Enter phone"
             style={globalStyles.inputTextt}
           />
         </View>
@@ -75,15 +97,14 @@ const EditProfileForm = () => {
         <Dropdown
           style={styles.dropdown}
           containerStyle={styles.shadow}
-          data={countries}
+          data={Relationships}
           labelField="label"
-          valueField={country}
+          // valueField={relationship}
           label="Dropdown"
-          placeholder="Select country"
-          value={country}
+          placeholder="Select relationship"
+          value={relationship}
           onChange={(item) => {
-            setCountry(item.name);
-            console.log("selected", item.name);
+            setRelationship(item);
           }}
           // renderLeftIcon={() => <Image style={styles.icon} source={require("./assets/account.png")} />}
           renderItem={(item) => _renderItem(item)}
@@ -130,6 +151,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#444",
     marginBottom: 10,
+  },
+  inputTextt: {
+    color: "#333",
+    flex: 1,
+    fontSize: 17,
     fontFamily: "Poppins",
     letterSpacing: -0.35644,
   },

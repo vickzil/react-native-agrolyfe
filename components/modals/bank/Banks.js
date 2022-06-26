@@ -8,7 +8,7 @@ const Banks = () => {
   const [hasBank] = useState(true);
   return (
     <View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={[styles.productContainer]}>
           <View style={styles.bankGrid}>
             {hasBank ? (

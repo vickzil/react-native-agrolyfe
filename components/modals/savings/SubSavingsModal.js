@@ -54,7 +54,7 @@ const SubSavingsModal = () => {
           />
           <Text style={styles.modalHeaderText}>Sub Category</Text>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.modalSearchContainer]}>
             <View style={[styles.modalSearch]}>
               <IconSearch

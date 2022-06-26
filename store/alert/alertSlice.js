@@ -31,7 +31,12 @@ const initialState = {
   fundwalletModal: false,
   payBillsModal: false,
   transferModal: false,
-  editProfileModal: true,
+  editProfileModal: false,
+  nextOfKinModal: false,
+  accountManagerModal: false,
+  bvnModal: false,
+  antiPhizingModal: false,
+  changePasswordModal: false,
 };
 
 const alertSlice = createSlice({
@@ -115,6 +120,23 @@ const alertSlice = createSlice({
     setEditProfileModal: (state, { payload }) => {
       state.editProfileModal = payload;
     },
+    setNextOfKinModal: (state, { payload }) => {
+      state.nextOfKinModal = payload;
+    },
+    setAccountManagerModal: (state, { payload }) => {
+      state.accountManagerModal = payload;
+    },
+    setBvnModal: (state, { payload }) => {
+      state.bvnModal = payload;
+    },
+
+    setAntiPhizingModal: (state, { payload }) => {
+      state.antiPhizingModal = payload;
+    },
+
+    setChangePasswordModal: (state, { payload }) => {
+      state.changePasswordModal = payload;
+    },
   },
 });
 
@@ -135,6 +157,11 @@ export const {
   setPayBillsModal,
   setTransferModal,
   setEditProfileModal,
+  setNextOfKinModal,
+  setAccountManagerModal,
+  setBvnModal,
+  setAntiPhizingModal,
+  setChangePasswordModal,
 } = alertSlice.actions;
 
 export default alertSlice.reducer;

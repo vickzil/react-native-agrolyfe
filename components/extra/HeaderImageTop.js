@@ -1,17 +1,15 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import colors from "../../../../styles/colors";
 
-const EditProfileHeaderImageTop = () => {
-  const user = require("../../../../assets/img/user.jpg");
+const HeaderImageTop = () => {
+  const user = require("../../assets/img/user.jpg");
 
   return (
     <View style={{ justifyContent: "center", alignItems: "center" }}>
       <View
         style={{
-          width: 110,
-          height: 110,
+          width: 90,
+          height: 90,
           borderRadius: 100,
           padding: 4,
           backgroundColor: "#fff",
@@ -23,8 +21,6 @@ const EditProfileHeaderImageTop = () => {
           style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
           resizeMode="cover"
         />
-
-        <Ionicons name="camera" size={23} style={[styles.iconImageUpload, { color: "#fff" }]} />
       </View>
       <Text style={styles.accountUserFullName}>Victor Nwakwue</Text>
       <Text style={styles.accountTitle}>OIG-00424</Text>
@@ -66,4 +62,4 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
 });
-export default EditProfileHeaderImageTop;
+export default HeaderImageTop;

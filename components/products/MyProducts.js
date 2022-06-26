@@ -6,7 +6,7 @@ import { globalStyles } from "../../styles/global";
 
 const MyProducts = () => {
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer]}>
         <Text
           style={[

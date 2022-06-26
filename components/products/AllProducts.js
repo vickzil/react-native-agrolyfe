@@ -19,7 +19,7 @@ const AllProducts = () => {
   }, [isFocused]);
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer]}>
         <View style={[styles.modalSearchContainer]}>
           <View style={[styles.modalSearch]}>

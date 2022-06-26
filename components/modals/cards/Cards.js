@@ -8,7 +8,7 @@ const Cards = () => {
   const [hasCard] = useState(false);
   return (
     <View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={[styles.productContainer]}>
           <View style={styles.bankGrid}>
             {hasCard ? (

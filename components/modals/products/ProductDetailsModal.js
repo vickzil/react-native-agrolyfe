@@ -97,7 +97,7 @@ const ProductDetailsModal = () => {
             loop={false}
           />
         </View>
-        <ScrollView style={styles.productDetailsBody}>
+        <ScrollView style={styles.productDetailsBody} showsVerticalScrollIndicator={false}>
           <View style={styles.productDetailsBodyContainer}>
             <Text style={styles.productDetailsBodyCategory}>agrolyfe_land_lag_001 </Text>
             <View style={styles.productDetailsBodyNameRate}>

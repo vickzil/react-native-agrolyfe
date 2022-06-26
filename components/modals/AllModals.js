@@ -15,6 +15,11 @@ import ReferralDetailsModal from "./referrals/ReferralDetailsModal";
 import FundWalletModal from "./fundwallet/FundWalletModal";
 import PayBillsModal from "./billspayment/PayBillsModal";
 import EditProfileModal from "./profile/editProfile/EditProfileModal";
+import NextOfKinModal from "./profile/nextofkin/NextOfKinModal";
+import AccountManagerModal from "./profile/accountManager/AccountManagerModal";
+import BvnModal from "./profile/bvn/BvnModal";
+import AntiPhizingModal from "./profile/antiPhizing/AntiPhizingModal";
+import ChangePasswordModal from "./profile/changePassword/ChangePasswordModal";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
 const AllModals = () => {
@@ -34,6 +39,11 @@ const AllModals = () => {
       <FundWalletModal />
       <PayBillsModal />
       <EditProfileModal />
+      <NextOfKinModal />
+      <AccountManagerModal />
+      <BvnModal />
+      <AntiPhizingModal />
+      <ChangePasswordModal />
       {/* <TransferModalButtom /> */}
       {/* <MyPurchasesModal /> */}
     </>

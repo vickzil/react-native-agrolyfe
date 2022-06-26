@@ -1,29 +1,27 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import { globalStyles } from "../../styles/global";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AntIcon from "react-native-vector-icons/AntDesign";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../../styles/colors";
-import { useDispatch } from "react-redux";
-import { setFundwalletModal, setPayBillsModal, setTransferModal } from "../../store/alert/alertSlice";
 import { useRef } from "react";
 import TransferModalButtom from "../modals/transfer/TransferModalButtom";
 import PayBillsModalButtom from "../modals/billspayment/PayBillsModalButtom";
+import FundWalletModalButtom from "../modals/fundwallet/FundWalletModalButtom";
 
 const WalletButtons = () => {
-  const dispatch = useDispatch();
   const transferModal = useRef();
   const paybillsModal = useRef();
+  const fundWalletModal = useRef();
 
   return (
     <>
       <TransferModalButtom bottomSheet={transferModal} />
       <PayBillsModalButtom bottomSheet={paybillsModal} />
+      <FundWalletModalButtom bottomSheet={fundWalletModal} />
       <View style={{ width: "100%", marginTop: 20, marginBottom: 50 }}>
         <View style={styles.quickMenus}>
           <View style={{ padding: 5, width: "33%" }}>
-            <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setFundwalletModal(true))}>
+            <TouchableOpacity style={styles.quickMenusItem} onPress={() => fundWalletModal.current.show()}>
               <AntIcon name="wallet" size={26} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
               <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Top up</Text>
             </TouchableOpacity>

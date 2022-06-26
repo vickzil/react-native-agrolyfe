@@ -56,7 +56,7 @@ const ReferralDetailsModal = () => {
           <Text style={styles.modalHeaderText}>Referrals Details</Text>
           <Text></Text>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[{ backgroundColor: colors.greenDarkColor, paddingTop: 20, paddingBottom: 30 }]}>
             <ReferralHeaderImageTop />
           </View>
