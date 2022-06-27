@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
 
   imageWidth: {
     width: 120,
+    marginLeft: -20,
   },
 
   accountTabsFlex: {

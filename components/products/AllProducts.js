@@ -23,12 +23,7 @@ const AllProducts = () => {
       <View style={[styles.productContainer]}>
         <View style={[styles.modalSearchContainer]}>
           <View style={[styles.modalSearch]}>
-            <IconSearch
-              name="search1"
-              size={20}
-              style={[styles.searchIcon, { color: colors.greenColor }]}
-              onPress={() => goBack()}
-            />
+            <IconSearch name="search1" size={20} style={[styles.searchIcon, { color: colors.greenColor }]} />
             <TextInput style={styles.searchInput} placeholder="Search products..." />
           </View>
         </View>

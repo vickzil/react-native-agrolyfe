@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import {
   setBankModal,
   setCardModal,
+  setChangePinModal,
   setReferralModal,
   setSavingsModal,
   setTransactionModal,
@@ -74,7 +75,7 @@ const QuickMenus = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <View style={{ padding: 5, width: "50%" }}>
-          <TouchableOpacity style={styles.quickMenusItem}>
+          <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setChangePinModal(true))}>
             <Feathericons name="key" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
             <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Change pin</Text>
           </TouchableOpacity>

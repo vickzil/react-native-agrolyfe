@@ -37,6 +37,14 @@ const initialState = {
   bvnModal: false,
   antiPhizingModal: false,
   changePasswordModal: false,
+  changePinModal: false,
+  selectedCountry: null,
+  countryModal: {
+    status: false,
+    type: "",
+    selected: "",
+    payload: null,
+  },
 };
 
 const alertSlice = createSlice({
@@ -105,6 +113,14 @@ const alertSlice = createSlice({
         payload: payload.payload,
       };
     },
+    setCountryModal: (state, { payload }) => {
+      state.countryModal = {
+        status: payload.status,
+        selected: payload.selected,
+        type: payload.type,
+        payload: payload.payload,
+      };
+    },
 
     setFundwalletModal: (state, { payload }) => {
       state.fundwalletModal = payload;
@@ -137,6 +153,13 @@ const alertSlice = createSlice({
     setChangePasswordModal: (state, { payload }) => {
       state.changePasswordModal = payload;
     },
+    setChangePinModal: (state, { payload }) => {
+      state.changePinModal = payload;
+    },
+
+    setSelectedCountry: (state, { payload }) => {
+      state.selectedCountry = payload;
+    },
   },
 });
 
@@ -162,6 +185,9 @@ export const {
   setBvnModal,
   setAntiPhizingModal,
   setChangePasswordModal,
+  setChangePinModal,
+  setCountryModal,
+  setSelectedCountry,
 } = alertSlice.actions;
 
 export default alertSlice.reducer;

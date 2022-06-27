@@ -4,8 +4,8 @@ import colors from "../../../../styles/colors";
 import RadioGroup from "react-native-radio-buttons-group";
 // import SelectDropdown from "react-native-select-dropdown";
 import { Dropdown } from "react-native-element-dropdown";
-import { countries } from "../../../../api/countries/countries";
 import { globalStyles } from "../../../../styles/global";
+import { countries } from "../../../../api/countries/countries";
 
 const EditProfileForm = () => {
   // const [allCountries] = useState(countries);
@@ -75,7 +75,7 @@ const EditProfileForm = () => {
         <Dropdown
           style={styles.dropdown}
           containerStyle={styles.shadow}
-          data={countries}
+          data={countries()}
           labelField="label"
           valueField={country}
           label="Dropdown"

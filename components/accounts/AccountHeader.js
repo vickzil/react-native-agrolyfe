@@ -7,6 +7,7 @@ import {
   setAntiPhizingModal,
   setBvnModal,
   setChangePasswordModal,
+  setChangePinModal,
   setEditProfileModal,
   setNextOfKinModal,
 } from "../../store/alert/alertSlice";
@@ -52,7 +53,7 @@ const AccountHeader = () => {
         </View>
         <View style={styles.accountTabs}>
           <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Security</Text>
-          <TouchableOpacity style={styles.accountTabsLinks}>
+          <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setChangePinModal(true))}>
             <Text style={styles.accountTabsLinkText}>Change Pin</Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>

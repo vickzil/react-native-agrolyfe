@@ -92,7 +92,7 @@ const EditProfileForm = () => {
         />
       </View>
       <View style={{ marginBottom: 20, width: "100%" }}>
-        <Text style={styles.label}>Select Country</Text>
+        <Text style={styles.label}>Select Relationship</Text>
 
         <Dropdown
           style={styles.dropdown}

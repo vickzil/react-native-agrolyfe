@@ -20,6 +20,8 @@ import AccountManagerModal from "./profile/accountManager/AccountManagerModal";
 import BvnModal from "./profile/bvn/BvnModal";
 import AntiPhizingModal from "./profile/antiPhizing/AntiPhizingModal";
 import ChangePasswordModal from "./profile/changePassword/ChangePasswordModal";
+import ChangePinModal from "./profile/changePin/ChangePinModal";
+import CountryPopUp from "./CountryPopUp";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
 const AllModals = () => {
@@ -44,6 +46,8 @@ const AllModals = () => {
       <BvnModal />
       <AntiPhizingModal />
       <ChangePasswordModal />
+      <ChangePinModal />
+      <CountryPopUp />
       {/* <TransferModalButtom /> */}
       {/* <MyPurchasesModal /> */}
     </>
