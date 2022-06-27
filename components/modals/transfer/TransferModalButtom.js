@@ -1,13 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import { SafeAreaView, TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import { setSelectBankModal } from "../../../store/alert/alertSlice";
 
-const TransferModalButtom = ({ bottomSheet, height }) => {
+const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
+  const dispatch = useDispatch();
   //   const modal = useSelector((state) => state.alert.transferModal);
 
   //   useEffect(() => {
@@ -23,7 +25,19 @@ const TransferModalButtom = ({ bottomSheet, height }) => {
     <SafeAreaView style={styles.container}>
       <BottomSheet hasDraggableIcon ref={bottomSheet} height={300}>
         <View style={styles.accountTabs}>
-          <TouchableOpacity style={styles.accountTabsLinks}>
+          <TouchableOpacity
+            style={styles.accountTabsLinks}
+            onPress={() => {
+              dispatch(
+                setSelectBankModal({
+                  status: true,
+                  type: "TRANSFER_TO_BANK",
+                }),
+              );
+
+              closeTransferModal();
+            }}
+          >
             <View>
               <Icon
                 name="bank-transfer"

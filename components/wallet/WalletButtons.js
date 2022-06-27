@@ -13,9 +13,13 @@ const WalletButtons = () => {
   const paybillsModal = useRef();
   const fundWalletModal = useRef();
 
+  const closeTransferModal = () => {
+    transferModal.current.close();
+  };
+
   return (
     <>
-      <TransferModalButtom bottomSheet={transferModal} />
+      <TransferModalButtom bottomSheet={transferModal} closeTransferModal={closeTransferModal} />
       <PayBillsModalButtom bottomSheet={paybillsModal} />
       <FundWalletModalButtom bottomSheet={fundWalletModal} />
       <View style={{ width: "100%", marginTop: 20, marginBottom: 50 }}>

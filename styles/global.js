@@ -11,6 +11,15 @@ export const globalStyles = StyleSheet.create({
     textTransform: "uppercase",
   },
 
+  label: {
+    marginVertical: 5,
+    fontSize: 16,
+    color: "#444",
+    marginBottom: 10,
+    fontFamily: "Poppins",
+    letterSpacing: -0.35644,
+  },
+
   inputTextt: {
     color: "#333",
     flex: 1,

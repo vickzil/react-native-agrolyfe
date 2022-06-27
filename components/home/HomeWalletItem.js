@@ -32,9 +32,13 @@ const HomeWalletItem = ({ item, index }) => {
     }
   };
 
+  const closeTransferModal = () => {
+    transferModal.current.close();
+  };
+
   return (
     <>
-      <TransferModalButtom bottomSheet={transferModal} />
+      <TransferModalButtom bottomSheet={transferModal} closeTransferModal={closeTransferModal} />
       <PayBillsModalButtom bottomSheet={paybillsModal} />
       <FundWalletModalButtom bottomSheet={fundWalletModal} />
       <View style={[styles.card, index === 0 && styles.addMarginLeft]}>

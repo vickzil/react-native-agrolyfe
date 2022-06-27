@@ -39,11 +39,21 @@ const initialState = {
   changePasswordModal: false,
   changePinModal: false,
   selectedCountry: null,
+  selectedBank: null,
   countryModal: {
     status: false,
     type: "",
     selected: "",
     payload: null,
+  },
+
+  selectBankModal: {
+    status: false,
+    type: "",
+  },
+  transferToBankModal: {
+    status: false,
+    bank: null,
   },
 };
 
@@ -121,6 +131,12 @@ const alertSlice = createSlice({
         payload: payload.payload,
       };
     },
+    setSelectBankModal: (state, { payload }) => {
+      state.selectBankModal = {
+        status: payload.status,
+        type: payload.type,
+      };
+    },
 
     setFundwalletModal: (state, { payload }) => {
       state.fundwalletModal = payload;
@@ -160,6 +176,16 @@ const alertSlice = createSlice({
     setSelectedCountry: (state, { payload }) => {
       state.selectedCountry = payload;
     },
+
+    setSelectedBank: (state, { payload }) => {
+      state.selectedBank = payload;
+    },
+    setTransferToBankModal: (state, { payload }) => {
+      state.transferToBankModal = {
+        status: payload.status,
+        bank: payload.bank,
+      };
+    },
   },
 });
 
@@ -188,6 +214,9 @@ export const {
   setChangePinModal,
   setCountryModal,
   setSelectedCountry,
+  setSelectBankModal,
+  setSelectedBank,
+  setTransferToBankModal,
 } = alertSlice.actions;
 
 export default alertSlice.reducer;
