@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  loading: {
+    status: false,
+    message: "",
+  },
   allProductModal: false,
   myPurchasesModal: false,
   productDetailsModal: {
@@ -61,6 +65,13 @@ const alertSlice = createSlice({
   name: "alert",
   initialState,
   reducers: {
+    setLoading: (state, { payload }) => {
+      state.loading = {
+        status: payload.status,
+        message: payload.message,
+      };
+    },
+
     setAllProductModal: (state, { payload }) => {
       state.allProductModal = payload;
     },
@@ -190,6 +201,7 @@ const alertSlice = createSlice({
 });
 
 export const {
+  setLoading,
   setAllProductModal,
   setMyPurchasesModal,
   setBankModal,

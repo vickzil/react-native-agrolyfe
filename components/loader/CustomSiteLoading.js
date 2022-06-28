@@ -1,21 +1,23 @@
 import { ActivityIndicator, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import React from "react";
+import { useSelector } from "react-redux";
 
-const Loader = ({ visible = false, message }) => {
+const PageLoading = () => {
   const { height, width } = useWindowDimensions();
+  const loading = useSelector((state) => state.alert.loading);
   return (
-    visible && (
+    loading?.status && (
       <View style={[styles.container, { height, width }]}>
-        <View style={styles.loader}>
+        <View style={[styles.loader]}>
           <ActivityIndicator size="large" color="#14961E" />
-          <Text style={{ marginLeft: 10, fontSize: 16 }}>Please wait...</Text>
+          <Text style={{ marginLeft: 10, fontSize: 16, marginTop: 10 }}>{loading.message}</Text>
         </View>
       </View>
     )
   );
 };
 
-export default Loader;
+export default PageLoading;
 
 const styles = StyleSheet.create({
   container: {
@@ -29,12 +31,13 @@ const styles = StyleSheet.create({
   },
 
   loader: {
-    height: 70,
+    // height: 70,
     backgroundColor: "#fff",
-    marginHorizontal: 50,
+    marginHorizontal: 70,
     borderRadius: 5,
-    flexDirection: "row",
+    // flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
+    paddingVertical: 30,
   },
 });

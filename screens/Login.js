@@ -5,11 +5,12 @@ import { Alert, Keyboard, Text, View, ScrollView, SafeAreaView, TouchableOpacity
 import CustomButton from "../components/customs/CustomButton";
 import CustomInput from "../components/customs/CustomInput";
 import { validEmail } from "../components/helpers/globalFunction";
-import Loader from "../components/loader/Loader";
 import Logo from "../components/logo/Logo";
+import { setLoading } from "../store/alert/alertSlice";
 
 const Login = ({ navigation }) => {
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  // const [loading, setLoading] = useState(false);
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -39,10 +40,20 @@ const Login = ({ navigation }) => {
   };
 
   const handleLogin = () => {
-    setLoading(true);
+    dispatch(
+      setLoading({
+        status: true,
+        message: "please wait...",
+      }),
+    );
 
     setTimeout(async () => {
-      setLoading(false);
+      dispatch(
+        setLoading({
+          status: false,
+          message: "",
+        }),
+      );
       let userData = await AsyncStorage.getItem("user");
 
       if (userData) {
@@ -75,7 +86,6 @@ const Login = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
-      <Loader visible={loading} />
       <ScrollView contentContainerStyle={{ paddingTop: 50, paddingHorizontal: 20 }}>
         <Logo />
         <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins", paddingTop: 30 }}>

@@ -120,76 +120,38 @@ const TransferToBankModal = () => {
               style={[styles.modalHeaderIcon, { color: "#fff", padding: 2 }]}
               onPress={() => previousStep()}
             />
-            <Text style={styles.modalHeaderText}>Transfer to bank</Text>
+            <Text style={styles.modalHeaderText}>Transfer to customer</Text>
             <Text></Text>
           </View>
+
           <HeaderBalance />
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
-            {step === 1 ? (
-              <View style={styles.productCardContent}>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Bank</Text>
-                  <TouchableOpacity
-                    style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
-                    activeOpacity={0.7}
-                    onPress={() =>
-                      dispatch(
-                        setSelectBankModal({
-                          status: true,
-                          type: "TRANSFER_TO_BANK",
-                        }),
-                      )
-                    }
-                  >
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                        marginRight: -5,
-                      }}
-                    >
-                      <View style={{ marginRight: 10, justifyContent: "flex-end", alignItems: "flex-end" }}>
-                        <Text style={[styles.productCardContentItemRight, { fontWeight: "700" }]}>
-                          {modal?.bank ? modal.bank?.name : "Select Bank"}
-                        </Text>
-                        <Text style={[styles.productCardContentItemRight, { fontSize: 14 }]}>
-                          {modal?.bank ? modal.bank?.accountNumber : null}
-                        </Text>
-                      </View>
+            {step === 1 && <View style={styles.productCardContent}></View>}
 
-                      <Icon
-                        name="chevron-right"
-                        size={53}
-                        style={[styles.modalHeaderIcon, { color: "#222", fontSize: 23, marginRight: 0 }]}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                </View>
-
-                <View style={{ marginTop: 20, marginBottom: 50 }}>
-                  <Text style={[styles.productCardContentItemLeft, { fontSize: 18 }]}>Amount</Text>
-                  <CurrencyInput
-                    value={amount}
-                    onChangeValue={setAmount}
-                    prefix="₦ "
-                    delimiter=","
-                    // separator="."
-                    precision={0}
-                    // onChangeText={(formattedValue) => {
-                    //   console.log(formattedValue);
-                    // }}
-                    style={[
-                      globalStyles.inputTextt,
-                      { borderBottomWidth: 2, borderColor: colors.greenColor, fontSize: 25 },
-                    ]}
-                  />
-                </View>
+            {step === 2 && (
+              <View style={{ marginTop: 20, marginBottom: 50 }}>
+                <Text style={[styles.productCardContentItemLeft, { fontSize: 18 }]}>Amount</Text>
+                <CurrencyInput
+                  value={amount}
+                  onChangeValue={setAmount}
+                  prefix="₦ "
+                  delimiter=","
+                  // separator="."
+                  precision={0}
+                  // onChangeText={(formattedValue) => {
+                  //   console.log(formattedValue);
+                  // }}
+                  style={[
+                    globalStyles.inputTextt,
+                    { borderBottomWidth: 2, borderColor: colors.greenColor, fontSize: 25 },
+                  ]}
+                />
               </View>
-            ) : (
+            )}
+            {step === 3 && (
               <View style={{ justifyContent: "center", width: "80%", marginTop: 50, alignItems: "center" }}>
                 <Text style={[styles.productCardContentItemLeft, { fontSize: 22, fontWeight: "900", marginBottom: 4 }]}>
                   Transaction Pin

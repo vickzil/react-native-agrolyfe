@@ -1,14 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { Alert, Keyboard, Text, View, ScrollView, SafeAreaView } from "react-native";
+import { useDispatch } from "react-redux";
 import CustomButton from "../components/customs/CustomButton";
 import CustomInput from "../components/customs/CustomInput";
 import { validEmail } from "../components/helpers/globalFunction";
-import Loader from "../components/loader/Loader";
 import Logo from "../components/logo/Logo";
+import { setLoading } from "../store/alert/alertSlice";
 
 const Signin = ({ navigation }) => {
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -51,10 +52,20 @@ const Signin = ({ navigation }) => {
   };
 
   const register = () => {
-    setLoading(true);
+    dispatch(
+      setLoading({
+        status: true,
+        message: "please wait...",
+      }),
+    );
 
     setTimeout(() => {
-      setLoading(false);
+      dispatch(
+        setLoading({
+          status: false,
+          message: "",
+        }),
+      );
 
       try {
         AsyncStorage.setItem("user", JSON.stringify(inputs));
@@ -75,7 +86,6 @@ const Signin = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
-      <Loader visible={loading} />
       <ScrollView contentContainerStyle={{ paddingTop: 40, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
         <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins" }}>Register</Text>
