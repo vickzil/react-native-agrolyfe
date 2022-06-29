@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { Alert, Keyboard, Text, View, ScrollView, SafeAreaView, TouchableOpacity } from "react-native";
+import { useDispatch } from "react-redux";
 
 import CustomButton from "../components/customs/CustomButton";
 import CustomInput from "../components/customs/CustomInput";

@@ -6,7 +6,7 @@ const Welcome = ({ navigation }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate("Products");
+      navigation.navigate("Login");
     }, 3000);
   }, []);
 

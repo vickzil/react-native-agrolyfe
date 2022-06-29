@@ -57,8 +57,8 @@ export default function App() {
     // </NavigationContainer>
     <Provider store={store}>
       <NavigationContainer>
-        <AppStack />
-        {/* <AuthStack /> */}
+        {/* <AppStack /> */}
+        <AuthStack />
       </NavigationContainer>
     </Provider>
   );

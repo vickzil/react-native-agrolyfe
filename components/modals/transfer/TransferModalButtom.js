@@ -23,7 +23,7 @@ const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <BottomSheet hasDraggableIcon ref={bottomSheet} height={300}>
+      <BottomSheet hasDraggableIcon ref={bottomSheet} height={300} onRequestClose={() => closeTransferModal()}>
         <View style={styles.accountTabs}>
           <TouchableOpacity
             style={styles.accountTabsLinks}

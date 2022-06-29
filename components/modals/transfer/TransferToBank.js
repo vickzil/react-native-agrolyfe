@@ -203,6 +203,7 @@ const TransferToBankModal = () => {
                   style={{ fontFamily: "Poppins", letterSpacing: -0.35644 }}
                   alphaNumeric={false}
                   numeric={true}
+                  tintColor={colors.greenColor}
                   keyboardType="numeric"
                   onChange={(value) => {
                     setPin(value);

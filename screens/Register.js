@@ -13,9 +13,6 @@ const Signin = ({ navigation }) => {
 
   const [inputs, setInputs] = useState({
     email: "",
-    fullname: "",
-    phone: "",
-    password: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -28,22 +25,6 @@ const Signin = ({ navigation }) => {
     } else if (validEmail(inputs.email) == false) {
       handleError("Please input valid email", "email");
       valid = false;
-    }
-
-    if (!inputs.fullname) {
-      handleError("Please input fullname", "fullname");
-      valid = false;
-    }
-    if (!inputs.phone) {
-      handleError("Please input phone", "phone");
-      valid = false;
-    }
-
-    if (!inputs.password) {
-      handleError("Please input password", "passworld");
-      valid = false;
-    } else if (!inputs.password.length < 5) {
-      handleError("Min password length of 5", "passworld");
     }
 
     if (valid) {
@@ -89,9 +70,9 @@ const Signin = ({ navigation }) => {
       <ScrollView contentContainerStyle={{ paddingTop: 40, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
         <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins" }}>Register</Text>
-        <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Enter Your Details to Register</Text>
+        <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Enter Your Email to Register</Text>
 
-        <View style={{ marginVertical: 20 }}>
+        <View style={{ marginVertical: 20, marginTop: 40 }}>
           <CustomInput
             error={errors.email}
             onChangeText={(text) => handleOnChange(text, "email")}
@@ -102,41 +83,12 @@ const Signin = ({ navigation }) => {
             lable="Email"
             iconName="email-outline"
           />
-          <CustomInput
-            error={errors.fullname}
-            onChangeText={(text) => handleOnChange(text, "fullname")}
-            onFocus={() => {
-              handleError(null, "fullname");
-            }}
-            placeholder="Enter your fullname"
-            lable="Fullname"
-            iconName="account-outline"
-          />
-          <CustomInput
-            error={errors.phone}
-            onChangeText={(text) => handleOnChange(text, "phone")}
-            keyboardType="numeric"
-            onFocus={() => {
-              handleError(null, "phone");
-            }}
-            placeholder="Enter your phone number"
-            lable="Phone"
-            iconName="phone-outline"
-          />
-          <CustomInput
-            error={errors.password}
-            onChangeText={(text) => handleOnChange(text, "password")}
-            placeholder="Enter your password"
-            lable="Password"
-            onFocus={() => {
-              handleError(null, "password");
-            }}
-            iconName="lock-outline"
-            password={true}
-          />
-          <CustomButton onPress={validate} title="Register" />
+          <View style={{ marginTop: 40 }}>
+            <CustomButton onPress={validate} title="Register" />
+          </View>
+
           <Text
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("InputCode")}
             style={{ color: "black", textAlign: "center", fontSize: 16, fontWeight: "bold", marginTop: 20 }}
           >
             Already have account? Login
