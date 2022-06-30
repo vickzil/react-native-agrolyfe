@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setBankModal,
+  setDefaultBank,
   setSelectBankModal,
   setSelectedBank,
   setTransferToBankModal,
@@ -29,7 +30,6 @@ const SelectBankModal = () => {
   const modal = useSelector((state) => state.alert.selectBankModal);
   const selectedBank = useSelector((state) => state.alert.selectedBank);
   const dispatch = useDispatch();
-  const [hasBank] = useState(false);
   const [allBanks] = useState([
     {
       id: 1,
@@ -55,7 +55,8 @@ const SelectBankModal = () => {
   };
 
   const selectBank = (item) => {
-    setSelectedBank(item);
+    closeModal();
+    dispatch(setSelectedBank(item));
     if (modal.type === "TRANSFER_TO_BANK") {
       dispatch(
         setTransferToBankModal({
@@ -64,7 +65,9 @@ const SelectBankModal = () => {
         }),
       );
     }
-    closeModal();
+    // if (modal.type === "ADD_BANK") {
+    //   setSelectedBank(item);
+    // }
   };
 
   return (

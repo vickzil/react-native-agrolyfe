@@ -16,6 +16,7 @@ const initialState = {
     payload: null,
   },
   bankModal: false,
+  addBankModal: false,
   cardModal: false,
   transactionModal: false,
   savingsModal: false,
@@ -35,6 +36,7 @@ const initialState = {
   fundwalletModal: false,
   fundwalletByLocalTransferModal: false,
   fundwalletByForeignTransferModal: false,
+  paymentEvidenceModal: false,
   payBillsModal: false,
   transferModal: false,
   editProfileModal: false,
@@ -89,6 +91,10 @@ const alertSlice = createSlice({
 
     setBankModal: (state, { payload }) => {
       state.bankModal = payload;
+    },
+
+    setAddBankModal: (state, { payload }) => {
+      state.addBankModal = payload;
     },
 
     setCardModal: (state, { payload }) => {
@@ -163,8 +169,13 @@ const alertSlice = createSlice({
     setFundwalletByLocalTransferModal: (state, { payload }) => {
       state.fundwalletByLocalTransferModal = payload;
     },
+
     setFundwalletByForeignTransferModal: (state, { payload }) => {
       state.fundwalletByForeignTransferModal = payload;
+    },
+
+    setPaymentEvidenceModal: (state, { payload }) => {
+      state.paymentEvidenceModal = payload;
     },
 
     setPayBillsModal: (state, { payload }) => {
@@ -205,6 +216,11 @@ const alertSlice = createSlice({
     setSelectedBank: (state, { payload }) => {
       state.selectedBank = payload;
     },
+
+    setDefaultBank: (state, { payload }) => {
+      state.defaultBank = payload;
+    },
+
     setSelectedUser: (state, { payload }) => {
       state.selectedUser = payload;
     },
@@ -228,6 +244,7 @@ export const {
   setAllProductModal,
   setMyPurchasesModal,
   setBankModal,
+  setAddBankModal,
   setCardModal,
   setTransactionModal,
   setSavingsModal,
@@ -240,6 +257,7 @@ export const {
   setFundwalletModal,
   setFundwalletByLocalTransferModal,
   setFundwalletByForeignTransferModal,
+  setPaymentEvidenceModal,
   setPayBillsModal,
   setTransferModal,
   setEditProfileModal,
@@ -253,6 +271,7 @@ export const {
   setSelectedCountry,
   setSelectBankModal,
   setSelectedBank,
+  setDefaultBank,
   setTransferToBankModal,
   setSelectedUser,
   setTransferToCustomerModal,

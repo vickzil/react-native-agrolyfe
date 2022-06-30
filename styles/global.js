@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-
+import colors from "./colors";
 export const globalStyles = StyleSheet.create({
   siteTitle: {
     fontFamily: "Poppins",
@@ -18,6 +18,25 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 10,
     fontFamily: "Poppins",
     letterSpacing: -0.35644,
+  },
+
+  productContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 20,
+    paddingBottom: 100,
+  },
+
+  inputContainer: {
+    height: 55,
+    // backgroundColor: "#fff",
+    flexDirection: "row",
+    paddingHorizontal: 15,
+    borderWidth: 1,
+    borderColor: colors.greenColor,
+    alignItems: "center",
+    borderRadius: 8,
   },
 
   inputTextt: {
@@ -66,5 +85,13 @@ export const globalStyles = StyleSheet.create({
     fontSize: 15,
     color: "#222",
     fontWeight: "700",
+  },
+  productCardContent: {
+    width: "98%",
+    justifyContent: "flex-start",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    paddingBottom: 0,
   },
 });

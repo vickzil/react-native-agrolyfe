@@ -56,7 +56,7 @@ const FundWalletByForeignTransfer = () => {
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 12 }}>
-          <View style={{ marginBottom: 40, marginTop: 0 }}>
+          <View style={{ marginBottom: 40, marginTop: 20 }}>
             <Text
               style={[globalStyles.label, { fontSize: 22, textAlign: "left", marginBottom: 10, fontWeight: "900" }]}
             >

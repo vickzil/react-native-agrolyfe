@@ -27,6 +27,8 @@ import TransferToBankModal from "./transfer/TransferToBank";
 import TransferCustomerModal from "./transfer/TransferCustomerModal";
 import FundWalletByTransfer from "./fundwallet/FundWalletByTransfer";
 import FundWalletByForeignTransfer from "./fundwallet/FundWalletByForeignTransfer";
+import UploadPaymentEvidence from "./fundwallet/UploadPaymentEvidence";
+import AddBankModal from "./bank/AddBankModal";
 // import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
@@ -35,6 +37,7 @@ const AllModals = () => {
     <>
       <ProductsModal />
       <BankModal />
+      <AddBankModal />
       <CardModal />
       <TransactionModal />
       <SavingsModal />
@@ -59,6 +62,7 @@ const AllModals = () => {
       <TransferCustomerModal />
       <FundWalletByTransfer />
       <FundWalletByForeignTransfer />
+      <UploadPaymentEvidence />
       {/* <FundWalletModalButtom /> */}
       {/* <TransferModalButtom /> */}
       {/* <MyPurchasesModal /> */}

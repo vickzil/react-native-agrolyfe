@@ -10,6 +10,7 @@ import {
   setFundwalletByForeignTransferModal,
   setFundwalletByLocalTransferModal,
   setFundwalletModal,
+  setPaymentEvidenceModal,
 } from "../../../store/alert/alertSlice";
 
 const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
@@ -35,9 +36,14 @@ const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
     closeModal();
   };
 
+  const showPaymentEvidentModal = () => {
+    dispatch(setPaymentEvidenceModal(true));
+    closeModal();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <BottomSheet hasDraggableIcon ref={bottomSheet} height={550}>
+      <BottomSheet hasDraggableIcon ref={bottomSheet} onRequestClose={() => closeModal()} height={550}>
         <View style={styles.accountTabs}>
           <TouchableOpacity style={styles.accountTabsLinks}>
             <View>
@@ -82,7 +88,7 @@ const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
             </View>
             {/* <AntDesignIcon name="right" size={19} style={[styles.accountTabsRightAngel, { marginLeft: 30 }]} /> */}
           </TouchableOpacity>
-          <TouchableOpacity style={styles.accountTabsLinks}>
+          <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showPaymentEvidentModal()}>
             <View>
               <Fontisto name="money-symbol" size={30} style={[{ paddingRight: 19, color: colors.greenColor }]} />
             </View>

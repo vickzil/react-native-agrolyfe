@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import CardItem from "./CardItem";
 import NoItem from "../../extra/NoItem";
 import colors from "../../../styles/colors";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const Cards = () => {
-  const [hasCard] = useState(false);
+  const [hasCard] = useState(true);
   return (
     <View>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -25,8 +26,15 @@ const Cards = () => {
         </View>
       </ScrollView>
       {hasCard && (
-        <TouchableOpacity style={[styles.buttonFloat, { backgroundColor: colors.greenColor }]}>
-          <Text style={styles.buttonFloatText}>Add Bank</Text>
+        <TouchableOpacity style={[styles.buttonFloat]}>
+          <Text style={styles.buttonFloatText}>
+            <MaterialIcons
+              name="add"
+              size={40}
+              style={[{ color: "#fff" }]}
+              // onPress={() => dispatch(setBankModal(false))}
+            />
+          </Text>
         </TouchableOpacity>
       )}
     </View>
@@ -50,22 +58,23 @@ const styles = StyleSheet.create({
 
   buttonFloat: {
     position: "absolute",
-    right: 10,
+    right: 15,
     top: 520,
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 80,
-    elevation: 5,
+    // paddingVertical: 10,
   },
 
   buttonFloatText: {
+    backgroundColor: colors.greenColor,
+    justifyContent: "center",
+    alignItems: "center",
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 17,
-    lineHeight: 29,
-    marginBottom: 0,
+    margin: 0,
     fontFamily: "Poppins",
     color: "#fff",
+    padding: 12,
+    borderRadius: 80,
+    elevation: 1,
   },
 });
 export default Cards;

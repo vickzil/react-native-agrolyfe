@@ -63,7 +63,7 @@ const FundWalletByTransfer = () => {
               Transfer money to any of the account numbers below to fund your stash
             </Text>
           </View>
-          <Collapse style={{ marginBottom: 20 }}>
+          <Collapse style={{ marginBottom: 20, borderBottomWidth: 2, borderColor: "#e8e8e8", paddingBottom: 0 }}>
             <CollapseHeader style={{ flexDirection: "row", alignItems: "flex-start", padding: 0, marginBottom: 12 }}>
               <View
                 style={{
