@@ -33,6 +33,8 @@ const initialState = {
     payload: null,
   },
   fundwalletModal: false,
+  fundwalletByLocalTransferModal: false,
+  fundwalletByForeignTransferModal: false,
   payBillsModal: false,
   transferModal: false,
   editProfileModal: false,
@@ -44,6 +46,7 @@ const initialState = {
   changePinModal: false,
   selectedCountry: null,
   selectedBank: null,
+  selectedUser: null,
   countryModal: {
     status: false,
     type: "",
@@ -58,6 +61,10 @@ const initialState = {
   transferToBankModal: {
     status: false,
     bank: null,
+  },
+  transferToCustomerModal: {
+    status: false,
+    user: null,
   },
 };
 
@@ -153,6 +160,13 @@ const alertSlice = createSlice({
       state.fundwalletModal = payload;
     },
 
+    setFundwalletByLocalTransferModal: (state, { payload }) => {
+      state.fundwalletByLocalTransferModal = payload;
+    },
+    setFundwalletByForeignTransferModal: (state, { payload }) => {
+      state.fundwalletByForeignTransferModal = payload;
+    },
+
     setPayBillsModal: (state, { payload }) => {
       state.payBillsModal = payload;
     },
@@ -191,10 +205,19 @@ const alertSlice = createSlice({
     setSelectedBank: (state, { payload }) => {
       state.selectedBank = payload;
     },
+    setSelectedUser: (state, { payload }) => {
+      state.selectedUser = payload;
+    },
     setTransferToBankModal: (state, { payload }) => {
       state.transferToBankModal = {
         status: payload.status,
         bank: payload.bank,
+      };
+    },
+    setTransferToCustomerModal: (state, { payload }) => {
+      state.transferToCustomerModal = {
+        status: payload.status,
+        user: payload.user,
       };
     },
   },
@@ -215,6 +238,8 @@ export const {
   setPurchaseDetailsModal,
   setReferralDetailsModal,
   setFundwalletModal,
+  setFundwalletByLocalTransferModal,
+  setFundwalletByForeignTransferModal,
   setPayBillsModal,
   setTransferModal,
   setEditProfileModal,
@@ -229,6 +254,8 @@ export const {
   setSelectBankModal,
   setSelectedBank,
   setTransferToBankModal,
+  setSelectedUser,
+  setTransferToCustomerModal,
 } = alertSlice.actions;
 
 export default alertSlice.reducer;

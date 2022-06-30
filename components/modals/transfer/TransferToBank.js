@@ -175,7 +175,7 @@ const TransferToBankModal = () => {
                   <CurrencyInput
                     value={amount}
                     onChangeValue={setAmount}
-                    prefix="₦ "
+                    prefix="₦"
                     delimiter=","
                     // separator="."
                     precision={0}
@@ -184,7 +184,13 @@ const TransferToBankModal = () => {
                     // }}
                     style={[
                       globalStyles.inputTextt,
-                      { borderBottomWidth: 2, borderColor: colors.greenColor, fontSize: 25 },
+                      {
+                        borderBottomWidth: 2,
+                        borderColor: colors.greenColor,
+                        fontSize: 25,
+                        fontWeight: "900",
+                        fontFamily: "PoppinsBold",
+                      },
                     ]}
                   />
                 </View>

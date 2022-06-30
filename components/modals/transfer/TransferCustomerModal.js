@@ -1,6 +1,7 @@
 import {
   Dimensions,
   FlatList,
+  Image,
   Modal,
   ScrollView,
   StyleSheet,
@@ -11,7 +12,12 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setLoading, setSelectBankModal, setTransferToBankModal } from "../../../store/alert/alertSlice";
+import {
+  setLoading,
+  setSelectBankModal,
+  setSelectedUser,
+  setTransferToCustomerModal,
+} from "../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../styles/colors";
 import CurrencyInput from "react-native-currency-input";
@@ -22,8 +28,8 @@ import HeaderBalance from "../../extra/HeaderBalance";
 
 const { width } = Dimensions.get("screen");
 
-const TransferToBankModal = () => {
-  const modal = useSelector((state) => state.alert.transferToBankModal);
+const TransferCustomerModal = () => {
+  const modal = useSelector((state) => state.alert.transferToCustomerModal);
   const [amount, setAmount] = useState(null);
   const [pin, setPin] = useState(null);
   const [step, setStep] = useState(1);
@@ -32,11 +38,13 @@ const TransferToBankModal = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const user = require("../../../assets/img/user.jpg");
+
   const closeModal = () => {
     dispatch(
-      setTransferToBankModal({
+      setTransferToCustomerModal({
         status: false,
-        bank: null,
+        user: null,
       }),
     );
 
@@ -45,6 +53,8 @@ const TransferToBankModal = () => {
     setStep(1);
     setButtonText("Proceed");
     setEmptyFields(true);
+
+    dispatch(setSelectedUser(null));
   };
 
   useEffect(() => {
@@ -116,48 +126,67 @@ const TransferToBankModal = () => {
           <View style={[styles.modalHeader]}>
             <Icon
               name="chevron-left"
-              size={33}
-              style={[styles.modalHeaderIcon, { color: "#fff", padding: 2 }]}
+              size={40}
+              style={[styles.modalHeaderIcon, { color: "#fff", padding: 2, marginLeft: -10 }]}
               onPress={() => previousStep()}
             />
-            <Text style={styles.modalHeaderText}>Transfer to customer</Text>
+            <Text style={styles.modalHeaderText}>Transfer to {modal?.user?.userName || "customer"}</Text>
             <Text></Text>
           </View>
-
           <HeaderBalance />
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
-            {step === 1 && <View style={styles.productCardContent}></View>}
+            {step === 1 ? (
+              <View style={styles.productCardContent}>
+                <View style={{ justifyContent: "center", alignItems: "center", marginTop: 0 }}>
+                  <View style={globalStyles.accountImage}>
+                    <Image
+                      source={user}
+                      style={[{ width: "100%", height: "100%", borderRadius: 100 }]}
+                      resizeMode="cover"
+                    />
+                  </View>
 
-            {step === 2 && (
-              <View style={{ marginTop: 20, marginBottom: 50 }}>
-                <Text style={[styles.productCardContentItemLeft, { fontSize: 18 }]}>Amount</Text>
-                <CurrencyInput
-                  value={amount}
-                  onChangeValue={setAmount}
-                  prefix="₦ "
-                  delimiter=","
-                  // separator="."
-                  precision={0}
-                  // onChangeText={(formattedValue) => {
-                  //   console.log(formattedValue);
-                  // }}
-                  style={[
-                    globalStyles.inputTextt,
-                    { borderBottomWidth: 2, borderColor: colors.greenColor, fontSize: 25 },
-                  ]}
-                />
+                  <Text style={globalStyles.accountUserFullName}>Victor Nwakwue</Text>
+                  <Text style={globalStyles.accountTitle}>{modal?.user?.userName}</Text>
+                </View>
+
+                <View style={{ marginTop: 60, marginBottom: 50 }}>
+                  <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 30 }]}>Amount</Text>
+                  <CurrencyInput
+                    value={amount}
+                    onChangeValue={setAmount}
+                    prefix="₦ "
+                    delimiter=","
+                    // separator="."
+                    precision={0}
+                    // onChangeText={(formattedValue) => {
+                    //   console.log(formattedValue);
+                    // }}
+                    style={[
+                      globalStyles.inputTextt,
+                      { borderBottomWidth: 2, borderColor: colors.greenColor, fontSize: 25 },
+                    ]}
+                  />
+                </View>
               </View>
-            )}
-            {step === 3 && (
-              <View style={{ justifyContent: "center", width: "80%", marginTop: 50, alignItems: "center" }}>
-                <Text style={[styles.productCardContentItemLeft, { fontSize: 22, fontWeight: "900", marginBottom: 4 }]}>
+            ) : (
+              <View
+                style={{
+                  justifyContent: "center",
+                  width: "80%",
+                  marginTop: 50,
+                  alignItems: "center",
+                  marginBottom: 50,
+                }}
+              >
+                <Text style={[styles.productCardContentItemLeft, { fontSize: 29, fontWeight: "900", marginBottom: 4 }]}>
                   Transaction Pin
                 </Text>
                 <View style={{ alignItems: "center" }}>
-                  <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center" }]}>
+                  <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center", marginBottom: 60 }]}>
                     Enter your 4-digit TRANSACTION PIN to approve this transfer
                   </Text>
                 </View>
@@ -165,6 +194,7 @@ const TransferToBankModal = () => {
                   style={{ fontFamily: "Poppins", letterSpacing: -0.35644 }}
                   alphaNumeric={false}
                   numeric={true}
+                  tintColor={colors.greenColor}
                   keyboardType="numeric"
                   onChange={(value) => {
                     setPin(value);
@@ -196,7 +226,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 17,
+    paddingVertical: 7,
     paddingHorizontal: 10,
 
     // elevation: 3,
@@ -268,4 +298,4 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat",
   },
 });
-export default TransferToBankModal;
+export default TransferCustomerModal;

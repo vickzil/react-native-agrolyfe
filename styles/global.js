@@ -40,4 +40,31 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
   },
+
+  accountContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  accountImage: {
+    width: 90,
+    height: 90,
+    borderRadius: 100,
+    padding: 4,
+    backgroundColor: "#fff",
+    position: "relative",
+  },
+  accountUserFullName: {
+    fontFamily: "Poppins",
+    marginTop: 14,
+    fontSize: 17,
+    color: "#666",
+  },
+
+  accountTitle: {
+    fontFamily: "Poppins",
+    fontSize: 15,
+    color: "#222",
+    fontWeight: "700",
+  },
 });

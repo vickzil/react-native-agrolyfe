@@ -12,7 +12,7 @@ import TransactionDetailsModal from "./transactions/TransactionDetailsModal";
 import ProductDetailsModal from "./products/ProductDetailsModal";
 import PurchaseDetailsModal from "./products/PurchaseDetailsModal";
 import ReferralDetailsModal from "./referrals/ReferralDetailsModal";
-import FundWalletModal from "./fundwallet/FundWalletModal";
+// import FundWalletModal from "./fundwallet/FundWalletModal";
 import PayBillsModal from "./billspayment/PayBillsModal";
 import EditProfileModal from "./profile/editProfile/EditProfileModal";
 import NextOfKinModal from "./profile/nextofkin/NextOfKinModal";
@@ -24,6 +24,10 @@ import ChangePinModal from "./profile/changePin/ChangePinModal";
 import CountryPopUp from "./CountryPopUp";
 import SelectBankModal from "./bank/SelectBankModal";
 import TransferToBankModal from "./transfer/TransferToBank";
+import TransferCustomerModal from "./transfer/TransferCustomerModal";
+import FundWalletByTransfer from "./fundwallet/FundWalletByTransfer";
+import FundWalletByForeignTransfer from "./fundwallet/FundWalletByForeignTransfer";
+// import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
 const AllModals = () => {
@@ -40,7 +44,7 @@ const AllModals = () => {
       <TransactionDetailsModal />
       <ProductDetailsModal />
       <PurchaseDetailsModal />
-      <FundWalletModal />
+      {/* <FundWalletModal /> */}
       <PayBillsModal />
       <EditProfileModal />
       <NextOfKinModal />
@@ -52,6 +56,10 @@ const AllModals = () => {
       <CountryPopUp />
       <SelectBankModal />
       <TransferToBankModal />
+      <TransferCustomerModal />
+      <FundWalletByTransfer />
+      <FundWalletByForeignTransfer />
+      {/* <FundWalletModalButtom /> */}
       {/* <TransferModalButtom /> */}
       {/* <MyPurchasesModal /> */}
     </>

@@ -17,11 +17,19 @@ const WalletButtons = () => {
     transferModal.current.close();
   };
 
+  const closeFundwalletModal = () => {
+    fundWalletModal.current.close();
+  };
+
+  const closePaybillsModal = () => {
+    paybillsModal.current.close();
+  };
+
   return (
     <>
       <TransferModalButtom bottomSheet={transferModal} closeTransferModal={closeTransferModal} />
-      <PayBillsModalButtom bottomSheet={paybillsModal} />
-      <FundWalletModalButtom bottomSheet={fundWalletModal} />
+      <PayBillsModalButtom bottomSheet={paybillsModal} closeModal={() => closePaybillsModal()} />
+      <FundWalletModalButtom bottomSheet={fundWalletModal} closeModal={() => closeFundwalletModal()} />
       <View style={{ width: "100%", marginTop: 20, marginBottom: 50 }}>
         <View style={styles.quickMenus}>
           <View style={{ padding: 5, width: "33%" }}>

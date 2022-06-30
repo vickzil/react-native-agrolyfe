@@ -1,23 +1,39 @@
 import React, { useEffect, useRef } from "react";
 import { SafeAreaView, TouchableOpacity, Text, StyleSheet, View, Image } from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import Fontisto from "react-native-vector-icons/Fontisto";
+import {
+  setFundwalletByForeignTransferModal,
+  setFundwalletByLocalTransferModal,
+  setFundwalletModal,
+} from "../../../store/alert/alertSlice";
 
-const FundWalletModalButtom = ({ bottomSheet }) => {
-  //   const modal = useSelector((state) => state.alert.transferModal);
+const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
+  const dispatch = useDispatch();
+  // const bottomSheet = useRef(null);
+  // const modal = useSelector((state) => state.alert.fundwalletModal);
 
-  //   useEffect(() => {
-  //     if (modal.status === true) {
-  //       bottomSheet.current.show();
-  //     }
-  //     // else {
-  //     //   bottomSheet.current.hide();
-  //     // }
-  //   }, [modal]);
+  // useEffect(() => {
+  //   if (modal === true) {
+  //     bottomSheet.current.show();
+  //   } else {
+  //     bottomSheet.current.close();
+  //   }
+  // }, [modal]);
+
+  const showFundWalletModal = () => {
+    dispatch(setFundwalletByLocalTransferModal(true));
+    closeModal();
+  };
+
+  const showFundWalletTransferModal = () => {
+    dispatch(setFundwalletByForeignTransferModal(true));
+    closeModal();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -36,7 +52,7 @@ const FundWalletModalButtom = ({ bottomSheet }) => {
             </View>
             {/* <AntDesignIcon name="right" size={19} style={[styles.accountTabsRightAngel, { marginLeft: 30 }]} /> */}
           </TouchableOpacity>
-          <TouchableOpacity style={styles.accountTabsLinks}>
+          <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showFundWalletModal()}>
             <View>
               <Icon name="bank" size={30} style={[{ paddingRight: 19, color: colors.greenColor }]} />
             </View>
@@ -51,7 +67,7 @@ const FundWalletModalButtom = ({ bottomSheet }) => {
             </View>
             {/* <AntDesignIcon name="right" size={19} style={[styles.accountTabsRightAngel, { marginLeft: 30 }]} /> */}
           </TouchableOpacity>
-          <TouchableOpacity style={styles.accountTabsLinks}>
+          <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showFundWalletTransferModal()}>
             <View>
               <Icon name="bank-transfer" size={40} style={[{ paddingRight: 19, color: colors.greenColor }]} />
             </View>

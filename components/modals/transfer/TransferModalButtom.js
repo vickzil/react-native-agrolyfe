@@ -7,9 +7,11 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { setSelectBankModal } from "../../../store/alert/alertSlice";
+import CustomerModalButtom from "./CustomerModalButtom";
 
 const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
   const dispatch = useDispatch();
+  const searchCustomerModal = useRef();
   //   const modal = useSelector((state) => state.alert.transferModal);
 
   //   useEffect(() => {
@@ -21,8 +23,18 @@ const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
   //     // }
   //   }, [modal]);
 
+  const closeCustomerModal = () => {
+    searchCustomerModal.current.close();
+  };
+
+  const transferToCustomer = () => {
+    searchCustomerModal.current.show();
+    closeTransferModal();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      <CustomerModalButtom bottomSheet={searchCustomerModal} closeModal={closeCustomerModal} />
       <BottomSheet hasDraggableIcon ref={bottomSheet} height={300} onRequestClose={() => closeTransferModal()}>
         <View style={styles.accountTabs}>
           <TouchableOpacity
@@ -52,7 +64,10 @@ const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
             </View>
             <AntDesignIcon name="right" size={19} style={[styles.accountTabsRightAngel, { marginRight: 30 }]} />
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.accountTabsLinks, { borderBottomWidth: 0 }]}>
+          <TouchableOpacity
+            style={[styles.accountTabsLinks, { borderBottomWidth: 0 }]}
+            onPress={() => transferToCustomer()}
+          >
             <View>
               <FontAwesomeIcon
                 name="exchange"
