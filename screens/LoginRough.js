@@ -1,4 +1,3 @@
-import "../ignoreWarnings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { Alert, Keyboard, Text, View, ScrollView, SafeAreaView, TouchableOpacity } from "react-native";
@@ -9,7 +8,6 @@ import CustomInput from "../components/customs/CustomInput";
 import { validEmail } from "../components/helpers/globalFunction";
 import Logo from "../components/logo/Logo";
 import { setLoading } from "../store/alert/alertSlice";
-import { setHasLogin, setToken } from "../store/auth/authSlice";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -50,27 +48,32 @@ const Login = ({ navigation }) => {
       }),
     );
 
-    setTimeout(() => {
+    setTimeout(async () => {
       dispatch(
         setLoading({
           status: false,
           message: "",
         }),
       );
+      let userData = await AsyncStorage.getItem("user");
 
-      let userToken =
-        "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZpc2l0b3ItYXBwbGljYXRpb24tc2VydmVyLTIwMjEwMjIifQ.eyJwaWQiOiI2MDhmMjcwZDVlYjIwZTA5Y2YzOGE2Y2UiLCJ2aWQiOiIwNjdhYTYzYmVmZjdmNjQyMTc2MmQ2NjU4YTE0M2QyZDkwNTBjMWRmZDhmOGQ2MjcyNTBmNWM1MjVkMTNmN2JlIiwiaWF0IjoxNjQ1ODEzODE3LCJleHAiOjE2NDU4MTU2MTcsImp0aSI6Ik1QRDRwcWlXU19TUjNkREcwRC1KMiJ9.MD9zek0mcjJcEeeAwr6fxhnh7Tb1lKv0bXf7hNCWB5xj8-GcIkL2LJbCjARHKhDAWE4EtnDgDLJozeDAzZHJLA";
-
-      AsyncStorage.setItem("token", userToken);
-      AsyncStorage.setItem("hasLoggedIn", "yes");
-
-      setTimeout(() => {
-        dispatch(setToken(userToken));
-        dispatch(setHasLogin(true));
-      }, 200);
-      setTimeout(() => {
-        // navigation.navigate("Home");
-      }, 1000);
+      if (userData) {
+        userData = JSON.parse(userData);
+        if (inputs.email == userData.email && inputs.password == userData.password) {
+          AsyncStorage.setItem("user", JSON.stringify({ ...userData, loggedIn: true }));
+          navigation.navigate("Home");
+        } else {
+          Alert.alert("Error", "Invalid Details");
+        }
+      } else {
+        Alert.alert("Error", "User does not exist");
+      }
+      // try {
+      //   AsyncStorage.setItem("user", JSON.stringify(inputs));
+      //   navigation.navigate("Login");
+      // } catch (error) {
+      //   Alert.alert("Error", "Something went wrong");
+      // }
     }, 3000);
   };
 

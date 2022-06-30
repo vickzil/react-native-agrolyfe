@@ -8,6 +8,7 @@ const AllTransactionItem = ({ item }) => {
 
   return (
     <TouchableOpacity
+      activeOpacity={1}
       style={[styles.transactionMainItem, { width: "100%" }]}
       onPress={() =>
         dispatch(
@@ -38,6 +39,7 @@ export default AllTransactionItem;
 const styles = StyleSheet.create({
   transactionMainItem: {
     // elevation: 3,
+    backgroundColor: "#fff",
   },
   transactionItem: {
     width: "100%",

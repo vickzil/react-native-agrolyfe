@@ -24,13 +24,11 @@ import ChangePinModal from "./profile/changePin/ChangePinModal";
 import CountryPopUp from "./CountryPopUp";
 import SelectBankModal from "./bank/SelectBankModal";
 import TransferToBankModal from "./transfer/TransferToBank";
-import PageLoading from "../loader/PageLoading";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
 const AllModals = () => {
   return (
     <>
-      <PageLoading />
       <ProductsModal />
       <BankModal />
       <CardModal />

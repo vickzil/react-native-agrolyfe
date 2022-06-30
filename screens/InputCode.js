@@ -16,11 +16,11 @@ const InputCode = ({ navigation }) => {
         <Logo />
         <View style={[styles.productContainer]}>
           <View style={{ justifyContent: "center", width: "80%", marginTop: 50, alignItems: "center" }}>
-            <Text style={[styles.productCardContentItemLeft, { fontSize: 22, fontWeight: "900", marginBottom: 4 }]}>
+            <Text style={[styles.productCardContentItemLeft, { fontSize: 27, fontWeight: "900", marginBottom: 4 }]}>
               Confirm Verification
             </Text>
-            <View style={{ alignItems: "center" }}>
-              <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center" }]}>
+            <View style={{ alignItems: "center", marginTop: 10 }}>
+              <Text style={[globalStyles.label, { fontSize: 17, textAlign: "center" }]}>
                 Enter your 4-digit CODE sent to your email to continue
               </Text>
             </View>

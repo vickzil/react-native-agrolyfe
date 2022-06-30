@@ -1,3 +1,5 @@
+import "../ignoreWarnings";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";

@@ -15,6 +15,7 @@ const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...
         <TextInput
           secureTextEntry={hidePassword}
           autoCorrect={false}
+          autoComplete={"off"}
           onFocus={() => {
             onFocus();
             setIsFocused(true);

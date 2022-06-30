@@ -7,6 +7,7 @@ import TabBar from "./TabBar";
 import Referrals from "../screens/Referrals";
 import ProductNavigator from "./ProductNavigator";
 import AllModals from "../components/modals/AllModals";
+import PageLoading from "../components/loader/PageLoading";
 
 const Tab = createBottomTabNavigator();
 const AppStack = () => {
@@ -20,6 +21,7 @@ const AppStack = () => {
         <Tab.Screen name="Referrals" component={Referrals} />
       </Tab.Navigator>
       <AllModals />
+      <PageLoading />
     </>
   );
 };

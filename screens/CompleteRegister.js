@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import CustomButton from "../components/customs/CustomButton";
 import CustomInput from "../components/customs/CustomInput";
 import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
-import { validEmail } from "../components/helpers/globalFunction";
+import { removeFormatDate, validEmail } from "../components/helpers/globalFunction";
 import Logo from "../components/logo/Logo";
 import { setLoading } from "../store/alert/alertSlice";
 import colors from "../styles/colors";
@@ -187,7 +187,7 @@ const CompleteRegister = ({ navigation }) => {
             <TouchableOpacity style={[styles.inputContainer, { height: 60 }]} onPress={showDatePicker}>
               <Icon name="calendar-today" size={22} color="#888" style={{ marginRight: 10 }} />
               <View style={globalStyles.inputTextt}>
-                <Text>{"date"}</Text>
+                <Text>{removeFormatDate(date)}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -202,7 +202,9 @@ const CompleteRegister = ({ navigation }) => {
             iconName="lock-outline"
             password={true}
           />
-          <CustomButton onPress={validate} title="Register" />
+          <View style={{ marginTop: 20 }}>
+            <CustomButton onPress={validate} title="Finish" />
+          </View>
           <Text
             onPress={() => navigation.navigate("Login")}
             style={{ color: "black", textAlign: "center", fontSize: 16, fontWeight: "bold", marginTop: 20 }}

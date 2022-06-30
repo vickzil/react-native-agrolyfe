@@ -7,6 +7,8 @@ const initialState = {
   RequestId: "001web001web" + Math.floor(Math.random() * 10),
   secretKey: "helloworld",
   user: null,
+  token: null,
+  hasLogin: false,
 };
 
 const authSlice = createSlice({
@@ -16,9 +18,16 @@ const authSlice = createSlice({
     saveUserInfo: (state, { payload }) => {
       state.user = payload;
     },
+
+    setToken: (state, { payload }) => {
+      state.token = payload;
+    },
+    setHasLogin: (state, { payload }) => {
+      state.hasLogin = payload;
+    },
   },
 });
 
-export const { saveUserInfo } = authSlice.actions;
+export const { saveUserInfo, setToken, setHasLogin } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -6,6 +6,7 @@ import { globalStyles } from "../../styles/global";
 const PageLoading = () => {
   const { height, width } = useWindowDimensions();
   const loading = useSelector((state) => state.alert.loading);
+
   return (
     loading?.status && (
       <View style={[styles.container, { height, width }]}>

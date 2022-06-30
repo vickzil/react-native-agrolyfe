@@ -2,12 +2,39 @@ import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../store/auth/authSlice";
+import { setLoading } from "../../store/alert/alertSlice";
 const HomeHeader = ({ navigation }) => {
+  const dispatch = useDispatch();
   const user = require("../../assets/img/user.jpg");
 
   const logout = () => {
     // AsyncStorage.setItem("user", JSON.stringify({ ...userDetails, loggedIn: false }));
-    navigation.navigate("Login");
+
+    dispatch(
+      setLoading({
+        status: true,
+        message: "please wait...",
+      }),
+    );
+
+    setTimeout(() => {
+      AsyncStorage.removeItem("token");
+      dispatch(
+        setLoading({
+          status: false,
+          message: "",
+        }),
+      );
+
+      dispatch(setToken(""));
+
+      // setTimeout(() => {
+      //   navigation.navigate("Login");
+      // }, 300);
+    }, 1000);
+
     // console.log(this.props);
   };
 
@@ -21,7 +48,7 @@ const HomeHeader = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.homeHeaderRight}>
-        <TouchableOpacity onPress={logout}>
+        <TouchableOpacity onPress={() => logout()}>
           <Icon name="power-standby" size={25} style={styles.homeHeaderRightIcon} />
         </TouchableOpacity>
       </View>
