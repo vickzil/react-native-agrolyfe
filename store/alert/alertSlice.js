@@ -38,6 +38,8 @@ const initialState = {
   fundwalletByForeignTransferModal: false,
   paymentEvidenceModal: false,
   payBillsModal: false,
+  buyAirtimeModal: false,
+  dataSubscriptionModal: false,
   transferModal: false,
   editProfileModal: false,
   nextOfKinModal: false,
@@ -49,6 +51,7 @@ const initialState = {
   selectedCountry: null,
   selectedBank: null,
   selectedUser: null,
+  selectedNetwork: null,
   countryModal: {
     status: false,
     type: "",
@@ -182,6 +185,14 @@ const alertSlice = createSlice({
       state.payBillsModal = payload;
     },
 
+    setBuyAirtimeModalModal: (state, { payload }) => {
+      state.buyAirtimeModal = payload;
+    },
+
+    setDataSubscriptionModal: (state, { payload }) => {
+      state.dataSubscriptionModal = payload;
+    },
+
     setTransferModal: (state, { payload }) => {
       state.transferModal = payload;
     },
@@ -224,6 +235,11 @@ const alertSlice = createSlice({
     setSelectedUser: (state, { payload }) => {
       state.selectedUser = payload;
     },
+
+    setSelectedNetwork: (state, { payload }) => {
+      state.selectedNetwork = payload;
+    },
+
     setTransferToBankModal: (state, { payload }) => {
       state.transferToBankModal = {
         status: payload.status,
@@ -259,6 +275,8 @@ export const {
   setFundwalletByForeignTransferModal,
   setPaymentEvidenceModal,
   setPayBillsModal,
+  setBuyAirtimeModalModal,
+  setDataSubscriptionModal,
   setTransferModal,
   setEditProfileModal,
   setNextOfKinModal,
@@ -274,6 +292,7 @@ export const {
   setDefaultBank,
   setTransferToBankModal,
   setSelectedUser,
+  setSelectedNetwork,
   setTransferToCustomerModal,
 } = alertSlice.actions;
 

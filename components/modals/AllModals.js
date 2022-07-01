@@ -29,6 +29,8 @@ import FundWalletByTransfer from "./fundwallet/FundWalletByTransfer";
 import FundWalletByForeignTransfer from "./fundwallet/FundWalletByForeignTransfer";
 import UploadPaymentEvidence from "./fundwallet/UploadPaymentEvidence";
 import AddBankModal from "./bank/AddBankModal";
+import BuyAirtimeModal from "./billspayment/BuyAirtimeModal";
+import BuyDataModal from "./billspayment/BuyDataModal";
 // import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
@@ -63,7 +65,8 @@ const AllModals = () => {
       <FundWalletByTransfer />
       <FundWalletByForeignTransfer />
       <UploadPaymentEvidence />
-      {/* <FundWalletModalButtom /> */}
+      <BuyAirtimeModal />
+      <BuyDataModal />
       {/* <TransferModalButtom /> */}
       {/* <MyPurchasesModal /> */}
     </>

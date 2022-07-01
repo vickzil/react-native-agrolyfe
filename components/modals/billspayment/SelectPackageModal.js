@@ -9,69 +9,20 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  setBankModal,
-  setDefaultBank,
-  setSelectBankModal,
-  setSelectedBank,
-  setTransferToBankModal,
-} from "../../../store/alert/alertSlice";
+import React, { useEffect } from "react";
+
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
-import NoItem from "../../extra/NoItem";
 
 const { width } = Dimensions.get("screen");
 
-const SelectBankModal = () => {
-  const modal = useSelector((state) => state.alert.selectBankModal);
-  const selectedBank = useSelector((state) => state.alert.selectedBank);
-  const dispatch = useDispatch();
-  const [allBanks] = useState([
-    {
-      id: 1,
-      name: "Access bank",
-      code: "8765437",
-      accountNumber: "0975488383567",
-    },
-    {
-      id: 2,
-      name: "Union bank",
-      code: "8765437",
-      accountNumber: "023488383567",
-    },
-  ]);
-
-  const closeModal = () => {
-    dispatch(
-      setSelectBankModal({
-        status: false,
-        type: "",
-      }),
-    );
-  };
-
-  const selectBank = (item) => {
-    closeModal();
-    dispatch(setSelectedBank(item));
-    if (modal.type === "TRANSFER_TO_BANK") {
-      dispatch(
-        setTransferToBankModal({
-          status: true,
-          bank: item,
-        }),
-      );
-    }
-    // if (modal.type === "ADD_BANK") {
-    //   setSelectedBank(item);
-    // }
-  };
-
+const SelectPackageModal = ({ data, closeModal, choosenPage, selectedPackage }) => {
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
   return (
-    <Modal visible={modal?.status} animationType="fade" onRequestClose={() => closeModal()}>
+    <Modal visible={data?.status} animationType="fade" onRequestClose={() => closeModal()}>
       <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
 
       <View style={{ marginTop: -40 }}>
@@ -82,27 +33,31 @@ const SelectBankModal = () => {
             style={[styles.modalHeaderIcon, { color: "#222" }]}
             onPress={() => closeModal()}
           />
-          <Text style={styles.modalHeaderText}>Select Bank Accounts</Text>
+          <Text style={styles.modalHeaderText}>Select Package</Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={[styles.productContainer]}>
-            {allBanks && allBanks.length ? (
+          <View style={[styles.productContainer, { marginTop: 0 }]}>
+            {data && data?.data && data.data.length ? (
               <View>
-                {allBanks?.map((item, index) => (
-                  <TouchableOpacity key={index} style={styles.container} onPress={() => selectBank(item)}>
+                {data?.data.map((item, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.container,
+                      selectedPackage && selectedPackage.id == item.id ? styles.selectedItem : null,
+                    ]}
+                    onPress={() => choosenPage(item)}
+                  >
                     <View style={styles.content} key={index}>
                       <Text style={[styles.contentText, styles.contentText1]}>{item.name}</Text>
-                      <Text style={[styles.contentText, styles.contentText2]}>{item.accountNumber}</Text>
                     </View>
                   </TouchableOpacity>
                 ))}
               </View>
             ) : (
               <View style={{ marginTop: 50 }}>
-                <NoItem
-                  item={{ type: "BANK", buttonText: "Add Bank", message: "You haven't added any bank accounts" }}
-                />
+                <Text style={[styles.contentText, styles.contentText1]}>No package</Text>
               </View>
             )}
           </View>
@@ -182,5 +137,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.greenColor,
   },
+
+  selectedItem: {
+    width: "97%",
+    borderWidth: 3,
+    borderColor: "#e79b0e",
+    marginLeft: 5,
+  },
 });
-export default SelectBankModal;
+export default SelectPackageModal;

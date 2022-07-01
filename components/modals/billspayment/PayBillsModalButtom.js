@@ -1,17 +1,19 @@
 import React, { useEffect, useRef } from "react";
 import { SafeAreaView, TouchableOpacity, Text, StyleSheet, View, Image } from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import { setBuyAirtimeModalModal, setDataSubscriptionModal } from "../../../store/alert/alertSlice";
 
 const airtimeImage = require("../../../assets/img/airtime.jpg");
 const dataImage = require("../../../assets/img/data.jpg");
 const cableImage = require("../../../assets/img/cable.jpg");
 
-const PayBillsModalButtom = ({ bottomSheet, height }) => {
+const PayBillsModalButtom = ({ bottomSheet, closeModal }) => {
+  const dispatch = useDispatch();
   //   const modal = useSelector((state) => state.alert.transferModal);
 
   //   useEffect(() => {
@@ -23,11 +25,21 @@ const PayBillsModalButtom = ({ bottomSheet, height }) => {
   //     // }
   //   }, [modal]);
 
+  const showPurchaseAirtime = () => {
+    dispatch(setBuyAirtimeModalModal(true));
+    closeModal();
+  };
+
+  const showPurchaseData = () => {
+    dispatch(setDataSubscriptionModal(true));
+    closeModal();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <BottomSheet hasDraggableIcon ref={bottomSheet} height={380} sheetBackgroundColor="#FFFFFF">
         <View style={styles.accountTabs}>
-          <TouchableOpacity style={styles.accountTabsLinks}>
+          <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showPurchaseAirtime()}>
             <View style={styles.imageWidth}>
               <Image
                 source={airtimeImage}
@@ -42,7 +54,10 @@ const PayBillsModalButtom = ({ bottomSheet, height }) => {
             </View>
             {/* <AntDesignIcon name="right" size={19} style={[styles.accountTabsRightAngel, { marginRight: 30 }]} /> */}
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.accountTabsLinks, { borderBottomWidth: 0 }]}>
+          <TouchableOpacity
+            style={[styles.accountTabsLinks, { borderBottomWidth: 0 }]}
+            onPress={() => showPurchaseData()}
+          >
             <View style={styles.imageWidth}>
               <Image
                 source={dataImage}

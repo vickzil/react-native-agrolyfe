@@ -33,20 +33,32 @@ const WalletButtons = () => {
       <View style={{ width: "100%", marginTop: 20, marginBottom: 50 }}>
         <View style={styles.quickMenus}>
           <View style={{ padding: 5, width: "33%" }}>
-            <TouchableOpacity style={styles.quickMenusItem} onPress={() => fundWalletModal.current.show()}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.quickMenusItem}
+              onPress={() => fundWalletModal.current.show()}
+            >
               <AntIcon name="wallet" size={26} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
               <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Top up</Text>
             </TouchableOpacity>
           </View>
 
           <View style={{ padding: 5, width: "33%" }}>
-            <TouchableOpacity style={styles.quickMenusItem} onPress={() => transferModal.current.show()}>
+            <TouchableOpacity
+              style={styles.quickMenusItem}
+              onPress={() => transferModal.current.show()}
+              activeOpacity={0.8}
+            >
               <Icon name="send" size={26} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
               <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Transfer</Text>
             </TouchableOpacity>
           </View>
           <View style={{ padding: 5, width: "33%" }}>
-            <TouchableOpacity style={styles.quickMenusItem} onPress={() => paybillsModal.current.show()}>
+            <TouchableOpacity
+              style={styles.quickMenusItem}
+              activeOpacity={0.8}
+              onPress={() => paybillsModal.current.show()}
+            >
               <Icon name="account-cash" size={26} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
               <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Pay Bills</Text>
             </TouchableOpacity>

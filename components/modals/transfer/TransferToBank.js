@@ -110,7 +110,7 @@ const TransferToBankModal = () => {
   };
 
   return (
-    <Modal visible={modal?.status} animationType="slide" onRequestClose={() => closeModal()}>
+    <Modal visible={modal?.status} animationType="fade" onRequestClose={() => closeModal()}>
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={[{ backgroundColor: colors.greenDarkColor }]}>
           <View style={[styles.modalHeader]}>
