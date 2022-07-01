@@ -31,12 +31,15 @@ import UploadPaymentEvidence from "./fundwallet/UploadPaymentEvidence";
 import AddBankModal from "./bank/AddBankModal";
 import BuyAirtimeModal from "./billspayment/BuyAirtimeModal";
 import BuyDataModal from "./billspayment/BuyDataModal";
+import CableSubscription from "./billspayment/CableSubscription";
+import AlertSuccessModal from "./AlertSuccessModal";
 // import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
 const AllModals = () => {
   return (
     <>
+      <AlertSuccessModal />
       <ProductsModal />
       <BankModal />
       <AddBankModal />
@@ -67,6 +70,7 @@ const AllModals = () => {
       <UploadPaymentEvidence />
       <BuyAirtimeModal />
       <BuyDataModal />
+      <CableSubscription />
       {/* <TransferModalButtom /> */}
       {/* <MyPurchasesModal /> */}
     </>

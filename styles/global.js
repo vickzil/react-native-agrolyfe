@@ -39,6 +39,11 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 8,
   },
 
+  inputContainerDisabled: {
+    backgroundColor: "#e8e8e8",
+    color: "#888",
+  },
+
   inputTextt: {
     color: "#333",
     flex: 1,

@@ -6,7 +6,11 @@ import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { setBuyAirtimeModalModal, setDataSubscriptionModal } from "../../../store/alert/alertSlice";
+import {
+  setBuyAirtimeModalModal,
+  setCableSubscriptionModal,
+  setDataSubscriptionModal,
+} from "../../../store/alert/alertSlice";
 
 const airtimeImage = require("../../../assets/img/airtime.jpg");
 const dataImage = require("../../../assets/img/data.jpg");
@@ -32,6 +36,11 @@ const PayBillsModalButtom = ({ bottomSheet, closeModal }) => {
 
   const showPurchaseData = () => {
     dispatch(setDataSubscriptionModal(true));
+    closeModal();
+  };
+
+  const showCableSubscription = () => {
+    dispatch(setCableSubscriptionModal(true));
     closeModal();
   };
 
@@ -72,7 +81,10 @@ const PayBillsModalButtom = ({ bottomSheet, closeModal }) => {
             </View>
             {/* <AntDesignIcon name="right" size={19} style={[styles.accountTabsRightAngel, { marginRight: 30 }]} /> */}
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.accountTabsLinks, { borderBottomWidth: 0 }]}>
+          <TouchableOpacity
+            style={[styles.accountTabsLinks, { borderBottomWidth: 0 }]}
+            onPress={() => showCableSubscription()}
+          >
             <View style={styles.imageWidth}>
               <Image
                 source={cableImage}

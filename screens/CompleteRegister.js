@@ -33,7 +33,7 @@ const CompleteRegister = ({ navigation }) => {
     phone: "",
     password: "",
   });
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
   const [errors, setErrors] = useState({});
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -50,9 +50,6 @@ const CompleteRegister = ({ navigation }) => {
     setDate(date);
     // console.warn("A date has been picked: ", date);
     hideDatePicker();
-
-    console.log(date.toISOString());
-    console.log(typeof date);
   };
 
   const validate = () => {

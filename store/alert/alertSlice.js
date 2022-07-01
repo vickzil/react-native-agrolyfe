@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  alertModalSuccess: {
+    status: false,
+    payload: null,
+  },
   loading: {
     status: false,
     message: "",
@@ -40,6 +44,7 @@ const initialState = {
   payBillsModal: false,
   buyAirtimeModal: false,
   dataSubscriptionModal: false,
+  cableSubscriptionModal: false,
   transferModal: false,
   editProfileModal: false,
   nextOfKinModal: false,
@@ -81,6 +86,12 @@ const alertSlice = createSlice({
       state.loading = {
         status: payload.status,
         message: payload.message,
+      };
+    },
+    setAlertModalSuccess: (state, { payload }) => {
+      state.alertModalSuccess = {
+        status: payload.status,
+        payload: payload.payload,
       };
     },
 
@@ -193,6 +204,10 @@ const alertSlice = createSlice({
       state.dataSubscriptionModal = payload;
     },
 
+    setCableSubscriptionModal: (state, { payload }) => {
+      state.cableSubscriptionModal = payload;
+    },
+
     setTransferModal: (state, { payload }) => {
       state.transferModal = payload;
     },
@@ -257,6 +272,7 @@ const alertSlice = createSlice({
 
 export const {
   setLoading,
+  setAlertModalSuccess,
   setAllProductModal,
   setMyPurchasesModal,
   setBankModal,
@@ -277,6 +293,7 @@ export const {
   setPayBillsModal,
   setBuyAirtimeModalModal,
   setDataSubscriptionModal,
+  setCableSubscriptionModal,
   setTransferModal,
   setEditProfileModal,
   setNextOfKinModal,

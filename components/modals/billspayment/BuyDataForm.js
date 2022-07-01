@@ -140,6 +140,7 @@ const BuyDataForm = ({ closeModal }) => {
       </Text>
       <FlatList
         horizontal
+        contentContainerStyle={{ paddingRight: 30 }}
         data={overview}
         style={{ width, marginRight: 30, paddingRight: 30 }}
         showsHorizontalScrollIndicator={false}
@@ -148,8 +149,8 @@ const BuyDataForm = ({ closeModal }) => {
       />
 
       <View style={[globalStyles.productContainer, { width: "100%" }]}>
-        <View style={{ marginTop: 20, marginBottom: 20, width: "93%" }}>
-          <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 20, fontWeight: "500" }]}>
+        <View style={{ marginTop: 10, marginBottom: 20, width: "97%", paddingRight: 10 }}>
+          <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 7, fontWeight: "500" }]}>
             Select Package
           </Text>
           <TouchableOpacity style={[globalStyles.inputContainer, { height: 57 }]} onPress={() => choosePackage()}>
@@ -157,8 +158,8 @@ const BuyDataForm = ({ closeModal }) => {
             <Icon name="chevron-down" size={24} style={[{ color: "#222", marginLeft: -10 }]} />
           </TouchableOpacity>
         </View>
-        <View style={{ marginTop: 20, marginBottom: 20, width: "93%" }}>
-          <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 20, fontWeight: "500" }]}>
+        <View style={{ marginTop: 10, marginBottom: 10, width: "97%", paddingRight: 10 }}>
+          <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "500" }]}>
             Mobile Number
           </Text>
           <View style={[globalStyles.inputContainer, { height: 57 }]}>
@@ -172,8 +173,8 @@ const BuyDataForm = ({ closeModal }) => {
           </View>
         </View>
 
-        <View style={{ marginTop: 10, marginBottom: 30, width: "93%" }}>
-          <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 20, fontWeight: "500" }]}>
+        <View style={{ marginTop: 10, marginBottom: 20, width: "97%", paddingRight: 10 }}>
+          <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 7, fontWeight: "500" }]}>
             Amount
           </Text>
           <CurrencyInput

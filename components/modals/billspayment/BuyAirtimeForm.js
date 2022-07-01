@@ -79,12 +79,13 @@ const BuyAirtimeForm = ({ closeModal }) => {
   };
 
   return (
-    <View style={{ marginTop: 40, marginBottom: 30, width, paddingRight: 0, paddingLeft: 10 }}>
+    <View style={{ marginTop: 20, marginBottom: 30, width, paddingRight: 0, paddingLeft: 10 }}>
       <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 20, fontWeight: "500" }]}>
         Select network provider
       </Text>
       <FlatList
         horizontal
+        contentContainerStyle={{ paddingRight: 30 }}
         data={overview}
         style={{ width, marginRight: 30, paddingRight: 30 }}
         showsHorizontalScrollIndicator={false}
@@ -93,8 +94,8 @@ const BuyAirtimeForm = ({ closeModal }) => {
       />
 
       <View style={[globalStyles.productContainer, { width: "100%" }]}>
-        <View style={{ marginTop: 20, marginBottom: 20, width: "93%" }}>
-          <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 20, fontWeight: "500" }]}>
+        <View style={{ marginTop: 20, marginBottom: 10, width: "97%", paddingRight: 10 }}>
+          <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "500" }]}>
             Mobile Number
           </Text>
           <View style={[globalStyles.inputContainer, { height: 57 }]}>
@@ -108,8 +109,8 @@ const BuyAirtimeForm = ({ closeModal }) => {
           </View>
         </View>
 
-        <View style={{ marginTop: 10, marginBottom: 30, width: "93%" }}>
-          <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 20, fontWeight: "500" }]}>
+        <View style={{ marginTop: 10, marginBottom: 10, width: "97%", paddingRight: 10 }}>
+          <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "500" }]}>
             Amount
           </Text>
           <CurrencyInput
