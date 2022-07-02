@@ -71,7 +71,7 @@ const initialState = {
   selectedUser: null,
   selectedNetwork: null,
   countryModal: {
-    status: true,
+    status: false,
     type: "",
     selected: "",
     payload: null,

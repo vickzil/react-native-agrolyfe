@@ -113,9 +113,9 @@ const CountryPopUp = () => {
                   index={index}
                   onPress={() => selectCountry(item)}
                 >
-                  {/* <View style={[{ width: 40, height: 45, borderRadius: 100 }]}>
+                  <View style={[{ width: 20, height: 25, borderRadius: 100 }]}>
                     <SvgUri width="100%" height="100%" uri={item.flag} />
-                  </View> */}
+                  </View>
                   <View style={{ marginLeft: 20 }}>
                     <Text style={{ fontSize: 16 }}>{item.name}</Text>
                     <Text style={{ fontWeight: "800", fontSize: 11 }}>{item.dialCode}</Text>
