@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexWrap: "wrap",
     paddingBottom: 90,
-    marginTop: 15,
+    marginTop: 5,
     backgroundColor: "#f7f7f7",
   },
 

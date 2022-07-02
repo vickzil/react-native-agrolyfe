@@ -59,10 +59,25 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
   },
+
+  buttonFloat: {
+    position: "absolute",
+    width: "100%",
+    right: 0,
+    bottom: 0,
+    paddingVertical: 5,
+    paddingHorizontal: 30,
+    // borderRadius: 80,
+    // backgroundColor: "#fff",
+    paddingBottom: 10,
+  },
+
   buttonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 17,
+    fontFamily: "Poppins",
+    letterSpacing: -0.35644,
   },
 
   accountContainer: {

@@ -8,24 +8,26 @@ const MyProducts = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer]}>
-        <Text
-          style={[
-            globalStyles.siteTitle,
-            {
-              fontWeight: "800",
-              fontSize: 18,
-              marginBottom: 0,
-              textTransform: "capitalize",
-              fontFamily: "MontserratBold",
-              marginTop: 60,
-              textAlign: "left",
-              width: "100%",
-              marginLeft: 30,
-            },
-          ]}
-        >
-          My Purchases
-        </Text>
+        <View style={{ marginTop: 60 }}>
+          <Text
+            style={[
+              globalStyles.siteTitle,
+              {
+                fontWeight: "800",
+                fontSize: 18,
+                marginBottom: -10,
+                textTransform: "capitalize",
+                fontFamily: "MontserratBold",
+
+                textAlign: "left",
+                width: "100%",
+                marginLeft: 30,
+              },
+            ]}
+          >
+            My Purchases
+          </Text>
+        </View>
         {products?.map((item, index) => (
           <PurchaseCard key={index} item={item} index={index} />
         ))}

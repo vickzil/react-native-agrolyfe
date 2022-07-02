@@ -33,12 +33,18 @@ import BuyAirtimeModal from "./billspayment/BuyAirtimeModal";
 import BuyDataModal from "./billspayment/BuyDataModal";
 import CableSubscription from "./billspayment/CableSubscription";
 import AlertSuccessModal from "./AlertSuccessModal";
+import MakeInvestmentModal from "./products/MakeInvestmentModal";
+import AlertModal from "./AlertModal";
+import FundWalletByCardModal from "./fundwallet/FundWalletByCardModal";
+import SelectCardModal from "./fundwallet/SelectCardModal";
+import AddCardModal from "./cards/AddCardModal";
 // import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
 const AllModals = () => {
   return (
     <>
+      <AlertModal />
       <AlertSuccessModal />
       <ProductsModal />
       <BankModal />
@@ -52,6 +58,7 @@ const AllModals = () => {
       <TransactionDetailsModal />
       <ProductDetailsModal />
       <PurchaseDetailsModal />
+      <MakeInvestmentModal />
       {/* <FundWalletModal /> */}
       <PayBillsModal />
       <EditProfileModal />
@@ -70,7 +77,10 @@ const AllModals = () => {
       <UploadPaymentEvidence />
       <BuyAirtimeModal />
       <BuyDataModal />
+      <AddCardModal />
       <CableSubscription />
+      <FundWalletByCardModal />
+      <SelectCardModal />
       {/* <TransferModalButtom /> */}
       {/* <MyPurchasesModal /> */}
     </>

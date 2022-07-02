@@ -10,7 +10,7 @@ const CustomLoadingButton = ({ buttonText, emptyFields, onPress = () => {}, load
         <TouchableOpacity
           onPress={onPress}
           activeOpacity={0.7}
-          style={[globalStyles.button, emptyFields && { backgroundColor: colors.greenLightDarkColor, height: 70 }]}
+          style={[globalStyles.button, emptyFields && { backgroundColor: colors.greenLightDarkColor }, { height: 60 }]}
           disabled={emptyFields}
         >
           {loading ? (
@@ -26,7 +26,9 @@ const CustomLoadingButton = ({ buttonText, emptyFields, onPress = () => {}, load
             </Text> */}
             </View>
           ) : (
-            <Text style={globalStyles.buttonText}>{buttonText}</Text>
+            <View style={{}}>
+              <Text style={[globalStyles.buttonText, { margin: 0 }]}>{buttonText}</Text>
+            </View>
           )}
         </TouchableOpacity>
       </View>

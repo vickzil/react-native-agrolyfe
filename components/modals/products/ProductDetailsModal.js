@@ -12,10 +12,11 @@ import {
 } from "react-native";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setProductDetailsModal } from "../../../store/alert/alertSlice";
+import { setMakeInvestmentModal, setProductDetailsModal } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FlatListSlider from "../../customs/flatListSlider";
+import { globalStyles } from "../../../styles/global";
 const { width } = Dimensions.get("screen");
 const images = [
   {
@@ -42,33 +43,37 @@ const ProductDetailsModal = () => {
   const modal = useSelector((state) => state.alert.productDetailsModal);
   const dispatch = useDispatch();
 
+  const closeModal = () => {
+    dispatch(
+      setProductDetailsModal({
+        status: false,
+        payload: null,
+      }),
+    );
+  };
+
+  const showMakeInvestmentModal = () => {
+    dispatch(
+      setMakeInvestmentModal({
+        status: true,
+        payload: null,
+      }),
+    );
+
+    setTimeout(() => {
+      closeModal();
+    }, 300);
+  };
+
   return (
-    <Modal
-      visible={modal?.status}
-      animationType="slide"
-      onRequestClose={() => {
-        dispatch(
-          setProductDetailsModal({
-            status: false,
-            payload: null,
-          }),
-        );
-      }}
-    >
-      <View style={{ flex: 1, backgroundColor: "#f2f2f2" }}>
+    <Modal visible={modal?.status} animationType="slide" onRequestClose={() => closeModal()}>
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={[styles.modalHeader]}>
           <Icon
             name="arrow-left"
             size={20}
             style={[styles.modalHeaderIcon, { color: "#222" }]}
-            onPress={() =>
-              dispatch(
-                setProductDetailsModal({
-                  status: false,
-                  payload: null,
-                }),
-              )
-            }
+            onPress={() => closeModal()}
           />
         </View>
         <View style={styles.productImage}>
@@ -89,7 +94,7 @@ const ProductDetailsModal = () => {
             timer={5000}
             onPress={(item) => console.log("")}
             contentContainerStyle={{ paddingHorizontal: 0 }}
-            indicatorContainerStyle={{ position: "absolute", bottom: 35 }}
+            indicatorContainerStyle={{ position: "absolute", bottom: 65 }}
             indicatorActiveColor={"#8e44ad"}
             indicatorInActiveColor={"#ffffff"}
             indicatorActiveWidth={30}
@@ -97,16 +102,24 @@ const ProductDetailsModal = () => {
             loop={false}
           />
         </View>
+        <View style={styles.bodyTopContainer}>
+          <View style={styles.bodyTopCard}>
+            <Text style={styles.productDetailsBodyProductName}>agrolyfe_land_lag_001</Text>
+            <View style={styles.productDetailsBodyNameRate}>
+              <Text style={[styles.productDetailsBodyLabel, { fontSize: 17, fontWeight: "500" }]}>Sales rate </Text>
+              <Text style={[styles.productDetailsBodyLabel, { fontSize: 20, fontWeight: "800" }]}>42%</Text>
+            </View>
+          </View>
+        </View>
         <ScrollView style={styles.productDetailsBody} showsVerticalScrollIndicator={false}>
           <View style={styles.productDetailsBodyContainer}>
-            <Text style={styles.productDetailsBodyCategory}>agrolyfe_land_lag_001 </Text>
-            <View style={styles.productDetailsBodyNameRate}>
-              <Text style={styles.productDetailsBodyProductName}>__Agrovest</Text>
-              <Text style={styles.productDetailsBodyProductRate}>20%</Text>
+            <View style={styles.productCardContentItem}>
+              <Text style={styles.productCardContentItemLeft}>Duration</Text>
+              <Text style={styles.productCardContentItemRight}>12 Months</Text>
             </View>
-            <View style={styles.productDetailsBodyLocationD}>
-              <Text style={styles.productDetailsBodyLocationState}>Lagos </Text>
-              <Text style={styles.productDetailsBodyLocationDuration}>12 Months</Text>
+            <View style={styles.productCardContentItem}>
+              <Text style={styles.productCardContentItemLeft}>State</Text>
+              <Text style={styles.productCardContentItemRight}>Lagos</Text>
             </View>
             <Text style={styles.productDetailsBodyLabel}>About</Text>
             <Text style={styles.productDetailsBodyDesc}>
@@ -121,8 +134,8 @@ const ProductDetailsModal = () => {
             </Text>
           </View>
         </ScrollView>
-        <View style={{ marginTop: 50 }}>
-          <TouchableOpacity style={[styles.buttonFloat]}>
+        <View style={[globalStyles.buttonFloat, { marginTop: 50 }]}>
+          <TouchableOpacity style={{}} onPress={() => showMakeInvestmentModal()}>
             <View style={[styles.productButton, { backgroundColor: colors.greenColor, marginTop: 10 }]}>
               <Text style={styles.buttonText}>Purchase product</Text>
             </View>
@@ -153,91 +166,89 @@ const styles = StyleSheet.create({
   modalHeaderIcon: {
     fontWeight: "900",
     marginRight: 10,
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#fff",
     padding: 6,
     borderRadius: 50,
   },
 
   productDetailsBody: {
-    backgroundColor: "#f2f2f2",
-    paddingTop: 10,
+    backgroundColor: "#fff",
+    paddingTop: 30,
     paddingBottom: 60,
     paddingHorizontal: 15,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    marginTop: -20,
+    // marginBottom: 50,
+    // borderTopLeftRadius: 20,
+    // borderTopRightRadius: 20,
+    // marginTop: -20,
+  },
+
+  bodyTopContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  bodyTopCard: {
+    position: "relative",
+    width: "90%",
+    paddingHorizontal: 20,
+    paddingBottom: 40,
+    paddingTop: 14,
+    elevation: 1,
+    shadowColor: "#171717",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.4,
+    shadowRadius: 2,
+    borderRadius: 5,
+    backgroundColor: "#fff",
+    marginTop: -40,
+    zIndex: 60,
   },
 
   productDetailsBodyContainer: {
     width: "100%",
-    paddingTop: 10,
+    // paddingTop: 10,
     paddingBottom: 40,
   },
 
-  productDetailsBodyCategory: {
-    fontSize: 15,
-    color: "#333",
-    fontWeight: "bold",
+  productCardContentItem: {
+    flexDirection: "row",
+    paddingBottom: 25,
+    marginBottom: 20,
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderColor: "#f0f0f0",
+  },
+
+  productCardContentItemLeft: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: colors.greenLightDarkColor,
+    marginRight: 15,
     fontFamily: "Poppins",
-    marginBottom: 30,
-    paddingBottom: 15,
-    borderBottomWidth: 2,
-    borderColor: "#ddd",
-    textAlign: "center",
-    // marginTop: 10,
+  },
+
+  productCardContentItemRight: {
+    fontSize: 16,
+    color: "#444",
+    fontWeight: "600",
+    justifyContent: "flex-end",
+    fontFamily: "Montserrat",
   },
 
   productDetailsBodyNameRate: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 0,
   },
 
   productDetailsBodyProductName: {
-    fontSize: 15,
+    fontSize: 20,
     color: "#444",
     fontWeight: "900",
     fontFamily: "PoppinsBold",
-  },
-
-  productDetailsBodyProductRate: {
-    backgroundColor: colors.greenNormalColor,
-    fontSize: 14,
-    color: "#fff",
-    fontWeight: "700",
-    textAlign: "right",
-    padding: 10,
-    paddingHorizontal: 18,
-    // borderRadius: 8,
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
-  },
-
-  productDetailsBodyLocationD: {
-    // flexDirection: "row",
-    // justifyContent: "flex-start",
-    // alignItems: "center",
-    marginTop: 25,
-    marginBottom: 20,
-    // paddingBottom: 15,
-    // borderBottomWidth: 2,
-    // borderColor: "#ddd",
-  },
-
-  productDetailsBodyLocationState: {
-    fontSize: 18,
-    color: "#333",
-    fontWeight: "bold",
-    fontFamily: "Poppins",
-  },
-  productDetailsBodyLocationDuration: {
-    fontSize: 20,
-    color: colors.greenColor,
-    fontWeight: "900",
-    fontFamily: "PoppinsBold",
-    // marginLeft: 80,
-    marginTop: 20,
+    textAlign: "center",
   },
 
   productDetailsBodyLabel: {
@@ -245,7 +256,7 @@ const styles = StyleSheet.create({
     color: "#444",
     fontWeight: "900",
     fontFamily: "MontserratBold",
-    marginTop: 20,
+    // marginTop: 20,
   },
 
   productDetailsBodyDesc: {
@@ -256,6 +267,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
     marginTop: 16,
     lineHeight: 28,
+    paddingBottom: 100,
   },
 
   productButton: {
@@ -265,17 +277,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     borderRadius: 8,
     marginTop: 30,
-  },
-
-  buttonFloat: {
-    position: "absolute",
-    width: "100%",
-    right: 0,
-    bottom: 0,
-    paddingVertical: 5,
-    paddingHorizontal: 30,
-    // borderRadius: 80,
-    backgroundColor: "#f2f2f2",
   },
 
   buttonText: {

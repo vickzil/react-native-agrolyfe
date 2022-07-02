@@ -62,9 +62,9 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     borderRadius: 10,
     backgroundColor: "#fff",
-    marginTop: 20,
+    marginTop: 0,
     marginBottom: 20,
-    paddingTop: 25,
+    paddingTop: 15,
   },
 
   productCardContent: {

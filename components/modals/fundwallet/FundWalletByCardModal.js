@@ -11,7 +11,12 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setLoading, setSelectBankModal, setTransferToBankModal } from "../../../store/alert/alertSlice";
+import {
+  setLoading,
+  setSelectCardModal,
+  setFundWalletByCardModal,
+  setAddCardModal,
+} from "../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../styles/colors";
 import CurrencyInput from "react-native-currency-input";
@@ -22,29 +27,31 @@ import HeaderBalance from "../../extra/HeaderBalance";
 
 const { width } = Dimensions.get("screen");
 
-const TransferToBankModal = () => {
-  const modal = useSelector((state) => state.alert.transferToBankModal);
+const FundWalletByCardModal = () => {
+  const modal = useSelector((state) => state.alert.fundWalletByCardModal);
   const [amount, setAmount] = useState(null);
-  const [pin, setPin] = useState(null);
   const [step, setStep] = useState(1);
   const [buttonText, setButtonText] = useState("Proceed");
   const [emptyFields, setEmptyFields] = useState(true);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
   const closeModal = () => {
     dispatch(
-      setTransferToBankModal({
+      setFundWalletByCardModal({
         status: false,
-        bank: null,
+        card: null,
       }),
     );
 
     setAmount(null);
-    setPin(null);
     setStep(1);
     setButtonText("Proceed");
     setEmptyFields(true);
+    setIsEnabled(false);
   };
 
   useEffect(() => {
@@ -62,13 +69,12 @@ const TransferToBankModal = () => {
 
       setEmptyFields(false);
     }
-    if (step === 2) {
-      if (!pin) {
-        setEmptyFields(true);
 
-        return;
-      }
-      if (pin && pin.length < 4) {
+    if (step === 2) {
+      setEmptyFields(false);
+    }
+    if (step === 3) {
+      if (!isEnabled) {
         setEmptyFields(true);
 
         return;
@@ -76,7 +82,7 @@ const TransferToBankModal = () => {
 
       setEmptyFields(false);
     }
-  }, [step, amount, pin]);
+  }, [step, amount, isEnabled]);
 
   const previousStep = () => {
     if (step === 1) {
@@ -86,7 +92,13 @@ const TransferToBankModal = () => {
     }
     if (step === 2) {
       setStep(1);
-      setButtonText("Proceed");
+      setButtonText("Continue");
+
+      return;
+    }
+    if (step === 3) {
+      setStep(2);
+      setButtonText("Fund wallet");
 
       return;
     }
@@ -99,14 +111,25 @@ const TransferToBankModal = () => {
       setLoading(false);
       if (step === 1) {
         setStep(2);
-        setButtonText("Submit");
+        setButtonText("Continue");
 
         return;
       }
       if (step === 2) {
+        setStep(3);
+        setButtonText("Fund wallet");
+
+        return;
+      }
+
+      if (step === 3) {
         closeModal();
       }
     }, 1400);
+  };
+
+  const addCard = () => {
+    dispatch(setAddCardModal(true));
   };
 
   return (
@@ -120,7 +143,7 @@ const TransferToBankModal = () => {
               style={[styles.modalHeaderIcon, { color: "#fff", padding: 2 }]}
               onPress={() => previousStep()}
             />
-            <Text style={styles.modalHeaderText}>Transfer to bank</Text>
+            <Text style={styles.modalHeaderText}>Fund wallet By Card</Text>
             <Text></Text>
           </View>
           <HeaderBalance />
@@ -128,7 +151,7 @@ const TransferToBankModal = () => {
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
-            {step === 1 ? (
+            {step === 1 && (
               <View style={styles.productCardContent}>
                 <View style={{ marginTop: 20, marginBottom: 50 }}>
                   <Text style={[styles.productCardContentItemLeft, { fontSize: 18 }]}>Amount</Text>
@@ -154,16 +177,21 @@ const TransferToBankModal = () => {
                     ]}
                   />
                 </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Bank</Text>
+                <View
+                  style={[
+                    styles.productCardContentItem,
+                    { borderBottomWidth: 1, borderColor: "#f0f0f0", marginBottom: 30 },
+                  ]}
+                >
+                  <Text style={styles.productCardContentItemLeft}> Card</Text>
                   <TouchableOpacity
                     style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
                     activeOpacity={0.7}
                     onPress={() =>
                       dispatch(
-                        setSelectBankModal({
+                        setSelectCardModal({
                           status: true,
-                          type: "TRANSFER_TO_BANK",
+                          type: "Fund_WALLET_BY_CARD",
                         }),
                       )
                     }
@@ -177,46 +205,91 @@ const TransferToBankModal = () => {
                       }}
                     >
                       <View style={{ marginRight: 10, justifyContent: "flex-end", alignItems: "flex-end" }}>
-                        <Text style={[styles.productCardContentItemRight, { fontWeight: "700" }]}>
-                          {modal?.bank ? modal.bank?.name : "Select Bank"}
-                        </Text>
-                        <Text style={[styles.productCardContentItemRight, { fontSize: 14 }]}>
-                          {modal?.bank ? modal.bank?.accountNumber : null}
+                        <Text
+                          style={[
+                            styles.productCardContentItemRight,
+                            { fontWeight: "700", color: "rgb(63, 156, 243)" },
+                          ]}
+                        >
+                          {modal?.card ? modal.card?.name : "Select card"}{" "}
+                          {modal?.card ? " - " + modal.card?.accountNumber : null}
                         </Text>
                       </View>
 
                       <Icon
                         name="chevron-right"
                         size={53}
-                        style={[styles.modalHeaderIcon, { color: "#222", fontSize: 23, marginRight: 0 }]}
+                        style={[styles.modalHeaderIcon, { color: "rgb(63, 156, 243)", fontSize: 23, marginRight: 0 }]}
                       />
                     </View>
                   </TouchableOpacity>
                 </View>
+                <View style={[styles.productCardContentItem, { marginTop: -20 }]}>
+                  <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={() => addCard()}>
+                    <Icon name="plus" size={24} style={[{ color: "rgb(63, 156, 243)", padding: 2 }]} />
+                    <Text style={[styles.productCardContentItemLeft, { color: "rgb(63, 156, 243)" }]}> New card</Text>
+                  </TouchableOpacity>
+
+                  <Text style={[styles.productCardContentItemRight, { fontWeight: "700" }]}></Text>
+                </View>
               </View>
-            ) : (
+            )}
+            {step === 2 && (
+              <View style={styles.productCardContent}>
+                <Text
+                  style={[
+                    styles.productCardContentItemRight,
+                    { fontWeight: "700", textAlign: "center", marginBottom: 27, fontSize: 22 },
+                  ]}
+                >
+                  Summary
+                </Text>
+
+                <View style={[styles.productCardContentItem, { marginBottom: 0, paddingBottom: 10 }]}>
+                  <Text style={[styles.productCardContentItemLeft, { fontSize: 15 }]}>Amount</Text>
+                  <Text style={[styles.productCardContentItemRight, { fontWeight: "800", fontSize: 15 }]}>
+                    ₦ 890,000
+                  </Text>
+                </View>
+                <View style={[styles.productCardContentItem, { marginBottom: 0, paddingBottom: 10 }]}>
+                  <Text style={[styles.productCardContentItemLeft, { fontSize: 15 }]}>Card</Text>
+                  <Text style={[styles.productCardContentItemRight, { fontWeight: "800", fontSize: 15 }]}>
+                    {modal.card?.name + " - " + modal.card?.accountNumber}
+                  </Text>
+                </View>
+                <View style={[styles.productCardContentItem, { marginBottom: 0, paddingBottom: 20 }]}>
+                  <Text style={[styles.productCardContentItemLeft, { fontSize: 19, fontWeight: "800" }]}>Total</Text>
+                  <Text style={[styles.productCardContentItemRight, { fontWeight: "800", fontSize: 20 }]}>
+                    ₦ 890,000
+                  </Text>
+                </View>
+              </View>
+            )}
+            {step === 3 && (
               <View style={{ justifyContent: "center", width: "80%", marginTop: 50, alignItems: "center" }}>
-                <Text style={[styles.productCardContentItemLeft, { fontSize: 22, fontWeight: "900", marginBottom: 4 }]}>
-                  Transaction Pin
+                <Text
+                  style={[styles.productCardContentItemLeft, { fontSize: 28, fontWeight: "900", marginBottom: 10 }]}
+                >
+                  Confirm Purchase
                 </Text>
                 <View style={{ alignItems: "center" }}>
                   <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center" }]}>
-                    Enter your 4-digit TRANSACTION PIN to approve this transfer
+                    Are you sure you want to purchase this products
+                  </Text>
+                  <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center", color: colors.greenColor }]}>
+                    I certify that I have read, understand and accept Terms & Conditions
                   </Text>
                 </View>
-                <KeycodeInput
-                  style={{ fontFamily: "Poppins", letterSpacing: -0.35644 }}
-                  alphaNumeric={false}
-                  numeric={true}
-                  tintColor={colors.greenColor}
-                  keyboardType="numeric"
-                  onChange={(value) => {
-                    setPin(value);
-                  }}
-                  onComplete={(value) => {
-                    setPin(value);
-                  }}
-                />
+                <View style={{ marginTop: 60 }}>
+                  <Switch
+                    trackColor={{ false: "#767577", true: colors.greenLightColor }}
+                    thumbColor={isEnabled ? colors.greenColor : "#f4f3f4"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch}
+                    value={isEnabled}
+                    style={{ transform: [{ scaleX: 2.5 }, { scaleY: 2.4 }] }}
+                  />
+                </View>
               </View>
             )}
           </View>
@@ -292,12 +365,15 @@ const styles = StyleSheet.create({
   productCardContentItem: {
     flexDirection: "row",
     paddingBottom: 25,
-    paddingTop: 9,
+    paddingTop: 26,
+    marginBottom: 26,
     justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderColor: "#f0f0f0",
   },
 
   productCardContentItemLeft: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "600",
     color: "#555",
     marginRight: 15,
@@ -313,4 +389,4 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat",
   },
 });
-export default TransferToBankModal;
+export default FundWalletByCardModal;

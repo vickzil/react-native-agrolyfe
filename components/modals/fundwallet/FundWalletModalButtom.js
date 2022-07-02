@@ -7,6 +7,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import {
+  setFundWalletByCardModal,
   setFundwalletByForeignTransferModal,
   setFundwalletByLocalTransferModal,
   setFundwalletModal,
@@ -41,11 +42,21 @@ const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
     closeModal();
   };
 
+  const showFundWalletByCardModal = () => {
+    dispatch(
+      setFundWalletByCardModal({
+        status: true,
+        card: null,
+      }),
+    );
+    closeModal();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <BottomSheet hasDraggableIcon ref={bottomSheet} onRequestClose={() => closeModal()} height={550}>
         <View style={styles.accountTabs}>
-          <TouchableOpacity style={styles.accountTabsLinks}>
+          <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showFundWalletByCardModal()}>
             <View>
               <AntDesignIcon name="creditcard" size={30} style={[{ paddingRight: 19, color: colors.greenColor }]} />
             </View>

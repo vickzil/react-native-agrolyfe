@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  alertModal: {
+    status: false,
+    title: "",
+    des: "",
+    payload: null,
+  },
   alertModalSuccess: {
     status: false,
     payload: null,
@@ -19,9 +25,14 @@ const initialState = {
     status: false,
     payload: null,
   },
+  makeInvestmentModal: {
+    status: false,
+    payload: null,
+  },
   bankModal: false,
   addBankModal: false,
   cardModal: false,
+  addCardModal: false,
   transactionModal: false,
   savingsModal: false,
   subCategorySavingsModal: {
@@ -55,6 +66,7 @@ const initialState = {
   changePinModal: false,
   selectedCountry: null,
   selectedBank: null,
+  selectedCard: null,
   selectedUser: null,
   selectedNetwork: null,
   countryModal: {
@@ -68,10 +80,21 @@ const initialState = {
     status: false,
     type: "",
   },
+
+  selectCardModal: {
+    status: false,
+    type: "",
+  },
   transferToBankModal: {
     status: false,
     bank: null,
   },
+
+  fundWalletByCardModal: {
+    status: false,
+    card: null,
+  },
+
   transferToCustomerModal: {
     status: false,
     user: null,
@@ -86,6 +109,14 @@ const alertSlice = createSlice({
       state.loading = {
         status: payload.status,
         message: payload.message,
+      };
+    },
+    setAlertModal: (state, { payload }) => {
+      state.alertModal = {
+        status: payload.status,
+        title: payload.title,
+        des: payload.des,
+        payload: payload.payload,
       };
     },
     setAlertModalSuccess: (state, { payload }) => {
@@ -113,6 +144,10 @@ const alertSlice = createSlice({
 
     setCardModal: (state, { payload }) => {
       state.cardModal = payload;
+    },
+
+    setAddCardModal: (state, { payload }) => {
+      state.addCardModal = payload;
     },
 
     setTransactionModal: (state, { payload }) => {
@@ -150,6 +185,12 @@ const alertSlice = createSlice({
         payload: payload.payload,
       };
     },
+    setMakeInvestmentModal: (state, { payload }) => {
+      state.makeInvestmentModal = {
+        status: payload.status,
+        payload: payload.payload,
+      };
+    },
 
     setReferralModal: (state, { payload }) => {
       state.referralModal = payload;
@@ -171,6 +212,13 @@ const alertSlice = createSlice({
     },
     setSelectBankModal: (state, { payload }) => {
       state.selectBankModal = {
+        status: payload.status,
+        type: payload.type,
+      };
+    },
+
+    setSelectCardModal: (state, { payload }) => {
+      state.selectCardModal = {
         status: payload.status,
         type: payload.type,
       };
@@ -243,6 +291,10 @@ const alertSlice = createSlice({
       state.selectedBank = payload;
     },
 
+    setSelectedCard: (state, { payload }) => {
+      state.selectedCard = payload;
+    },
+
     setDefaultBank: (state, { payload }) => {
       state.defaultBank = payload;
     },
@@ -261,6 +313,14 @@ const alertSlice = createSlice({
         bank: payload.bank,
       };
     },
+
+    setFundWalletByCardModal: (state, { payload }) => {
+      state.fundWalletByCardModal = {
+        status: payload.status,
+        card: payload.card,
+      };
+    },
+
     setTransferToCustomerModal: (state, { payload }) => {
       state.transferToCustomerModal = {
         status: payload.status,
@@ -272,12 +332,14 @@ const alertSlice = createSlice({
 
 export const {
   setLoading,
+  setAlertModal,
   setAlertModalSuccess,
   setAllProductModal,
   setMyPurchasesModal,
   setBankModal,
   setAddBankModal,
   setCardModal,
+  setAddCardModal,
   setTransactionModal,
   setSavingsModal,
   setSubCategorySavingsModal,
@@ -285,6 +347,7 @@ export const {
   setTransactionDetailsModal,
   setProductDetailsModal,
   setPurchaseDetailsModal,
+  setMakeInvestmentModal,
   setReferralDetailsModal,
   setFundwalletModal,
   setFundwalletByLocalTransferModal,
@@ -305,9 +368,12 @@ export const {
   setCountryModal,
   setSelectedCountry,
   setSelectBankModal,
+  setSelectCardModal,
   setSelectedBank,
+  setSelectedCard,
   setDefaultBank,
   setTransferToBankModal,
+  setFundWalletByCardModal,
   setSelectedUser,
   setSelectedNetwork,
   setTransferToCustomerModal,

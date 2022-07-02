@@ -3,7 +3,20 @@ import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import colors from "../../styles/colors";
+import { setAddBankModal, setAddCardModal } from "../../store/alert/alertSlice";
+import { useDispatch } from "react-redux";
 const NoItem = ({ item: { type, buttonText, message } }) => {
+  const dispatch = useDispatch();
+
+  const handleAction = () => {
+    if (type === "CARD") {
+      dispatch(setAddCardModal(true));
+    }
+
+    if (type === "BANK") {
+      dispatch(setAddBankModal(true));
+    }
+  };
   return (
     <View style={styles.noItem}>
       <View>
@@ -21,7 +34,10 @@ const NoItem = ({ item: { type, buttonText, message } }) => {
       </View>
 
       {buttonText !== "" && (
-        <TouchableOpacity style={[styles.button, { backgroundColor: colors.greenColor }]}>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: colors.greenColor }]}
+          onPress={() => handleAction()}
+        >
           <Text style={styles.buttonText}>{buttonText}</Text>
         </TouchableOpacity>
       )}

@@ -4,9 +4,17 @@ import CardItem from "./CardItem";
 import NoItem from "../../extra/NoItem";
 import colors from "../../../styles/colors";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { setAddCardModal } from "../../../store/alert/alertSlice";
+import { useDispatch } from "react-redux";
 
 const Cards = () => {
-  const [hasCard] = useState(true);
+  const dispatch = useDispatch();
+  const [hasCard] = useState(false);
+
+  const addCard = () => {
+    dispatch(setAddCardModal(true));
+  };
+
   return (
     <View>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -26,7 +34,7 @@ const Cards = () => {
         </View>
       </ScrollView>
       {hasCard && (
-        <TouchableOpacity style={[styles.buttonFloat]}>
+        <TouchableOpacity style={[styles.buttonFloat]} onPress={() => addCard()}>
           <Text style={styles.buttonFloatText}>
             <MaterialIcons
               name="add"

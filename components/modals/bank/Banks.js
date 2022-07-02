@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 
 const Banks = () => {
   const dispatch = useDispatch();
-  const [hasBank] = useState(true);
+  const [hasBank] = useState(false);
   return (
     <View>
       <ScrollView showsVerticalScrollIndicator={false}>
