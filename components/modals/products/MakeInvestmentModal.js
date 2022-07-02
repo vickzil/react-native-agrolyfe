@@ -307,7 +307,7 @@ const MakeInvestmentModal = () => {
             )}
           </View>
         </ScrollView>
-        <View style={globalStyles.buttonFloat}>
+        <View style={[globalStyles.buttonFloat, { alignItems: "center" }]}>
           <CustomLoadingButton
             onPress={() => procceed()}
             emptyFields={emptyFields}

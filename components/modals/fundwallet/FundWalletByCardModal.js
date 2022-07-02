@@ -4,6 +4,7 @@ import {
   Modal,
   ScrollView,
   StyleSheet,
+  Switch,
   Text,
   TextInput,
   TouchableOpacity,
@@ -61,7 +62,14 @@ const FundWalletByCardModal = () => {
 
         return;
       }
+
       if (amount && amount < 100) {
+        setEmptyFields(true);
+
+        return;
+      }
+
+      if (modal?.card === null) {
         setEmptyFields(true);
 
         return;
@@ -82,7 +90,7 @@ const FundWalletByCardModal = () => {
 
       setEmptyFields(false);
     }
-  }, [step, amount, isEnabled]);
+  }, [step, amount, isEnabled, modal]);
 
   const previousStep = () => {
     if (step === 1) {
@@ -270,14 +278,11 @@ const FundWalletByCardModal = () => {
                 <Text
                   style={[styles.productCardContentItemLeft, { fontSize: 28, fontWeight: "900", marginBottom: 10 }]}
                 >
-                  Confirm Purchase
+                  Confirm Deposit
                 </Text>
                 <View style={{ alignItems: "center" }}>
                   <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center" }]}>
-                    Are you sure you want to purchase this products
-                  </Text>
-                  <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center", color: colors.greenColor }]}>
-                    I certify that I have read, understand and accept Terms & Conditions
+                    Are you sure you want to proceed
                   </Text>
                 </View>
                 <View style={{ marginTop: 60 }}>
@@ -294,7 +299,7 @@ const FundWalletByCardModal = () => {
             )}
           </View>
         </ScrollView>
-        <View style={globalStyles.buttonFloat}>
+        <View style={[globalStyles.buttonFloat, { alignItems: "center" }]}>
           <CustomLoadingButton
             onPress={() => procceed()}
             emptyFields={emptyFields}
