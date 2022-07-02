@@ -64,13 +64,14 @@ const initialState = {
   antiPhizingModal: false,
   changePasswordModal: false,
   changePinModal: false,
+  allCountries: [],
   selectedCountry: null,
   selectedBank: null,
   selectedCard: null,
   selectedUser: null,
   selectedNetwork: null,
   countryModal: {
-    status: false,
+    status: true,
     type: "",
     selected: "",
     payload: null,
@@ -283,6 +284,10 @@ const alertSlice = createSlice({
       state.changePinModal = payload;
     },
 
+    setAllCountries: (state, { payload }) => {
+      state.allCountries = payload;
+    },
+
     setSelectedCountry: (state, { payload }) => {
       state.selectedCountry = payload;
     },
@@ -366,6 +371,7 @@ export const {
   setChangePasswordModal,
   setChangePinModal,
   setCountryModal,
+  setAllCountries,
   setSelectedCountry,
   setSelectBankModal,
   setSelectCardModal,

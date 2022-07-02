@@ -276,7 +276,10 @@ const FundWalletByCardModal = () => {
             {step === 3 && (
               <View style={{ justifyContent: "center", width: "80%", marginTop: 50, alignItems: "center" }}>
                 <Text
-                  style={[styles.productCardContentItemLeft, { fontSize: 28, fontWeight: "900", marginBottom: 10 }]}
+                  style={[
+                    styles.productCardContentItemLeft,
+                    { fontSize: 28, fontWeight: "900", marginBottom: 10, color: colors.greenLightDarkColor },
+                  ]}
                 >
                   Confirm Deposit
                 </Text>

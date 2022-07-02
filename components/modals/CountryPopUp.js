@@ -22,34 +22,31 @@ const { width } = Dimensions.get("screen");
 
 const CountryPopUp = () => {
   const modal = useSelector((state) => state.alert.countryModal);
+  const allCountries = useSelector((state) => state.alert.allCountries);
   const dispatch = useDispatch();
 
   const [searchCText, setSearchCText] = useState("");
-  const [allCountries, setAllCountries] = useState([]);
+  const [currentCountries, setCurrentCountries] = useState(allCountries);
 
   useLayoutEffect(() => {
-    setAllCountries(countries());
-  }, []);
-
-  useLayoutEffect(() => {
-    let newCountries = countries().filter((country) => {
+    let newCountries = allCountries.filter((country) => {
       return (
         country.name.toLowerCase().match(searchCText.toLowerCase()) ||
         country.isoCode.toLowerCase().match(searchCText.toLowerCase())
       );
     });
 
-    setAllCountries(newCountries);
+    setCurrentCountries(newCountries);
   }, [searchCText]);
 
   useLayoutEffect(() => {
-    if (modal?.status) {
-      setAllCountries(countries());
+    if (modal?.status === false) {
+      setCurrentCountries(allCountries);
       setSearchCText("");
     }
   }, [modal?.status]);
 
-  const closeModal = (value) => {
+  const closeModal = () => {
     dispatch(
       setCountryModal({
         status: false,
@@ -61,14 +58,14 @@ const CountryPopUp = () => {
   };
 
   const selectCountry = (value) => {
-    setSelectedCountry(value);
+    dispatch(setSelectedCountry(value));
     closeModal();
   };
 
   return (
     <Modal
-      visible={modal?.status}
-      animationType="slide"
+      visible={modal.status}
+      animationType="fade"
       onRequestClose={() => {
         closeModal();
       }}
@@ -108,7 +105,7 @@ const CountryPopUp = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
             <View style={styles.countryWrapper}>
-              {allCountries?.map((item, index) => (
+              {currentCountries?.map((item, index) => (
                 <TouchableOpacity
                   style={styles.countryItems}
                   key={index}
@@ -116,9 +113,9 @@ const CountryPopUp = () => {
                   index={index}
                   onPress={() => selectCountry(item)}
                 >
-                  <View style={[{ width: 40, height: 45, borderRadius: 100 }]}>
+                  {/* <View style={[{ width: 40, height: 45, borderRadius: 100 }]}>
                     <SvgUri width="100%" height="100%" uri={item.flag} />
-                  </View>
+                  </View> */}
                   <View style={{ marginLeft: 20 }}>
                     <Text style={{ fontSize: 16 }}>{item.name}</Text>
                     <Text style={{ fontWeight: "800", fontSize: 11 }}>{item.dialCode}</Text>

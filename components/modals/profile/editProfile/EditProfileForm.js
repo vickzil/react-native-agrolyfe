@@ -6,13 +6,20 @@ import RadioGroup from "react-native-radio-buttons-group";
 import { Dropdown } from "react-native-element-dropdown";
 import { globalStyles } from "../../../../styles/global";
 import { countries } from "../../../../api/countries/countries";
+import { useDispatch, useSelector } from "react-redux";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { setCountryModal, setLoading } from "../../../../store/alert/alertSlice";
+import { SvgUri } from "react-native-svg";
 
 const EditProfileForm = () => {
+  const dispatch = useDispatch();
   // const [allCountries] = useState(countries);
   const [country, setCountry] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("male");
+
+  const selectedCountry = useSelector((state) => state.alert.selectedCountry);
 
   // useEffect(() => {
   //   console.log(countries);
@@ -46,6 +53,17 @@ const EditProfileForm = () => {
     );
   };
 
+  const selectUserCountry = () => {
+    dispatch(
+      setCountryModal({
+        status: true,
+        type: "PROFILE",
+        selected: selectedCountry,
+        payload: null,
+      }),
+    );
+  };
+
   return (
     <View style={styles.form}>
       <View style={{ marginBottom: 20, width: "100%" }}>
@@ -69,7 +87,7 @@ const EditProfileForm = () => {
           onPress={onPressRadioButton}
         />
       </View>
-      <View style={{ marginBottom: 20, width: "100%" }}>
+      {/* <View style={{ marginBottom: 20, width: "100%" }}>
         <Text style={styles.label}>Select Country</Text>
 
         <Dropdown
@@ -89,16 +107,21 @@ const EditProfileForm = () => {
           renderItem={(item) => _renderItem(item)}
           textError="Error"
         />
-        {/* <SelectDropdown
-          style={{ width: "100%" }}
-          buttonStyle={{ width: "100%" }}
-          dropdownStyle={{ height: "100%", position: "absolute", top: 0 }}
-          data={allCountries}
-          // search={true}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-        /> */}
+      
+      </View> */}
+
+      <View style={{ marginBottom: 20, width: "100%" }}>
+        <Text style={styles.label}>Select country</Text>
+        <TouchableOpacity style={[styles.inputContainer, { height: 50 }]} onPress={() => selectUserCountry()}>
+          {selectedCountry && (
+            <View style={[{ width: 20, height: 25, borderRadius: 100, marginRight: 10 }]}>
+              <SvgUri width="100%" height="100%" uri={selectedCountry?.flag} />
+            </View>
+          )}
+
+          <TextInput value={selectedCountry?.name} editable={false} style={globalStyles.inputTextt} />
+          <FontAwesome5Icon name="chevron-circle-down" size={16} color="#666" style={{ marginRight: 10 }} />
+        </TouchableOpacity>
       </View>
 
       <View style={{ marginBottom: 20, width: "100%" }}>
@@ -112,6 +135,7 @@ const EditProfileForm = () => {
           />
         </View>
       </View>
+
       <View style={{ marginTop: 20, width: "100%" }}>
         <TouchableOpacity activeOpacity={0.7} style={globalStyles.button}>
           <Text style={globalStyles.buttonText}>Update</Text>
