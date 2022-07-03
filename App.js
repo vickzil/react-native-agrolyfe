@@ -1,5 +1,5 @@
 import { useFonts } from "expo-font";
-
+import { RootSiblingParent } from "react-native-root-siblings";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import MainApp from "./navigations";
@@ -17,8 +17,10 @@ export default function App() {
   }
 
   return (
-    <Provider store={store}>
-      <MainApp />
-    </Provider>
+    <RootSiblingParent>
+      <Provider store={store}>
+        <MainApp />
+      </Provider>
+    </RootSiblingParent>
   );
 }

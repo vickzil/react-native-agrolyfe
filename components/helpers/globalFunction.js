@@ -1,3 +1,5 @@
+import * as Clipboard from "expo-clipboard";
+
 export const validEmail = (email) => {
   var emailReg = /^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/;
   return emailReg.test(email);
@@ -5,6 +7,10 @@ export const validEmail = (email) => {
 
 export const addComma = (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+export const copyLink = (refLink) => {
+  return Clipboard.setStringAsync(refLink);
 };
 
 export const removeDashFromString = (str) => {

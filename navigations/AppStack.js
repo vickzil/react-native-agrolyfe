@@ -21,6 +21,7 @@ const AppStack = () => {
         <Tab.Screen name="Referrals" component={Referrals} />
       </Tab.Navigator>
       <AllModals />
+
       <PageLoading />
     </>
   );

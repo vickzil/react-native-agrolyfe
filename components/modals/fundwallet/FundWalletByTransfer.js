@@ -7,7 +7,8 @@ import { globalStyles } from "../../../styles/global";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../../../styles/colors";
-import { setFundwalletByLocalTransferModal } from "../../../store/alert/alertSlice";
+import { setFundwalletByLocalTransferModal, setToastModal } from "../../../store/alert/alertSlice";
+import { copyLink } from "../../helpers/globalFunction";
 
 const { height, width } = Dimensions.get("window");
 const FundWalletByTransfer = () => {
@@ -32,6 +33,24 @@ const FundWalletByTransfer = () => {
     bottomSheetRef.current.close();
     dispatch(setFundwalletByLocalTransferModal(false));
   };
+  const handleCopy = (refLink) => {
+    copyLink(refLink);
+    dispatch(
+      setToastModal({
+        status: true,
+        message: "Account number copied...",
+      }),
+    );
+    setTimeout(() => {
+      dispatch(
+        setToastModal({
+          status: false,
+          message: "",
+        }),
+      );
+    }, 2500);
+  };
+
   //   draggable={false}
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: "#fff" }]}>
@@ -92,7 +111,10 @@ const FundWalletByTransfer = () => {
                 }}
               >
                 <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Account number</Text>
-                <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }}>
+                <TouchableOpacity
+                  style={{ flexDirection: "row", alignItems: "center" }}
+                  onPress={() => handleCopy("0725653778")}
+                >
                   <Text style={[globalStyles.label, { fontSize: 16, color: colors.greenDarkColor }]}>0725653778</Text>
                   <Ionicons
                     name="copy-outline"
@@ -142,7 +164,10 @@ const FundWalletByTransfer = () => {
                 }}
               >
                 <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Account number</Text>
-                <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }}>
+                <TouchableOpacity
+                  style={{ flexDirection: "row", alignItems: "center" }}
+                  onPress={() => handleCopy("0725653778")}
+                >
                   <Text style={[globalStyles.label, { fontSize: 16, color: colors.greenDarkColor }]}>0725653778</Text>
                   <Ionicons
                     name="copy-outline"

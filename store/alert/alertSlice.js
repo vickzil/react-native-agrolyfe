@@ -15,6 +15,11 @@ const initialState = {
     status: false,
     message: "",
   },
+
+  toastModal: {
+    status: false,
+    message: "",
+  },
   allProductModal: false,
   myPurchasesModal: false,
   productDetailsModal: {
@@ -108,6 +113,12 @@ const alertSlice = createSlice({
   reducers: {
     setLoading: (state, { payload }) => {
       state.loading = {
+        status: payload.status,
+        message: payload.message,
+      };
+    },
+    setToastModal: (state, { payload }) => {
+      state.toastModal = {
         status: payload.status,
         message: payload.message,
       };
@@ -337,6 +348,7 @@ const alertSlice = createSlice({
 
 export const {
   setLoading,
+  setToastModal,
   setAlertModal,
   setAlertModalSuccess,
   setAllProductModal,

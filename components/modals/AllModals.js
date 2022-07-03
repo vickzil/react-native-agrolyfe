@@ -38,6 +38,7 @@ import AlertModal from "./AlertModal";
 import FundWalletByCardModal from "./fundwallet/FundWalletByCardModal";
 import SelectCardModal from "./fundwallet/SelectCardModal";
 import AddCardModal from "./cards/AddCardModal";
+import ToastModal from "./ToastModal";
 // import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
@@ -81,6 +82,7 @@ const AllModals = () => {
       <CableSubscription />
       <FundWalletByCardModal />
       <SelectCardModal />
+      <ToastModal />
       {/* <TransferModalButtom /> */}
       {/* <MyPurchasesModal /> */}
     </>

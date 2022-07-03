@@ -6,22 +6,65 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setReferralModal } from "../../../store/alert/alertSlice";
+import { setReferralModal, setToastModal } from "../../../store/alert/alertSlice";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../styles/colors";
 import AllReferrals from "../../referrals/AllReferrals";
+import { copyLink } from "../../helpers/globalFunction";
 
 const { width } = Dimensions.get("screen");
 
 const ReferralModal = () => {
   const modal = useSelector((state) => state.alert.referralModal);
   const dispatch = useDispatch();
+  const [referralLink] = useState("https://dashboard.oxfordvest.com/register?code=OIG-00424");
+
+  const setToastMsg = (msg) => {
+    ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER);
+  };
+
+  const handleCopy = (refLink) => {
+    copyLink(refLink);
+    dispatch(
+      setToastModal({
+        status: true,
+        message: "link copied",
+      }),
+    );
+    setTimeout(() => {
+      dispatch(
+        setToastModal({
+          status: false,
+          message: "",
+        }),
+      );
+    }, 2500);
+  };
+  // const  = (refLink) => {
+  //   Clipboard.setStringAsync(refLink);
+  //   dispatch(
+  //     setToastModal({
+  //       status: true,
+  //       message: "link copied",
+  //     }),
+  //   );
+  //   setTimeout(() => {
+  //     dispatch(
+  //       setToastModal({
+  //         status: false,
+  //         message: "",
+  //       }),
+  //     );
+  //   }, 2500);
+  //   // setToastMsg("link copied");
+  // };
 
   return (
     <Modal
@@ -50,12 +93,11 @@ const ReferralModal = () => {
             </View>
             <View style={[styles.modalSearchContainer]}>
               <View style={[styles.modalSearch]}>
-                <TextInput
-                  style={styles.searchInput}
-                  placeholder="Search..."
-                  value="https://dashboard.oxfordvest.com/register?code=OIG-00424"
-                />
-                <TouchableOpacity style={[styles.buttonCopy, { backgroundColor: colors.greenDarkColor }]}>
+                <TextInput style={styles.searchInput} placeholder="Search..." value={referralLink} />
+                <TouchableOpacity
+                  style={[styles.buttonCopy, { backgroundColor: colors.greenDarkColor }]}
+                  onPress={() => handleCopy(referralLink)}
+                >
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text style={styles.buttonCopyText}>Copy</Text>
                     <FeatherIcon name="copy" size={15} style={[{ color: "#fff", marginLeft: 6 }]} />

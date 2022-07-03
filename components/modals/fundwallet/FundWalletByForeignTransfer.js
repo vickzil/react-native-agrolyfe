@@ -10,7 +10,9 @@ import colors from "../../../styles/colors";
 import {
   setFundwalletByForeignTransferModal,
   setFundwalletByLocalTransferModal,
+  setToastModal,
 } from "../../../store/alert/alertSlice";
+import { copyLink } from "../../helpers/globalFunction";
 
 const { height, width } = Dimensions.get("window");
 const FundWalletByForeignTransfer = () => {
@@ -34,6 +36,24 @@ const FundWalletByForeignTransfer = () => {
   const closeFundModal = () => {
     bottomSheetRef.current.close();
     dispatch(setFundwalletByForeignTransferModal(false));
+  };
+
+  const handleCopy = (refLink) => {
+    copyLink(refLink);
+    dispatch(
+      setToastModal({
+        status: true,
+        message: "Account number copied...",
+      }),
+    );
+    setTimeout(() => {
+      dispatch(
+        setToastModal({
+          status: false,
+          message: "",
+        }),
+      );
+    }, 2500);
   };
   //   draggable={false}
   return (
@@ -95,7 +115,10 @@ const FundWalletByForeignTransfer = () => {
                 }}
               >
                 <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Local Account Number</Text>
-                <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }}>
+                <TouchableOpacity
+                  style={{ flexDirection: "row", alignItems: "center" }}
+                  onPress={() => handleCopy("0725653778")}
+                >
                   <Text style={[globalStyles.label, { fontSize: 16, color: colors.greenDarkColor }]}>0725653778</Text>
                   <Ionicons
                     name="copy-outline"
@@ -175,7 +198,10 @@ const FundWalletByForeignTransfer = () => {
                 }}
               >
                 <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Local Account Number</Text>
-                <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }}>
+                <TouchableOpacity
+                  style={{ flexDirection: "row", alignItems: "center" }}
+                  onPress={() => handleCopy("0725653778")}
+                >
                   <Text style={[globalStyles.label, { fontSize: 16, color: colors.greenDarkColor }]}>0725653778</Text>
                   <Ionicons
                     name="copy-outline"
