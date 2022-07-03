@@ -47,7 +47,7 @@ const initialState = {
   },
 
   purchaseSavingsModal: {
-    status: true,
+    status: false,
     payload: null,
   },
   referralModal: false,

@@ -12,11 +12,28 @@ const SavingAmount = ({ amount, setAmount }) => {
   return (
     <View style={[styles.productContainer]}>
       <View style={{ marginTop: 60, marginBottom: 10, width: "95%", paddingRight: 10 }}>
-        <Text style={[styles.productCardContentItemLeft, { fontSize: 25, marginBottom: 35, fontWeight: "500" }]}>
+        <Text
+          style={[
+            styles.productCardContentItemLeft,
+            {
+              fontSize: 29,
+              marginBottom: 35,
+              fontWeight: "700",
+              color: colors.greenDarkDarkColor,
+              fontFamily: "Poppins",
+              letterSpacing: -0.35644,
+            },
+          ]}
+        >
           How much would you like to save?
         </Text>
         <View style={{ marginTop: 20, marginBottom: 30 }}>
-          <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 60, fontWeight: "800" }]}>
+          <Text
+            style={[
+              styles.productCardContentItemLeft,
+              { fontSize: 18, marginBottom: 20, fontWeight: "800", fontFamily: "Poppins", letterSpacing: -0.35644 },
+            ]}
+          >
             Amount
           </Text>
           {/* <CurrencyInput

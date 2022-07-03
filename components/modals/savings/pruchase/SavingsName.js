@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import { globalStyles } from "../../../../styles/global";
+import colors from "../../../../styles/colors";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
@@ -8,14 +9,33 @@ let screenHeight = Dimensions.get("window").height;
 const SavingsName = ({ name, setName }) => {
   return (
     <View style={[styles.productContainer]}>
-      <View style={{ marginTop: 60, marginBottom: 10, width: "95%", paddingRight: 10 }}>
-        <Text style={[styles.productCardContentItemLeft, { fontSize: 25, marginBottom: 35, fontWeight: "500" }]}>
+      <View style={{ marginTop: 50, marginBottom: 10, width: "95%", paddingRight: 10 }}>
+        <Text
+          style={[
+            styles.productCardContentItemLeft,
+            {
+              fontSize: 29,
+              marginBottom: 35,
+              fontWeight: "700",
+              color: colors.greenDarkDarkColor,
+              fontFamily: "Poppins",
+              letterSpacing: -0.35644,
+            },
+          ]}
+        >
           What would you like to name this plan?
         </Text>
         <Text
           style={[
             styles.productCardContentItemLeft,
-            { fontSize: 16, marginBottom: -1, marginTop: 40, fontWeight: "500" },
+            {
+              fontSize: 16,
+              marginBottom: -1,
+              marginTop: 40,
+              fontWeight: "500",
+              fontFamily: "Poppins",
+              letterSpacing: -0.35644,
+            },
           ]}
         >
           Name

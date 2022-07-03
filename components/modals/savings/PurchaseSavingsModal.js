@@ -38,7 +38,7 @@ const PurchaseSavingsModal = () => {
   const [buttonText, setButtonText] = useState("Proceed");
   const [emptyFields, setEmptyFields] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [shouldScroll, setShouldScroll] = useState(false);
+  const [shouldScroll] = useState(false);
 
   const scrollViewRef = useRef(null);
 
@@ -86,6 +86,8 @@ const PurchaseSavingsModal = () => {
     );
 
     setAmount(null);
+    setName("");
+    setFrequency("");
     setStep(1);
     setButtonText("Proceed");
     setEmptyFields(true);
