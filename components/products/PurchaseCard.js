@@ -1,52 +1,184 @@
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import colors from "../../styles/colors";
-import { setPurchaseDetailsModal } from "../../store/alert/alertSlice";
 import { useDispatch } from "react-redux";
+import IconSearch from "react-native-vector-icons/AntDesign";
 
 const PurchaseCard = ({ item }) => {
   const dispatch = useDispatch();
   return (
     <View style={styles.productCard}>
       <View style={styles.productCardContent}>
-        <View style={styles.productCardContentItem}>
-          <Text style={styles.productCardContentItemLeft}>Duration</Text>
-          <Text style={styles.productCardContentItemRight}>12 Months</Text>
-        </View>
-        <View style={styles.productCardContentItem}>
-          <Text style={styles.productCardContentItemLeft}>Rental Fee (%)</Text>
-          <Text style={styles.productCardContentItemRight}>20%</Text>
-        </View>
-        <View style={styles.productCardContentItem}>
-          <Text style={styles.productCardContentItemLeft}>Amount</Text>
-          <Text style={styles.productCardContentItemRight}>₦3,971.25</Text>
-        </View>
-        <View style={styles.productCardContentItem}>
-          <Text style={styles.productCardContentItemLeft}>Date Purchased</Text>
-          <Text style={styles.productCardContentItemRight}>15/05/2022, 8:23 pm</Text>
-        </View>
-        <View style={styles.productCardContentItem}>
-          <Text style={styles.productCardContentItemLeft}> Status</Text>
+        <View style={styles.productCardContentSub}>
+          <Text style={styles.productCardContentSubTitle}>Purchased</Text>
 
-          <Text style={[styles.productCardContentItemRight, styles.productCardContentItemRightStatus]}>Ongoing</Text>
-        </View>
-        <View style={styles.productCardContentItem}>
-          <Text style={styles.productCardContentItemLeft}>Maturity Date</Text>
-          <Text style={styles.productCardContentItemRight}>15/05/2022, 8:23 pm</Text>
-        </View>
-        <View
-          style={[styles.productCardContentItem, { flexDirection: "column", borderBottomWidth: 0, paddingBottom: 10 }]}
-        >
-          <Text style={[styles.productCardContentItemLeft, { fontWeight: "900" }]}>Total Payout</Text>
-          <Text
+          <IconSearch
+            name="lock"
+            size={17}
             style={[
-              styles.productCardContentItemRight,
-              { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 23 },
+              styles.searchIcon,
+              {
+                color: colors.greenDarkColor,
+                marginLeft: 7,
+                fontWeight: "900",
+                textAlign: "center",
+                fontFamily: "MontserratBold",
+              },
             ]}
-          >
-            ₦38,971.25
-          </Text>
+          />
         </View>
+
+        <Text style={styles.productCardContentTitle}>agrolyfe_land_lag_001</Text>
+        <View
+          style={{
+            width: "100%",
+            backgroundColor: "rgba(24, 133, 111, 0.05)",
+            height: 3,
+            paddingHorizontal: 40,
+            marginBottom: 30,
+          }}
+        ></View>
+        <View style={{ flexDirection: "row", marginBottom: 32, justifyContent: "space-between" }}>
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "600",
+                color: colors.greenDarkColor,
+                marginRight: 15,
+                fontFamily: "Poppins",
+              }}
+            >
+              Rental Fee (%)
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                color: "#444",
+                fontWeight: "600",
+                justifyContent: "flex-end",
+                fontFamily: "Montserrat",
+              }}
+            >
+              20%
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "600",
+                color: colors.greenDarkColor,
+                fontFamily: "Poppins",
+                textAlign: "right",
+              }}
+            >
+              Frequency
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                color: "#444",
+                fontWeight: "600",
+                justifyContent: "flex-end",
+                fontFamily: "Montserrat",
+                textAlign: "right",
+              }}
+            >
+              Monthly
+            </Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row", marginBottom: 32, justifyContent: "space-between" }}>
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "600",
+                color: colors.greenDarkColor,
+                marginRight: 15,
+                fontFamily: "Poppins",
+              }}
+            >
+              Status
+            </Text>
+            <Text
+              style={[
+                styles.productCardContentItemRightStatus,
+                {
+                  color: "#fff",
+                  fontWeight: "800",
+                  justifyContent: "flex-start",
+                  fontFamily: "Montserrat",
+                },
+              ]}
+            >
+              20%
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "600",
+                color: colors.greenDarkColor,
+                fontFamily: "Poppins",
+                textAlign: "right",
+              }}
+            >
+              Maturity Date
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                color: "#444",
+                fontWeight: "600",
+                justifyContent: "flex-end",
+                fontFamily: "Montserrat",
+                textAlign: "right",
+              }}
+            >
+              15/05/2022, 8:23 pm
+            </Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row", marginBottom: 10, justifyContent: "space-between" }}>
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "600",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                color: colors.greenDarkColor,
+                fontFamily: "Poppins",
+                textAlign: "right",
+              }}
+            >
+              Amount Purchased
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                color: "#444",
+                fontWeight: "600",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                fontFamily: "Montserrat",
+                textAlign: "left",
+              }}
+            >
+              ₦3,000
+            </Text>
+          </View>
+          <View></View>
+        </View>
+
+        {/* <View style={{ marginTop: 20 }}>
+          <TouchableOpacity style={[styles.productButton, { backgroundColor: colors.greenDarkColor }]} activeOpacity={0.7}>
+            <Text style={styles.buttonText}>Details</Text>
+          </TouchableOpacity>
+        </View> */}
       </View>
     </View>
   );
@@ -54,49 +186,40 @@ const PurchaseCard = ({ item }) => {
 
 const styles = StyleSheet.create({
   productCard: {
-    width: "93%",
+    width: "92%",
     justifyContent: "center",
+    // paddingHorizontal: 4,
+    // paddingVertical: 15,
+    // elevation: 1,
     shadowColor: "#171717",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 10,
-    backgroundColor: "#fff",
-    marginTop: 0,
+    backgroundColor: "#ffae071a",
+    borderWidth: 1,
+    borderColor: "#f0f0f0",
     marginBottom: 20,
-    paddingTop: 15,
   },
 
   productCardContent: {
-    paddingVertical: 10,
+    paddingVertical: 19,
     paddingHorizontal: 16,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
 
-  productCardContentItem: {
+  productCardContentSub: {
     flexDirection: "row",
-    paddingBottom: 25,
+    alignItems: "center",
+    marginTop: 10,
     marginBottom: 20,
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderColor: "#f0f0f0",
   },
 
-  productCardContentItemLeft: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: colors.greenLightDarkColor,
-    marginRight: 15,
-    fontFamily: "Poppins",
-  },
-
-  productCardContentItemRight: {
-    fontSize: 16,
-    color: "#444",
-    fontWeight: "600",
-    justifyContent: "flex-end",
-    fontFamily: "Montserrat",
+  productCardContentSubTitle: {
+    fontSize: 17,
+    // fontWeight: "800",
+    fontFamily: "MontserratBold",
   },
 
   productCardContentItemRightStatus: {
@@ -111,24 +234,23 @@ const styles = StyleSheet.create({
   },
 
   productCardContentTitle: {
-    fontSize: 16,
-    fontWeight: "800",
+    fontSize: 18,
+    fontWeight: "700",
     textAlign: "center",
+    marginTop: 7,
     marginBottom: 20,
-    fontFamily: "Poppins",
+    fontFamily: "MontserratBold",
   },
 
   productButton: {
     width: "100%",
     textAlign: "center",
     paddingVertical: 15,
-    paddingHorizontal: 40,
     borderRadius: 8,
     marginBottom: 10,
   },
 
   buttonText: {
-    fontSize: 18,
     textAlign: "center",
     color: "#fff",
     fontWeight: "bold",

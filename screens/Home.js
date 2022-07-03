@@ -10,6 +10,8 @@ import Transactions from "../components/transactions/Transactions";
 import { useIsFocused } from "@react-navigation/native";
 import GeneralStatusBarColor from "../components/customs/statusbar/GeneralStatusBarColor";
 import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
+import { setLogoutModal } from "../store/alert/alertSlice";
+import { useDispatch } from "react-redux";
 
 const Home = ({ navigation }) => {
   const [userDetails, setUserDetails] = useState();

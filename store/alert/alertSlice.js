@@ -20,6 +20,7 @@ const initialState = {
     status: false,
     message: "",
   },
+  logoutModal: false,
   allProductModal: false,
   myPurchasesModal: false,
   productDetailsModal: {
@@ -136,6 +137,10 @@ const alertSlice = createSlice({
         status: payload.status,
         payload: payload.payload,
       };
+    },
+
+    setLogoutModal: (state, { payload }) => {
+      state.logoutModal = payload;
     },
 
     setAllProductModal: (state, { payload }) => {
@@ -351,6 +356,7 @@ export const {
   setToastModal,
   setAlertModal,
   setAlertModalSuccess,
+  setLogoutModal,
   setAllProductModal,
   setMyPurchasesModal,
   setBankModal,
