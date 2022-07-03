@@ -17,7 +17,7 @@ import PurchasedModalItem from "./PurchasedModalItem";
 
 const { width } = Dimensions.get("screen");
 
-const PurchaseProductModal = () => {
+const PurchaseDetailsModal = () => {
   const modal = useSelector((state) => state.alert.purchaseDetailsModal);
   const dispatch = useDispatch();
 
@@ -109,4 +109,4 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
 });
-export default PurchaseProductModal;
+export default PurchaseDetailsModal;

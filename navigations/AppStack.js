@@ -18,7 +18,6 @@ const AppStack = () => {
         <Tab.Screen name="ProductNavigator" component={ProductNavigator} initialParams={{ icon: "leaf-maple" }} />
         <Tab.Screen name="Wallet" component={Wallet} initialParams={{ icon: "wallet-outline" }} />
         <Tab.Screen name="Account" component={Account} initialParams={{ icon: "shield-account" }} />
-        <Tab.Screen name="Referrals" component={Referrals} />
       </Tab.Navigator>
       <AllModals />
 

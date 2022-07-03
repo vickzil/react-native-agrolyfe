@@ -3,11 +3,22 @@ import React from "react";
 import colors from "../../styles/colors";
 import { useDispatch } from "react-redux";
 import IconSearch from "react-native-vector-icons/AntDesign";
+import { setPurchaseDetailsModal } from "../../store/alert/alertSlice";
 
 const PurchaseCard = ({ item }) => {
   const dispatch = useDispatch();
+
+  const showDetails = () => {
+    dispatch(
+      setPurchaseDetailsModal({
+        status: true,
+        payload: null,
+      }),
+    );
+  };
+
   return (
-    <View style={styles.productCard}>
+    <TouchableOpacity style={styles.productCard} activeOpacity={0.7} onPress={() => showDetails()}>
       <View style={styles.productCardContent}>
         <View style={styles.productCardContentSub}>
           <Text style={styles.productCardContentSubTitle}>Purchased</Text>
@@ -180,7 +191,7 @@ const PurchaseCard = ({ item }) => {
           </TouchableOpacity>
         </View> */}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

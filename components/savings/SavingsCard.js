@@ -2,10 +2,25 @@ import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from "react-n
 import React from "react";
 import colors from "../../styles/colors";
 import IconSearch from "react-native-vector-icons/AntDesign";
+import { useDispatch } from "react-redux";
+import { setPurchaseSavingsModal } from "../../store/alert/alertSlice";
 
 const SavingsCard = ({ item }) => {
+  const dispatch = useDispatch();
+
   return (
-    <View style={styles.productCard}>
+    <TouchableOpacity
+      style={styles.productCard}
+      activeOpacity={0.7}
+      onPress={() =>
+        dispatch(
+          setPurchaseSavingsModal({
+            status: true,
+            payload: item,
+          }),
+        )
+      }
+    >
       <View style={styles.productCardContent}>
         <View style={styles.productCardContentSub}>
           <Text style={styles.productCardContentSubTitle}>Savings</Text>
@@ -119,7 +134,7 @@ const SavingsCard = ({ item }) => {
           </TouchableOpacity>
         </View> */}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
