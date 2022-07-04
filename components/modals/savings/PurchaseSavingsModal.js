@@ -23,6 +23,7 @@ import SavingAmount from "./pruchase/SavingAmount";
 import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import SavingFrequency from "./pruchase/SavingFrequency";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -41,6 +42,26 @@ const PurchaseSavingsModal = () => {
   const [shouldScroll] = useState(false);
 
   const scrollViewRef = useRef(null);
+
+  const radioButtonsData = [
+    {
+      id: "1", // acts as primary key, should be unique and non-empty string
+      label: "Once a day",
+      value: "daily",
+    },
+    {
+      id: "2",
+      label: "Once a week",
+      value: "weekly",
+    },
+    {
+      id: "3",
+      label: "Once a month",
+      value: "monthly",
+    },
+  ];
+
+  const [radioSelections, setRadioSelections] = useState(radioButtonsData);
 
   useEffect(() => {
     if (step === 1) {
@@ -96,7 +117,7 @@ const PurchaseSavingsModal = () => {
   const previousStep = () => {
     if (step === 1) {
       closeModal();
-      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
+      // scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
 
       return;
     }
@@ -104,6 +125,12 @@ const PurchaseSavingsModal = () => {
       setStep(1);
       setButtonText("Proceed");
       scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
+      return;
+    }
+    if (step === 3) {
+      setStep(2);
+      setButtonText("Proceed");
+      scrollViewRef.current?.scrollTo({ x: width, y: 0, animated: true });
       return;
     }
   };
@@ -121,11 +148,27 @@ const PurchaseSavingsModal = () => {
         return;
       }
       if (step === 2) {
+        setStep(3);
         scrollViewRef.current?.scrollTo({ x: width * 2, y: 0, animated: true });
+        // closeModal();
+      }
+      if (step === 3) {
+        setStep(4);
+        scrollViewRef.current?.scrollTo({ x: width * 3, y: 0, animated: true });
         // closeModal();
       }
     }, 400);
   };
+
+  function handleRadioButton(selectedArray) {
+    setRadioSelections(selectedArray);
+    let selected = selectedArray.find((item) => item.selected === true);
+    if (selected) {
+      setFrequency(selected.value);
+    }
+
+    console.log(selectedArray);
+  }
 
   return (
     <Modal
@@ -134,7 +177,10 @@ const PurchaseSavingsModal = () => {
       onRequestClose={() => previousStep()}
       style={{ flex: 1, backgroundColor: "#fff" }}
     >
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <View>
+        <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
+      </View>
+      {/* <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" /> */}
       {/* <StatusBar translucent barStyle={statusbar} /> */}
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
@@ -156,6 +202,11 @@ const PurchaseSavingsModal = () => {
           >
             <SavingsName name={name} setName={setName} />
             <SavingAmount amount={amount} setAmount={setAmount} />
+            <SavingFrequency
+              radioSelections={radioSelections}
+              frequency={frequency}
+              handleRadioButton={handleRadioButton}
+            />
           </ScrollView>
 
           <View style={[globalStyles.buttonFloat, { width: "100%", justifyContent: "flex-end" }]}>
