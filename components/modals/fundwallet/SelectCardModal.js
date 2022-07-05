@@ -100,9 +100,7 @@ const SelectCardModal = () => {
               </View>
             ) : (
               <View style={{ marginTop: 50 }}>
-                <NoItem
-                  item={{ type: "BANK", buttonText: "Add Bank", message: "You haven't added any bank accounts" }}
-                />
+                <NoItem item={{ type: "CARD", buttonText: "Card Bank", message: "You haven't added any card" }} />
               </View>
             )}
           </View>

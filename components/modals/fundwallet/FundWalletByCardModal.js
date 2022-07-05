@@ -1,44 +1,50 @@
 import {
   Dimensions,
   FlatList,
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   ScrollView,
+  StatusBar,
   StyleSheet,
-  Switch,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setLoading,
-  setSelectCardModal,
-  setFundWalletByCardModal,
-  setAddCardModal,
-} from "../../../store/alert/alertSlice";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { setFundWalletByCardModal } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
-import CurrencyInput from "react-native-currency-input";
-import { KeycodeInput } from "react-native-keycode";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
 import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
-import HeaderBalance from "../../extra/HeaderBalance";
+import ScreenLoading from "../../loader/ScreenLoading";
+import FAmount from "./byCard/FAmount";
+import FConfirm from "./byCard/FConfirm";
+import FSummary from "./byCard/FSummary";
 
 const { width } = Dimensions.get("screen");
+const screenHeight = Dimensions.get("window").height;
 
 const FundWalletByCardModal = () => {
   const modal = useSelector((state) => state.alert.fundWalletByCardModal);
-  const [amount, setAmount] = useState(null);
-  const [step, setStep] = useState(1);
-  const [buttonText, setButtonText] = useState("Proceed");
-  const [emptyFields, setEmptyFields] = useState(true);
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const [step, setStep] = useState(1);
+  const [amount, setAmount] = useState(null);
+  const [summaryDetails, setSummaryDetails] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const [buttonText, setButtonText] = useState("Proceed");
+  const [emptyFields, setEmptyFields] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [screenLoading, setScreenLoading] = useState({
+    status: false,
+    message: "",
+  });
+  const [shouldScroll] = useState(false);
+  const scrollViewRef = useRef(null);
 
   const closeModal = () => {
     dispatch(
@@ -49,9 +55,14 @@ const FundWalletByCardModal = () => {
     );
 
     setAmount(null);
+    setSummaryDetails(null);
     setStep(1);
     setButtonText("Proceed");
     setEmptyFields(true);
+    setScreenLoading({
+      status: false,
+      message: "",
+    });
     setIsEnabled(false);
   };
 
@@ -81,6 +92,7 @@ const FundWalletByCardModal = () => {
     if (step === 2) {
       setEmptyFields(false);
     }
+
     if (step === 3) {
       if (!isEnabled) {
         setEmptyFields(true);
@@ -93,226 +105,126 @@ const FundWalletByCardModal = () => {
   }, [step, amount, isEnabled, modal]);
 
   const previousStep = () => {
+    if (isLoading) {
+      return;
+    }
+    if (screenLoading?.status === true) {
+      return;
+    }
     if (step === 1) {
       closeModal();
+      // scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
 
       return;
     }
     if (step === 2) {
       setStep(1);
-      setButtonText("Continue");
-
+      setButtonText("Proceed");
+      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
       return;
     }
     if (step === 3) {
       setStep(2);
-      setButtonText("Fund wallet");
-
+      setButtonText("Proceed");
+      scrollViewRef.current?.scrollTo({ x: width, y: 0, animated: true });
       return;
     }
   };
 
   const procceed = () => {
     setEmptyFields(true);
-    setLoading(true);
+    setIsLoading(true);
     setTimeout(() => {
-      setLoading(false);
+      setIsLoading(false);
       if (step === 1) {
         setStep(2);
-        setButtonText("Continue");
+        // setButtonText("Submit");
+        scrollViewRef.current?.scrollTo({ x: width, y: 0, animated: true });
 
         return;
       }
       if (step === 2) {
         setStep(3);
-        setButtonText("Fund wallet");
-
-        return;
+        scrollViewRef.current?.scrollTo({ x: width * 2, y: 0, animated: true });
+        // closeModal();
       }
 
       if (step === 3) {
-        closeModal();
-      }
-    }, 1400);
-  };
+        setScreenLoading({
+          status: true,
+          message: "please wait...",
+        });
 
-  const addCard = () => {
-    dispatch(setAddCardModal(true));
+        setTimeout(() => {
+          closeModal();
+
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+        }, 4500);
+
+        // closeModal();
+      }
+    }, 400);
   };
 
   return (
-    <Modal visible={modal?.status} animationType="fade" onRequestClose={() => closeModal()}>
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        <View style={[{ backgroundColor: colors.greenDarkColor }]}>
-          <View style={[styles.modalHeader]}>
+    <Modal
+      visible={modal?.status}
+      animationType="fade"
+      onRequestClose={() => previousStep()}
+      style={{ flex: 1, backgroundColor: "#fff" }}
+    >
+      <ScreenLoading visibility={screenLoading} />
+
+      <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <View style={{ height: screenHeight }}>
+          <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor, marginTop: 40 }]}>
             <Icon
-              name="chevron-left"
-              size={33}
-              style={[styles.modalHeaderIcon, { color: "#fff", padding: 2 }]}
+              name="arrow-left"
+              size={40}
+              style={[styles.modalHeaderIcon, { color: "#fff" }]}
               onPress={() => previousStep()}
             />
             <Text style={styles.modalHeaderText}>Fund wallet By Card</Text>
-            <Text></Text>
           </View>
-          <HeaderBalance />
-        </View>
 
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={[styles.productContainer]}>
-            {step === 1 && (
-              <View style={styles.productCardContent}>
-                <View style={{ marginTop: 20, marginBottom: 50 }}>
-                  <Text style={[styles.productCardContentItemLeft, { fontSize: 18 }]}>Amount</Text>
-                  <CurrencyInput
-                    value={amount}
-                    onChangeValue={setAmount}
-                    prefix="₦"
-                    delimiter=","
-                    // separator="."
-                    precision={0}
-                    // onChangeText={(formattedValue) => {
-                    //   console.log(formattedValue);
-                    // }}
-                    style={[
-                      globalStyles.inputTextt,
-                      {
-                        borderBottomWidth: 2,
-                        borderColor: colors.greenColor,
-                        fontSize: 25,
-                        fontWeight: "900",
-                        fontFamily: "PoppinsBold",
-                      },
-                    ]}
-                  />
-                </View>
-                <View
-                  style={[
-                    styles.productCardContentItem,
-                    { borderBottomWidth: 1, borderColor: "#f0f0f0", marginBottom: 30 },
-                  ]}
-                >
-                  <Text style={styles.productCardContentItemLeft}> Card</Text>
-                  <TouchableOpacity
-                    style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
-                    activeOpacity={0.7}
-                    onPress={() =>
-                      dispatch(
-                        setSelectCardModal({
-                          status: true,
-                          type: "Fund_WALLET_BY_CARD",
-                        }),
-                      )
-                    }
-                  >
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                        marginRight: -5,
-                      }}
-                    >
-                      <View style={{ marginRight: 10, justifyContent: "flex-end", alignItems: "flex-end" }}>
-                        <Text
-                          style={[
-                            styles.productCardContentItemRight,
-                            { fontWeight: "700", color: "rgb(63, 156, 243)" },
-                          ]}
-                        >
-                          {modal?.card ? modal.card?.name : "Select card"}{" "}
-                          {modal?.card ? " - " + modal.card?.accountNumber : null}
-                        </Text>
-                      </View>
+          <ScrollView
+            horizontal={true}
+            scrollEnabled={shouldScroll}
+            ref={scrollViewRef}
+            style={{ padding: 10 }}
+            showsHorizontalScrollIndicator={false}
+          >
+            <FAmount amount={amount} setAmount={setAmount} card={modal?.card} />
+            <FSummary summaryDetails={summaryDetails} />
+            <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
+          </ScrollView>
 
-                      <Icon
-                        name="chevron-right"
-                        size={53}
-                        style={[styles.modalHeaderIcon, { color: "rgb(63, 156, 243)", fontSize: 23, marginRight: 0 }]}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                </View>
-                <View style={[styles.productCardContentItem, { marginTop: -20 }]}>
-                  <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={() => addCard()}>
-                    <Icon name="plus" size={24} style={[{ color: "rgb(63, 156, 243)", padding: 2 }]} />
-                    <Text style={[styles.productCardContentItemLeft, { color: "rgb(63, 156, 243)" }]}> New card</Text>
-                  </TouchableOpacity>
-
-                  <Text style={[styles.productCardContentItemRight, { fontWeight: "700" }]}></Text>
-                </View>
-              </View>
-            )}
-            {step === 2 && (
-              <View style={styles.productCardContent}>
-                <Text
-                  style={[
-                    styles.productCardContentItemRight,
-                    { fontWeight: "700", textAlign: "center", marginBottom: 27, fontSize: 22 },
-                  ]}
-                >
-                  Summary
-                </Text>
-
-                <View style={[styles.productCardContentItem, { marginBottom: 0, paddingBottom: 10 }]}>
-                  <Text style={[styles.productCardContentItemLeft, { fontSize: 15 }]}>Amount</Text>
-                  <Text style={[styles.productCardContentItemRight, { fontWeight: "800", fontSize: 15 }]}>
-                    ₦ 890,000
-                  </Text>
-                </View>
-                <View style={[styles.productCardContentItem, { marginBottom: 0, paddingBottom: 10 }]}>
-                  <Text style={[styles.productCardContentItemLeft, { fontSize: 15 }]}>Card</Text>
-                  <Text style={[styles.productCardContentItemRight, { fontWeight: "800", fontSize: 15 }]}>
-                    {modal.card?.name + " - " + modal.card?.accountNumber}
-                  </Text>
-                </View>
-                <View style={[styles.productCardContentItem, { marginBottom: 0, paddingBottom: 20 }]}>
-                  <Text style={[styles.productCardContentItemLeft, { fontSize: 19, fontWeight: "800" }]}>Total</Text>
-                  <Text style={[styles.productCardContentItemRight, { fontWeight: "800", fontSize: 20 }]}>
-                    ₦ 890,000
-                  </Text>
-                </View>
-              </View>
-            )}
-            {step === 3 && (
-              <View style={{ justifyContent: "center", width: "80%", marginTop: 50, alignItems: "center" }}>
-                <Text
-                  style={[
-                    styles.productCardContentItemLeft,
-                    { fontSize: 28, fontWeight: "900", marginBottom: 10, color: colors.greenLightDarkColor },
-                  ]}
-                >
-                  Confirm Deposit
-                </Text>
-                <View style={{ alignItems: "center" }}>
-                  <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center" }]}>
-                    Are you sure you want to proceed
-                  </Text>
-                </View>
-                <View style={{ marginTop: 60 }}>
-                  <Switch
-                    trackColor={{ false: "#767577", true: colors.greenLightColor }}
-                    thumbColor={isEnabled ? colors.greenColor : "#f4f3f4"}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch}
-                    value={isEnabled}
-                    style={{ transform: [{ scaleX: 2.5 }, { scaleY: 2.4 }] }}
-                  />
-                </View>
-              </View>
-            )}
+          <View
+            style={[
+              globalStyles.buttonFloat,
+              {
+                width: "100%",
+                justifyContent: "flex-end",
+                marginBottom: -40,
+                marginLeft: 0,
+                padding: 0,
+                marginRight: 0,
+              },
+            ]}
+          >
+            <CustomLoadingButton
+              onPress={() => procceed()}
+              emptyFields={emptyFields}
+              buttonText={buttonText}
+              loading={isLoading}
+            />
           </View>
-        </ScrollView>
-        <View style={[globalStyles.buttonFloat, { alignItems: "center" }]}>
-          <CustomLoadingButton
-            onPress={() => procceed()}
-            emptyFields={emptyFields}
-            buttonText={buttonText}
-            loading={loading}
-          />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
-    // </GestureRecognizer>
   );
 };
 
@@ -320,12 +232,9 @@ const styles = StyleSheet.create({
   modalHeader: {
     width,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 17,
+    paddingVertical: 15,
     paddingHorizontal: 10,
-
-    // elevation: 3,
   },
 
   modalHeaderIcon: {
@@ -336,65 +245,62 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 20,
+    fontSize: 17,
     lineHeight: 29,
     marginBottom: 0,
     fontFamily: "Poppins",
-    letterSpacing: -0.35644,
     color: "#fff",
-    marginLeft: -45,
   },
 
-  productContainer: {
-    width: "100%",
+  modalSearchContainer: {
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 20,
-    paddingBottom: 100,
+    width,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    paddingBottom: 30,
   },
 
-  productCardContent: {
-    width: "96%",
-    justifyContent: "flex-start",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    // shadowColor: "#171717",
-    // shadowOffset: { width: 0, height: 3 },
-    // shadowOpacity: 0.4,
-    // shadowRadius: 2,
-    // borderRadius: 10,
-    // backgroundColor: "#fff",
-    // borderBottomWidth: 1,
-    // borderColor: "#f0f0f0",
-    marginBottom: 20,
-    paddingBottom: 0,
-  },
-
-  productCardContentItem: {
+  modalSearch: {
+    width: "98%",
     flexDirection: "row",
-    paddingBottom: 25,
-    paddingTop: 26,
-    marginBottom: 26,
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderColor: "#f0f0f0",
+    alignItems: "center",
+    backgroundColor: "#f8f8f8",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 12,
   },
 
-  productCardContentItemLeft: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#555",
+  searchIcon: {
     marginRight: 15,
-    fontFamily: "Poppins",
-    letterSpacing: -0.35644,
   },
 
-  productCardContentItemRight: {
+  searchInput: {
     fontSize: 16,
     color: "#444",
-    fontWeight: "600",
-    justifyContent: "flex-end",
-    fontFamily: "Montserrat",
+  },
+
+  buttonFloat: {
+    position: "absolute",
+    right: 10,
+    bottom: 120,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 80,
+    elevation: 5,
+  },
+
+  buttonFloatText: {
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: 17,
+    lineHeight: 29,
+    marginBottom: 0,
+    fontFamily: "Poppins",
+    color: "#fff",
   },
 });
+
 export default FundWalletByCardModal;

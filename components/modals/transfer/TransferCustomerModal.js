@@ -1,44 +1,51 @@
 import {
   Dimensions,
   FlatList,
-  Image,
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setLoading,
-  setSelectBankModal,
-  setSelectedUser,
-  setTransferToCustomerModal,
-} from "../../../store/alert/alertSlice";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { setTransferToCustomerModal } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
-import CurrencyInput from "react-native-currency-input";
-import { KeycodeInput } from "react-native-keycode";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
 import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
+import ScreenLoading from "../../loader/ScreenLoading";
+import FAmount from "./toCustomer/FAmount";
+import FSummary from "./toCustomer/FSummary";
+import FConfirm from "./toCustomer/FConfirm";
 import HeaderBalance from "../../extra/HeaderBalance";
 
 const { width } = Dimensions.get("screen");
+const screenHeight = Dimensions.get("window").height;
 
 const TransferCustomerModal = () => {
   const modal = useSelector((state) => state.alert.transferToCustomerModal);
-  const [amount, setAmount] = useState(null);
-  const [pin, setPin] = useState(null);
-  const [step, setStep] = useState(1);
-  const [buttonText, setButtonText] = useState("Proceed");
-  const [emptyFields, setEmptyFields] = useState(true);
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const user = require("../../../assets/img/user.jpg");
+  const [step, setStep] = useState(1);
+  const [amount, setAmount] = useState(null);
+  const [summaryDetails, setSummaryDetails] = useState(null);
+  const [pin, setPin] = useState(false);
+  const [buttonText, setButtonText] = useState("Proceed");
+  const [emptyFields, setEmptyFields] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [screenLoading, setScreenLoading] = useState({
+    status: false,
+    message: "",
+  });
+  const [shouldScroll] = useState(false);
+  const scrollViewRef2 = useRef(null);
 
   const closeModal = () => {
     dispatch(
@@ -49,12 +56,15 @@ const TransferCustomerModal = () => {
     );
 
     setAmount(null);
-    setPin(null);
+    setSummaryDetails(null);
     setStep(1);
     setButtonText("Proceed");
     setEmptyFields(true);
-
-    dispatch(setSelectedUser(null));
+    setScreenLoading({
+      status: false,
+      message: "",
+    });
+    setPin(false);
   };
 
   useEffect(() => {
@@ -64,6 +74,7 @@ const TransferCustomerModal = () => {
 
         return;
       }
+
       if (amount && amount < 100) {
         setEmptyFields(true);
 
@@ -72,13 +83,13 @@ const TransferCustomerModal = () => {
 
       setEmptyFields(false);
     }
-    if (step === 2) {
-      if (!pin) {
-        setEmptyFields(true);
 
-        return;
-      }
-      if (pin && pin.length < 4) {
+    if (step === 2) {
+      setEmptyFields(false);
+    }
+
+    if (step === 3) {
+      if (!pin) {
         setEmptyFields(true);
 
         return;
@@ -86,137 +97,143 @@ const TransferCustomerModal = () => {
 
       setEmptyFields(false);
     }
-  }, [step, amount, pin]);
+  }, [step, amount, pin, modal]);
 
   const previousStep = () => {
+    if (isLoading) {
+      return;
+    }
+    if (screenLoading?.status === true) {
+      return;
+    }
     if (step === 1) {
       closeModal();
+      // scrollViewRef2.current?.scrollTo({ x: 0, y: 0, animated: true });
 
       return;
     }
     if (step === 2) {
       setStep(1);
       setButtonText("Proceed");
-
+      scrollViewRef2.current?.scrollTo({ x: 0, y: 0, animated: true });
+      return;
+    }
+    if (step === 3) {
+      setStep(2);
+      setButtonText("Proceed");
+      scrollViewRef2.current?.scrollTo({ x: width, y: 0, animated: true });
       return;
     }
   };
 
   const procceed = () => {
     setEmptyFields(true);
-    setLoading(true);
+    setIsLoading(true);
     setTimeout(() => {
-      setLoading(false);
+      setIsLoading(false);
       if (step === 1) {
         setStep(2);
-        setButtonText("Submit");
+        // setButtonText("Submit");
+        scrollViewRef2.current?.scrollTo({ x: width, y: 0, animated: true });
 
         return;
       }
       if (step === 2) {
-        closeModal();
+        setStep(3);
+        setButtonText("Submit");
+        scrollViewRef2.current?.scrollTo({ x: width * 2, y: 0, animated: true });
+        // closeModal();
       }
-    }, 1400);
+
+      if (step === 3) {
+        setScreenLoading({
+          status: true,
+          message: "please wait...",
+        });
+
+        setTimeout(() => {
+          closeModal();
+
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+        }, 4500);
+
+        // closeModal();
+      }
+    }, 400);
   };
 
   return (
-    <Modal visible={modal?.status} animationType="slide" onRequestClose={() => closeModal()}>
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        <View style={[{ backgroundColor: colors.greenDarkColor }]}>
-          <View style={[styles.modalHeader]}>
-            <Icon
-              name="chevron-left"
-              size={40}
-              style={[styles.modalHeaderIcon, { color: "#fff", padding: 2, marginLeft: -10 }]}
-              onPress={() => previousStep()}
-            />
-            <Text style={styles.modalHeaderText}>Transfer to {modal?.user?.userName || "customer"}</Text>
-            <Text></Text>
+    <Modal
+      visible={modal?.status}
+      animationType="fade"
+      onRequestClose={() => previousStep()}
+      style={{ flex: 1, backgroundColor: "#fff" }}
+    >
+      <ScreenLoading visibility={screenLoading} />
+
+      <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <View style={{ height: screenHeight }}>
+          <View
+            style={[
+              {
+                backgroundColor: colors.greenDarkColor,
+                marginTop: 40,
+                borderBottomLeftRadius: 5,
+                borderBottomRightRadius: 5,
+              },
+            ]}
+          >
+            <View style={[styles.modalHeader]}>
+              <Icon
+                name="arrow-left"
+                size={40}
+                style={[styles.modalHeaderIcon, { color: "#fff" }]}
+                onPress={() => previousStep()}
+              />
+              <Text style={styles.modalHeaderText}>Transfer to {modal?.user?.userName || "user"}</Text>
+            </View>
+
+            {/* <HeaderBalance /> */}
           </View>
-          <HeaderBalance />
-        </View>
 
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={[styles.productContainer]}>
-            {step === 1 ? (
-              <View style={styles.productCardContent}>
-                <View style={{ justifyContent: "center", alignItems: "center", marginTop: 0 }}>
-                  <View style={globalStyles.accountImage}>
-                    <Image
-                      source={user}
-                      style={[{ width: "100%", height: "100%", borderRadius: 100 }]}
-                      resizeMode="cover"
-                    />
-                  </View>
+          <ScrollView
+            horizontal={true}
+            scrollEnabled={shouldScroll}
+            ref={scrollViewRef2}
+            style={{ padding: 10 }}
+            showsHorizontalScrollIndicator={false}
+          >
+            <FAmount amount={amount} setAmount={setAmount} user={modal?.user} />
+            <FSummary summaryDetails={summaryDetails} />
+            <FConfirm pin={pin} setPin={setPin} step={step} />
+          </ScrollView>
 
-                  <Text style={globalStyles.accountUserFullName}>Victor Nwakwue</Text>
-                  <Text style={globalStyles.accountTitle}>{modal?.user?.userName}</Text>
-                </View>
-
-                <View style={{ marginTop: 60, marginBottom: 50 }}>
-                  <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 30 }]}>Amount</Text>
-                  <CurrencyInput
-                    value={amount}
-                    onChangeValue={setAmount}
-                    prefix="₦ "
-                    delimiter=","
-                    // separator="."
-                    precision={0}
-                    // onChangeText={(formattedValue) => {
-                    //   console.log(formattedValue);
-                    // }}
-                    style={[
-                      globalStyles.inputTextt,
-                      { borderBottomWidth: 2, borderColor: colors.greenColor, fontSize: 25 },
-                    ]}
-                  />
-                </View>
-              </View>
-            ) : (
-              <View
-                style={{
-                  justifyContent: "center",
-                  width: "80%",
-                  marginTop: 50,
-                  alignItems: "center",
-                  marginBottom: 50,
-                }}
-              >
-                <Text style={[styles.productCardContentItemLeft, { fontSize: 29, fontWeight: "900", marginBottom: 4 }]}>
-                  Transaction Pin
-                </Text>
-                <View style={{ alignItems: "center" }}>
-                  <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center", marginBottom: 60 }]}>
-                    Enter your 4-digit TRANSACTION PIN to approve this transfer
-                  </Text>
-                </View>
-                <KeycodeInput
-                  style={{ fontFamily: "Poppins", letterSpacing: -0.35644 }}
-                  alphaNumeric={false}
-                  numeric={true}
-                  tintColor={colors.greenColor}
-                  keyboardType="numeric"
-                  onChange={(value) => {
-                    setPin(value);
-                  }}
-                  onComplete={(value) => {
-                    setPin(value);
-                  }}
-                />
-              </View>
-            )}
-
+          <View
+            style={[
+              globalStyles.buttonFloat,
+              {
+                width: "100%",
+                justifyContent: "flex-end",
+                marginBottom: -40,
+                marginLeft: 0,
+                padding: 0,
+                marginRight: 0,
+              },
+            ]}
+          >
             <CustomLoadingButton
               onPress={() => procceed()}
               emptyFields={emptyFields}
               buttonText={buttonText}
-              loading={loading}
+              loading={isLoading}
             />
           </View>
-        </ScrollView>
-      </View>
+        </View>
+      </KeyboardAvoidingView>
     </Modal>
-    // </GestureRecognizer>
   );
 };
 
@@ -224,12 +241,9 @@ const styles = StyleSheet.create({
   modalHeader: {
     width,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 7,
+    paddingVertical: 15,
     paddingHorizontal: 10,
-
-    // elevation: 3,
   },
 
   modalHeaderIcon: {
@@ -240,62 +254,62 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 20,
+    fontSize: 17,
     lineHeight: 29,
     marginBottom: 0,
     fontFamily: "Poppins",
-    letterSpacing: -0.35644,
     color: "#fff",
-    marginLeft: -45,
   },
 
-  productContainer: {
-    width: "100%",
+  modalSearchContainer: {
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 20,
-    paddingBottom: 100,
+    width,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    paddingBottom: 30,
   },
 
-  productCardContent: {
-    width: "96%",
-    justifyContent: "flex-start",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    // shadowColor: "#171717",
-    // shadowOffset: { width: 0, height: 3 },
-    // shadowOpacity: 0.4,
-    // shadowRadius: 2,
-    // borderRadius: 10,
-    // backgroundColor: "#fff",
-    // borderBottomWidth: 1,
-    // borderColor: "#f0f0f0",
-    marginBottom: 20,
-    paddingBottom: 0,
-  },
-
-  productCardContentItem: {
+  modalSearch: {
+    width: "98%",
     flexDirection: "row",
-    paddingBottom: 25,
-    paddingTop: 9,
-    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#f8f8f8",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 12,
   },
 
-  productCardContentItemLeft: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#555",
+  searchIcon: {
     marginRight: 15,
-    fontFamily: "Poppins",
-    letterSpacing: -0.35644,
   },
 
-  productCardContentItemRight: {
+  searchInput: {
     fontSize: 16,
     color: "#444",
-    fontWeight: "600",
-    justifyContent: "flex-end",
-    fontFamily: "Montserrat",
+  },
+
+  buttonFloat: {
+    position: "absolute",
+    right: 10,
+    bottom: 120,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 80,
+    elevation: 5,
+  },
+
+  buttonFloatText: {
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: 17,
+    lineHeight: 29,
+    marginBottom: 0,
+    fontFamily: "Poppins",
+    color: "#fff",
   },
 });
+
 export default TransferCustomerModal;

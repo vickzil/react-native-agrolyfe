@@ -129,8 +129,19 @@ const CustomerModalButtom = ({ bottomSheet, closeModal }) => {
               />
             </View>
           </View>
-
-          <View style={{ justifyContent: "center", alignItems: "center", marginTop: 50, marginBottom: 30 }}>
+        </ScrollView>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 50,
+            marginBottom: 0,
+            position: "absolute",
+            bottom: 20,
+            width: "100%",
+          }}
+        >
+          <View style={{ width: "90%" }}>
             <CustomLoadingButton
               onPress={() => procceed()}
               emptyFields={emptyFields}
@@ -138,7 +149,7 @@ const CustomerModalButtom = ({ bottomSheet, closeModal }) => {
               loading={loading}
             />
           </View>
-        </ScrollView>
+        </View>
       </BottomSheet>
     </SafeAreaView>
   );

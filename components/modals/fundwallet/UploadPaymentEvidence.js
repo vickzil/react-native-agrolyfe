@@ -1,152 +1,285 @@
 import {
   Dimensions,
   FlatList,
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCardModal, setPaymentEvidenceModal } from "../../../store/alert/alertSlice";
+import { setPaymentEvidenceModal } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
-import { globalStyles } from "../../../styles/global";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import CurrencyInput from "react-native-currency-input";
-import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
-import { Dropdown } from "react-native-element-dropdown";
+import { TextInputMask } from "react-native-masked-text";
+import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
+import ScreenLoading from "../../loader/ScreenLoading";
+import POPUpModal from "../POPUpModal";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 const { width } = Dimensions.get("screen");
+const screenHeight = Dimensions.get("window").height;
 
 const UploadPaymentEvidence = () => {
   const modal = useSelector((state) => state.alert.paymentEvidenceModal);
   const dispatch = useDispatch();
+
   const [amount, setAmount] = useState(null);
   const [currency, setCurrency] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [buttonText, setButtonText] = useState("Submit");
-  const [emptyFields, setEmptyFields] = useState(true);
+  const [emptyFields, setEmptyFields] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [screenLoading, setScreenLoading] = useState({
+    status: false,
+    message: "",
+  });
+  const [showCModal, setShowCModal] = useState(false);
 
-  const closeFundModal = () => {
+  const [shouldScroll] = useState(false);
+  const scrollViewRef = useRef(null);
+
+  const closeModal = () => {
     dispatch(setPaymentEvidenceModal(false));
+
+    setAmount(null);
+    setCurrency("");
+    setAdditionalInfo("");
+    setButtonText("Submit");
+    setEmptyFields(true);
+    setScreenLoading({
+      status: false,
+      message: "",
+    });
   };
 
-  const _renderItem = (item) => {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.textItem}>{item}</Text>
-      </View>
-    );
+  useEffect(() => {
+    if (!amount) {
+      setEmptyFields(true);
+
+      return;
+    }
+
+    if (amount && amount < 100) {
+      setEmptyFields(true);
+
+      return;
+    }
+    if (!currency) {
+      setEmptyFields(true);
+
+      return;
+    }
+    if (!additionalInfo) {
+      setEmptyFields(true);
+
+      return;
+    }
+
+    setEmptyFields(false);
+  }, [amount, currency, additionalInfo]);
+
+  const previousStep = () => {
+    if (isLoading) {
+      return;
+    }
+    if (screenLoading?.status === true) {
+      return;
+    }
+    closeModal();
   };
 
   const procceed = () => {
-    closeFundModal();
+    setEmptyFields(true);
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setScreenLoading({
+        status: true,
+        message: "please wait...",
+      });
+
+      setTimeout(() => {
+        closeModal();
+
+        setScreenLoading({
+          status: false,
+          message: "",
+        });
+      }, 4500);
+    }, 400);
   };
 
   return (
-    <Modal visible={modal} animationType="slide" onRequestClose={() => closeFundModal()}>
-      <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="light-content" />
-
-      <View style={{ marginTop: -40 }}>
-        <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
-          <Icon
-            name="arrow-left"
-            size={25}
-            style={[styles.modalHeaderIcon, { color: "#fff" }]}
-            onPress={() => closeFundModal()}
-          />
-          <Text style={styles.modalHeaderText}>Upload payment Evidence</Text>
-          <Text></Text>
-        </View>
-        <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 12 }}>
-          <View style={{ marginBottom: 0, marginTop: 0 }}>
-            <Text style={[globalStyles.label, { fontSize: 22, textAlign: "left", marginBottom: 0, fontWeight: "900" }]}>
-              {/* Upload payment Evidence */}
-            </Text>
-            <Text style={[globalStyles.label, { fontSize: 18, textAlign: "left", marginBottom: 0, fontWeight: "600" }]}>
-              Have you already made payment by transfer, kindly upload payment evidence.{" "}
-            </Text>
-          </View>
-          <View style={[globalStyles.productCardContent, { marginBottom: 0 }]}>
-            <View style={{ marginTop: 20, marginBottom: 30 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 20, fontWeight: "800" }]}>
-                Amount
-              </Text>
-              <CurrencyInput
-                value={amount}
-                onChangeValue={setAmount}
-                prefix="₦ "
-                delimiter=","
-                // separator="."
-                precision={0}
-                // onChangeText={(formattedValue) => {
-                //   console.log(formattedValue);
-                // }}
-                style={[globalStyles.inputTextt, globalStyles.inputContainer, { fontSize: 33, fontWeight: "800" }]}
-              />
-            </View>
-            <View style={{ marginTop: 20, marginBottom: 30 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 20, fontWeight: "800" }]}>
-                Currency
-              </Text>
-              <Dropdown
-                style={styles.dropdown}
-                containerStyle={styles.shadow}
-                data={[
-                  "NAIRA (NGN)",
-                  "US DOLLAR (USD)",
-                  "EURO (EUR)",
-                  "UGANDA SHILLING (UGX)",
-                  "GREAT BRITISH POUNDS (GBP)",
-                  "GHANA CEDIS (GHS)",
-                  "RWANDA FRANCE (RWF)",
-                ]}
-                labelField="label"
-                valueField={currency}
-                label="Dropdown"
-                placeholder="Select Currency"
-                value={currency}
-                onChange={(item) => {
-                  setCurrency(item);
-                  console.log("selected", item);
-                }}
-                // renderLeftIcon={() => <Image style={styles.icon} source={require("./assets/account.png")} />}
-                renderItem={(item) => _renderItem(item)}
-                textError="Error"
-              />
-            </View>
-            <View style={{ marginTop: 20, marginBottom: 30 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 20, fontWeight: "800" }]}>
-                Additional information
-              </Text>
-              <View style={[globalStyles.inputContainer, { height: 70 }]}>
-                <TextInput
-                  value={additionalInfo}
-                  onChangeText={(text) => setAdditionalInfo(text)}
-                  autoCorrect={false}
-                  style={globalStyles.inputTextt}
-                />
+    <Modal
+      visible={modal}
+      animationType="fade"
+      onRequestClose={() => previousStep()}
+      style={{ flex: 1, backgroundColor: "#fff" }}
+    >
+      <ScreenLoading visibility={screenLoading} />
+      <POPUpModal visible={showCModal} setVisible={setShowCModal} modalTitle=" Currency">
+        <View>
+          {[
+            "NAIRA (NGN)",
+            "US DOLLAR (USD)",
+            "EURO (EUR)",
+            "UGANDA SHILLING (UGX)",
+            "GREAT BRITISH POUNDS (GBP)",
+            "GHANA CEDIS (GHS)",
+            "RWANDA FRANCE (RWF)",
+          ]?.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[globalStyles.selectContainer, currency == item ? globalStyles.selectedItem : null]}
+              onPress={() => {
+                setShowCModal(false);
+                setCurrency(item);
+              }}
+            >
+              <View style={globalStyles.selectContent} key={index}>
+                <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </POPUpModal>
+
+      <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <View style={{ height: screenHeight }}>
+          <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor, marginTop: 40 }]}>
+            <Icon
+              name="arrow-left"
+              size={40}
+              style={[styles.modalHeaderIcon, { color: "#fff" }]}
+              onPress={() => previousStep()}
+            />
+            <Text style={styles.modalHeaderText}>Upload payment Evidence</Text>
           </View>
 
-          <View style={[globalStyles.productContainer, { marginTop: 0 }]}>
+          <ScrollView
+            horizontal={true}
+            scrollEnabled={shouldScroll}
+            ref={scrollViewRef}
+            showsHorizontalScrollIndicator={false}
+          >
+            <View style={{ width: width, height: screenHeight, flex: 1, alignItems: "center" }}>
+              <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 12, width: "100%" }}>
+                <View style={[globalStyles.productCardContent, { marginBottom: 0, width: "100%" }]}>
+                  <View style={{ marginTop: 20, marginBottom: 30, width: "100%" }}>
+                    <Text
+                      style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}
+                    >
+                      Amount
+                    </Text>
+
+                    <TextInputMask
+                      type={"money"}
+                      options={{
+                        precision: 0,
+                        //   separator: ",",
+                        delimiter: ",",
+                        unit: "₦",
+                        suffixUnit: "",
+                      }}
+                      value={amount}
+                      onChangeText={(text) => {
+                        setAmount(text);
+                      }}
+                      style={[
+                        globalStyles.inputTextt,
+                        globalStyles.inputContainer,
+                        { fontSize: 33, fontWeight: "800" },
+                      ]}
+                    />
+                  </View>
+                  <View style={{ marginTop: 10, marginBottom: 30 }}>
+                    <Text
+                      style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}
+                    >
+                      Currency
+                    </Text>
+
+                    <TouchableOpacity style={[globalStyles.inputContainer]} onPress={() => setShowCModal(true)}>
+                      <TextInput value={currency} editable={false} style={globalStyles.inputTextt} />
+                      <FontAwesome5Icon name="chevron-circle-down" size={16} color="#666" style={{ marginRight: 10 }} />
+                    </TouchableOpacity>
+
+                    {/* <Dropdown
+                  style={styles.dropdown}
+                  containerStyle={styles.shadow}
+                  data={[
+                    "NAIRA (NGN)",
+                    "US DOLLAR (USD)",
+                    "EURO (EUR)",
+                    "UGANDA SHILLING (UGX)",
+                    "GREAT BRITISH POUNDS (GBP)",
+                    "GHANA CEDIS (GHS)",
+                    "RWANDA FRANCE (RWF)",
+                  ]}
+                  labelField="label"
+                  valueField={currency}
+                  label="Dropdown"
+                  placeholder="Select Currency"
+                  value={currency}
+                  onChange={(item) => {
+                    setCurrency(item);
+                    console.log("selected", item);
+                  }}
+                  // renderLeftIcon={() => <Image style={styles.icon} source={require("./assets/account.png")} />}
+                  renderItem={(item) => _renderItem(item)}
+                  textError="Error"
+                /> */}
+                  </View>
+                  <View style={{ marginTop: 10, marginBottom: 30 }}>
+                    <Text
+                      style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}
+                    >
+                      Additional information
+                    </Text>
+                    <View style={[globalStyles.inputContainer, { height: 70 }]}>
+                      <TextInput
+                        value={additionalInfo}
+                        onChangeText={(text) => setAdditionalInfo(text)}
+                        autoCorrect={false}
+                        style={globalStyles.inputTextt}
+                      />
+                    </View>
+                  </View>
+                </View>
+              </ScrollView>
+            </View>
+          </ScrollView>
+
+          <View
+            style={[
+              globalStyles.buttonFloat,
+              {
+                width: "100%",
+                justifyContent: "flex-end",
+                marginBottom: -40,
+                marginLeft: 0,
+                padding: 0,
+                marginRight: 0,
+              },
+            ]}
+          >
             <CustomLoadingButton
               onPress={() => procceed()}
               emptyFields={emptyFields}
               buttonText={buttonText}
-              loading={false}
+              loading={isLoading}
             />
           </View>
-
-          <View style={{ marginBottom: 50 }}></View>
-        </ScrollView>
-      </View>
+        </View>
+      </KeyboardAvoidingView>
     </Modal>
-    // </GestureRecognizer>
   );
 };
 
@@ -154,11 +287,9 @@ const styles = StyleSheet.create({
   modalHeader: {
     width,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 17,
+    paddingVertical: 15,
     paddingHorizontal: 10,
-    elevation: 3,
   },
 
   modalHeaderIcon: {
@@ -169,12 +300,11 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 19,
+    fontSize: 17,
     lineHeight: 29,
     marginBottom: 0,
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     color: "#fff",
-    marginLeft: -45,
   },
 
   modalSearchContainer: {
@@ -188,6 +318,45 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
 
+  modalSearch: {
+    width: "98%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f8f8f8",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 12,
+  },
+
+  searchIcon: {
+    marginRight: 15,
+  },
+
+  searchInput: {
+    fontSize: 16,
+    color: "#444",
+  },
+
+  buttonFloat: {
+    position: "absolute",
+    right: 10,
+    bottom: 120,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 80,
+    elevation: 5,
+  },
+
+  buttonFloatText: {
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: 17,
+    lineHeight: 29,
+    marginBottom: 0,
+    fontFamily: "Poppins",
+    color: "#fff",
+  },
+
   productCardContentItemLeft: {
     fontSize: 18,
     fontWeight: "600",
@@ -196,30 +365,6 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
     letterSpacing: -0.35644,
   },
-
-  dropdown: {
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: colors.greenColor,
-    marginTop: 0,
-    padding: 20,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    fontFamily: "Poppins",
-    letterSpacing: -0.35644,
-  },
 });
+
 export default UploadPaymentEvidence;

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
-    paddingBottom: 30,
+    paddingBottom: 20,
   },
 
   modalHeaderTex: {
