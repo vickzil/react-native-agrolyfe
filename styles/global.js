@@ -120,4 +120,43 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 20,
     paddingBottom: 0,
   },
+
+  selectContainer: {
+    width: "100%",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    padding: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 15,
+    marginBottom: 2,
+    marginTop: 3,
+    elevation: 2,
+  },
+
+  selectContent: {
+    width: "92%",
+  },
+
+  selectContentText: {
+    fontFamily: "Poppins",
+  },
+
+  selectContentText1: {
+    fontSize: 17,
+    fontWeight: "700",
+    marginBottom: 5,
+  },
+
+  selectContentText2: {
+    fontSize: 14,
+    color: colors.greenColor,
+  },
+
+  selectedItem: {
+    width: "97%",
+    borderWidth: 2,
+    borderColor: "#e79b0e",
+    marginLeft: 5,
+  },
 });

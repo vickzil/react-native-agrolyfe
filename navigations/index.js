@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
 import { setHasLogin, setToken } from "../store/auth/authSlice";
-import { countries } from "../api/countries/countries";
-import { setAllCountries } from "../store/alert/alertSlice";
 
 export default function MainApp() {
   const dispatch = useDispatch();
@@ -19,10 +17,6 @@ export default function MainApp() {
 
   useLayoutEffect(() => {
     authLogin();
-  }, []);
-
-  useLayoutEffect(() => {
-    dispatch(setAllCountries(countries()));
   }, []);
 
   const authUser = async () => {

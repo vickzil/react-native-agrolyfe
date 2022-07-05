@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import colors from "../../../../styles/colors";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Dropdown } from "react-native-element-dropdown";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import { globalStyles } from "../../../../styles/global";
+import POPUpModal from "../../POPUpModal";
 
 const EditProfileForm = () => {
   const [fullName, setFullName] = useState("");
@@ -12,6 +14,7 @@ const EditProfileForm = () => {
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("male");
   const [relationship, setRelationship] = useState("sibling");
+  const [showRelationshipModal, setShowRelationshipModal] = useState(false);
 
   const radioButtonsData = [
     {
@@ -45,6 +48,24 @@ const EditProfileForm = () => {
 
   return (
     <View style={styles.form}>
+      <POPUpModal visible={showRelationshipModal} setVisible={setShowRelationshipModal} modalTitle=" Relationship">
+        <View>
+          {Relationships?.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[globalStyles.selectContainer, relationship == item ? globalStyles.selectedItem : null]}
+              onPress={() => {
+                setShowRelationshipModal(false);
+                setRelationship(item);
+              }}
+            >
+              <View style={globalStyles.selectContent} key={index}>
+                <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </POPUpModal>
       <View style={{ marginBottom: 20, width: "100%" }}>
         <Text style={styles.label}>Full name</Text>
         <View style={[styles.inputContainer]}>
@@ -93,8 +114,15 @@ const EditProfileForm = () => {
       </View>
       <View style={{ marginBottom: 20, width: "100%" }}>
         <Text style={styles.label}>Select Relationship</Text>
+        <TouchableOpacity
+          style={[styles.inputContainer, { height: 50 }]}
+          onPress={() => setShowRelationshipModal(true)}
+        >
+          <TextInput value={relationship} editable={false} style={globalStyles.inputTextt} />
+          <FontAwesome5Icon name="chevron-circle-down" size={16} color="#666" style={{ marginRight: 10 }} />
+        </TouchableOpacity>
 
-        <Dropdown
+        {/* <Dropdown
           style={styles.dropdown}
           containerStyle={styles.shadow}
           data={Relationships}
@@ -109,7 +137,7 @@ const EditProfileForm = () => {
           // renderLeftIcon={() => <Image style={styles.icon} source={require("./assets/account.png")} />}
           renderItem={(item) => _renderItem(item)}
           textError="Error"
-        />
+        /> */}
         {/* <SelectDropdown
           style={{ width: "100%" }}
           buttonStyle={{ width: "100%" }}

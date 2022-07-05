@@ -22,7 +22,26 @@ const { width } = Dimensions.get("screen");
 
 const CountryPopUp = () => {
   const modal = useSelector((state) => state.alert.countryModal);
-  const allCountries = useSelector((state) => state.alert.allCountries);
+  const allCountries = [
+    {
+      name: "Ghana",
+      dialCode: "+233",
+      isoCode: "GH",
+      flag: "https://cdn.kcak11.com/CountryFlags/countries/gh.svg",
+    },
+    {
+      name: "Nigeria",
+      dialCode: "+234",
+      isoCode: "NG",
+      flag: "https://cdn.kcak11.com/CountryFlags/countries/ng.svg",
+    },
+    {
+      name: "United States",
+      dialCode: "+1",
+      isoCode: "US",
+      flag: "https://cdn.kcak11.com/CountryFlags/countries/us.svg",
+    },
+  ];
   const dispatch = useDispatch();
 
   const [searchCText, setSearchCText] = useState("");
@@ -113,7 +132,7 @@ const CountryPopUp = () => {
                   index={index}
                   onPress={() => selectCountry(item)}
                 >
-                  <View style={[{ width: 20, height: 25, borderRadius: 100 }]}>
+                  <View style={[{ width: 40, height: 40, borderRadius: 100 }]}>
                     <SvgUri width="100%" height="100%" uri={item.flag} />
                   </View>
                   <View style={{ marginLeft: 20 }}>
