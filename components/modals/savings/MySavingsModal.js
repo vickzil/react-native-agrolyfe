@@ -11,48 +11,34 @@ import {
 } from "react-native";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSubCategorySavingsModal } from "../../../store/alert/alertSlice";
+import { setMySavingsModal, setSavingsModal } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import IconSearch from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { savings } from "../../../constant/savings";
-import SavingsCard from "../../savings/SavingsCard";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import MySavingsCard from "../../savings/MySavingsCard";
 
 const { width } = Dimensions.get("screen");
 
-const SubSavingsModal = () => {
-  const modal = useSelector((state) => state.alert.subCategorySavingsModal);
+const MySavingsModal = () => {
+  const modal = useSelector((state) => state.alert.mySavingsModal);
   const dispatch = useDispatch();
 
+  const closeModal = () => {
+    dispatch(setMySavingsModal(false));
+  };
+
   return (
-    <Modal
-      visible={modal?.status}
-      animationType="slide"
-      onRequestClose={() => {
-        dispatch(
-          setSubCategorySavingsModal({
-            status: false,
-            payload: null,
-          }),
-        );
-      }}
-    >
+    <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <View>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
-            size={25}
+            size={33}
             style={[styles.modalHeaderIcon, { color: "#fff" }]}
-            onPress={() =>
-              dispatch(
-                setSubCategorySavingsModal({
-                  status: false,
-                  payload: null,
-                }),
-              )
-            }
+            onPress={() => closeModal()}
           />
-          <Text style={styles.modalHeaderText}>Sub Category</Text>
+          <Text style={styles.modalHeaderText}>My Savings</Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.modalSearchContainer]}>
@@ -65,11 +51,25 @@ const SubSavingsModal = () => {
             {/* {savings?.map((item, index) => (
               
             ))} */}
-            <SavingsCard />
-            <SavingsCard />
-            <SavingsCard />
+            <MySavingsCard />
+            <MySavingsCard />
+            <MySavingsCard />
+            <MySavingsCard />
+            <MySavingsCard />
           </View>
         </ScrollView>
+
+        <TouchableOpacity style={[styles.buttonFloat]}>
+          <Text
+            style={styles.buttonFloatText}
+            onPress={() => {
+              dispatch(setSavingsModal(true));
+              closeModal();
+            }}
+          >
+            <MaterialIcons name="add" size={40} style={[{ color: "#fff" }]} />
+          </Text>
+        </TouchableOpacity>
       </View>
     </Modal>
   );
@@ -139,23 +139,24 @@ const styles = StyleSheet.create({
 
   buttonFloat: {
     position: "absolute",
-    right: 10,
+    right: 18,
     bottom: 120,
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 80,
-    elevation: 5,
+    // paddingVertical: 10,
   },
 
   buttonFloatText: {
+    backgroundColor: colors.greenColor,
+    justifyContent: "center",
+    alignItems: "center",
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 17,
-    lineHeight: 29,
-    marginBottom: 0,
+    margin: 0,
     fontFamily: "Poppins",
     color: "#fff",
+    padding: 15,
+    borderRadius: 80,
+    elevation: 1,
   },
 });
 
-export default SubSavingsModal;
+export default MySavingsModal;

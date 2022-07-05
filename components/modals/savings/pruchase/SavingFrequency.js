@@ -1,15 +1,27 @@
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import CurrencyInput from "react-native-currency-input";
-import { TextInputMask } from "react-native-masked-text";
-import { globalStyles } from "../../../../styles/global";
 import colors from "../../../../styles/colors";
-import RadioGroup from "react-native-radio-buttons-group";
+import RadioForm from "react-native-simple-radio-button";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const SavingFrequency = ({ frequency, radioSelections, handleRadioButton }) => {
+const SavingFrequency = ({ frequency, setFrequency }) => {
+  const radioButtonsData = [
+    {
+      label: "Once a day",
+      value: "daily",
+    },
+    {
+      label: "Once a week",
+      value: "weekly",
+    },
+    {
+      label: "Once a month",
+      value: "monthly",
+    },
+  ];
+
   return (
     <View style={[styles.productContainer]}>
       <View style={{ marginTop: 60, marginBottom: 10, width: "95%", paddingRight: 10 }}>
@@ -29,18 +41,22 @@ const SavingFrequency = ({ frequency, radioSelections, handleRadioButton }) => {
           How often do you want to save?
         </Text>
         <View style={{ marginTop: 20, marginBottom: 30 }}>
-          <RadioGroup
-            value={frequency}
-            containerStyle={{
+          <RadioForm
+            radio_props={radioButtonsData}
+            // initial={0}
+            buttonColor={colors.greenColor}
+            selectedButtonColor={colors.greenColor}
+            animation={true}
+            labelStyle={{
+              fontSize: 20,
               fontFamily: "Poppins",
               letterSpacing: -0.35644,
-              alignItems: "flex-start",
-              paddingVertical: 20,
-              justifyContent: "space-between",
-              fontSize: 30,
+              marginTop: 10,
+              marginBottom: 40,
             }}
-            radioButtons={radioSelections}
-            onPress={handleRadioButton}
+            onPress={(value) => {
+              setFrequency(value);
+            }}
           />
         </View>
       </View>

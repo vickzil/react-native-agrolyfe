@@ -13,8 +13,10 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSavingsModal } from "../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import colors from "../../../styles/colors";
 import AllSavings from "../../savings/AllSavings";
+import { globalStyles } from "../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
@@ -34,7 +36,7 @@ const SavingsModal = () => {
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
-            size={25}
+            size={33}
             style={[styles.modalHeaderIcon, { color: "#fff" }]}
             onPress={() => dispatch(setSavingsModal(false))}
           />

@@ -41,6 +41,8 @@ import AddCardModal from "./cards/AddCardModal";
 import ToastModal from "./ToastModal";
 import LogoutModal from "./LogoutModal";
 import PurchaseSavingsModal from "./savings/PurchaseSavingsModal";
+import MySavingsModal from "./savings/MySavingsModal";
+import MSavingsDetailsModal from "./savings/MSavingsDetailsModal";
 // import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
@@ -54,8 +56,10 @@ const AllModals = () => {
       <AddBankModal />
       <CardModal />
       <TransactionModal />
+      <MySavingsModal />
       <SavingsModal />
       <SubSavingsModal />
+      <MSavingsDetailsModal />
       <PurchaseSavingsModal />
       <ReferralModal />
       <ReferralDetailsModal />

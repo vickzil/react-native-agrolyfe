@@ -1,6 +1,12 @@
 import { StyleSheet } from "react-native";
 import colors from "./colors";
 export const globalStyles = StyleSheet.create({
+  siteTitleWrapper: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 5,
+  },
   siteTitle: {
     fontFamily: "Poppins",
     letterSpacing: -0.35644,

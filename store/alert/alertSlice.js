@@ -40,8 +40,14 @@ const initialState = {
   cardModal: false,
   addCardModal: false,
   transactionModal: false,
+  mySavingsModal: false,
   savingsModal: false,
   subCategorySavingsModal: {
+    status: false,
+    payload: null,
+  },
+
+  mySavingsDetailsModal: {
     status: false,
     payload: null,
   },
@@ -179,9 +185,18 @@ const alertSlice = createSlice({
     setSavingsModal: (state, { payload }) => {
       state.savingsModal = payload;
     },
+    setMySavingsModal: (state, { payload }) => {
+      state.mySavingsModal = payload;
+    },
 
     setSubCategorySavingsModal: (state, { payload }) => {
       state.subCategorySavingsModal = {
+        status: payload.status,
+        payload: payload.payload,
+      };
+    },
+    setMySavingsDetailsModal: (state, { payload }) => {
+      state.mySavingsDetailsModal = {
         status: payload.status,
         payload: payload.payload,
       };
@@ -377,7 +392,9 @@ export const {
   setAddCardModal,
   setTransactionModal,
   setSavingsModal,
+  setMySavingsModal,
   setSubCategorySavingsModal,
+  setMySavingsDetailsModal,
   setPurchaseSavingsModal,
   setReferralModal,
   setTransactionDetailsModal,

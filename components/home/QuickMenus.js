@@ -11,8 +11,8 @@ import {
   setBankModal,
   setCardModal,
   setChangePinModal,
+  setMySavingsModal,
   setReferralModal,
-  setSavingsModal,
   setTransactionModal,
 } from "../../store/alert/alertSlice";
 const QuickMenus = ({ navigation }) => {
@@ -29,7 +29,7 @@ const QuickMenus = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <View style={{ padding: 5, width: "50%" }}>
-          <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setSavingsModal(true))}>
+          <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setMySavingsModal(true))}>
             <Icon name="wallet-outline" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
             <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Savings</Text>
           </TouchableOpacity>

@@ -5,7 +5,7 @@ import colors from "../../styles/colors";
 
 const CustomLoadingButton = ({ buttonText, emptyFields, onPress = () => {}, loading }) => {
   return (
-    <View style={{ width: "93%", justifyContent: "center", alignItems: "center", marginTop: 20 }}>
+    <View style={{ width: "100%", justifyContent: "center", alignItems: "center", marginTop: 20 }}>
       <View style={{ marginTop: 20, width: "100%" }}>
         <TouchableOpacity
           onPress={onPress}

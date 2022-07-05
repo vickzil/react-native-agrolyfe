@@ -14,7 +14,13 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setPurchaseSavingsModal, setSubCategorySavingsModal } from "../../../store/alert/alertSlice";
+import {
+  setLoading,
+  setMySavingsModal,
+  setPurchaseSavingsModal,
+  setSavingsModal,
+  setSubCategorySavingsModal,
+} from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -24,6 +30,9 @@ import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import SavingFrequency from "./pruchase/SavingFrequency";
+import SavingDuration from "./pruchase/SavingDuration";
+import SavingSummary from "./pruchase/SavingSummary";
+import ScreenLoading from "../../loader/ScreenLoading";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -36,32 +45,40 @@ const PurchaseSavingsModal = () => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(null);
   const [frequency, setFrequency] = useState("");
+  const [duration, setDuration] = useState("");
+  const [summaryDetails, setSummaryDetails] = useState(null);
   const [buttonText, setButtonText] = useState("Proceed");
   const [emptyFields, setEmptyFields] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [screenLoading, setScreenLoading] = useState({
+    status: false,
+    message: "",
+  });
   const [shouldScroll] = useState(false);
 
   const scrollViewRef = useRef(null);
 
-  const radioButtonsData = [
-    {
-      id: "1", // acts as primary key, should be unique and non-empty string
-      label: "Once a day",
-      value: "daily",
-    },
-    {
-      id: "2",
-      label: "Once a week",
-      value: "weekly",
-    },
-    {
-      id: "3",
-      label: "Once a month",
-      value: "monthly",
-    },
-  ];
+  const closeModal = () => {
+    dispatch(
+      setPurchaseSavingsModal({
+        status: false,
+        payload: null,
+      }),
+    );
 
-  const [radioSelections, setRadioSelections] = useState(radioButtonsData);
+    setAmount(null);
+    setName("");
+    setFrequency("");
+    setDuration("");
+    setSummaryDetails(null);
+    setStep(1);
+    setButtonText("Proceed");
+    setEmptyFields(true);
+    setScreenLoading({
+      status: false,
+      message: "",
+    });
+  };
 
   useEffect(() => {
     if (step === 1) {
@@ -96,25 +113,27 @@ const PurchaseSavingsModal = () => {
 
       setEmptyFields(false);
     }
-  }, [step, name, amount, frequency]);
+    if (step === 4) {
+      if (!duration) {
+        setEmptyFields(true);
 
-  const closeModal = () => {
-    dispatch(
-      setPurchaseSavingsModal({
-        status: false,
-        payload: null,
-      }),
-    );
+        return;
+      }
 
-    setAmount(null);
-    setName("");
-    setFrequency("");
-    setStep(1);
-    setButtonText("Proceed");
-    setEmptyFields(true);
-  };
+      setEmptyFields(false);
+    }
+    if (step === 5) {
+      setEmptyFields(false);
+    }
+  }, [step, name, amount, frequency, duration]);
 
   const previousStep = () => {
+    if (isLoading) {
+      return;
+    }
+    if (screenLoading?.status === true) {
+      return;
+    }
     if (step === 1) {
       closeModal();
       // scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
@@ -133,16 +152,28 @@ const PurchaseSavingsModal = () => {
       scrollViewRef.current?.scrollTo({ x: width, y: 0, animated: true });
       return;
     }
+    if (step === 4) {
+      setStep(3);
+      setButtonText("Proceed");
+      scrollViewRef.current?.scrollTo({ x: width * 2, y: 0, animated: true });
+      return;
+    }
+    if (step === 5) {
+      setStep(4);
+      setButtonText("Proceed");
+      scrollViewRef.current?.scrollTo({ x: width * 3, y: 0, animated: true });
+      return;
+    }
   };
 
   const procceed = () => {
     setEmptyFields(true);
-    setLoading(true);
+    setIsLoading(true);
     setTimeout(() => {
-      setLoading(false);
+      setIsLoading(false);
       if (step === 1) {
         setStep(2);
-        setButtonText("Submit");
+        // setButtonText("Submit");
         scrollViewRef.current?.scrollTo({ x: width, y: 0, animated: true });
 
         return;
@@ -157,18 +188,42 @@ const PurchaseSavingsModal = () => {
         scrollViewRef.current?.scrollTo({ x: width * 3, y: 0, animated: true });
         // closeModal();
       }
+      if (step === 4) {
+        setStep(5);
+        scrollViewRef.current?.scrollTo({ x: width * 4, y: 0, animated: true });
+        // closeModal();
+        setButtonText("Submit");
+      }
+
+      if (step === 5) {
+        setScreenLoading({
+          status: true,
+          message: "please wait...",
+        });
+
+        setTimeout(() => {
+          closeModal();
+
+          dispatch(
+            setSubCategorySavingsModal({
+              status: false,
+              payload: null,
+            }),
+          );
+
+          dispatch(setSavingsModal(false));
+          dispatch(setMySavingsModal(false));
+
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+        }, 4500);
+
+        // closeModal();
+      }
     }, 400);
   };
-
-  function handleRadioButton(selectedArray) {
-    setRadioSelections(selectedArray);
-    let selected = selectedArray.find((item) => item.selected === true);
-    if (selected) {
-      setFrequency(selected.value);
-    }
-
-    console.log(selectedArray);
-  }
 
   return (
     <Modal
@@ -180,14 +235,15 @@ const PurchaseSavingsModal = () => {
       <View>
         <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
       </View>
+      <ScreenLoading visibility={screenLoading} />
       {/* <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" /> */}
       {/* <StatusBar translucent barStyle={statusbar} /> */}
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
-          <View style={[styles.modalHeader, { backgroundColor: "#FFF" }]}>
+          <View style={[styles.modalHeader, { backgroundColor: "#FFF", marginTop: 40 }]}>
             <Icon
               name="arrow-left"
-              size={25}
+              size={40}
               style={[styles.modalHeaderIcon, { color: "#111" }]}
               onPress={() => previousStep()}
             />
@@ -202,19 +258,29 @@ const PurchaseSavingsModal = () => {
           >
             <SavingsName name={name} setName={setName} />
             <SavingAmount amount={amount} setAmount={setAmount} />
-            <SavingFrequency
-              radioSelections={radioSelections}
-              frequency={frequency}
-              handleRadioButton={handleRadioButton}
-            />
+            <SavingFrequency frequency={frequency} setFrequency={setFrequency} />
+            <SavingDuration duration={duration} setDuration={setDuration} />
+            <SavingSummary summaryDetails={summaryDetails} />
           </ScrollView>
 
-          <View style={[globalStyles.buttonFloat, { width: "100%", justifyContent: "flex-end" }]}>
+          <View
+            style={[
+              globalStyles.buttonFloat,
+              {
+                width: "100%",
+                justifyContent: "flex-end",
+                marginBottom: -30,
+                marginLeft: 0,
+                padding: 0,
+                marginRight: 0,
+              },
+            ]}
+          >
             <CustomLoadingButton
               onPress={() => procceed()}
               emptyFields={emptyFields}
               buttonText={buttonText}
-              loading={loading}
+              loading={isLoading}
             />
           </View>
         </View>

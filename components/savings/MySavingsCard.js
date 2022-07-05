@@ -1,27 +1,29 @@
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import colors from "../../styles/colors";
-import { useDispatch } from "react-redux";
 import IconSearch from "react-native-vector-icons/AntDesign";
-import { setPurchaseDetailsModal } from "../../store/alert/alertSlice";
+import { useDispatch } from "react-redux";
+import { setMySavingsDetailsModal } from "../../store/alert/alertSlice";
 
-const PurchaseCard = ({ item }) => {
+const MySavingsCard = ({ item }) => {
   const dispatch = useDispatch();
 
-  const showDetails = () => {
-    dispatch(
-      setPurchaseDetailsModal({
-        status: true,
-        payload: null,
-      }),
-    );
-  };
-
   return (
-    <TouchableOpacity style={styles.productCard} activeOpacity={0.7} onPress={() => showDetails()}>
+    <TouchableOpacity
+      style={styles.productCard}
+      activeOpacity={0.7}
+      onPress={() =>
+        dispatch(
+          setMySavingsDetailsModal({
+            status: true,
+            payload: item,
+          }),
+        )
+      }
+    >
       <View style={styles.productCardContent}>
         <View style={styles.productCardContentSub}>
-          <Text style={styles.productCardContentSubTitle}>Purchased</Text>
+          <Text style={styles.productCardContentSubTitle}>Savings</Text>
 
           <IconSearch
             name="lock"
@@ -41,15 +43,9 @@ const PurchaseCard = ({ item }) => {
 
         <Text style={styles.productCardContentTitle}>agrolyfe_land_lag_001</Text>
         <View
-          style={{
-            width: "100%",
-            backgroundColor: "rgba(24, 133, 111, 0.05)",
-            height: 3,
-            paddingHorizontal: 40,
-            marginBottom: 30,
-          }}
+          style={{ width: "100%", backgroundColor: "#fff", height: 3, paddingHorizontal: 40, marginBottom: 30 }}
         ></View>
-        <View style={{ flexDirection: "row", marginBottom: 32, justifyContent: "space-between" }}>
+        <View style={{ flexDirection: "row", marginBottom: 22, justifyContent: "space-between" }}>
           <View>
             <Text
               style={{
@@ -60,7 +56,7 @@ const PurchaseCard = ({ item }) => {
                 fontFamily: "Poppins",
               }}
             >
-              Rental Fee (%)
+              Interest Rate
             </Text>
             <Text
               style={{
@@ -100,60 +96,8 @@ const PurchaseCard = ({ item }) => {
             </Text>
           </View>
         </View>
-        <View style={{ flexDirection: "row", marginBottom: 32, justifyContent: "space-between" }}>
-          <View>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: "600",
-                color: colors.greenDarkColor,
-                marginRight: 15,
-                fontFamily: "Poppins",
-              }}
-            >
-              Status
-            </Text>
-            <Text
-              style={[
-                styles.productCardContentItemRightStatus,
-                {
-                  color: "#fff",
-                  fontWeight: "800",
-                  justifyContent: "flex-start",
-                  fontFamily: "Montserrat",
-                },
-              ]}
-            >
-              20%
-            </Text>
-          </View>
-          <View>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: "600",
-                color: colors.greenDarkColor,
-                fontFamily: "Poppins",
-                textAlign: "right",
-              }}
-            >
-              Maturity Date
-            </Text>
-            <Text
-              style={{
-                fontSize: 18,
-                color: "#444",
-                fontWeight: "600",
-                justifyContent: "flex-end",
-                fontFamily: "Montserrat",
-                textAlign: "right",
-              }}
-            >
-              15/05/2022, 8:23 pm
-            </Text>
-          </View>
-        </View>
         <View style={{ flexDirection: "row", marginBottom: 10, justifyContent: "space-between" }}>
+          <View></View>
           <View>
             <Text
               style={{
@@ -166,7 +110,7 @@ const PurchaseCard = ({ item }) => {
                 textAlign: "right",
               }}
             >
-              Amount Purchased
+              Minimum Amount
             </Text>
             <Text
               style={{
@@ -174,19 +118,18 @@ const PurchaseCard = ({ item }) => {
                 color: "#444",
                 fontWeight: "600",
                 flexDirection: "row",
-                justifyContent: "flex-start",
+                justifyContent: "flex-end",
                 fontFamily: "Montserrat",
-                textAlign: "left",
+                textAlign: "right",
               }}
             >
               ₦3,000
             </Text>
           </View>
-          <View></View>
         </View>
 
         {/* <View style={{ marginTop: 20 }}>
-          <TouchableOpacity style={[styles.productButton, { backgroundColor: colors.greenDarkColor }]} activeOpacity={0.7}>
+          <TouchableOpacity style={[styles.productButton, { backgroundColor: colors.greenColor }]} activeOpacity={0.7}>
             <Text style={styles.buttonText}>Details</Text>
           </TouchableOpacity>
         </View> */}
@@ -207,7 +150,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    // backgroundColor: "#effaff",
+    backgroundColor: "#ffae071a",
     borderWidth: 1,
     borderColor: "#f0f0f0",
     marginBottom: 20,
@@ -230,17 +174,6 @@ const styles = StyleSheet.create({
   productCardContentSubTitle: {
     fontSize: 17,
     // fontWeight: "800",
-    fontFamily: "MontserratBold",
-  },
-
-  productCardContentItemRightStatus: {
-    backgroundColor: colors.greenLightColor,
-    fontSize: 11,
-    lineHeight: 20,
-    color: "#fff",
-    paddingVertical: 3,
-    paddingHorizontal: 17,
-    borderRadius: 20,
     fontFamily: "MontserratBold",
   },
 
@@ -268,4 +201,4 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
   },
 });
-export default PurchaseCard;
+export default MySavingsCard;
