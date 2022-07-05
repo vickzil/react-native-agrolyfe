@@ -15,6 +15,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  setAlertModalSuccess,
   setBuyAirtimeModalModal,
   setSelectedNetwork,
   setTransferToCustomerModal,
@@ -167,6 +168,12 @@ const BuyAirtimeModal = () => {
         });
 
         setTimeout(() => {
+          dispatch(
+            setAlertModalSuccess({
+              status: true,
+              payload: null,
+            }),
+          );
           closeModal();
 
           setScreenLoading({
@@ -189,15 +196,20 @@ const BuyAirtimeModal = () => {
     >
       <ScreenLoading visibility={screenLoading} />
 
-      <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <KeyboardAvoidingView
+        style={{
+          flex: 1,
+        }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <View style={{ height: screenHeight }}>
           <View
             style={[
               {
                 backgroundColor: colors.greenDarkColor,
-                marginTop: 40,
-                borderBottomLeftRadius: 5,
-                borderBottomRightRadius: 5,
+                marginTop: -10,
+                // borderBottomLeftRadius: 5,
+                // borderBottomRightRadius: 5,
               },
             ]}
           >
@@ -208,7 +220,7 @@ const BuyAirtimeModal = () => {
                 style={[styles.modalHeaderIcon, { color: "#fff" }]}
                 onPress={() => previousStep()}
               />
-              <Text style={styles.modalHeaderText}>Transfer to {modal?.user?.userName || "user"}</Text>
+              <Text style={styles.modalHeaderText}>Buy Airtime</Text>
             </View>
 
             <HeaderBalance />
@@ -237,7 +249,7 @@ const BuyAirtimeModal = () => {
               {
                 width: "100%",
                 justifyContent: "flex-end",
-                marginBottom: -40,
+                marginBottom: 0,
                 marginLeft: 0,
                 padding: 0,
                 marginRight: 0,

@@ -10,7 +10,7 @@ const FSummary = ({ summaryDetails }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer, { marginBottom: 50 }]}>
-        <View style={{ marginTop: 20, marginBottom: 10, width: "95%", paddingRight: 10 }}>
+        <View style={{ marginTop: 20, marginBottom: 10, width: "97%", paddingRight: 10 }}>
           <View style={styles.productCardContent}>
             <Text
               style={[
@@ -56,23 +56,8 @@ const FSummary = ({ summaryDetails }) => {
                   <Text style={styles.productCardContentItemRight}>22/06/2023</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Number of Payments</Text>
-                  <Text style={styles.productCardContentItemRight}>5</Text>
-                </View>
-                <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Payments Methods</Text>
-                  <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
-                    <View style={{ alignItems: "flex-end" }}>
-                      <Text style={styles.productCardContentItemRight}>Card</Text>
-                      <Text style={styles.productCardContentItemRight}>Access bank</Text>
-                    </View>
-
-                    <Icon
-                      name="chevron-right"
-                      size={53}
-                      style={[styles.modalHeaderIcon, { color: "#222", fontSize: 23, marginLeft: 5, marginRight: -15 }]}
-                    />
-                  </View>
+                  <Text style={styles.productCardContentItemRight}>Card</Text>
                 </View>
               </View>
             </View>
@@ -109,6 +94,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
+    paddingLeft: 0,
   },
 
   productCardContentItem: {

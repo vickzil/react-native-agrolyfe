@@ -31,7 +31,7 @@ const AlertSuccessModal = () => {
 
             {/* <View style={{ marginTop: 30 }}> */}
             <Text style={[globalStyles.label, styles.amountInput]}>NGN 25,000</Text>
-            <Text style={[globalStyles.label, { color: "#222", textAlign: "center" }]}>PROCESSING</Text>
+            <Text style={[globalStyles.label, { color: "#f7ab07", textAlign: "center" }]}>PROCESSING</Text>
             <View style={{ alignItems: "center", textAlign: "center", justifyContent: "center", marginTop: -4 }}>
               <View style={styles.bottomBorder}></View>
             </View>
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   bottomBorder: {
     width: 50,
     height: 3,
-    backgroundColor: colors.greenDarkColor,
+    backgroundColor: "#f7ab07",
   },
 });
 export default AlertSuccessModal;

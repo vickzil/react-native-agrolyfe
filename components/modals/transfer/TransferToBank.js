@@ -172,15 +172,16 @@ const TransferToBankModal = () => {
   };
 
   return (
-    <Modal
-      visible={modal?.status}
-      animationType="fade"
-      onRequestClose={() => previousStep()}
-      style={{ flex: 1, backgroundColor: "#fff" }}
-    >
+    <Modal visible={modal?.status} animationType="fade" onRequestClose={() => previousStep()}>
       <ScreenLoading visibility={screenLoading} />
 
-      <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <KeyboardAvoidingView
+        style={{
+          marginTop: -50,
+          flex: 1,
+        }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <View style={{ height: screenHeight }}>
           <View style={[{ backgroundColor: colors.greenDarkColor, marginTop: 40 }]}>
             <View style={[styles.modalHeader]}>
