@@ -35,6 +35,7 @@ const CompleteRegister = ({ navigation }) => {
   });
   const [date, setDate] = useState(new Date());
   const [errors, setErrors] = useState({});
+  const [valid, setValid] = useState(false);
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -54,31 +55,31 @@ const CompleteRegister = ({ navigation }) => {
 
   const validate = () => {
     Keyboard.dismiss();
-    let valid = true;
+    setValid(true);
     if (!inputs.email) {
       handleError("Please input email", "email");
-      valid = false;
+      setValid(false);
     } else if (validEmail(inputs.email) == false) {
       handleError("Please input valid email", "email");
-      valid = false;
+      setValid(false);
     }
 
     if (!inputs.firstname) {
       handleError("Please input firstname", "firstname");
-      valid = false;
+      setValid(false);
     }
     if (!inputs.lastname) {
       handleError("Please input lastname", "lastname");
-      valid = false;
+      setValid(false);
     }
     if (!inputs.phone) {
       handleError("Please input phone", "phone");
-      valid = false;
+      setValid(false);
     }
 
     if (!inputs.password) {
       handleError("Please input password", "passworld");
-      valid = false;
+      setValid(false);
     } else if (!inputs.password.length < 5) {
       handleError("Min password length of 5", "passworld");
     }
@@ -124,7 +125,7 @@ const CompleteRegister = ({ navigation }) => {
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
       <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
-      <ScrollView contentContainerStyle={{ paddingTop: 40, paddingHorizontal: 20, paddingBottom: 40 }}>
+      <ScrollView contentContainerStyle={{ paddingTop: 10, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
         <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins" }}>Nice Work!</Text>
         <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Please complete your registration</Text>
@@ -200,7 +201,7 @@ const CompleteRegister = ({ navigation }) => {
             password={true}
           />
           <View style={{ marginTop: 20 }}>
-            <CustomButton onPress={validate} title="Finish" />
+            <CustomButton onPress={validate} valid={valid} title="Finish" />
           </View>
           <Text
             onPress={() => navigation.navigate("Login")}

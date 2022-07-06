@@ -63,6 +63,7 @@ const AddBankForm = ({ closeModal }) => {
               </Text>
               <View style={[globalStyles.inputContainer, { height: 57 }]}>
                 <TextInput
+                  keyboardType="numeric"
                   value={accountNumber}
                   onChangeText={(text) => setAccountNumber(text)}
                   autoCorrect={false}
@@ -77,12 +78,14 @@ const AddBankForm = ({ closeModal }) => {
               <Text style={[styles.productCardContentItemRight, { fontWeight: "700" }]}>Victor Nwakwue</Text>
             </View>
           </View>
-          <CustomLoadingButton
-            onPress={() => resetAndClose()}
-            emptyFields={emptyFields}
-            buttonText={buttonText}
-            loading={loading}
-          />
+          <View style={{ width: "90%" }}>
+            <CustomLoadingButton
+              onPress={() => resetAndClose()}
+              emptyFields={emptyFields}
+              buttonText={buttonText}
+              loading={loading}
+            />
+          </View>
         </View>
       </ScrollView>
     </View>

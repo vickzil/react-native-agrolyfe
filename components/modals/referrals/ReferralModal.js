@@ -78,7 +78,7 @@ const ReferralModal = () => {
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
-            size={25}
+            size={33}
             style={[styles.modalHeaderIcon, { color: "#fff" }]}
             onPress={() => dispatch(setReferralModal(false))}
           />

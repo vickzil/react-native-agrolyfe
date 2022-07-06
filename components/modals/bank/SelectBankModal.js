@@ -78,7 +78,7 @@ const SelectBankModal = () => {
         <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
           <Icon
             name="arrow-left"
-            size={25}
+            size={33}
             style={[styles.modalHeaderIcon, { color: "#222" }]}
             onPress={() => closeModal()}
           />

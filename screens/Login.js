@@ -2,7 +2,7 @@ import "../ignoreWarnings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { Alert, Keyboard, Text, View, ScrollView, SafeAreaView, TouchableOpacity } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import CustomButton from "../components/customs/CustomButton";
 import CustomInput from "../components/customs/CustomInput";
@@ -10,9 +10,12 @@ import { validEmail } from "../components/helpers/globalFunction";
 import Logo from "../components/logo/Logo";
 import { setLoading } from "../store/alert/alertSlice";
 import { setHasLogin, setToken } from "../store/auth/authSlice";
+import colors from "../styles/colors";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
+  const hasLogin = useSelector((state) => state.oauth.hasLogin);
+  const [valid, setValid] = useState(false);
   // const [loading, setLoading] = useState(false);
 
   const [inputs, setInputs] = useState({
@@ -23,18 +26,18 @@ const Login = ({ navigation }) => {
 
   const validate = () => {
     Keyboard.dismiss();
-    let valid = true;
+    setValid(true);
     if (!inputs.email) {
       handleError("Please input email", "email");
-      valid = false;
+      setValid(false);
     } else if (validEmail(inputs.email) == false) {
       handleError("Please input valid email", "email");
-      valid = false;
+      setValid(false);
     }
 
     if (!inputs.password) {
       handleError("Please input password", "passworld");
-      valid = false;
+      setValid(false);
     }
 
     if (valid) {
@@ -86,10 +89,10 @@ const Login = ({ navigation }) => {
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
       <ScrollView contentContainerStyle={{ paddingTop: 50, paddingHorizontal: 20 }}>
         <Logo />
-        <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins", paddingTop: 30 }}>
-          Login
+        <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins", paddingTop: 0 }}>
+          {hasLogin ? "Welcome Back" : "Login"}
         </Text>
-        <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Enter Your Details to Login</Text>
+        <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Please sign in to your account</Text>
 
         <View style={{ marginVertical: 20 }}>
           <CustomInput
@@ -107,7 +110,13 @@ const Login = ({ navigation }) => {
             <TouchableOpacity>
               <Text
                 onPress={() => navigation.navigate("ForgotPassword")}
-                style={{ color: "#555", textAlign: "right", fontSize: 16, fontWeight: "bold", marginTop: -7 }}
+                style={{
+                  color: colors.greenColor,
+                  textAlign: "right",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  marginTop: -7,
+                }}
               >
                 Forgot Password?
               </Text>
@@ -125,10 +134,18 @@ const Login = ({ navigation }) => {
             iconName="lock-outline"
             password={true}
           />
-          <CustomButton onPress={validate} title="Login" />
+          <View style={{ marginTop: 40 }}>
+            <CustomButton onPress={validate} valid={valid} title=" Login" />
+          </View>
           <Text
             onPress={() => navigation.navigate("Register")}
-            style={{ color: "black", textAlign: "center", fontSize: 16, fontWeight: "bold", marginTop: 20 }}
+            style={{
+              color: colors.greenDarkDarkColor,
+              textAlign: "center",
+              fontSize: 16,
+              fontWeight: "bold",
+              marginTop: 20,
+            }}
           >
             Don't have account? Register
           </Text>

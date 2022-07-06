@@ -1,10 +1,11 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { globalStyles } from "../../styles/global";
 import TransactionItem from "./TransactionItem";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch } from "react-redux";
 import { setTransactionModal } from "../../store/alert/alertSlice";
+import LoadingComponents from "../loader/LoadingComponents";
 
 const Transactions = () => {
   const dispatch = useDispatch();
@@ -61,12 +62,17 @@ const Transactions = () => {
       </View>
 
       <View style={{ marginTop: 5, marginBottom: 40 }}>
-        {transactions?.map((item, index) => (
-          <TransactionItem item={item} key={index} index={index} />
-        ))}
+        {transactions && transactions.length ? (
+          transactions?.map((item, index) => <TransactionItem item={item} key={index} index={index} />)
+        ) : (
+          <View style={{ marginTop: 40 }}>
+            <LoadingComponents />
+          </View>
+        )}
       </View>
     </View>
   );
 };
 
+const styles = StyleSheet.create({});
 export default Transactions;

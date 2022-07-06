@@ -1,52 +1,275 @@
-import { Dimensions, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  Dimensions,
+  FlatList,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {
+  setAlertModalSuccess,
+  setCableSubscriptionModal,
+  setSelectedNetwork,
+  setTransferToCustomerModal,
+} from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
-import { setCableSubscriptionModal } from "../../../store/alert/alertSlice";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import CableForm from "./CableForm";
+import { globalStyles } from "../../../styles/global";
+import CustomLoadingButton from "../../customs/CustomLoadingButton";
+import ScreenLoading from "../../loader/ScreenLoading";
+import HeaderBalance from "../../extra/HeaderBalance";
+import FirstScreen from "./cable/FirstScreen";
+import FSummary from "./cable/FSummary";
+import FConfirm from "./cable/FConfirm";
 
 const { width } = Dimensions.get("screen");
+const screenHeight = Dimensions.get("window").height;
 
 const CableSubscription = () => {
   const modal = useSelector((state) => state.alert.cableSubscriptionModal);
+  const selectedNetwork = useSelector((state) => state.alert.selectedNetwork);
   const dispatch = useDispatch();
+
+  const [step, setStep] = useState(1);
+  const [amount, setAmount] = useState(3000);
+  const [ICUNumber, setICUNumber] = useState("");
+  const [summaryDetails, setSummaryDetails] = useState(null);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [buttonText, setButtonText] = useState("Proceed");
+  const [emptyFields, setEmptyFields] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [screenLoading, setScreenLoading] = useState({
+    status: false,
+    message: "",
+  });
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [shouldScroll] = useState(false);
+  const scrollViewRef2 = useRef(null);
 
   const closeModal = () => {
     dispatch(setCableSubscriptionModal(false));
+
+    setAmount(null);
+    setICUNumber("");
+    setSummaryDetails(null);
+    setSelectedPackage(null);
+    setSelectedProduct(null);
+    setStep(1);
+    setButtonText("Proceed");
+    setEmptyFields(true);
+    setScreenLoading({
+      status: false,
+      message: "",
+    });
+    setIsEnabled(false);
+    dispatch(setSelectedNetwork(null));
+  };
+
+  useEffect(() => {
+    // console.log(selectedPackage);
+    // console.log(selectedProduct);
+    // console.log(ICUNumber);
+    if (step === 1) {
+      if (!selectedPackage) {
+        setEmptyFields(true);
+
+        return;
+      }
+      if (!selectedProduct) {
+        setEmptyFields(true);
+
+        return;
+      }
+
+      if (!ICUNumber) {
+        setEmptyFields(true);
+
+        return;
+      }
+
+      setEmptyFields(false);
+    }
+
+    if (step === 2) {
+      setEmptyFields(false);
+    }
+
+    if (step === 3) {
+      if (!isEnabled) {
+        setEmptyFields(true);
+
+        return;
+      }
+
+      setEmptyFields(false);
+    }
+  }, [step, selectedPackage, ICUNumber, isEnabled, modal, selectedProduct]);
+
+  const previousStep = () => {
+    if (isLoading) {
+      return;
+    }
+    if (screenLoading?.status === true) {
+      return;
+    }
+    if (step === 1) {
+      closeModal();
+      // scrollViewRef2.current?.scrollTo({ x: 0, y: 0, animated: true });
+
+      return;
+    }
+    if (step === 2) {
+      setStep(1);
+      setButtonText("Proceed");
+      scrollViewRef2.current?.scrollTo({ x: 0, y: 0, animated: true });
+      return;
+    }
+    if (step === 3) {
+      setStep(2);
+      setButtonText("Proceed");
+      scrollViewRef2.current?.scrollTo({ x: width, y: 0, animated: true });
+      return;
+    }
+  };
+
+  const procceed = () => {
+    setEmptyFields(true);
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      if (step === 1) {
+        setStep(2);
+        // setButtonText("Submit");
+        scrollViewRef2.current?.scrollTo({ x: width, y: 0, animated: true });
+
+        return;
+      }
+      if (step === 2) {
+        setStep(3);
+        setButtonText("Submit");
+        scrollViewRef2.current?.scrollTo({ x: width * 2, y: 0, animated: true });
+        // closeModal();
+      }
+
+      if (step === 3) {
+        setScreenLoading({
+          status: true,
+          message: "please wait...",
+        });
+
+        setTimeout(() => {
+          dispatch(
+            setAlertModalSuccess({
+              status: true,
+              payload: null,
+            }),
+          );
+          closeModal();
+
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+        }, 4500);
+
+        // closeModal();
+      }
+    }, 400);
   };
 
   return (
-    <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
-        <View style={{ backgroundColor: colors.greenDarkColor }}>
-          <View style={[styles.modalHeader]}>
-            <Icon
-              name="arrow-left"
-              size={29}
-              style={[styles.modalHeaderIcon, { color: "#fff" }]}
-              onPress={() => closeModal()}
-            />
-            <Text style={styles.modalHeaderText}>Cable subscription</Text>
-            <Text></Text>
+    <Modal
+      visible={modal}
+      animationType="fade"
+      onRequestClose={() => previousStep()}
+      style={{ flex: 1, backgroundColor: "#fff" }}
+    >
+      <ScreenLoading visibility={screenLoading} />
+
+      <KeyboardAvoidingView
+        style={{
+          flex: 1,
+        }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <View style={{ height: screenHeight }}>
+          <View
+            style={[
+              {
+                backgroundColor: colors.greenDarkColor,
+                marginTop: -10,
+                // borderBottomLeftRadius: 5,
+                // borderBottomRightRadius: 5,
+              },
+            ]}
+          >
+            <View style={[styles.modalHeader]}>
+              <Icon
+                name="arrow-left"
+                size={40}
+                style={[styles.modalHeaderIcon, { color: "#fff" }]}
+                onPress={() => previousStep()}
+              />
+              <Text style={styles.modalHeaderText}>Cable subscription</Text>
+            </View>
+
+            <HeaderBalance />
           </View>
 
-          <View style={[styles.modalSearchContainer]}>
-            <Text style={styles.modalHeaderTex}>NGN 0.00</Text>
-            <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>Main Balance</Text>
+          <ScrollView
+            horizontal={true}
+            scrollEnabled={shouldScroll}
+            ref={scrollViewRef2}
+            showsHorizontalScrollIndicator={false}
+          >
+            <FirstScreen
+              amount={amount}
+              setAmount={setAmount}
+              setICUNumber={setICUNumber}
+              ICUNumber={ICUNumber}
+              selectedProduct={selectedProduct}
+              setSelectedProduct={setSelectedProduct}
+              selectedPackage={selectedPackage}
+              setSelectedPackage={setSelectedPackage}
+            />
+            <FSummary summaryDetails={summaryDetails} />
+            <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} step={step} />
+          </ScrollView>
+
+          <View
+            style={[
+              globalStyles.buttonFloat,
+              {
+                width: "100%",
+                justifyContent: "flex-end",
+                marginBottom: 0,
+                marginLeft: 0,
+                padding: 0,
+                marginRight: 0,
+                paddingHorizontal: 10,
+              },
+            ]}
+          >
+            <CustomLoadingButton
+              onPress={() => procceed()}
+              emptyFields={emptyFields}
+              buttonText={buttonText}
+              loading={isLoading}
+            />
           </View>
         </View>
-
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <CableForm closeModal={closeModal} />
-          {/* <View style={[styles.productContainer]}>
-            <AllSavings />
-          </View> */}
-        </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
-    // </GestureRecognizer>
   );
 };
 
@@ -54,11 +277,9 @@ const styles = StyleSheet.create({
   modalHeader: {
     width,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 7,
+    paddingVertical: 15,
     paddingHorizontal: 10,
-    // elevation: 3,
   },
 
   modalHeaderIcon: {
@@ -69,45 +290,62 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 19,
+    fontSize: 17,
     lineHeight: 29,
     marginBottom: 0,
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     color: "#fff",
-    marginLeft: -45,
   },
 
   modalSearchContainer: {
     justifyContent: "center",
     alignItems: "center",
     width,
-    paddingVertical: 0,
+    paddingVertical: 20,
     paddingHorizontal: 20,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     paddingBottom: 30,
   },
 
-  modalHeaderTex: {
+  modalSearch: {
+    width: "98%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f8f8f8",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 12,
+  },
+
+  searchIcon: {
+    marginRight: 15,
+  },
+
+  searchInput: {
+    fontSize: 16,
+    color: "#444",
+  },
+
+  buttonFloat: {
+    position: "absolute",
+    right: 10,
+    bottom: 120,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 80,
+    elevation: 5,
+  },
+
+  buttonFloatText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 27,
-    // lineHeight: 29,
-    // marginTop: 10,
+    fontSize: 17,
+    lineHeight: 29,
+    marginBottom: 0,
     fontFamily: "Poppins",
     color: "#fff",
   },
-
-  modalHeaderText2: {
-    fontSize: 16,
-  },
-
-  productContainer: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 30,
-    paddingBottom: 100,
-  },
 });
+
 export default CableSubscription;

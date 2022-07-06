@@ -25,6 +25,7 @@ const AddBankModal = () => {
 
   const closeModal = () => {
     dispatch(setAddBankModal(false));
+    dispatch(setSelectedBank(null));
     // setDefaultBank(null);
   };
 
@@ -42,7 +43,7 @@ const AddBankModal = () => {
         <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
           <Icon
             name="arrow-left"
-            size={25}
+            size={33}
             style={[styles.modalHeaderIcon, { color: "#222" }]}
             onPress={() => closeModal()}
           />

@@ -10,25 +10,23 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import CurrencyInput from "react-native-currency-input";
 import { globalStyles } from "../../../../styles/global";
 import colors from "../../../../styles/colors";
-import { setSelectBankModal, setSelectCardModal, setSelectedNetwork } from "../../../../store/alert/alertSlice";
 import { useDispatch } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import SelectPackageModal from "../SelectPackageModal";
+import SelectProductModal from "../SelectProductModal";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const userImage = require("../../../../assets/img/user.jpg");
-
 const FirstScreen = ({
   amount,
   setAmount,
-  setMobileNumber,
-  selectedNetwork,
-  mobileNumber,
+  setICUNumber,
+  selectedProduct,
+  setSelectedProduct,
+  ICUNumber,
   selectedPackage,
   setSelectedPackage,
 }) => {
@@ -39,52 +37,10 @@ const FirstScreen = ({
     data: null,
   });
 
-  const [overview] = useState([
-    {
-      id: 1,
-      name: "MTN",
-      img: require("../../../../assets/img/mtn.png"),
-    },
-    {
-      id: 2,
-      name: "GLO",
-      img: require("../../../../assets/img/glo.png"),
-    },
-    {
-      id: 3,
-      name: "Airtel",
-      img: require("../../../../assets/img/airtel.jpg"),
-    },
-    {
-      id: 4,
-      name: "Etisalat",
-      img: require("../../../../assets/img/etisalat.jpg"),
-    },
-  ]);
-
-  const selectItemm = (item) => {
-    // console.log(item);
-    dispatch(setSelectedNetwork(item));
-  };
-
-  const AirtimeList = ({ item, index }) => {
-    return (
-      <TouchableOpacity
-        onPress={() => selectItemm(item)}
-        style={[
-          styles.card,
-          index === 0 && styles.addMarginLeft,
-          index === 3 && styles.addMarginRight,
-          selectedNetwork && selectedNetwork.id == item.id ? globalStyles.selectedItem : styles.hasBore,
-          styles.imageCard,
-
-          { padding: 10, backgroundColor: "#fff", justifyContent: "center", alignItems: "center" },
-        ]}
-      >
-        <Image source={item.img} style={[{ width: 72, height: 72, borderRadius: 100 }]} resizeMode="cover" />
-      </TouchableOpacity>
-    );
-  };
+  const [selectProductModal, setSelectProductModal] = useState({
+    status: false,
+    data: null,
+  });
 
   const closeSelectPackage = () => {
     setSelectPackageModal({
@@ -92,9 +48,26 @@ const FirstScreen = ({
       data: [],
     });
   };
+
+  const closeSelectPRoduct = () => {
+    setSelectProductModal({
+      status: false,
+      data: [],
+    });
+  };
+
   const choosenPage = (sPackage) => {
     setSelectedPackage(sPackage);
     setSelectPackageModal({
+      status: false,
+      data: [],
+    });
+  };
+
+  const choosenProd = (sProduct) => {
+    setSelectedProduct(sProduct);
+    setAmount("5000");
+    setSelectProductModal({
       status: false,
       data: [],
     });
@@ -106,23 +79,44 @@ const FirstScreen = ({
       data: [
         {
           id: 1,
-          name: "Data 1GB - 30days",
+          name: "DSTV",
         },
         {
           id: 2,
-          name: "Data 2GB - 30days",
+          name: "GOTV",
         },
         {
           id: 3,
-          name: "Data 3GB - 30days",
+          name: "STARTIMES",
+        },
+      ],
+    });
+  };
+
+  const chooseProduct = () => {
+    setSelectedProduct(null);
+    setSelectProductModal({
+      status: true,
+      data: [
+        {
+          id: 1,
+          name: "Dstv Padi",
+        },
+        {
+          id: 2,
+          name: "Dstv Yanga",
+        },
+        {
+          id: 3,
+          name: "Dstv Confam",
         },
         {
           id: 4,
-          name: "Data 5GB - 30days",
+          name: "Dstv Compact",
         },
         {
           id: 5,
-          name: "Data 10GB - 30days",
+          name: "Dstv Premium",
         },
       ],
     });
@@ -136,22 +130,15 @@ const FirstScreen = ({
         choosenPage={choosenPage}
         selectedPackage={selectedPackage}
       />
+      <SelectProductModal
+        data={selectProductModal}
+        closeModal={closeSelectPRoduct}
+        choosenProd={choosenProd}
+        selectedProduct={selectedProduct}
+      />
+
       <View style={[styles.productContainer, { paddingBottom: 270 }]}>
         <View style={{ marginTop: 30, marginBottom: 0, width: "95%", paddingRight: 10 }}>
-          <View style={{ marginBottom: 50 }}>
-            <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 20, fontWeight: "600" }]}>
-              Select network provider
-            </Text>
-            <FlatList
-              horizontal
-              contentContainerStyle={{ paddingRight: 30 }}
-              data={overview}
-              style={{ width: screenWidth, marginRight: 30, paddingRight: 0 }}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item, index }) => <AirtimeList item={item} index={index} />}
-            />
-          </View>
           <View>
             <View style={{ marginTop: 0, marginBottom: 30, width: "100%", paddingRight: 0 }}>
               <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
@@ -165,29 +152,45 @@ const FirstScreen = ({
                 <Icon name="chevron-down" size={24} style={[{ color: "#222", marginLeft: -10 }]} />
               </TouchableOpacity>
             </View>
-            <View style={{ marginTop: 0, marginBottom: 10, width: "100%", paddingRight: 0 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
-                Mobile Number
-              </Text>
-              <View style={[globalStyles.inputContainer, { height: 57 }]}>
-                <TextInput
-                  value={mobileNumber}
-                  keyboardType="numeric"
-                  onChangeText={(text) => setMobileNumber(text)}
-                  autoCorrect={false}
-                  style={[globalStyles.inputTextt, { fontSize: 19, fontWeight: "600" }]}
-                />
+            {selectedPackage ? (
+              <View style={{ marginTop: 0, marginBottom: 30, width: "100%", paddingRight: 0 }}>
+                <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
+                  Select Product
+                </Text>
+                <TouchableOpacity style={[globalStyles.inputContainer, { height: 57 }]} onPress={() => chooseProduct()}>
+                  <Text style={globalStyles.inputTextt}>
+                    {" "}
+                    {selectedProduct ? selectedProduct.name : "Selected Product"}{" "}
+                  </Text>
+                  <Icon name="chevron-down" size={24} style={[{ color: "#222", marginLeft: -10 }]} />
+                </TouchableOpacity>
               </View>
-            </View>
-
-            <View style={{ marginTop: 20, marginBottom: 10, width: "100%", paddingRight: 0 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
-                Amount
-              </Text>
-              <View style={[globalStyles.inputContainer, globalStyles.inputContainerDisabled, { height: 57 }]}>
-                <Text style={[globalStyles.inputTextt, { fontSize: 25, fontWeight: "bold" }]}>{"₦ " + amount}</Text>
+            ) : null}
+            {selectedProduct ? (
+              <View style={{ marginTop: 0, marginBottom: 10, width: "100%", paddingRight: 0 }}>
+                <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
+                  Smart Card Number
+                </Text>
+                <View style={[globalStyles.inputContainer, { height: 57 }]}>
+                  <TextInput
+                    value={ICUNumber}
+                    onChangeText={(text) => setICUNumber(text)}
+                    autoCorrect={false}
+                    style={[globalStyles.inputTextt, { fontSize: 19, fontWeight: "600" }]}
+                  />
+                </View>
               </View>
-            </View>
+            ) : null}
+            {selectedProduct ? (
+              <View style={{ marginTop: 20, marginBottom: 10, width: "100%", paddingRight: 0 }}>
+                <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
+                  Amount
+                </Text>
+                <View style={[globalStyles.inputContainer, globalStyles.inputContainerDisabled, { height: 57 }]}>
+                  <Text style={[globalStyles.inputTextt, { fontSize: 25, fontWeight: "bold" }]}>{"₦ " + amount}</Text>
+                </View>
+              </View>
+            ) : null}
           </View>
         </View>
       </View>

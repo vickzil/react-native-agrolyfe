@@ -33,7 +33,7 @@ const FAmount = ({ amount, setAmount, user }) => {
           </View>
         </View>
         <View>
-          <View style={{ marginTop: 0, marginBottom: 30 }}>
+          <View style={{ marginTop: 0, marginBottom: 30, alignItems: "center" }}>
             <Text
               style={[
                 styles.productCardContentItemLeft,
@@ -64,7 +64,15 @@ const FAmount = ({ amount, setAmount, user }) => {
                 setAmount(text);
               }}
               style={[
-                { borderBottomWidth: 1, borderColor: colors.greenColor, height: 50, fontSize: 33, fontWeight: "700" },
+                {
+                  borderBottomWidth: 1,
+                  borderColor: colors.greenColor,
+                  height: 50,
+                  fontSize: 33,
+                  fontWeight: "700",
+                  width: "100%",
+                  textAlign: "center",
+                },
               ]}
             />
           </View>

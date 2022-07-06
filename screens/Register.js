@@ -7,6 +7,7 @@ import CustomInput from "../components/customs/CustomInput";
 import { validEmail } from "../components/helpers/globalFunction";
 import Logo from "../components/logo/Logo";
 import { setLoading } from "../store/alert/alertSlice";
+import colors from "../styles/colors";
 
 const Signin = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ const Signin = ({ navigation }) => {
       <ScrollView contentContainerStyle={{ paddingTop: 40, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
         <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins" }}>Register</Text>
-        <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Enter Your Email to Register</Text>
+        <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Create a secure account below</Text>
 
         <View style={{ marginVertical: 20, marginTop: 40 }}>
           <CustomInput
@@ -89,7 +90,13 @@ const Signin = ({ navigation }) => {
 
           <Text
             onPress={() => navigation.navigate("InputCode")}
-            style={{ color: "black", textAlign: "center", fontSize: 16, fontWeight: "bold", marginTop: 20 }}
+            style={{
+              color: colors.greenDarkDarkColor,
+              textAlign: "center",
+              fontSize: 16,
+              fontWeight: "bold",
+              marginTop: 20,
+            }}
           >
             Already have account? Login
           </Text>

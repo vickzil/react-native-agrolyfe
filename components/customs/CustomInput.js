@@ -11,7 +11,7 @@ const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...
       <Text style={styles.label}>{lable}</Text>
 
       <View style={[styles.inputContainer, { borderColor: error ? "red" : IsFocused ? "#777" : "#ced4ed" }]}>
-        <Icon name={iconName} size={22} color="#666" style={{ marginRight: 10 }} />
+        <Icon name={iconName} size={22} color="#666" style={{ marginRight: 16 }} />
         <TextInput
           secureTextEntry={hidePassword}
           autoCorrect={false}
@@ -23,7 +23,7 @@ const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...
           onBlur={() => {
             setIsFocused(false);
           }}
-          style={{ color: "gray", flex: 1, fontSize: 17 }}
+          style={{ color: "gray", flex: 1, fontSize: 17, fontWeight: "700" }}
           {...props}
         />
         {password && (

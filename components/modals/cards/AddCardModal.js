@@ -62,7 +62,7 @@ const AddCardModal = () => {
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                justifyContent: "flex-end",
+                justifyContent: "space-between",
                 width: "100%",
                 marginTop: 30,
               }}

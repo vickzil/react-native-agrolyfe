@@ -40,7 +40,7 @@ const BuyDataModal = () => {
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
-  const [amount, setAmount] = useState(null);
+  const [amount, setAmount] = useState(3000);
   const [mobileNumber, setMobileNumber] = useState("");
   const [summaryDetails, setSummaryDetails] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
@@ -51,6 +51,7 @@ const BuyDataModal = () => {
     status: false,
     message: "",
   });
+  const [selectedPackage, setSelectedPackage] = useState(null);
   const [shouldScroll] = useState(false);
   const scrollViewRef2 = useRef(null);
 
@@ -78,20 +79,13 @@ const BuyDataModal = () => {
 
         return;
       }
+      if (!selectedPackage) {
+        setEmptyFields(true);
+
+        return;
+      }
 
       if (!mobileNumber) {
-        setEmptyFields(true);
-
-        return;
-      }
-
-      if (!amount) {
-        setEmptyFields(true);
-
-        return;
-      }
-
-      if (amount && amount < 100) {
         setEmptyFields(true);
 
         return;
@@ -113,7 +107,7 @@ const BuyDataModal = () => {
 
       setEmptyFields(false);
     }
-  }, [step, amount, isEnabled, modal]);
+  }, [step, selectedPackage, isEnabled, modal]);
 
   const previousStep = () => {
     if (isLoading) {
@@ -238,6 +232,8 @@ const BuyDataModal = () => {
               setMobileNumber={setMobileNumber}
               mobileNumber={mobileNumber}
               selectedNetwork={selectedNetwork}
+              selectedPackage={selectedPackage}
+              setSelectedPackage={setSelectedPackage}
             />
             <FSummary summaryDetails={summaryDetails} />
             <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} step={step} />

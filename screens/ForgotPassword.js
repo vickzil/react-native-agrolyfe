@@ -8,6 +8,7 @@ import CustomInput from "../components/customs/CustomInput";
 import { validEmail } from "../components/helpers/globalFunction";
 import Logo from "../components/logo/Logo";
 import { setLoading } from "../store/alert/alertSlice";
+import colors from "../styles/colors";
 
 const ForgotPassword = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -91,7 +92,7 @@ const ForgotPassword = ({ navigation }) => {
         <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins", paddingTop: 30 }}>
           Forgot Password
         </Text>
-        <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Enter Your Email </Text>
+        <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Lets get you a new password</Text>
 
         <View style={{ marginVertical: 20 }}>
           <CustomInput
@@ -105,10 +106,18 @@ const ForgotPassword = ({ navigation }) => {
             iconName="email-outline"
           />
 
-          <CustomButton onPress={validate} title="Login" />
+          <View style={{ marginTop: 40 }}>
+            <CustomButton onPress={validate} title=" Send resend link" />
+          </View>
           <Text
             onPress={() => navigation.navigate("Login")}
-            style={{ color: "black", textAlign: "center", fontSize: 16, fontWeight: "bold", marginTop: 20 }}
+            style={{
+              color: colors.greenDarkDarkColor,
+              textAlign: "center",
+              fontSize: 16,
+              fontWeight: "bold",
+              marginTop: 30,
+            }}
           >
             Go Back to Login
           </Text>
