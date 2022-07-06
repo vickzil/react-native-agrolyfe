@@ -5,7 +5,6 @@ import RadioGroup from "react-native-radio-buttons-group";
 // import SelectDropdown from "react-native-select-dropdown";
 import { Dropdown } from "react-native-element-dropdown";
 import { globalStyles } from "../../../../styles/global";
-import { countries } from "../../../../api/countries/countries";
 import { useDispatch, useSelector } from "react-redux";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import { setCountryModal, setLoading } from "../../../../store/alert/alertSlice";

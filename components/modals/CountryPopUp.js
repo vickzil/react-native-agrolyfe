@@ -13,7 +13,6 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IconSearch from "react-native-vector-icons/AntDesign";
 import colors from "../../styles/colors";
-import { countries } from "../../api/countries/countries";
 import { useDispatch, useSelector } from "react-redux";
 import { setCountryModal, setSelectedCountry } from "../../store/alert/alertSlice";
 import { SvgUri } from "react-native-svg";
