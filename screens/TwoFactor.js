@@ -1,37 +1,30 @@
-import { Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { KeycodeInput } from "react-native-keycode";
 import Logo from "../components/logo/Logo";
 import { globalStyles } from "../styles/global";
 import colors from "../styles/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { setAlertModal, setLoading } from "../store/alert/alertSlice";
+import { saveUserInfo, setHasLogin, setToken } from "../store/auth/authSlice";
 import axios from "axios";
 
-const InputCode = ({ navigation, route }) => {
+const TwoFactor = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  const { code, email } = route.params;
-
   const [pin, setPin] = useState(null);
-  //   const navigate = useNavigation();
 
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
 
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(setSearchText(""));
-  //     dispatch(getAllEarnings());
-  //   };
-  // }, [dispatch]);
+  // const loginToken = AsyncStorage.getItem('loginToken')
+  const userEmail = AsyncStorage.getItem("loginToken");
+  const userData = AsyncStorage.getItem("userData");
 
-  const handleVerifyCode = (value) => {
-    Keyboard.dismiss();
-
+  const handleConfirmToken = () => {
     dispatch(
       setLoading({
         status: true,
@@ -42,15 +35,15 @@ const InputCode = ({ navigation, route }) => {
     let payload = {
       AppId: AppId,
       RequestId: RequestId,
-      RequestCode: JSON.parse(JSON.stringify(code)),
-      Email: JSON.parse(JSON.stringify(email)),
-      OTP: value,
+      Email: userEmail,
+      token: pin,
     };
 
     console.log(payload);
+    // console.log(bearerToken);
 
     axios
-      .post(`${baseURL}/v1.0/UserOnboard/validateOTP`, payload, {
+      .post(`${baseURL}/v1.0/OAuth/validate2FATokenAsync`, payload, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + bearerToken,
@@ -60,14 +53,25 @@ const InputCode = ({ navigation, route }) => {
         console.log(response?.data);
 
         if (response?.data?.success == true) {
+          const data = userData;
+          const token = data.token.token;
+          const expireTo = data.token.expireTo;
+
+          dispatch(saveUserInfo(data));
+
+          AsyncStorage.setItem("token", token);
+          AsyncStorage.setItem("appexrat", expireTo);
+          AsyncStorage.setItem("hasLoggedIn", "yes");
+
+          dispatch(setToken(token));
+          dispatch(setHasLogin(true));
+
           dispatch(
             setLoading({
               status: false,
               message: "",
             }),
           );
-
-          navigation.navigate("CompleteRegister", { email: email, code: code });
         } else {
           dispatch(
             setLoading({
@@ -80,7 +84,7 @@ const InputCode = ({ navigation, route }) => {
             setAlertModal({
               status: true,
               type: "error",
-              title: "Login Error",
+              title: "Error",
               des: response.data.message,
               payload: null,
             }),
@@ -107,6 +111,16 @@ const InputCode = ({ navigation, route }) => {
       });
   };
 
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchText(""));
+      AsyncStorage.removeItem("loginToken");
+      AsyncStorage.removeItem("loginToken");
+      AsyncStorage.removeItem("userData");
+    };
+  }, []);
+  //   const navigate = useNavigation();
+
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
       <ScrollView contentContainerStyle={{ paddingTop: 40, paddingHorizontal: 20, paddingBottom: 40 }}>
@@ -114,7 +128,7 @@ const InputCode = ({ navigation, route }) => {
         <View style={[styles.productContainer]}>
           <View style={{ justifyContent: "center", width: "80%", marginTop: 50, alignItems: "center" }}>
             <Text style={[styles.productCardContentItemLeft, { fontSize: 27, fontWeight: "900", marginBottom: 4 }]}>
-              Confirm Verification
+              Two-Factor Verification
             </Text>
             <View style={{ alignItems: "center", marginTop: 10 }}>
               <Text style={[globalStyles.label, { fontSize: 17, textAlign: "center" }]}>
@@ -136,25 +150,12 @@ const InputCode = ({ navigation, route }) => {
                 setPin(value);
               }}
               onComplete={(value) => {
-                handleVerifyCode(value);
-                // navigation.navigate("CompleteRegister");
+                setPin(value);
+                handleConfirmToken();
+
                 // console.log("completed");
               }}
             />
-            <View style={{ marginTop: 70 }}>
-              <Text
-                onPress={() => navigation.navigate("Login")}
-                style={{
-                  color: colors.greenDarkDarkColor,
-                  textAlign: "center",
-                  fontSize: 16,
-                  fontWeight: "bold",
-                  marginTop: 20,
-                }}
-              >
-                Back to Login
-              </Text>
-            </View>
           </View>
         </View>
       </ScrollView>
@@ -179,4 +180,4 @@ const styles = StyleSheet.create({
     letterSpacing: -0.35644,
   },
 });
-export default InputCode;
+export default TwoFactor;

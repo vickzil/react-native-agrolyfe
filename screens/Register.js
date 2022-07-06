@@ -1,16 +1,21 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { Alert, Keyboard, Text, View, ScrollView, SafeAreaView } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomButton from "../components/customs/CustomButton";
 import CustomInput from "../components/customs/CustomInput";
 import { validEmail } from "../components/helpers/globalFunction";
 import Logo from "../components/logo/Logo";
-import { setLoading } from "../store/alert/alertSlice";
+import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import colors from "../styles/colors";
+import axios from "axios";
 
 const Signin = ({ navigation }) => {
   const dispatch = useDispatch();
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -18,7 +23,6 @@ const Signin = ({ navigation }) => {
   const [errors, setErrors] = useState({});
 
   const validate = () => {
-    Keyboard.dismiss();
     let valid = true;
     if (!inputs.email) {
       handleError("Please input email", "email");
@@ -31,31 +35,101 @@ const Signin = ({ navigation }) => {
     if (valid) {
       register();
     }
+
+    Keyboard.dismiss();
   };
 
   const register = () => {
     dispatch(
       setLoading({
         status: true,
-        message: "please wait...",
+        message: "processing registration...",
       }),
     );
 
-    setTimeout(() => {
-      dispatch(
-        setLoading({
-          status: false,
-          message: "",
-        }),
-      );
+    let payload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      Email: inputs.email,
+    };
 
-      try {
-        AsyncStorage.setItem("user", JSON.stringify(inputs));
-        navigation.navigate("Login");
-      } catch (error) {
-        Alert.alert("Error", "Something went wrong");
-      }
-    }, 3000);
+    axios
+      .post(`${baseURL}/v1.0/UserOnboard/addEmail`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          dispatch(
+            setLoading({
+              status: false,
+              message: "",
+            }),
+          );
+          let requestCode = response?.data?.data?.requestCode;
+
+          AsyncStorage.setItem("Type", "REGISTRATION");
+          navigation.navigate("InputCode", {
+            code: requestCode,
+            email: inputs.email,
+          });
+        } else {
+          dispatch(
+            setLoading({
+              status: false,
+              message: "",
+            }),
+          );
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        dispatch(
+          setLoading({
+            status: false,
+            message: "",
+          }),
+        );
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
+
+    // setTimeout(() => {
+    //   dispatch(
+    //     setLoading({
+    //       status: false,
+    //       message: "",
+    //     }),
+    //   );
+
+    //   try {
+    //     AsyncStorage.setItem("user", JSON.stringify(inputs));
+    //     navigation.navigate("Login");
+    //   } catch (error) {
+    //     Alert.alert("Error", "Something went wrong");
+    //   }
+    // }, 3000);
   };
 
   const handleOnChange = (text, input) => {
@@ -89,7 +163,7 @@ const Signin = ({ navigation }) => {
           </View>
 
           <Text
-            onPress={() => navigation.navigate("InputCode")}
+            onPress={() => navigation.navigate("Login")}
             style={{
               color: colors.greenDarkDarkColor,
               textAlign: "center",

@@ -1,23 +1,35 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Alert, Keyboard, Text, View, ScrollView, SafeAreaView, TouchableOpacity } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import CustomButton from "../components/customs/CustomButton";
 import CustomInput from "../components/customs/CustomInput";
 import { validEmail } from "../components/helpers/globalFunction";
 import Logo from "../components/logo/Logo";
-import { setLoading } from "../store/alert/alertSlice";
+import ConfirmationModalButtom from "../components/modals/ConfirmationModalButtom";
+import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import colors from "../styles/colors";
+import axios from "axios";
 
 const ForgotPassword = ({ navigation }) => {
   const dispatch = useDispatch();
+  const confirmationModal = useRef();
+
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
 
   const [inputs, setInputs] = useState({
     email: "",
-    password: "",
   });
   const [errors, setErrors] = useState({});
+
+  const closeModal = () => {
+    confirmationModal.current.close();
+    navigation.navigate("Login");
+  };
 
   const validate = () => {
     Keyboard.dismiss();
@@ -30,17 +42,12 @@ const ForgotPassword = ({ navigation }) => {
       valid = false;
     }
 
-    if (!inputs.password) {
-      handleError("Please input password", "passworld");
-      valid = false;
-    }
-
     if (valid) {
-      handleLogin();
+      handleForgotPassword();
     }
   };
 
-  const handleLogin = () => {
+  const handleForgotPassword = () => {
     dispatch(
       setLoading({
         status: true,
@@ -48,33 +55,70 @@ const ForgotPassword = ({ navigation }) => {
       }),
     );
 
-    setTimeout(async () => {
-      dispatch(
-        setLoading({
-          status: false,
-          message: "",
-        }),
-      );
-      let userData = await AsyncStorage.getItem("user");
+    let payload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      Email: inputs.email,
+    };
 
-      if (userData) {
-        userData = JSON.parse(userData);
-        if (inputs.email == userData.email && inputs.password == userData.password) {
-          AsyncStorage.setItem("user", JSON.stringify({ ...userData, loggedIn: true }));
-          navigation.navigate("Home");
+    axios
+      .post(`${baseURL}/v1.0/OAuth/forgotPassword`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          dispatch(
+            setLoading({
+              status: false,
+              message: "",
+            }),
+          );
+
+          confirmationModal.current.show();
+          setInputs((prevState) => ({ ...prevState, email: "" }));
+          // navigation.navigate("Login");
         } else {
-          Alert.alert("Error", "Invalid Details");
+          dispatch(
+            setLoading({
+              status: false,
+              message: "",
+            }),
+          );
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
         }
-      } else {
-        Alert.alert("Error", "User does not exist");
-      }
-      // try {
-      //   AsyncStorage.setItem("user", JSON.stringify(inputs));
-      //   navigation.navigate("Login");
-      // } catch (error) {
-      //   Alert.alert("Error", "Something went wrong");
-      // }
-    }, 3000);
+      })
+      .catch(() => {
+        dispatch(
+          setLoading({
+            status: false,
+            message: "",
+          }),
+        );
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   const handleOnChange = (text, input) => {
@@ -87,6 +131,11 @@ const ForgotPassword = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
+      <ConfirmationModalButtom
+        bottomSheet={confirmationModal}
+        closeModal={closeModal}
+        message="A reset password link has been sent to your email address if you have an account with us. Kindly follow the link to complete the process."
+      />
       <ScrollView contentContainerStyle={{ paddingTop: 50, paddingHorizontal: 20 }}>
         <Logo />
         <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins", paddingTop: 30 }}>
@@ -107,10 +156,11 @@ const ForgotPassword = ({ navigation }) => {
           />
 
           <View style={{ marginTop: 40 }}>
-            <CustomButton onPress={validate} title=" Send resend link" />
+            <CustomButton onPress={validate} title="Send resend link" />
           </View>
           <Text
             onPress={() => navigation.navigate("Login")}
+            // onPress={() => confirmationModal.current.show()}
             style={{
               color: colors.greenDarkDarkColor,
               textAlign: "center",

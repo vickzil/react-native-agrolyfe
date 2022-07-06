@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Alert,
   Keyboard,
@@ -17,14 +17,24 @@ import CustomInput from "../components/customs/CustomInput";
 import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
 import { removeFormatDate, validEmail } from "../components/helpers/globalFunction";
 import Logo from "../components/logo/Logo";
-import { setLoading } from "../store/alert/alertSlice";
+import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import colors from "../styles/colors";
 import { globalStyles } from "../styles/global";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import ConfirmationModalButtom from "../components/modals/ConfirmationModalButtom";
+import axios from "axios";
 
-const CompleteRegister = ({ navigation }) => {
+const CompleteRegister = ({ navigation, route }) => {
+  const { email, code } = route.params;
+
   const dispatch = useDispatch();
+  const confirmationModal = useRef();
+
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -32,6 +42,8 @@ const CompleteRegister = ({ navigation }) => {
     lastname: "",
     phone: "",
     password: "",
+    dob: "",
+    referalCode: "",
   });
   const [date, setDate] = useState(new Date());
   const [errors, setErrors] = useState({});
@@ -47,10 +59,19 @@ const CompleteRegister = ({ navigation }) => {
     setDatePickerVisibility(false);
   };
 
+  const closeModal = () => {
+    confirmationModal.current.close();
+    navigation.navigate("Login");
+  };
+
   const handleConfirm = (date) => {
     setDate(date);
+    setInputs((prevState) => ({ ...prevState, dob: date }));
     // console.warn("A date has been picked: ", date);
     hideDatePicker();
+    handleError(".", "dob");
+
+    console.log(inputs.dob);
   };
 
   const validate = () => {
@@ -76,6 +97,10 @@ const CompleteRegister = ({ navigation }) => {
       handleError("Please input phone", "phone");
       setValid(false);
     }
+    if (!inputs.dob) {
+      handleError("Please input date of birth", "dob");
+      setValid(false);
+    }
 
     if (!inputs.password) {
       handleError("Please input password", "passworld");
@@ -97,21 +122,83 @@ const CompleteRegister = ({ navigation }) => {
       }),
     );
 
-    setTimeout(() => {
-      dispatch(
-        setLoading({
-          status: false,
-          message: "",
-        }),
-      );
+    let payload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      Email: JSON.parse(JSON.stringify(email)),
+      RequestCode: JSON.parse(JSON.stringify(code)),
+      FirstName: inputs.firstname,
+      LastName: inputs.lastname,
+      PhoneNumber: inputs.phone,
+      Password: inputs.password,
+      ReferralCode: inputs.referalCode,
+      DateOfBirth: inputs.dob,
+    };
 
-      try {
-        AsyncStorage.setItem("user", JSON.stringify(inputs));
-        navigation.navigate("Login");
-      } catch (error) {
-        Alert.alert("Error", "Something went wrong");
-      }
-    }, 3000);
+    axios
+      .post(`${baseURL}/v1.0/UserOnboard/addUserInfo`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          dispatch(
+            setLoading({
+              status: false,
+              message: "",
+            }),
+          );
+
+          confirmationModal.current.show();
+          setInputs((prevState) => ({ ...prevState, email: "" }));
+          setInputs((prevState) => ({ ...prevState, phone: "" }));
+          setInputs((prevState) => ({ ...prevState, firstname: "" }));
+          setInputs((prevState) => ({ ...prevState, lastname: "" }));
+          setInputs((prevState) => ({ ...prevState, dob: "" }));
+          setInputs((prevState) => ({ ...prevState, referalCode: "" }));
+          setInputs((prevState) => ({ ...prevState, password: "" }));
+          // navigation.navigate("Login");
+        } else {
+          dispatch(
+            setLoading({
+              status: false,
+              message: "",
+            }),
+          );
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        dispatch(
+          setLoading({
+            status: false,
+            message: "",
+          }),
+        );
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   const handleOnChange = (text, input) => {
@@ -125,6 +212,11 @@ const CompleteRegister = ({ navigation }) => {
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
       <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <ConfirmationModalButtom
+        bottomSheet={confirmationModal}
+        closeModal={closeModal}
+        message="Congratulations, your account has been successfully created."
+      />
       <ScrollView contentContainerStyle={{ paddingTop: 10, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
         <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins" }}>Nice Work!</Text>
@@ -188,7 +280,20 @@ const CompleteRegister = ({ navigation }) => {
                 <Text>{removeFormatDate(date)}</Text>
               </View>
             </TouchableOpacity>
+            {errors?.dob && <Text style={{ color: "red", fontSize: 13, marginTop: 7 }}>{errors?.dob}</Text>}
           </View>
+
+          <CustomInput
+            editable={false}
+            error={errors.referalCode}
+            onChangeText={(text) => handleOnChange(text, "referalCode")}
+            onFocus={() => {
+              handleError(null, "referalCode");
+            }}
+            placeholder="Enter your referal Code"
+            lable="Referral Code"
+            iconName="gift"
+          />
           <CustomInput
             error={errors.password}
             onChangeText={(text) => handleOnChange(text, "password")}
@@ -207,7 +312,7 @@ const CompleteRegister = ({ navigation }) => {
             onPress={() => navigation.navigate("Login")}
             style={{ color: "black", textAlign: "center", fontSize: 16, fontWeight: "bold", marginTop: 20 }}
           >
-            Already have account? Login
+            Back to Login
           </Text>
         </View>
       </ScrollView>

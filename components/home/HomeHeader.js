@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLogoutModal } from "../../store/alert/alertSlice";
 const HomeHeader = ({ navigation }) => {
   const dispatch = useDispatch();
-  const user = require("../../assets/img/user.jpg");
+  const user = useSelector((state) => state.oauth.user);
+  const userImage = require("../../assets/img/user-default.png");
+
+  useEffect(() => {}, [user]);
 
   const handleLogout = () => {
     dispatch(setLogoutModal(true));
@@ -14,10 +17,15 @@ const HomeHeader = ({ navigation }) => {
   return (
     <View style={styles.homeHeader}>
       <View style={styles.homeHeaderLeft}>
-        <Image source={user} style={{ width: 46, height: 46, borderRadius: 50 }} resizeMode="cover" />
+        {user ? (
+          <Image source={{ uri: user?.photo }} style={{ width: 46, height: 46, borderRadius: 50 }} resizeMode="cover" />
+        ) : (
+          <Image source={userImage} style={{ width: 46, height: 46, borderRadius: 50 }} resizeMode="cover" />
+        )}
+
         <View style={styles.homeHeaderLeftdesc}>
           <Text style={styles.homeHeaderLeftdescText1}>Good Morning</Text>
-          <Text style={styles.homeHeaderLeftdescText2}>Victor</Text>
+          <Text style={styles.homeHeaderLeftdescText2}>{user && user.firstName}</Text>
         </View>
       </View>
       <View style={styles.homeHeaderRight}>

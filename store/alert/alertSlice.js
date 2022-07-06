@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   alertModal: {
     status: false,
+    type: "",
     title: "",
     des: "",
     payload: null,
@@ -138,6 +139,7 @@ const alertSlice = createSlice({
     setAlertModal: (state, { payload }) => {
       state.alertModal = {
         status: payload.status,
+        type: payload.type,
         title: payload.title,
         des: payload.des,
         payload: payload.payload,

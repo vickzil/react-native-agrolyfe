@@ -10,6 +10,8 @@ import InputCode from "../screens/InputCode";
 import CompleteRegister from "../screens/CompleteRegister";
 import PageLoading from "../components/loader/PageLoading";
 import { useSelector } from "react-redux";
+import TwoFactor from "../screens/TwoFactor";
+import AlertModal from "../components/modals/AlertModal";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
@@ -41,10 +43,12 @@ const AuthStack = () => {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="InputCode" component={InputCode} />
+        <Stack.Screen name="TwoFactor" component={TwoFactor} />
         <Stack.Screen name="CompleteRegister" component={CompleteRegister} />
       </Stack.Navigator>
 
       <PageLoading />
+      <AlertModal />
     </>
   );
 };

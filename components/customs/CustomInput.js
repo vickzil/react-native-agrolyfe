@@ -23,13 +23,20 @@ const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...
           onBlur={() => {
             setIsFocused(false);
           }}
-          style={{ color: "gray", flex: 1, fontSize: 17, fontWeight: "700" }}
+          style={{
+            color: "gray",
+            flex: 1,
+            fontSize: 17,
+            fontWeight: "500",
+            fontFamily: "Poppins",
+            letterSpacing: -0.35644,
+          }}
           {...props}
         />
         {password && (
           <Icon
             onPress={() => setHidePassword(!hidePassword)}
-            style={{ fontSize: 22, color: "#666" }}
+            style={{ fontSize: 28, color: "#666" }}
             name={hidePassword ? "eye-outline" : "eye-off-outline"}
           />
         )}

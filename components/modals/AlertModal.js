@@ -16,6 +16,7 @@ const AlertModal = () => {
     dispatch(
       setAlertModal({
         status: false,
+        type: "",
         title: "",
         des: "",
         payload: null,
@@ -24,17 +25,21 @@ const AlertModal = () => {
   };
 
   return (
-    <Modal transparent visible={modal?.status} animationType="slide" onRequestClose={() => closeModal()}>
+    <Modal transparent visible={modal?.status} animationType="fade" onRequestClose={() => closeModal()}>
       <View style={[styles.modalBackground, { flex: 1 }]}>
         <View style={[styles.modalContainer]}>
           <View style={{ alignItems: "center" }}>
             {/* <View style={styles.header}>
               <AntDesignIcon name="close" size={20} />
             </View> */}
-            <AntDesignIcon name="checkcircle" size={90} style={[styles.Icon, { marginTop: 30 }]} />
-            <Text style={[{ marginVertical: 30, fontSize: 20, textAlign: "center" }]}>
-              Congratulations, registration was successful
-            </Text>
+            {modal?.type === "SUCCESS" ? (
+              <AntDesignIcon name="checkcircle" size={90} style={[styles.Icon, { marginTop: 30 }]} />
+            ) : (
+              <AntDesignIcon name="closecircle" size={90} style={[styles.Icon, { marginTop: 30, color: "red" }]} />
+            )}
+
+            <Text style={[{ marginVertical: 10, fontSize: 20, textAlign: "center" }]}>{modal?.title}</Text>
+            <Text style={[{ marginVertical: 20, fontSize: 16, textAlign: "center" }]}>{modal?.des}</Text>
 
             <TouchableOpacity
               activeOpacity={0.5}

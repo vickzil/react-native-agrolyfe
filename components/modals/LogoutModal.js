@@ -55,6 +55,9 @@ const LogoutModal = () => {
     );
     setTimeout(() => {
       AsyncStorage.removeItem("token");
+      AsyncStorage.removeItem("appexrat");
+      AsyncStorage.removeItem("user");
+
       dispatch(setToken(""));
       dispatch(
         setLoading({
