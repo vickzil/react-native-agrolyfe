@@ -18,7 +18,7 @@ export default function MainApp() {
   const AppId = useSelector((state) => state.oauth.AppId);
   const secretKey = useSelector((state) => state.oauth.secretKey);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     authUser();
   }, [token]);
 
@@ -26,7 +26,7 @@ export default function MainApp() {
     authLogin();
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getAppAuthentication();
   }, []);
 

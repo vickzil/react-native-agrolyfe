@@ -1,5 +1,13 @@
 import * as Clipboard from "expo-clipboard";
 
+export const serializeJSON = (data) => {
+  return Object.keys(data)
+    .map(function (keyName) {
+      return encodeURIComponent(keyName) + "=" + encodeURIComponent(data[keyName]);
+    })
+    .join("&");
+};
+
 export const validEmail = (email) => {
   var emailReg = /^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/;
   return emailReg.test(email);

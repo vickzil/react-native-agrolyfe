@@ -1,5 +1,5 @@
 import { Dimensions, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setNextOfKinModal } from "../../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -11,29 +11,31 @@ const { width } = Dimensions.get("screen");
 const NextOfKinModal = () => {
   const modal = useSelector((state) => state.alert.nextOfKinModal);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const closeModal = () => {
+    if (isLoading) {
+      return;
+    }
+    dispatch(setNextOfKinModal(false));
+  };
 
   return (
-    <Modal
-      visible={modal}
-      animationType="slide"
-      onRequestClose={() => {
-        dispatch(setNextOfKinModal(false));
-      }}
-    >
+    <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
             size={33}
             style={[styles.modalHeaderIcon, { color: "#fff" }]}
-            onPress={() => dispatch(setNextOfKinModal(false))}
+            onPress={() => closeModal()}
           />
           <Text style={styles.modalHeaderText}>Next of kin</Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
-            <NextOfKinForm />
+            <NextOfKinForm isLoading={isLoading} setIsLoading={setIsLoading} />
           </View>
         </ScrollView>
       </View>

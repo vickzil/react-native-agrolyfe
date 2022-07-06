@@ -1,21 +1,32 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const AccountImageFullName = () => {
-  const user = require("../../assets/img/user.jpg");
+  const user = useSelector((state) => state.oauth.user);
+
+  const userImage = require("../../assets/img/user-default.png");
 
   return (
     <View style={{ justifyContent: "center", alignItems: "center" }}>
       <View style={{ width: 140, height: 140, borderRadius: 100, padding: 4, backgroundColor: "#fff" }}>
-        <Image
-          source={user}
-          style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
-          resizeMode="cover"
-        />
+        {user ? (
+          <Image
+            source={{ uri: user?.photo }}
+            style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
+            resizeMode="cover"
+          />
+        ) : (
+          <Image
+            source={userImage}
+            style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
+            resizeMode="cover"
+          />
+        )}
       </View>
-      <Text style={styles.accountUserFullName}>Victor Nwakwue</Text>
+      <Text style={styles.accountUserFullName}>{user ? user.firstName + " " + user.lastName : "-----"}</Text>
       <Text style={styles.accountLabel}>Username</Text>
-      <Text style={styles.accountTitle}>@victor.nwakwue</Text>
+      <Text style={styles.accountTitle}>@{user ? user.userName : "-----"}</Text>
     </View>
   );
 };

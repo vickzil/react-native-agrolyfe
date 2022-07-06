@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../screens/Home";
 import Wallet from "../screens/Wallet";
@@ -8,9 +9,42 @@ import Referrals from "../screens/Referrals";
 import ProductNavigator from "./ProductNavigator";
 import AllModals from "../components/modals/AllModals";
 import PageLoading from "../components/loader/PageLoading";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserInfo } from "../store/auth/actions";
+import { setGreetings } from "../store/auth/authSlice";
 
 const Tab = createBottomTabNavigator();
 const AppStack = () => {
+  const dispatch = useDispatch();
+  // const user = useSelector((state) => state.oauth.user);
+
+  useEffect(() => {
+    getGreetings();
+    globalFunctions();
+  }, []);
+
+  const globalFunctions = async () => {
+    const storedUser = await AsyncStorage.getItem("user");
+    let user = JSON.parse(storedUser);
+    setTimeout(() => {
+      dispatch(getUserInfo(user?.code));
+    }, 2200);
+  };
+
+  const getGreetings = () => {
+    let day = new Date();
+    let hour = day.getHours();
+    if (hour >= 0 && hour < 12) {
+      dispatch(setGreetings("Good Morning!"));
+    } else if (hour == 12) {
+      dispatch(setGreetings("Good Day!"));
+    } else if (hour >= 12 && hour <= 17) {
+      dispatch(setGreetings("Good Afternoon!"));
+    } else {
+      dispatch(setGreetings("Good Evening!"));
+    }
+  };
+
   return (
     <>
       <Tab.Navigator tabBar={(props) => <TabBar {...props} />} screenOptions={{ headerShown: false }}>
@@ -20,8 +54,6 @@ const AppStack = () => {
         <Tab.Screen name="Account" component={Account} initialParams={{ icon: "shield-account" }} />
       </Tab.Navigator>
       <AllModals />
-
-      <PageLoading />
     </>
   );
 };

@@ -43,12 +43,14 @@ import LogoutModal from "./LogoutModal";
 import PurchaseSavingsModal from "./savings/PurchaseSavingsModal";
 import MySavingsModal from "./savings/MySavingsModal";
 import MSavingsDetailsModal from "./savings/MSavingsDetailsModal";
+import PageLoading from "../loader/PageLoading";
 // import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
 const AllModals = () => {
   return (
     <>
+      <PageLoading />
       <AlertModal />
       <AlertSuccessModal />
       <ProductsModal />

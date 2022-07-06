@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAuthentication } from "./actions";
+import { getUserInfo } from "./actions";
 
 const initialState = {
   baseURL: "https://oxfordvestapi.azurewebsites.net/api",
@@ -13,6 +13,7 @@ const initialState = {
   hasLogin: false,
   error: false,
   loading: false,
+  greetings: "",
 };
 
 const authSlice = createSlice({
@@ -33,21 +34,30 @@ const authSlice = createSlice({
     setBearerToken: (state, { payload }) => {
       state.bearerToken = payload;
     },
+
+    setGreetings: (state, { payload }) => {
+      state.greetings = payload;
+    },
   },
   extraReducers: {
-    [getAuthentication.pending]: (state, action) => {
+    [getUserInfo.pending]: (state, action) => {
       state.loading = true;
       state.error = false;
       console.log("here");
     },
 
-    [getAuthentication.fulfilled]: (state, action) => {
-      console.log(action.payload);
+    [getUserInfo.fulfilled]: (state, action) => {
+      let result = action.payload;
+      if (result) {
+        console.log(action.payload.data);
+        state.user = result.data;
+      }
+
       state.error = false;
       state.loading = false;
     },
 
-    [getAuthentication.rejected]: (state) => {
+    [getUserInfo.rejected]: (state) => {
       state.error = true;
       state.loading = false;
       // logout();
@@ -55,6 +65,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { saveUserInfo, setToken, setHasLogin, setBearerToken } = authSlice.actions;
+export const { saveUserInfo, setToken, setHasLogin, setBearerToken, setGreetings } = authSlice.actions;
 
 export default authSlice.reducer;

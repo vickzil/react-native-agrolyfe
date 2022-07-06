@@ -1,13 +1,21 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import colors from "../../../../styles/colors";
-import RadioGroup from "react-native-radio-buttons-group";
-import { Dropdown } from "react-native-element-dropdown";
+// import RadioGroup from "react-native-radio-buttons-group";
+import RadioForm from "react-native-simple-radio-button";
+// import { Dropdown } from "react-native-element-dropdown";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import { globalStyles } from "../../../../styles/global";
 import POPUpModal from "../../POPUpModal";
+import { useDispatch, useSelector } from "react-redux";
+import CustomLoadingButton from "../../../customs/CustomLoadingButton";
+import axios from "axios";
+import { setAlertModal } from "../../../../store/alert/alertSlice";
+import { getUserInfo } from "../../../../store/auth/actions";
 
-const EditProfileForm = () => {
+const EditProfileForm = ({ isLoading, setIsLoading }) => {
+  const user = useSelector((state) => state.oauth.user);
+  const dispatch = useDispatch();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -15,6 +23,30 @@ const EditProfileForm = () => {
   const [gender, setGender] = useState("male");
   const [relationship, setRelationship] = useState("sibling");
   const [showRelationshipModal, setShowRelationshipModal] = useState(false);
+
+  const [emptyFields, setEmptyFields] = useState(true);
+
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
+
+  useEffect(() => {
+    setFullName(user?.nextOfKinName || "");
+    setEmail(user?.nextOfKinEmail || "");
+    setPhone(user?.nextOfKinPhoneNumber || "");
+    setAddress(user?.nextOfKinAddress || "");
+    setGender(user?.nextOfKinGender || "male");
+    setRelationship(user?.nextOfKinRelationship || "sibling");
+  }, [user]);
+
+  useEffect(() => {
+    if (fullName === "" && email === "" && phone === "" && relationship === "") {
+      setEmptyFields(true);
+    } else {
+      setEmptyFields(false);
+    }
+  }, [relationship, fullName, email, phone]);
 
   const radioButtonsData = [
     {
@@ -28,22 +60,86 @@ const EditProfileForm = () => {
       value: "female",
     },
   ];
-
   const Relationships = ["spouse", "parent", "child", "sibling", "other"];
 
-  const [radioButtons, setRadioButtons] = useState(radioButtonsData);
+  const updateNextOfKin = () => {
+    if (emptyFields === true) {
+      return;
+    }
 
-  function onPressRadioButton(radioButtonsArray) {
-    setRadioButtons(radioButtonsArray);
-    setGender(radioButtonsArray.value);
-  }
+    setEmptyFields(true);
+    setIsLoading(true);
 
-  const _renderItem = (item) => {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.textItem}>{item}</Text>
-      </View>
-    );
+    axios
+      .post(
+        `${baseURL}/v1.0/User/updateUserNextOfKin`,
+        {
+          AppId: AppId,
+          RequestId: RequestId,
+          Email: user?.email,
+          UserCode: user?.code,
+          FirstName: user?.firstName,
+          LastName: user?.lastName,
+          MiddleName: user?.middleName,
+          NextOfKinName: fullName,
+          NextOfKinPhoneNumber: phone,
+          NextOfKinEmail: email,
+          NextOfKinAddress: address,
+          NextOfKinRelationship: relationship,
+          NextOfKinGender: gender,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + bearerToken,
+          },
+        },
+      )
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          setIsLoading(false);
+          setEmptyFields(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "SUCCESS",
+              title: "Next of Kin updated",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+
+          dispatch(getUserInfo(user?.code));
+        } else {
+          setIsLoading(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   return (
@@ -105,11 +201,31 @@ const EditProfileForm = () => {
       </View>
       <View style={{ marginBottom: 20, width: "100%" }}>
         <Text style={styles.label}>Select Gender</Text>
-        <RadioGroup
+        {/* <RadioGroup
           value={gender}
           containerStyle={{ flexDirection: "row", fontFamily: "Poppins", letterSpacing: -0.35644 }}
           radioButtons={radioButtons}
           onPress={onPressRadioButton}
+        /> */}
+
+        <RadioForm
+          radio_props={radioButtonsData}
+          // initial={0}
+          buttonColor={colors.greenColor}
+          selectedButtonColor={colors.greenColor}
+          formHorizontal={true}
+          animation={true}
+          isSelected={!!radioButtonsData.find((item) => item === gender)}
+          labelStyle={{
+            fontSize: 20,
+            fontFamily: "Poppins",
+            letterSpacing: -0.35644,
+            marginTop: 5,
+            marginRight: 20,
+          }}
+          onPress={(value) => {
+            setGender(value);
+          }}
         />
       </View>
       <View style={{ marginBottom: 20, width: "100%" }}>
@@ -121,33 +237,6 @@ const EditProfileForm = () => {
           <TextInput value={relationship} editable={false} style={globalStyles.inputTextt} />
           <FontAwesome5Icon name="chevron-circle-down" size={16} color="#666" style={{ marginRight: 10 }} />
         </TouchableOpacity>
-
-        {/* <Dropdown
-          style={styles.dropdown}
-          containerStyle={styles.shadow}
-          data={Relationships}
-          labelField="label"
-          // valueField={relationship}
-          label="Dropdown"
-          placeholder="Select relationship"
-          value={relationship}
-          onChange={(item) => {
-            setRelationship(item);
-          }}
-          // renderLeftIcon={() => <Image style={styles.icon} source={require("./assets/account.png")} />}
-          renderItem={(item) => _renderItem(item)}
-          textError="Error"
-        /> */}
-        {/* <SelectDropdown
-          style={{ width: "100%" }}
-          buttonStyle={{ width: "100%" }}
-          dropdownStyle={{ height: "100%", position: "absolute", top: 0 }}
-          data={allCountries}
-          // search={true}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-        /> */}
       </View>
 
       <View style={{ marginBottom: 20, width: "100%" }}>
@@ -156,15 +245,23 @@ const EditProfileForm = () => {
           <TextInput
             value={address}
             onChangeText={(text) => setAddress(text)}
+            multiline={true}
             autoCorrect={false}
-            style={globalStyles.inputTextt}
+            style={[globalStyles.inputTextt, { textAlign: "left", width: "100%" }]}
           />
         </View>
       </View>
       <View style={{ marginTop: 20, width: "100%" }}>
-        <TouchableOpacity activeOpacity={0.7} style={globalStyles.button}>
+        {/* <TouchableOpacity activeOpacity={0.7} style={globalStyles.button}>
           <Text style={globalStyles.buttonText}>Update</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
+        <CustomLoadingButton
+          onPress={() => updateNextOfKin()}
+          emptyFields={emptyFields}
+          buttonText={"Update"}
+          loading={isLoading}
+        />
       </View>
     </View>
   );

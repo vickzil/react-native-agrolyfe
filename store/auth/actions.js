@@ -1,16 +1,27 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axiosInstance from "../../components/helpers/axiosInstance";
+import axios from "axios";
 
-export const getAuthentication = createAsyncThunk("oauth/getAuthentication", async (payload, { getState }) => {
+export const getUserInfo = createAsyncThunk("oauth/getUserInfo", async (payload, { getState }) => {
+  const baseURL = getState().oauth.baseURL;
   const AppId = getState().oauth.AppId;
-  const secretKey = getState().oauth.secretKey;
-  console.log("here");
-  return axiosInstance
-    .post(`/v1.0/Authenticate/authenticateEndpoints`, {
-      AppId: AppId,
-      Secret: secretKey,
-    })
-    .then((response) => {
-      return response;
-    });
+  const RequestId = getState().oauth.RequestId;
+  const bearerToken = getState().oauth.bearerToken;
+
+  let newPayload = {
+    AppId,
+    RequestId,
+    UserCode: payload,
+  };
+
+  return fetch(`${baseURL}/v1.0/Dashboard/getUserInfo`, {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + bearerToken,
+    },
+
+    body: JSON.stringify(newPayload),
+  }).then((res) => res.json());
 });

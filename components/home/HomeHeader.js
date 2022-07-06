@@ -6,6 +6,7 @@ import { setLogoutModal } from "../../store/alert/alertSlice";
 const HomeHeader = ({ navigation }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.oauth.user);
+  const greetings = useSelector((state) => state.oauth.greetings);
   const userImage = require("../../assets/img/user-default.png");
 
   useEffect(() => {}, [user]);
@@ -24,7 +25,7 @@ const HomeHeader = ({ navigation }) => {
         )}
 
         <View style={styles.homeHeaderLeftdesc}>
-          <Text style={styles.homeHeaderLeftdescText1}>Good Morning</Text>
+          <Text style={styles.homeHeaderLeftdescText1}>{greetings}</Text>
           <Text style={styles.homeHeaderLeftdescText2}>{user && user.firstName}</Text>
         </View>
       </View>

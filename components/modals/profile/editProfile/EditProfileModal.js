@@ -1,5 +1,5 @@
 import { Dimensions, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setEditProfileModal } from "../../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -12,22 +12,24 @@ const { width } = Dimensions.get("screen");
 const EditProfileModal = () => {
   const modal = useSelector((state) => state.alert.editProfileModal);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const closeModal = () => {
+    if (isLoading) {
+      return;
+    }
+    dispatch(setEditProfileModal(false));
+  };
 
   return (
-    <Modal
-      visible={modal}
-      animationType="slide"
-      onRequestClose={() => {
-        dispatch(setEditProfileModal(false));
-      }}
-    >
+    <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
             size={33}
             style={[styles.modalHeaderIcon, { color: "#fff" }]}
-            onPress={() => dispatch(setEditProfileModal(false))}
+            onPress={() => closeModal()}
           />
           <Text style={styles.modalHeaderText}>Edit Profile</Text>
           <Text></Text>
@@ -38,7 +40,7 @@ const EditProfileModal = () => {
           </View>
 
           <View style={[styles.productContainer]}>
-            <EditProfileForm />
+            <EditProfileForm isLoading={isLoading} setIsLoading={setIsLoading} />
           </View>
         </ScrollView>
       </View>

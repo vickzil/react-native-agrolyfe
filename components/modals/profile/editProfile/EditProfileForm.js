@@ -1,28 +1,56 @@
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import colors from "../../../../styles/colors";
-import RadioGroup from "react-native-radio-buttons-group";
+// import RadioGroup from "react-native-radio-buttons-group";
+import RadioForm from "react-native-simple-radio-button";
 // import SelectDropdown from "react-native-select-dropdown";
-import { Dropdown } from "react-native-element-dropdown";
+// import { Dropdown } from "react-native-element-dropdown";
 import { globalStyles } from "../../../../styles/global";
 import { useDispatch, useSelector } from "react-redux";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import { setCountryModal, setLoading } from "../../../../store/alert/alertSlice";
+import { setAlertModal, setCountryModal, setLoading } from "../../../../store/alert/alertSlice";
 import { SvgUri } from "react-native-svg";
+import { getUserInfo } from "../../../../store/auth/actions";
+import axios from "axios";
+import { serializeJSON } from "../../../helpers/globalFunction";
+import CustomLoadingButton from "../../../customs/CustomLoadingButton";
 
-const EditProfileForm = () => {
+const EditProfileForm = ({ isLoading, setIsLoading }) => {
   const dispatch = useDispatch();
-  // const [allCountries] = useState(countries);
+  const user = useSelector((state) => state.oauth.user);
   const [country, setCountry] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("male");
+  const [emptyFields, setEmptyFields] = useState(true);
 
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
   const selectedCountry = useSelector((state) => state.alert.selectedCountry);
 
-  // useEffect(() => {
-  //   console.log(countries);
-  // }, []);
+  useEffect(() => {
+    setCountry(user?.countryName || "Nigeria");
+    setMiddleName(user?.middleName || "");
+    setAddress(user?.homeAddress || "");
+    setGender(user?.gender || "");
+  }, [user]);
+
+  useEffect(() => {
+    if (middleName === "" && address === "") {
+      setEmptyFields(true);
+    } else {
+      setEmptyFields(false);
+    }
+  }, [selectedCountry, middleName, address, gender]);
+
+  useEffect(() => {
+    if (selectedCountry) {
+      setCountry(selectedCountry?.name || "Nigeria");
+    }
+  }, [selectedCountry]);
+
   const radioButtonsData = [
     {
       id: "1", // acts as primary key, should be unique and non-empty string
@@ -36,22 +64,6 @@ const EditProfileForm = () => {
     },
   ];
 
-  const [radioButtons, setRadioButtons] = useState(radioButtonsData);
-
-  function onPressRadioButton(radioButtonsArray) {
-    setRadioButtons(radioButtonsArray);
-    setGender(radioButtonsArray.value);
-  }
-
-  const _renderItem = (item) => {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.textItem}>{item.name}</Text>
-        <Image style={styles.selectImage} source={{ uri: item.flag }} />
-      </View>
-    );
-  };
-
   const selectUserCountry = () => {
     dispatch(
       setCountryModal({
@@ -61,6 +73,88 @@ const EditProfileForm = () => {
         payload: null,
       }),
     );
+  };
+
+  const updateUserProfile = () => {
+    if (emptyFields === true) {
+      return;
+    }
+
+    setEmptyFields(true);
+    setIsLoading(true);
+
+    axios
+      .post(
+        `${baseURL}/v1.0/User/updateUserInfo`,
+        serializeJSON({
+          AppId: AppId,
+          RequestId: RequestId,
+          Email: user?.email,
+          UserCode: user?.code,
+          BVN: user?.bvn,
+          HomeAddress: address,
+          PhoneNumber: user?.phoneNumber,
+          SubsidiaryCode: user?.subsidiaryCode,
+          Country: selectedCountry ? selectedCountry.isoCode : country,
+          Gender: gender,
+          DateOfBirth: user?.dateOfBirth,
+          FirstName: user?.firstName,
+          LastName: user?.lastName,
+          MiddleName: middleName,
+          PhotoFile: null,
+        }),
+        {
+          headers: {
+            // "Content-Type": "application/json",
+            Authorization: "Bearer " + bearerToken,
+          },
+        },
+      )
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          setIsLoading(false);
+          setEmptyFields(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "SUCCESS",
+              title: "Profile Updated",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+
+          dispatch(getUserInfo(user?.code));
+        } else {
+          setIsLoading(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   return (
@@ -79,11 +173,31 @@ const EditProfileForm = () => {
       </View>
       <View style={{ marginBottom: 20, width: "100%" }}>
         <Text style={styles.label}>Select Gender</Text>
-        <RadioGroup
+        {/* <RadioGroup
           value={gender}
           containerStyle={{ flexDirection: "row", fontFamily: "Poppins", letterSpacing: -0.35644 }}
           radioButtons={radioButtons}
           onPress={onPressRadioButton}
+        /> */}
+
+        <RadioForm
+          radio_props={radioButtonsData}
+          // initial={0}
+          buttonColor={colors.greenColor}
+          selectedButtonColor={colors.greenColor}
+          formHorizontal={true}
+          animation={true}
+          isSelected={!!radioButtonsData.find((item) => item === gender)}
+          labelStyle={{
+            fontSize: 20,
+            fontFamily: "Poppins",
+            letterSpacing: -0.35644,
+            marginTop: 5,
+            marginRight: 20,
+          }}
+          onPress={(value) => {
+            setGender(value);
+          }}
         />
       </View>
       {/* <View style={{ marginBottom: 20, width: "100%" }}>
@@ -118,7 +232,11 @@ const EditProfileForm = () => {
             </View>
           )}
 
-          <TextInput value={selectedCountry?.name} editable={false} style={globalStyles.inputTextt} />
+          <TextInput
+            value={selectedCountry ? selectedCountry?.name : country}
+            editable={false}
+            style={globalStyles.inputTextt}
+          />
           <FontAwesome5Icon name="chevron-circle-down" size={16} color="#666" style={{ marginRight: 10 }} />
         </TouchableOpacity>
       </View>
@@ -129,16 +247,29 @@ const EditProfileForm = () => {
           <TextInput
             value={address}
             onChangeText={(text) => setAddress(text)}
+            multiline={true}
             autoCorrect={false}
-            style={globalStyles.inputTextt}
+            style={[globalStyles.inputTextt, { textAlign: "left", width: "100%" }]}
           />
         </View>
       </View>
 
       <View style={{ marginTop: 20, width: "100%" }}>
-        <TouchableOpacity activeOpacity={0.7} style={globalStyles.button}>
+        {/* <TouchableOpacity
+          onPress={() => updateUserProfile()}
+          activeOpacity={0.7}
+          style={[globalStyles.button, emptyFields && { backgroundColor: colors.greenLightDarkColor }, { height: 60 }]}
+          disabled={emptyFields}
+        >
           <Text style={globalStyles.buttonText}>Update</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
+        <CustomLoadingButton
+          onPress={() => updateUserProfile()}
+          emptyFields={emptyFields}
+          buttonText={"Update"}
+          loading={isLoading}
+        />
       </View>
     </View>
   );

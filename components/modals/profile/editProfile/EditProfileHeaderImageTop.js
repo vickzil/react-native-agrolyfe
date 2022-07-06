@@ -4,10 +4,19 @@ import React, { useCallback, useEffect, useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../../../../styles/colors";
 import * as ImagePicker from "expo-image-picker";
+import { useSelector } from "react-redux";
 
 const EditProfileHeaderImageTop = () => {
-  const [image, setImage] = useState(require("../../../../assets/img/user.jpg"));
+  const user = useSelector((state) => state.oauth.user);
+
+  const [image, setImage] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(false);
+
+  const userImage = require("../../../../assets/img/user-default.png");
+
+  useEffect(() => {
+    setImage(user?.photo);
+  }, [user]);
 
   // const user = require("../../../../assets/img/user.jpg");
 
@@ -47,18 +56,14 @@ const EditProfileHeaderImageTop = () => {
           position: "relative",
         }}
       >
-        {uploadedImage ? (
+        {user ? (
           <Image
             source={{ uri: image }}
             style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
             resizeMode="cover"
           />
         ) : (
-          <Image
-            source={image}
-            style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
-            resizeMode="cover"
-          />
+          <Image source={userImage} style={{ width: 46, height: 46, borderRadius: 50 }} resizeMode="cover" />
         )}
 
         <Ionicons
@@ -68,8 +73,8 @@ const EditProfileHeaderImageTop = () => {
           onPress={() => pickImage()}
         />
       </View>
-      <Text style={styles.accountUserFullName}>Victor Nwakwue</Text>
-      <Text style={styles.accountTitle}>OIG-00424</Text>
+      <Text style={styles.accountUserFullName}>{user ? user.firstName + " " + user.lastName : "-----"}</Text>
+      <Text style={styles.accountTitle}>{user ? user.code : "-----"}</Text>
     </View>
   );
 };
