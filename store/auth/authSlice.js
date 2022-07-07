@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserInfo } from "./actions";
+import { getUserInfo, getCountryInfo } from "./actions";
 
 const initialState = {
   baseURL: "https://oxfordvestapi.azurewebsites.net/api",
@@ -9,6 +9,7 @@ const initialState = {
   secretKey: "helloworld",
   bearerToken: "",
   user: null,
+  countryInfo: null,
   token: null,
   hasLogin: false,
   error: false,
@@ -61,6 +62,17 @@ const authSlice = createSlice({
       state.error = true;
       state.loading = false;
       // logout();
+    },
+
+    [getCountryInfo.fulfilled]: (state, action) => {
+      let result = action.payload;
+      if (result) {
+        // console.log(action.payload.data);
+        state.countryInfo = result.data;
+      }
+
+      state.error = false;
+      state.loading = false;
     },
   },
 });

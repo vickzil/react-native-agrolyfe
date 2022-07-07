@@ -1,33 +1,39 @@
 import { Dimensions, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setAntiPhizingModal } from "../../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../../styles/colors";
 import HeaderImageTop from "../../../extra/HeaderImageTop";
 import AntiPhizingForm from "./AntiPhizingForm";
+import ScreenLoading from "../../../loader/ScreenLoading";
 
 const { width } = Dimensions.get("screen");
 
 const AntiPhizingModal = () => {
   const modal = useSelector((state) => state.alert.antiPhizingModal);
+  const [phrase, setPhrase] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [emptyFields, setEmptyFields] = useState(true);
   const dispatch = useDispatch();
 
+  const closeModal = () => {
+    dispatch(setAntiPhizingModal(false));
+    setEmptyFields(true);
+    setIsLoading(false);
+    setPhrase("");
+  };
+
   return (
-    <Modal
-      visible={modal}
-      animationType="slide"
-      onRequestClose={() => {
-        dispatch(setAntiPhizingModal(false));
-      }}
-    >
+    <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
+      <ScreenLoading visibility={{ status: isLoading, message: "Please wait ..." }} />
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
             size={33}
             style={[styles.modalHeaderIcon, { color: "#fff" }]}
-            onPress={() => dispatch(setAntiPhizingModal(false))}
+            onPress={() => closeModal()}
           />
           <Text style={styles.modalHeaderText}>Update Anti-phishing</Text>
           <Text></Text>
@@ -38,7 +44,14 @@ const AntiPhizingModal = () => {
           </View>
 
           <View style={[styles.productContainer]}>
-            <AntiPhizingForm />
+            <AntiPhizingForm
+              phrase={phrase}
+              setPhrase={setPhrase}
+              emptyFields={emptyFields}
+              setEmptyFields={setEmptyFields}
+              setIsLoading={setIsLoading}
+              closeModal={closeModal}
+            />
           </View>
         </ScrollView>
       </View>

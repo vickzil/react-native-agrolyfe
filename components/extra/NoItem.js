@@ -29,7 +29,7 @@ const NoItem = ({ item: { type, buttonText, message } }) => {
         )}
         {type === "REFERRALS" && <EntypoIcon name="users" size={60} style={[{ color: colors.greenNormalColor }]} />}
       </View>
-      <View>
+      <View style={{ paddingHorizontal: 19 }}>
         <Text style={[styles.noItemText]}>{message}</Text>
       </View>
 

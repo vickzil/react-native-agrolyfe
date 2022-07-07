@@ -1,73 +1,192 @@
-import "../../../../ignoreWarnings";
-
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import React, { Component } from "react";
+// import "../../../../ignoreWarnings";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { KeycodeInput } from "react-native-keycode";
 import colors from "../../../../styles/colors";
 import { globalStyles } from "../../../../styles/global";
-import CodeInput from "react-native-confirmation-code-input";
+import CustomLoadingButton from "../../../customs/CustomLoadingButton";
+import { setAlertModal } from "../../../../store/alert/alertSlice";
+import { getUserInfo } from "../../../../store/auth/actions";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import ScreenLoading from "../../../loader/ScreenLoading";
 
-export class ChangePinForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      oldPin: "",
-      newPin: "",
-    };
-    this.oldPinRef = React.createRef();
-    this.newPinRef = React.createRef();
-  }
+const ChangePinForm = ({ isLoading, setIsLoading, closeModal }) => {
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
 
-  _onFulfill(value) {
-    this.setState({ oldPin: value });
-    console.log(this.state.oldPin);
-  }
+  const dispatch = useDispatch();
 
-  _onFulfill2(value) {
-    this.setState({ newPin: value });
-    console.log(this.state.oldPin);
-  }
+  const [oldPin, setOldPin] = useState(null);
+  const [newPin, setNewPin] = useState(null);
+  const [emptyFields, setEmptyFields] = useState(true);
 
-  render() {
-    return (
-      <View style={styles.form}>
-        <View style={{ marginBottom: 25, width: "100%" }}>
-          <Text style={[styles.label, { textAlign: "center" }]}>Old Pin</Text>
+  const resetAndClose = () => {
+    setOldPin(null);
+    setNewPin(null);
+    setEmptyFields(false);
+    setIsLoading(false);
+  };
 
-          <CodeInput
-            codeInputStyle={styles.inputContainer}
-            ref={this.oldPinRef}
-            // secureTextEntry
-            containerStyle={styles.inputWrapper}
-            keyboardType="numeric"
-            codeLength={4}
-            inputPosition="center"
-            onFulfill={(code) => this._onFulfill(code)}
-          />
-        </View>
-        <View style={{ marginTop: 25, width: "100%" }}>
-          <Text style={[styles.label, { textAlign: "center" }]}>New Pin</Text>
+  useEffect(() => {
+    if (!oldPin) {
+      setEmptyFields(true);
 
-          <CodeInput
-            codeInputStyle={styles.inputContainer}
-            ref={this.newPinRef}
-            // secureTextEntry
-            containerStyle={styles.inputWrapper}
-            keyboardType="numeric"
-            codeLength={4}
-            inputPosition="center"
-            onFulfill={(code) => this._onFulfill2(code)}
-          />
-        </View>
+      return;
+    }
+    if (oldPin && oldPin.length < 4) {
+      setEmptyFields(true);
 
-        <View style={{ marginTop: 70, width: "100%" }}>
-          <TouchableOpacity activeOpacity={0.7} style={globalStyles.button}>
-            <Text style={globalStyles.buttonText}>Submit</Text>
-          </TouchableOpacity>
-        </View>
+      return;
+    }
+
+    if (!newPin) {
+      setEmptyFields(true);
+
+      return;
+    }
+    if (newPin && newPin.length < 4) {
+      setEmptyFields(true);
+
+      return;
+    }
+
+    setEmptyFields(false);
+
+    // if (oldPin && newPin ) {
+    //   setEmptyFields(false);
+    // } else {
+    //   setEmptyFields(true);
+    // }
+  }, [oldPin, newPin]);
+
+  const changePIn = () => {
+    if (emptyFields === true) {
+      return;
+    }
+
+    setEmptyFields(true);
+    setIsLoading(true);
+
+    axios
+      .post(
+        `${baseURL}/v1.0/OAuth/changePin`,
+        {
+          AppId: AppId,
+          RequestId: RequestId,
+          Email: user?.email,
+          OldPIN: oldPin,
+          NewPIN: newPin,
+          ConfirmNewPIN: newPin,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + bearerToken,
+          },
+        },
+      )
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          setIsLoading(false);
+          setEmptyFields(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "SUCCESS",
+              title: "Pin change successful",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+          resetAndClose();
+
+          dispatch(getUserInfo(user?.code));
+        } else {
+          setIsLoading(false);
+          setOldPin(null);
+          setNewPin(null);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
+  };
+
+  return (
+    <View style={styles.form}>
+      <View style={{ marginBottom: 25, width: "100%", alignItems: "center" }}>
+        <Text style={[styles.label, { textAlign: "center" }]}>Old Pin</Text>
+        <KeycodeInput
+          style={{ fontFamily: "Poppins", letterSpacing: -0.35644 }}
+          alphaNumeric={false}
+          autoFocus={true}
+          numeric={true}
+          tintColor={colors.greenColor}
+          keyboardType="numeric"
+          onChange={(value) => {
+            setOldPin(value);
+          }}
+          onComplete={(value) => {
+            setOldPin(value);
+          }}
+        />
       </View>
-    );
-  }
-}
+      <View style={{ marginTop: 25, width: "100%", alignItems: "center" }}>
+        <Text style={[styles.label, { textAlign: "center" }]}>New Pin</Text>
+        <KeycodeInput
+          style={[{ fontFamily: "Poppins", letterSpacing: -0.35644 }]}
+          alphaNumeric={false}
+          autoFocus={false}
+          numeric={true}
+          tintColor={colors.greenColor}
+          keyboardType="numeric"
+          onChange={(value) => {
+            setNewPin(value);
+          }}
+          onComplete={(value) => {
+            setNewPin(value);
+          }}
+        />
+      </View>
+
+      <View style={{ marginTop: 70, width: "100%" }}>
+        <CustomLoadingButton
+          onPress={() => changePIn()}
+          emptyFields={emptyFields}
+          buttonText={"Submit"}
+          loading={false}
+        />
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   form: {
@@ -77,7 +196,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     fontSize: 16,
     color: "#444",
-    marginBottom: 10,
+    marginBottom: 20,
     fontFamily: "Poppins",
     letterSpacing: -0.35644,
     textTransform: "uppercase",

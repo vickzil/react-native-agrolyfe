@@ -44,6 +44,8 @@ import PurchaseSavingsModal from "./savings/PurchaseSavingsModal";
 import MySavingsModal from "./savings/MySavingsModal";
 import MSavingsDetailsModal from "./savings/MSavingsDetailsModal";
 import PageLoading from "../loader/PageLoading";
+import AddBVNModal from "./profile/bvn/AddBVNModal";
+import SelectAllBanksModal from "./bank/SelectAllBanksModal";
 // import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
@@ -75,11 +77,13 @@ const AllModals = () => {
       <NextOfKinModal />
       <AccountManagerModal />
       <BvnModal />
+      <AddBVNModal />
       <AntiPhizingModal />
       <ChangePasswordModal />
       <ChangePinModal />
       <CountryPopUp />
       <SelectBankModal />
+      <SelectAllBanksModal />
       <TransferToBankModal />
       <TransferCustomerModal />
       <FundWalletByTransfer />

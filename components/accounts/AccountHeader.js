@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
   setAccountManagerModal,
+  setAlertModal,
   setAntiPhizingModal,
   setBvnModal,
   setChangePasswordModal,
@@ -12,17 +14,109 @@ import {
   setNextOfKinModal,
 } from "../../store/alert/alertSlice";
 import colors from "../../styles/colors";
+import ScreenLoading from "../loader/ScreenLoading";
 import AccountImageFullName from "./AccountImageFullName";
+import axios from "axios";
+import { getUserInfo } from "../../store/auth/actions";
 
 const { width } = Dimensions.get("screen");
 
 const AccountHeader = () => {
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
   const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const [isLoading, setIsLoading] = useState(false);
+  // const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  useEffect(() => {
+    if (user) {
+      if (user.is2FAEnabled === true) {
+        setIsEnabled(true);
+      } else {
+        setIsEnabled(false);
+      }
+    }
+  }, [user]);
+
+  const toggleSwitch = () => {
+    setIsLoading(true);
+
+    axios
+      .post(
+        `${baseURL}/v1.0/OAuth/updateTwoFactorAuthentication`,
+        {
+          AppId: AppId,
+          RequestId: RequestId,
+          Email: user?.email,
+          UserCode: user?.code,
+          TwoFactorEnabled: isEnabled ? false : true,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + bearerToken,
+          },
+        },
+      )
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          setIsLoading(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "SUCCESS",
+              title: isEnabled ? "Two-Factor Authentication disabled" : "Two-Factor Authentication Enabled",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+          if (isEnabled) {
+            setIsEnabled(false);
+          } else {
+            setIsEnabled(false);
+          }
+
+          dispatch(getUserInfo(user?.code));
+        } else {
+          setIsLoading(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
+  };
 
   return (
     <View style={styles.container}>
+      <ScreenLoading visibility={{ status: isLoading, message: "Please wait ..." }} />
+
       <View style={[styles.headerBg, { backgroundColor: colors.greenDarkColor }]}></View>
       <View style={styles.headerImageContainer}>
         <View style={styles.accountContainer}>
@@ -44,13 +138,16 @@ const AccountHeader = () => {
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
         </View>
-        <View style={styles.accountTabs}>
-          <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Verification</Text>
-          <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setBvnModal(true))}>
-            <Text style={styles.accountTabsLinkText}>Bvn</Text>
-            <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
-          </TouchableOpacity>
-        </View>
+        {(user && user?.bvn === null) || user?.bvn === "null" ? (
+          <View style={styles.accountTabs}>
+            <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Verification</Text>
+            <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setBvnModal(true))}>
+              <Text style={styles.accountTabsLinkText}>Bvn</Text>
+              <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
+            </TouchableOpacity>
+          </View>
+        ) : null}
+
         <View style={styles.accountTabs}>
           <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Security</Text>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setChangePinModal(true))}>

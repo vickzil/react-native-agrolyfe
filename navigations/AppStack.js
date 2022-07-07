@@ -10,8 +10,9 @@ import ProductNavigator from "./ProductNavigator";
 import AllModals from "../components/modals/AllModals";
 import PageLoading from "../components/loader/PageLoading";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserInfo } from "../store/auth/actions";
+import { getCountryInfo, getUserInfo } from "../store/auth/actions";
 import { setGreetings } from "../store/auth/authSlice";
+import { getAccountMangager } from "../store/accountManager/actions";
 
 const Tab = createBottomTabNavigator();
 const AppStack = () => {
@@ -27,7 +28,9 @@ const AppStack = () => {
     const storedUser = await AsyncStorage.getItem("user");
     let user = JSON.parse(storedUser);
     setTimeout(() => {
+      dispatch(getCountryInfo("NG"));
       dispatch(getUserInfo(user?.code));
+      dispatch(getAccountMangager(user?.code));
     }, 2200);
   };
 

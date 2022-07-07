@@ -1,46 +1,84 @@
-import { Dimensions, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Dimensions, Image, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setBvnModal } from "../../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import colors from "../../../../styles/colors";
 import BvnForm from "./BvnForm";
-import HeaderImageTop from "../../../extra/HeaderImageTop";
+import { LinearGradient } from "expo-linear-gradient";
 
-const { width } = Dimensions.get("screen");
+const { width } = Dimensions.get("window");
+const banner = require("../../../../assets/img/agric.jpg");
 
 const BvnModal = () => {
   const modal = useSelector((state) => state.alert.bvnModal);
   const dispatch = useDispatch();
 
+  const closeModal = () => {
+    dispatch(setBvnModal(false));
+  };
+
   return (
-    <Modal
-      visible={modal}
-      animationType="slide"
-      onRequestClose={() => {
-        dispatch(setBvnModal(false));
-      }}
-    >
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
-        <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
-          <Icon
-            name="arrow-left"
-            size={33}
-            style={[styles.modalHeaderIcon, { color: "#fff" }]}
-            onPress={() => dispatch(setBvnModal(false))}
-          />
-          <Text style={styles.modalHeaderText}>Add Bvn</Text>
-          <Text></Text>
-        </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={[{ backgroundColor: colors.greenDarkColor, paddingTop: 20, paddingBottom: 30 }]}>
-            <HeaderImageTop />
+    <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
+      <View style={{ flex: 1 }}>
+        <View
+          style={[
+            {
+              height: "35%",
+              position: "relative",
+            },
+          ]}
+        >
+          <View style={[styles.modalHeader]}>
+            <Icon
+              name="window-close"
+              size={33}
+              style={[styles.modalHeaderIcon, { color: "#fff" }]}
+              onPress={() => closeModal()}
+            />
+            <Text style={styles.modalHeaderText}></Text>
+            <Text></Text>
           </View>
 
-          <View style={[styles.productContainer]}>
-            <BvnForm />
+          <Image
+            source={banner}
+            style={{
+              flex: 1,
+              width: "100%",
+              height: "100%",
+              resizeMode: "cover",
+              zIndex: 9,
+            }}
+          ></Image>
+          <LinearGradient
+            colors={["rgba(0,0,0,0.45)", "rgba(0,0,0,0.55)", "rgba(0,0,0,0.75)"]}
+            style={{
+              flex: 1,
+              position: "absolute",
+              width,
+              height: "100%",
+              zIndex: 10,
+            }}
+          />
+
+          <View
+            style={{
+              flex: 1,
+              position: "absolute",
+              top: 110,
+              width,
+              paddingHorizontal: 30,
+              zIndex: 20,
+            }}
+          >
+            <Text style={{ color: "#fff", fontWeight: "700", fontSize: 24, textAlign: "center" }}>
+              We need you to add your BVN to further secure your account.
+            </Text>
           </View>
-        </ScrollView>
+        </View>
+
+        <View style={[styles.productContainer]}>
+          <BvnForm />
+        </View>
       </View>
     </Modal>
     // </GestureRecognizer>
@@ -49,12 +87,15 @@ const BvnModal = () => {
 
 const styles = StyleSheet.create({
   modalHeader: {
+    position: "absolute",
+    top: 0,
     width,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 17,
     paddingHorizontal: 10,
+    zIndex: 12,
     // elevation: 3,
   },
 

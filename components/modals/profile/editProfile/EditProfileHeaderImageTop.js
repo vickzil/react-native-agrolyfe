@@ -1,6 +1,6 @@
 import "../../../../ignoreWarnings";
-import { Alert, Image, StyleSheet, Text, ToastAndroid, View, Permission } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import { Image, StyleSheet, Text, ToastAndroid, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../../../../styles/colors";
 import * as ImagePicker from "expo-image-picker";

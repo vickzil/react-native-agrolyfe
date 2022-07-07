@@ -5,13 +5,17 @@ import { setAccountManagerModal } from "../../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../../styles/colors";
 import NoItem from "../../../extra/NoItem";
+import LoadingComponents from "../../../loader/LoadingComponents";
 
-const user = require("../../../../assets/img/user.jpg");
+const userImage = require("../../../../assets/img/user.jpg");
 
 const { width } = Dimensions.get("screen");
 
 const AccountManagerModal = () => {
   const modal = useSelector((state) => state.alert.accountManagerModal);
+  const accountManager = useSelector((state) => state.accountManager.accountManager);
+  const loading = useSelector((state) => state.accountManager.loading);
+
   const dispatch = useDispatch();
   const [hasAccountManager] = useState(true);
 
@@ -36,21 +40,31 @@ const AccountManagerModal = () => {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
-            {hasAccountManager ? (
+            {loading ? (
+              <View style={{ marginTop: 40 }}>
+                <LoadingComponents />
+              </View>
+            ) : accountManager ? (
               <View style={styles.userCard}>
                 <View style={{ width: 100, height: 100, borderRadius: 100, padding: 4, backgroundColor: "#fff" }}>
                   <Image
-                    source={user}
+                    source={{ uri: accountManager.photo }}
                     style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
                     resizeMode="cover"
                   />
                 </View>
-                <Text style={[styles.userCardText, { color: colors.greenColor }]}>James Nelson</Text>
-                <Text style={[styles.userCardText, { color: "#888", marginTop: 12, fontSize: 15 }]}>09087638835</Text>
-                <Text style={[styles.userCardText, { color: "#888", marginTop: 3, fontSize: 15 }]}>
-                  jamesnelson@gmail.com
+                <Text style={[styles.userCardText, { color: colors.greenColor }]}>
+                  {accountManager ? accountManager.firstName + " " + accountManager.lastName : "-----"}
                 </Text>
-                <Text style={[styles.userCardText, { color: "#888", marginTop: 3, fontSize: 15 }]}>Nigeria</Text>
+                <Text style={[styles.userCardText, { color: "#888", marginTop: 12, fontSize: 15 }]}>
+                  {accountManager?.phoneNumber || "-----"}
+                </Text>
+                <Text style={[styles.userCardText, { color: "#888", marginTop: 3, fontSize: 15 }]}>
+                  {accountManager?.email || "-----"}
+                </Text>
+                <Text style={[styles.userCardText, { color: "#888", marginTop: 3, fontSize: 15 }]}>
+                  {accountManager?.countryName || "-----"}
+                </Text>
               </View>
             ) : (
               <NoItem

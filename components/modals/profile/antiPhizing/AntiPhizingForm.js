@@ -1,10 +1,113 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import colors from "../../../../styles/colors";
 import { globalStyles } from "../../../../styles/global";
+import CustomLoadingButton from "../../../customs/CustomLoadingButton";
+import axios from "axios";
+import { setAlertModal } from "../../../../store/alert/alertSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserInfo } from "../../../../store/auth/actions";
 
-const AntiPhizingForm = () => {
-  const [phrase, setPhrase] = useState("");
+const AntiPhizingForm = ({ phrase, setPhrase, emptyFields, setEmptyFields, setIsLoading, closeModal }) => {
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!phrase) {
+      setEmptyFields(true);
+
+      return;
+    }
+    if (phrase && phrase.length < 5) {
+      setEmptyFields(true);
+
+      return;
+    }
+
+    setEmptyFields(false);
+  }, [phrase]);
+
+  const passwordHandle = (value) => {
+    setPhrase(value.replace(/\s/g, ""));
+  };
+
+  const submitForm = () => {
+    if (emptyFields === true) {
+      return;
+    }
+
+    setEmptyFields(true);
+    setIsLoading(true);
+
+    axios
+      .post(
+        `${baseURL}/v1.0/OAuth/updateAntiPhishingPhrase`,
+        {
+          AppId: AppId,
+          RequestId: RequestId,
+          Email: user?.email,
+          UserCode: user?.code,
+          Phrase: phrase,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + bearerToken,
+          },
+        },
+      )
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          setIsLoading(false);
+          setEmptyFields(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "SUCCESS",
+              title: "Anti-Phishing Phrase Updated",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+          closeModal();
+
+          dispatch(getUserInfo(user?.code));
+        } else {
+          setIsLoading(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
+  };
 
   return (
     <View style={styles.form}>
@@ -19,8 +122,10 @@ const AntiPhizingForm = () => {
           borderRadius: 4,
         }}
       >
-        <Text style={[styles.label, { fontWeight: "700", fontSize: 17 }]}>Why Anti-phishing?</Text>
-        <Text style={[styles.label, { fontSize: 14 }]}>
+        <Text style={[styles.label, { fontWeight: "700", fontSize: 22, color: colors.greenColor }]}>
+          Why Anti-phishing?
+        </Text>
+        <Text style={[styles.label, { fontSize: 17 }]}>
           This is to prevent you from acting on unauthorized or fake E-mails that might be posing to be Agrovest.
         </Text>
       </View>
@@ -29,7 +134,7 @@ const AntiPhizingForm = () => {
         <View style={[styles.inputContainer]}>
           <TextInput
             value={phrase}
-            onChangeText={(text) => setPhrase(text)}
+            onChangeText={(text) => passwordHandle(text)}
             autoCorrect={false}
             placeholder="Enter phrase..."
             style={globalStyles.inputTextt}
@@ -38,9 +143,12 @@ const AntiPhizingForm = () => {
       </View>
 
       <View style={{ marginTop: 20, width: "100%" }}>
-        <TouchableOpacity activeOpacity={0.7} style={globalStyles.button}>
-          <Text style={globalStyles.buttonText}>Update phrase</Text>
-        </TouchableOpacity>
+        <CustomLoadingButton
+          onPress={() => submitForm()}
+          emptyFields={emptyFields}
+          buttonText={"Update phrase"}
+          loading={false}
+        />
       </View>
     </View>
   );

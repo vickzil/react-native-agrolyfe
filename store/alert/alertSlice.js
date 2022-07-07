@@ -79,12 +79,14 @@ const initialState = {
   nextOfKinModal: false,
   accountManagerModal: false,
   bvnModal: false,
+  addbvnModal: false,
   antiPhizingModal: false,
   changePasswordModal: false,
   changePinModal: false,
   allCountries: [],
   selectedCountry: null,
   selectedBank: null,
+  selectedAllBank: null,
   selectedCard: null,
   selectedUser: null,
   selectedNetwork: null,
@@ -96,6 +98,11 @@ const initialState = {
   },
 
   selectBankModal: {
+    status: false,
+    type: "",
+  },
+
+  selectAllBankModal: {
     status: false,
     type: "",
   },
@@ -263,6 +270,13 @@ const alertSlice = createSlice({
       };
     },
 
+    setSelectAllBankModal: (state, { payload }) => {
+      state.selectAllBankModal = {
+        status: payload.status,
+        type: payload.type,
+      };
+    },
+
     setSelectCardModal: (state, { payload }) => {
       state.selectCardModal = {
         status: payload.status,
@@ -314,8 +328,13 @@ const alertSlice = createSlice({
     setAccountManagerModal: (state, { payload }) => {
       state.accountManagerModal = payload;
     },
+
     setBvnModal: (state, { payload }) => {
       state.bvnModal = payload;
+    },
+
+    setAddbvnModal: (state, { payload }) => {
+      state.addbvnModal = payload;
     },
 
     setAntiPhizingModal: (state, { payload }) => {
@@ -339,6 +358,10 @@ const alertSlice = createSlice({
 
     setSelectedBank: (state, { payload }) => {
       state.selectedBank = payload;
+    },
+
+    setSelectedAllBank: (state, { payload }) => {
+      state.selectedAllBank = payload;
     },
 
     setSelectedCard: (state, { payload }) => {
@@ -417,6 +440,7 @@ export const {
   setNextOfKinModal,
   setAccountManagerModal,
   setBvnModal,
+  setAddbvnModal,
   setAntiPhizingModal,
   setChangePasswordModal,
   setChangePinModal,
@@ -424,8 +448,10 @@ export const {
   setAllCountries,
   setSelectedCountry,
   setSelectBankModal,
+  setSelectAllBankModal,
   setSelectCardModal,
   setSelectedBank,
+  setSelectedAllBank,
   setSelectedCard,
   setDefaultBank,
   setTransferToBankModal,

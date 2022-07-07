@@ -85,6 +85,13 @@ const Login = ({ navigation }) => {
         console.log(response?.data);
 
         if (response?.data?.success == true) {
+          setInputs({
+            email: "",
+            password: "",
+          });
+          // setInputs((prevState) => ({ ...prevState, email: ""}));
+          // setInputs((prevState) => ({ ...prevState, password: "" }));
+
           if (response?.data?.data?.emailConfirmed) {
             const twoFactor = response.data.data.token.twoFactorToken;
             const data = response.data.data;
@@ -99,11 +106,11 @@ const Login = ({ navigation }) => {
                 }),
               );
 
-              AsyncStorage.setItem("loginToken", token);
-              AsyncStorage.setItem("userEmail", inputs.email);
-              AsyncStorage.setItem("userData", data);
+              AsyncStorage.setItem("userData", JSON.stringify(data));
 
-              navigation.navigate("TwoFactor");
+              navigation.navigate("TwoFactor", {
+                email: inputs.email,
+              });
             } else {
               AsyncStorage.setItem("user", JSON.stringify(data));
               AsyncStorage.setItem("token", token);

@@ -1,4 +1,4 @@
-import { Dimensions, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setEditProfileModal } from "../../../../store/alert/alertSlice";
@@ -6,8 +6,10 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../../styles/colors";
 import EditProfileHeaderImageTop from "./EditProfileHeaderImageTop";
 import EditProfileForm from "./EditProfileForm";
+import Modal from "react-native-modal";
 
 const { width } = Dimensions.get("screen");
+let screenHeight = Dimensions.get("window").height;
 
 const EditProfileModal = () => {
   const modal = useSelector((state) => state.alert.editProfileModal);
@@ -22,7 +24,17 @@ const EditProfileModal = () => {
   };
 
   return (
-    <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
+    <Modal
+      isVisible={modal}
+      animationIn="slideInRight"
+      animationOut="slideOutRight"
+      animationInTiming={100}
+      onBackButtonPress={() => closeModal()}
+      onBackdropPress={() => closeModal()}
+      onSwipeComplete={() => closeModal()}
+      swipeDirection="left"
+      style={{ width: width, height: screenHeight, margin: 0, padding: 0 }}
+    >
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon

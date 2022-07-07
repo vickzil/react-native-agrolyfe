@@ -1,17 +1,19 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { KeycodeInput } from "react-native-keycode";
 import Logo from "../components/logo/Logo";
 import { globalStyles } from "../styles/global";
 import colors from "../styles/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import { saveUserInfo, setHasLogin, setToken } from "../store/auth/authSlice";
 import axios from "axios";
 
-const TwoFactor = ({ navigation }) => {
+const TwoFactor = ({ navigation, route }) => {
   const dispatch = useDispatch();
+
+  const { email } = route.params;
 
   const [pin, setPin] = useState(null);
 
@@ -21,10 +23,11 @@ const TwoFactor = ({ navigation }) => {
   const RequestId = useSelector((state) => state.oauth.RequestId);
 
   // const loginToken = AsyncStorage.getItem('loginToken')
-  const userEmail = AsyncStorage.getItem("loginToken");
   const userData = AsyncStorage.getItem("userData");
 
-  const handleConfirmToken = () => {
+  const handleConfirmToken = (value) => {
+    Keyboard.dismiss();
+
     dispatch(
       setLoading({
         status: true,
@@ -35,8 +38,8 @@ const TwoFactor = ({ navigation }) => {
     let payload = {
       AppId: AppId,
       RequestId: RequestId,
-      Email: userEmail,
-      token: pin,
+      Email: JSON.parse(JSON.stringify(email)),
+      token: value,
     };
 
     console.log(payload);
@@ -53,16 +56,16 @@ const TwoFactor = ({ navigation }) => {
         console.log(response?.data);
 
         if (response?.data?.success == true) {
-          const data = userData;
+          const data = JSON.parse(userData);
           const token = data.token.token;
           const expireTo = data.token.expireTo;
 
-          dispatch(saveUserInfo(data));
-
+          AsyncStorage.setItem("user", JSON.stringify(data));
           AsyncStorage.setItem("token", token);
           AsyncStorage.setItem("appexrat", expireTo);
           AsyncStorage.setItem("hasLoggedIn", "yes");
 
+          dispatch(saveUserInfo(data));
           dispatch(setToken(token));
           dispatch(setHasLogin(true));
 
@@ -113,9 +116,6 @@ const TwoFactor = ({ navigation }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(setSearchText(""));
-      AsyncStorage.removeItem("loginToken");
-      AsyncStorage.removeItem("loginToken");
       AsyncStorage.removeItem("userData");
     };
   }, []);
@@ -150,12 +150,26 @@ const TwoFactor = ({ navigation }) => {
                 setPin(value);
               }}
               onComplete={(value) => {
-                setPin(value);
-                handleConfirmToken();
+                handleConfirmToken(value);
 
                 // console.log("completed");
               }}
             />
+
+            <View style={{ marginTop: 70 }}>
+              <Text
+                onPress={() => navigation.navigate("Login")}
+                style={{
+                  color: colors.greenDarkDarkColor,
+                  textAlign: "center",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  marginTop: 20,
+                }}
+              >
+                Back to Login
+              </Text>
+            </View>
           </View>
         </View>
       </ScrollView>

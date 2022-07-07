@@ -2,9 +2,11 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-nativ
 import React, { useState } from "react";
 import colors from "../../../../styles/colors";
 import { globalStyles } from "../../../../styles/global";
+import { setAddbvnModal, setBvnModal } from "../../../../store/alert/alertSlice";
+import { useDispatch } from "react-redux";
 
 const BvnForm = () => {
-  const [bvn, setBvn] = useState("");
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.form}>
@@ -12,36 +14,67 @@ const BvnForm = () => {
         style={{
           marginBottom: 40,
           width: "100%",
-          borderWidth: 1,
-          borderColor: "#ced4ce",
-          paddingVertical: 14,
-          paddingHorizontal: 10,
-          borderRadius: 4,
         }}
       >
-        <Text style={[styles.label, { fontWeight: "700", fontSize: 17 }]}>Why do we need your BVN ?</Text>
-        <Text style={[styles.label, { fontSize: 14 }]}>
-          We need your BVN to verify your FullName , Phone Number, Date of Birth. Your BVN does not give us access to
-          your bank account, transactions or any other information
+        <Text
+          style={[styles.label, { fontWeight: "700", fontSize: 22, textAlign: "center", color: colors.greenColor }]}
+        >
+          Why do we need your BVN ?
         </Text>
-      </View>
-      <View style={{ marginBottom: 20, width: "100%" }}>
-        <Text style={styles.label}>Bvn</Text>
-        <View style={[styles.inputContainer]}>
-          <TextInput
-            value={bvn}
-            onChangeText={(text) => setBvn(text)}
-            autoCorrect={false}
-            keyboardType="numeric"
-            placeholder="Enter bvn"
-            style={globalStyles.inputTextt}
-          />
+
+        <View
+          style={[
+            {
+              marginTop: 40,
+              textAlign: "center",
+              borderWidth: 1,
+              borderColor: "#ced4ce",
+              paddingVertical: 22,
+              paddingHorizontal: 12,
+              borderRadius: 4,
+            },
+          ]}
+        >
+          <Text
+            style={[
+              styles.label,
+              {
+                fontSize: 17,
+                textAlign: "center",
+                marginBottom: 0,
+                paddingBottom: 0,
+              },
+            ]}
+          >
+            We need your BVN to verify your Fullname , Phone number, Date of Birth.
+          </Text>
+          <Text
+            style={[
+              styles.label,
+              {
+                fontSize: 17,
+                textAlign: "center",
+                marginTop: -10,
+                paddingTop: 0,
+                fontWeight: "700",
+              },
+            ]}
+          >
+            Your BVN does not give us access to your bank account, transactions or any other Information.
+          </Text>
         </View>
       </View>
 
       <View style={{ marginTop: 20, width: "100%" }}>
-        <TouchableOpacity activeOpacity={0.7} style={globalStyles.button}>
-          <Text style={globalStyles.buttonText}>Update Bvn</Text>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            dispatch(setAddbvnModal(true));
+            dispatch(setBvnModal(false));
+          }}
+          style={globalStyles.button}
+        >
+          <Text style={globalStyles.buttonText}>Add Bvn</Text>
         </TouchableOpacity>
       </View>
     </View>
