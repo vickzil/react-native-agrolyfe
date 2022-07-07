@@ -12,11 +12,11 @@ let screenHeight = Dimensions.get("window").height;
 
 const productImage = require("../../../../assets/img/productimage.jpeg");
 
-const FAmount = ({ amount, setAmount, duration, setDuration }) => {
+const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
   const dispatch = useDispatch();
   const [showDurationModal, setShowDurationModal] = useState(false);
 
-  const durations = ["3 Months", "6 Months", "9 Months", "10 Months", "12 Months"];
+  const durations = payload?.frequencyDurations;
 
   return (
     <View style={[styles.productContainer]}>
@@ -44,14 +44,14 @@ const FAmount = ({ amount, setAmount, duration, setDuration }) => {
             <View style={{ justifyContent: "center", alignItems: "center", marginTop: 0 }}>
               <View style={globalStyles.accountImage}>
                 <Image
-                  source={productImage}
+                  source={{ uri: payload?.imageURL }}
                   style={[{ width: "100%", height: "100%", borderRadius: 100 }]}
                   resizeMode="cover"
                 />
               </View>
 
-              <Text style={globalStyles.accountUserFullName}>Agrovest</Text>
-              <Text style={globalStyles.accountTitle}>22% Rental Fee</Text>
+              <Text style={globalStyles.accountUserFullName}>{payload?.name}</Text>
+              <Text style={globalStyles.accountTitle}>{payload?.newInterestRate}% Rental Fee</Text>
             </View>
           </View>
           <View style={{ marginTop: 40, alignItems: "center" }}>
@@ -97,31 +97,33 @@ const FAmount = ({ amount, setAmount, duration, setDuration }) => {
               ]}
             />
           </View>
-          <View style={{ marginTop: 60, alignItems: "center" }}>
-            <Text
-              style={[
-                styles.productCardContentItemLeft,
-                {
-                  fontSize: 20,
-                  marginBottom: 20,
-                  fontWeight: "800",
-                  fontFamily: "Poppins",
-                  letterSpacing: -0.35644,
-                  color: colors.greenDarkDarkColor,
-                },
-              ]}
-            >
-              Select Duration
-            </Text>
+          {payload?.frequencyDurations && payload?.frequencyDurations.length ? (
+            <View style={{ marginTop: 60, alignItems: "center" }}>
+              <Text
+                style={[
+                  styles.productCardContentItemLeft,
+                  {
+                    fontSize: 20,
+                    marginBottom: 20,
+                    fontWeight: "800",
+                    fontFamily: "Poppins",
+                    letterSpacing: -0.35644,
+                    color: colors.greenDarkDarkColor,
+                  },
+                ]}
+              >
+                Select Duration
+              </Text>
 
-            <TouchableOpacity
-              style={[globalStyles.inputContainer, { height: 50 }]}
-              onPress={() => setShowDurationModal(true)}
-            >
-              <TextInput value={duration} editable={false} style={globalStyles.inputTextt} />
-              <FontAwesome5Icon name="chevron-circle-down" size={16} color="#666" style={{ marginRight: 10 }} />
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity
+                style={[globalStyles.inputContainer, { height: 50 }]}
+                onPress={() => setShowDurationModal(true)}
+              >
+                <TextInput value={duration} editable={false} style={globalStyles.inputTextt} />
+                <FontAwesome5Icon name="chevron-circle-down" size={16} color="#666" style={{ marginRight: 10 }} />
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </View>
     </View>

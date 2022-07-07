@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView, TouchableOpacity, Text, StyleSheet, View, Image, ScrollView, Dimensions } from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,13 +9,28 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../../../styles/colors";
 import { setFundwalletByLocalTransferModal, setToastModal } from "../../../store/alert/alertSlice";
 import { copyLink } from "../../helpers/globalFunction";
+import LoadingComponents from "../../loader/LoadingComponents";
+import NoItem from "../../extra/NoItem";
+import RenderHtml from "react-native-render-html";
 
 const { height, width } = Dimensions.get("window");
 const FundWalletByTransfer = () => {
   const dispatch = useDispatch();
   const modal = useSelector((state) => state.alert.fundwalletByLocalTransferModal);
+  const walletOptions = useSelector((state) => state.wallet.walletOptions);
+  const loading = useSelector((state) => state.wallet.optionLoading);
+  const [localTransfer, setLocalTransfer] = useState(null);
   // ref
   const bottomSheetRef = useRef(null);
+
+  useEffect(() => {
+    if (walletOptions) {
+      setLocalTransfer(walletOptions.byLCYTransfer);
+    }
+
+    // console.log(modal);
+    // console.log(height);
+  }, [walletOptions]);
 
   useEffect(() => {
     if (modal) {
@@ -79,115 +94,118 @@ const FundWalletByTransfer = () => {
               Bank transfer (NGN)
             </Text>
             <Text style={[globalStyles.label, { fontSize: 15, textAlign: "left", marginBottom: 0, fontWeight: "600" }]}>
-              Transfer money to any of the account numbers below to fund your stash
+              {localTransfer ? localTransfer?.message : ""}
             </Text>
           </View>
-          <Collapse style={{ marginBottom: 20, borderBottomWidth: 2, borderColor: "#e8e8e8", paddingBottom: 0 }}>
-            <CollapseHeader style={{ flexDirection: "row", alignItems: "flex-start", padding: 0, marginBottom: 12 }}>
-              <View
-                style={{
-                  width: "100%",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
 
-                  //   textAlign: "left",
-                }}
+          {loading ? (
+            <View style={{ marginTop: 40 }}>
+              <LoadingComponents />
+            </View>
+          ) : localTransfer && localTransfer.items && localTransfer.items.length ? (
+            localTransfer?.items?.map((item, index) => (
+              <Collapse
+                key={index}
+                style={{ marginBottom: 20, borderBottomWidth: 2, borderColor: "#e8e8e8", paddingBottom: 0 }}
               >
-                <Text style={[globalStyles.label, { fontWeight: "700", fontSize: 19, color: colors.greenColor }]}>
-                  Wema Bank
-                </Text>
-                <View style={{ alignItems: "flex-end" }}>
-                  <Icon name="chevron-down" size={33} style={[styles.modalHeaderIcon, { color: "#111", padding: 2 }]} />
-                </View>
-              </View>
-            </CollapseHeader>
-            <CollapseBody>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginBottom: 16,
-                }}
-              >
-                <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Account number</Text>
-                <TouchableOpacity
-                  style={{ flexDirection: "row", alignItems: "center" }}
-                  onPress={() => handleCopy("0725653778")}
+                <CollapseHeader
+                  style={{ flexDirection: "row", alignItems: "flex-start", padding: 0, marginBottom: 12 }}
                 >
-                  <Text style={[globalStyles.label, { fontSize: 16, color: colors.greenDarkColor }]}>0725653778</Text>
-                  <Ionicons
-                    name="copy-outline"
-                    size={19}
-                    style={[styles.modalHeaderIcon, { color: "#111", padding: 0, marginLeft: 6, marginTop: -7 }]}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginBottom: 16,
-                }}
-              >
-                <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Account Name</Text>
-                <Text style={[globalStyles.label, { fontSize: 16 }]}>Victor Nwakwue</Text>
-              </View>
-            </CollapseBody>
-          </Collapse>
-          <Collapse style={{ marginBottom: 20 }}>
-            <CollapseHeader style={{ flexDirection: "row", alignItems: "flex-start", padding: 0, marginBottom: 12 }}>
-              <View
-                style={{
-                  width: "100%",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  <View
+                    style={{
+                      width: "100%",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
 
-                  //   textAlign: "left",
-                }}
-              >
-                <Text style={[globalStyles.label, { fontWeight: "700", fontSize: 19, color: colors.greenColor }]}>
-                  Sterling Bank
-                </Text>
-                <View style={{ alignItems: "flex-end" }}>
-                  <Icon name="chevron-down" size={33} style={[styles.modalHeaderIcon, { color: "#111", padding: 2 }]} />
-                </View>
-              </View>
-            </CollapseHeader>
-            <CollapseBody>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginBottom: 16,
-                }}
-              >
-                <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Account number</Text>
-                <TouchableOpacity
-                  style={{ flexDirection: "row", alignItems: "center" }}
-                  onPress={() => handleCopy("0725653778")}
-                >
-                  <Text style={[globalStyles.label, { fontSize: 16, color: colors.greenDarkColor }]}>0725653778</Text>
-                  <Ionicons
-                    name="copy-outline"
-                    size={19}
-                    style={[styles.modalHeaderIcon, { color: "#111", padding: 0, marginLeft: 6, marginTop: -7 }]}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginBottom: 16,
-                }}
-              >
-                <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Account Name</Text>
-                <Text style={[globalStyles.label, { fontSize: 16 }]}>Victor Nwakwue</Text>
-              </View>
-            </CollapseBody>
-          </Collapse>
+                      //   textAlign: "left",
+                    }}
+                  >
+                    <Text style={[globalStyles.label, { fontWeight: "700", fontSize: 19, color: colors.greenColor }]}>
+                      {item.accountBank}
+                    </Text>
+                    <View style={{ alignItems: "flex-end" }}>
+                      <Icon
+                        name="chevron-down"
+                        size={33}
+                        style={[styles.modalHeaderIcon, { color: "#111", padding: 2 }]}
+                      />
+                    </View>
+                  </View>
+                </CollapseHeader>
+                <CollapseBody>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Account number</Text>
+                    <TouchableOpacity
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                      onPress={() => handleCopy(item.accountNumber)}
+                    >
+                      <Text style={[globalStyles.label, { fontSize: 16, color: colors.greenDarkColor }]}>
+                        {item.accountNumber}
+                      </Text>
+                      <Ionicons
+                        name="copy-outline"
+                        size={19}
+                        style={[styles.modalHeaderIcon, { color: "#111", padding: 0, marginLeft: 6, marginTop: -7 }]}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>currency</Text>
+                    <Text style={[globalStyles.label, { fontSize: 16, marginRight: 10 }]}>{item.currency}</Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Account Name</Text>
+                    <View style={{ width: "50%", alignItems: "flex-end", justifyContent: "flex-end" }}>
+                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 16, marginRight: 10 }]}>
+                        {item.accountName}
+                      </Text>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      justifyContent: "flex-start",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <View style={{ width: "100%" }}>
+                      <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Message</Text>
+                      {/* <Text style={[globalStyles.label, { textAlign: "left", fontSize: 16, marginRight: 10 }]}>
+                        {item.message}
+                      </Text> */}
+                      <RenderHtml
+                        style={[globalStyles.label, { textAlign: "left", fontSize: 16, marginRight: 10 }]}
+                        contentWidth={width}
+                        source={{ html: item.message }}
+                      />
+                    </View>
+                  </View>
+                </CollapseBody>
+              </Collapse>
+            ))
+          ) : (
+            <View style={{ marginTop: 40 }}>
+              <NoItem item={{ type: "BANK", buttonText: "", message: "No local bank transfer option available" }} />
+            </View>
+          )}
         </ScrollView>
       </BottomSheet>
     </SafeAreaView>

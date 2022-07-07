@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../styles/colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setFundwalletModal, setPayBillsModal, setTransferModal } from "../../store/alert/alertSlice";
 import { useRef } from "react";
 import TransferModalButtom from "../modals/transfer/TransferModalButtom";
@@ -17,6 +17,8 @@ const HomeWalletItem = ({ item, index }) => {
   const transferModal = useRef();
   const paybillsModal = useRef();
   const fundWalletModal = useRef();
+
+  const loading = useSelector((state) => state.wallet.loading);
 
   const handlePress = (data) => {
     if (data.type === "Fund") {
@@ -51,7 +53,11 @@ const HomeWalletItem = ({ item, index }) => {
       <FundWalletModalButtom bottomSheet={fundWalletModal} closeModal={() => closeFundwalletModal()} />
       <View style={[styles.card, index === 0 && styles.addMarginLeft]}>
         <Text style={styles.cardHeading}>{item.heading}</Text>
-        <Text style={[styles.paragraph, { color: colors.greenColor }]}>{item.paragraph}</Text>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Text style={[styles.paragraph, { color: colors.greenColor }]}>{item.paragraph}</Text>
+          {index === 0 ? loading ? <ActivityIndicator size="small" color="#14961E" /> : null : null}
+        </View>
+
         <TouchableOpacity style={{ marginTop: 30 }} onPress={() => handlePress(item)}>
           <View style={[styles.button, { color: colors.greenNormalColor, borderColor: colors.greenNormalColor }]}>
             <Text style={[styles.buttonText, { color: colors.greenNormalColor }]}>{item.buttonText}</Text>

@@ -1,34 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAccountMangager } from "./actions";
+import { getTransactionsInfo } from "./actions";
 
 const initialState = {
-  accountManager: null,
+  transactions: null,
   error: false,
   loading: true,
 };
 
-const accountManagerSlice = createSlice({
-  name: "accountManager",
+const bankSlice = createSlice({
+  name: "transactions",
   initialState,
   reducers: {},
   extraReducers: {
-    [getAccountMangager.pending]: (state, action) => {
+    [getTransactionsInfo.pending]: (state, action) => {
       state.loading = true;
       state.error = false;
     },
 
-    [getAccountMangager.fulfilled]: (state, action) => {
+    [getTransactionsInfo.fulfilled]: (state, action) => {
       let result = action.payload;
       if (result) {
-        // console.log(action.payload.data);
-        state.accountManager = result.data;
+        // console.log("transaction ", action.payload.data);
+        state.transactions = result.data;
       }
 
       state.error = false;
       state.loading = false;
     },
 
-    [getAccountMangager.rejected]: (state) => {
+    [getTransactionsInfo.rejected]: (state) => {
       state.error = true;
       state.loading = false;
       // logout();
@@ -36,4 +36,4 @@ const accountManagerSlice = createSlice({
   },
 });
 
-export default accountManagerSlice.reducer;
+export default bankSlice.reducer;

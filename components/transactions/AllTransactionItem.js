@@ -2,6 +2,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { setTransactionDetailsModal } from "../../store/alert/alertSlice";
+import colors from "../../styles/colors";
+import { formateDateAndTimeByName } from "../helpers/globalFunction";
 
 const AllTransactionItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -14,20 +16,37 @@ const AllTransactionItem = ({ item }) => {
         dispatch(
           setTransactionDetailsModal({
             status: true,
-            payload: null,
+            payload: item,
           }),
         )
       }
     >
       <View style={styles.transactionItem}>
         <View style={styles.transactionItemLeft}>
-          <Text style={[styles.transactionItemLeftP, styles.transactionItemLeftP1]}>23 Mar 2022</Text>
-          <Text style={[styles.transactionItemLeftP]}>
-            Saving's wallet No. 1 funding for savings with code SAVSHPY8X83SZVU
+          <Text style={[styles.transactionItemLeftP, styles.transactionItemLeftP1]}>
+            {formateDateAndTimeByName(item.createdOn)}
           </Text>
+          <Text style={[styles.transactionItemLeftP]}>{item.description}</Text>
         </View>
         <View style={styles.transactionItemRight}>
-          <Text style={[styles.transactionItemLeftP, styles.transactionItemLeftP3]}>+ NGN 100</Text>
+          <Text
+            style={[
+              styles.transactionItemLeftP,
+              styles.transactionItemLeftP3,
+              item.drCr === "CR" ? styles.addedCash : styles.removeCash,
+            ]}
+          >
+            {item.drCr === "CR" ? "+" : "-"} {item.currency} {item.amount}
+          </Text>
+          <Text
+            style={[
+              styles.transactionItemLeftP,
+              styles.productCardContentItemRightStatus,
+              item.status === "success" ? styles.statusSuccess : null,
+            ]}
+          >
+            {item.status}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -78,5 +97,26 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     textAlign: "right",
+  },
+
+  productCardContentItemRightStatus: {
+    fontSize: 13,
+    textAlign: "center",
+    borderRadius: 20,
+    fontFamily: "MontserratBold",
+  },
+
+  statusSuccess: {
+    color: colors.greenLightColor,
+  },
+
+  addedCash: {
+    color: colors.greenColor,
+    fontWeight: "600",
+  },
+
+  removeCash: {
+    color: "red",
+    fontWeight: "600",
   },
 });

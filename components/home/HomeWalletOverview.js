@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 import HomeWalletItem from "./HomeWalletItem";
 
 const HomeWalletOverview = () => {
+  const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
+
   const [overview] = useState([
     {
       id: 1,
       heading: "Main wallet Balance",
-      paragraph: "₦0",
+      paragraph: userWalletBalance ? "₦ " + userWalletBalance?.availableBalance : "₦ 0",
       buttonText: "Fund Wallet",
       type: "Fund",
     },

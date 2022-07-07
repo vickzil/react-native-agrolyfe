@@ -30,6 +30,15 @@ export const removeDashFromString = (str) => {
   return frags.join(" ");
 };
 
+export const removeUnderscoreFromString = (str) => {
+  var i,
+    frags = str.split("_");
+  for (i = 0; i < frags.length; i++) {
+    frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+  }
+  return frags.join(" ");
+};
+
 export const gtYears = () => {
   let now = new Date().getUTCFullYear();
   let years = Array(now - (now - 90))

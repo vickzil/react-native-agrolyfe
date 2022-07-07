@@ -5,6 +5,7 @@ import { setAlertModalSuccess } from "../../store/alert/alertSlice";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import colors from "../../styles/colors";
 import { globalStyles } from "../../styles/global";
+import { addComma } from "../helpers/globalFunction";
 
 const { width } = Dimensions.get("screen");
 
@@ -30,13 +31,15 @@ const AlertSuccessModal = () => {
             <AntDesignIcon name="checksquare" size={20} style={[styles.Icon]} />
 
             {/* <View style={{ marginTop: 30 }}> */}
-            <Text style={[globalStyles.label, styles.amountInput]}>NGN 25,000</Text>
+            <Text style={[globalStyles.label, styles.amountInput]}>
+              NGN {modal?.payload ? addComma(modal?.payload?.amount) : 0}
+            </Text>
             <Text style={[globalStyles.label, { color: "#f7ab07", textAlign: "center" }]}>PROCESSING</Text>
             <View style={{ alignItems: "center", textAlign: "center", justifyContent: "center", marginTop: -4 }}>
               <View style={styles.bottomBorder}></View>
             </View>
             <Text style={[globalStyles.label, styles.userCardText, { color: "#222", textAlign: "center" }]}>
-              Request recieved and it's been processed!
+              {modal?.payload?.message}
             </Text>
 
             <TouchableOpacity

@@ -16,6 +16,7 @@ import IconSearch from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AllTransactions from "../../transactions/AllTransactions";
 import colors from "../../../styles/colors";
+import HeaderBalance from "../../extra/HeaderBalance";
 
 const { width } = Dimensions.get("screen");
 
@@ -32,21 +33,21 @@ const TransactionModal = () => {
       }}
     >
       <View>
-        <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
-          <Icon
-            name="arrow-left"
-            size={33}
-            style={[styles.modalHeaderIcon, { color: "#fff" }]}
-            onPress={() => dispatch(setTransactionModal(false))}
-          />
-          <Text style={styles.modalHeaderText}>Transactions</Text>
-          <Text></Text>
-        </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={[styles.modalSearchContainer, { backgroundColor: colors.greenDarkColor }]}>
-            <Text style={styles.modalHeaderTex}>NGN 0.00</Text>
-            <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>Main Balance</Text>
+        <View style={[{ backgroundColor: colors.greenDarkColor, width: "100%" }]}>
+          <View style={[styles.modalHeader]}>
+            <Icon
+              name="arrow-left"
+              size={33}
+              style={[styles.modalHeaderIcon, { color: "#fff" }]}
+              onPress={() => dispatch(setTransactionModal(false))}
+            />
+            <Text style={styles.modalHeaderText}>Transactions</Text>
+            <Text></Text>
           </View>
+          <HeaderBalance />
+        </View>
+
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
             <AllTransactions />
           </View>

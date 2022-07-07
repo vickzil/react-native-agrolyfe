@@ -1,52 +1,26 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { globalStyles } from "../../styles/global";
 import TransactionItem from "./TransactionItem";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setTransactionModal } from "../../store/alert/alertSlice";
 import LoadingComponents from "../loader/LoadingComponents";
+import NoItem from "../extra/NoItem";
 
 const Transactions = () => {
+  const transactions = useSelector((state) => state.transactions.transactions);
+  const loading = useSelector((state) => state.transactions.loading);
   const dispatch = useDispatch();
 
-  const [transactions] = useState([
-    {
-      id: 1,
-      date: new Date(),
-      amount: "₦2000",
-      description: "Saving's wallet No. 1 funding for savings with code SAVSHPY8X83SZVU",
-      status: "success",
-    },
-    {
-      id: 2,
-      date: new Date(),
-      amount: "₦12,000",
-      description: "Saving's wallet No. 1 funding for savings with code SAVSHPY8X83SZVU",
-      status: "success",
-    },
-    {
-      id: 3,
-      date: new Date(),
-      amount: "₦62,000",
-      description: "Saving's wallet No. 1 funding for savings with code SAVSHPY8X83SZVU",
-      status: "success",
-    },
-    {
-      id: 4,
-      date: new Date(),
-      amount: "₦2000",
-      description: "Saving's wallet No. 1 funding for savings with code SAVSHPY8X83SZVU",
-      status: "success",
-    },
-    {
-      id: 5,
-      date: new Date(),
-      amount: "₦12,000",
-      description: "Saving's wallet No. 1 funding for savings with code SAVSHPY8X83SZVU",
-      status: "success",
-    },
-  ]);
+  const [allTransactions, setAllTransactions] = useState([]);
+
+  useEffect(() => {
+    if (transactions && transactions.transactions && transactions.transactions.length) {
+      let newFilter = transactions.transactions.slice(0, 6);
+      setAllTransactions(newFilter);
+    }
+  }, [transactions]);
 
   return (
     <View>
@@ -62,11 +36,15 @@ const Transactions = () => {
       </View>
 
       <View style={{ marginTop: 5, marginBottom: 40 }}>
-        {transactions && transactions.length ? (
-          transactions?.map((item, index) => <TransactionItem item={item} key={index} index={index} />)
-        ) : (
+        {loading ? (
           <View style={{ marginTop: 40 }}>
             <LoadingComponents />
+          </View>
+        ) : allTransactions && allTransactions.length ? (
+          allTransactions?.map((item, index) => <TransactionItem item={item} key={index} index={index} />)
+        ) : (
+          <View style={{ marginTop: 40 }}>
+            <NoItem item={{ type: "TRANSACTIONS", buttonText: "", message: "You have no transactions" }} />
           </View>
         )}
       </View>

@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setTransactionDetailsModal } from "../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import TransactionModalItem from "./TransactionModalItem";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 
 const { width } = Dimensions.get("screen");
 
@@ -31,38 +32,21 @@ const TransactionDetailsModal = () => {
   };
 
   return (
-    <Modal
-      visible={modal?.status}
-      animationType="slide"
-      onRequestClose={() => {
-        dispatch(
-          setTransactionDetailsModal({
-            status: false,
-            payload: null,
-          }),
-        );
-      }}
-    >
-      <View>
+    <Modal visible={modal?.status} animationType="slide" onRequestClose={() => closeModal()}>
+      <View style={{ marginTop: -40 }}>
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
         <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
           <Icon
             name="arrow-left"
             size={33}
             style={[styles.modalHeaderIcon, { color: "#222" }]}
-            onPress={() =>
-              dispatch(
-                setTransactionDetailsModal({
-                  status: false,
-                  payload: null,
-                }),
-              )
-            }
+            onPress={() => closeModal()}
           />
           <Text style={styles.modalHeaderText}>Transaction</Text>
           <Text></Text>
         </View>
 
-        <TransactionModalItem />
+        <TransactionModalItem item={modal?.payload} />
 
         {/* <Banks /> */}
       </View>

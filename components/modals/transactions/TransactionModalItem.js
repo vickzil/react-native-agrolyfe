@@ -1,6 +1,7 @@
 import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import colors from "../../../styles/colors";
+import { formateDateAndTimeByName, removeUnderscoreFromString } from "../../helpers/globalFunction";
 
 const TransactionModalItem = ({ item }) => {
   return (
@@ -8,24 +9,39 @@ const TransactionModalItem = ({ item }) => {
       <View style={styles.productCard}>
         <View style={styles.productCardContent}>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>From</Text>
-            <Text style={styles.productCardContentItemRight}>N/A</Text>
-          </View>
-          <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>To</Text>
-            <Text style={styles.productCardContentItemRight}>Wallet</Text>
-          </View>
-          <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}>Amount</Text>
-            <Text style={styles.productCardContentItemRight}>₦3,971.25</Text>
+            <Text
+              style={[styles.productCardContentItemRight, item.drCr === "CR" ? styles.addedCash : styles.removeCash]}
+            >
+              {item.drCr === "CR" ? "+" : "-"} {item.currency} {item.amount}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}>Date</Text>
-            <Text style={styles.productCardContentItemRight}>15/05/2022, 8:23 pm</Text>
+            <Text style={styles.productCardContentItemRight}>{formateDateAndTimeByName(item.createdOn)}</Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Transaction Status</Text>
-            <Text style={styles.productCardContentItemRight}>Failed</Text>
+            <Text style={styles.productCardContentItemLeft}>Type</Text>
+            <Text style={styles.productCardContentItemRight}>{removeUnderscoreFromString(item.type)}</Text>
+          </View>
+          <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}> Status</Text>
+
+            <Text
+              style={[
+                styles.productCardContentItemRight,
+                styles.productCardContentItemRightStatus,
+                item.status === "success" ? styles.statusSuccess : null,
+              ]}
+            >
+              {item.status}
+            </Text>
+          </View>
+          <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>Description</Text>
+            <View style={{ width: "70%", alignItems: "flex-end", justifyContent: "flex-end" }}>
+              <Text style={[styles.productCardContentItemRight, { textAlign: "right" }]}>{item.description}</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -84,6 +100,21 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat",
   },
 
+  productCardContentItemRightStatus: {
+    backgroundColor: "#b53e07",
+    fontSize: 11,
+    lineHeight: 20,
+    color: "#fff",
+    paddingVertical: 3,
+    paddingHorizontal: 17,
+    borderRadius: 20,
+    fontFamily: "MontserratBold",
+  },
+
+  statusSuccess: {
+    backgroundColor: colors.greenLightColor,
+  },
+
   productCardContentTitle: {
     fontSize: 16,
     fontWeight: "800",
@@ -95,17 +126,28 @@ const styles = StyleSheet.create({
   productButton: {
     width: "100%",
     textAlign: "center",
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 8,
     marginBottom: 10,
   },
 
   buttonText: {
+    fontSize: 18,
     textAlign: "center",
     color: "#fff",
     fontWeight: "bold",
     fontFamily: "Poppins",
+  },
+
+  addedCash: {
+    color: colors.greenColor,
+    fontWeight: "600",
+  },
+
+  removeCash: {
+    color: "red",
+    fontWeight: "600",
   },
 });
 export default TransactionModalItem;

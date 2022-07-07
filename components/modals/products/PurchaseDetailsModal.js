@@ -62,7 +62,7 @@ const PurchaseDetailsModal = () => {
           <Text></Text>
         </View>
 
-        <PurchasedModalItem />
+        <PurchasedModalItem item={modal?.payload} />
 
         {/* <Banks /> */}
       </View>

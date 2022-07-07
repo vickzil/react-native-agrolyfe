@@ -1,16 +1,22 @@
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../styles/colors";
+import { useSelector } from "react-redux";
 
 const { width } = Dimensions.get("screen");
 // const imagedrop = require("../../assets/img/imagedrop.png");
 
 const WalletItem = ({ item, index }) => {
+  const loading = useSelector((state) => state.wallet.loading);
+
   return (
     <View style={[styles.card, index === 0 && styles.addMarginLeft]}>
       <Text style={styles.cardHeading}>{item.heading}</Text>
-      <Text style={[styles.paragraph, { color: colors.greenColor }]}>{item.paragraph}</Text>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text style={[styles.paragraph, { color: colors.greenColor }]}>{item.paragraph}</Text>
+        {loading ? <ActivityIndicator size="small" color="#14961E" /> : null}
+      </View>
       {/* <TouchableOpacity style={{ marginTop: 30 }}>
         <View style={[styles.button, { color: colors.greenNormalColor, borderColor: colors.greenNormalColor }]}>
           <Text style={[styles.buttonText, { color: colors.greenNormalColor }]}>{item.buttonText}</Text>

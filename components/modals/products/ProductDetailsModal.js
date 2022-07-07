@@ -18,26 +18,6 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FlatListSlider from "../../customs/flatListSlider";
 import { globalStyles } from "../../../styles/global";
 const { width } = Dimensions.get("screen");
-const images = [
-  {
-    id: 1,
-    imageURL: "https://oxfordvestapi.azurewebsites.net/Docs/AvailableInvestments/mortgage_v1.jpeg",
-  },
-  {
-    id: 2,
-    imageURL: "https://oxfordvestapi.azurewebsites.net/Docs/AvailableInvestments/mortgage_v1.jpeg",
-  },
-  {
-    id: 3,
-    imageURL: "https://oxfordvestapi.azurewebsites.net/Docs/AvailableInvestments/mortgage_v1.jpeg",
-  },
-  {
-    id: 4,
-    imageURL: "https://oxfordvestapi.azurewebsites.net/Docs/AvailableInvestments/mortgage_v1.jpeg",
-  },
-];
-
-const imageURL = "https://oxfordvestapi.azurewebsites.net/Docs/AvailableInvestments/mortgage_v1.jpeg";
 
 const ProductDetailsModal = () => {
   const modal = useSelector((state) => state.alert.productDetailsModal);
@@ -56,7 +36,7 @@ const ProductDetailsModal = () => {
     dispatch(
       setMakeInvestmentModal({
         status: true,
-        payload: null,
+        payload: modal?.payload,
       }),
     );
 
@@ -89,25 +69,32 @@ const ProductDetailsModal = () => {
           /> */}
 
           <FlatListSlider
-            data={images}
+            data={[
+              {
+                id: 1,
+                imageURL: modal?.payload?.imageURL,
+              },
+            ]}
             height={300}
             timer={5000}
-            onPress={(item) => console.log("")}
+            // onPress={(item) => console.log("")}
             contentContainerStyle={{ paddingHorizontal: 0 }}
             indicatorContainerStyle={{ position: "absolute", bottom: 65 }}
             indicatorActiveColor={"#8e44ad"}
             indicatorInActiveColor={"#ffffff"}
-            indicatorActiveWidth={30}
+            indicatorActiveWidth={0}
             animation
             loop={false}
           />
         </View>
         <View style={styles.bodyTopContainer}>
           <View style={styles.bodyTopCard}>
-            <Text style={styles.productDetailsBodyProductName}>agrolyfe_land_lag_001</Text>
-            <View style={styles.productDetailsBodyNameRate}>
-              <Text style={[styles.productDetailsBodyLabel, { fontSize: 17, fontWeight: "500" }]}>Sales rate </Text>
-              <Text style={[styles.productDetailsBodyLabel, { fontSize: 20, fontWeight: "800" }]}>42%</Text>
+            <Text style={[styles.productDetailsBodyProductName]}>{modal?.payload?.name}</Text>
+            <View style={[styles.productDetailsBodyNameRate, { marginTop: 20 }]}>
+              <Text style={[styles.productDetailsBodyLabel, { fontSize: 17, fontWeight: "500" }]}>Rental fee (%) </Text>
+              <Text style={[styles.productDetailsBodyLabel, { fontSize: 20, fontWeight: "800" }]}>
+                {modal?.payload?.newInterestRate}%
+              </Text>
             </View>
           </View>
         </View>
@@ -115,23 +102,14 @@ const ProductDetailsModal = () => {
           <View style={styles.productDetailsBodyContainer}>
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>Duration</Text>
-              <Text style={styles.productCardContentItemRight}>12 Months</Text>
+              <Text style={styles.productCardContentItemRight}>{modal?.payload?.duration} Months</Text>
             </View>
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>State</Text>
-              <Text style={styles.productCardContentItemRight}>Lagos</Text>
+              <Text style={styles.productCardContentItemRight}>{modal?.payload?.state}</Text>
             </View>
-            <Text style={styles.productDetailsBodyLabel}>About</Text>
-            <Text style={styles.productDetailsBodyDesc}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde, recusandae illo. Velit consequatur harum
-              error fuga quidem, magni, fugiat delectus sapiente quibusdam quis fugit numquam explicabo, eos libero
-              atque? Excepturi facere atque rem nemo quaerat facilis blanditiis earum odit cumque quia, voluptate
-              explicabo? Expedita ullam molestias laboriosam reprehenderit, tenetur distinctio ab iusto animi quia ipsum
-              omnis molestiae dolorum, quis cumque minus ipsam facilis numquam officia itaque perspiciatis, soluta
-              aliquam. Rerum veritatis, explicabo enim, ab quod architecto quam magni eaque ut placeat vitae
-              exercitationem expedita dolorem excepturi deserunt at voluptatibus voluptate numquam similique, quasi
-              temporibus quibusdam doloribus? Consectetur commodi aut alias?
-            </Text>
+            <Text style={styles.productDetailsBodyLabel}>Description</Text>
+            <Text style={styles.productDetailsBodyDesc}>{modal?.payload?.description}</Text>
           </View>
         </ScrollView>
         <View style={[globalStyles.buttonFloat, { marginTop: 50 }]}>
@@ -200,9 +178,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 5,
-    backgroundColor: "#fff",
+    backgroundColor: "#f1f1f1",
     marginTop: -40,
     zIndex: 60,
+    borderWidth: 1,
+    borderColor: colors.greenDarkDarkColor,
   },
 
   productDetailsBodyContainer: {

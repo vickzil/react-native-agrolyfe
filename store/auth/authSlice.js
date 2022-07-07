@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getUserInfo, getCountryInfo } from "./actions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
   baseURL: "https://oxfordvestapi.azurewebsites.net/api",
@@ -44,14 +45,15 @@ const authSlice = createSlice({
     [getUserInfo.pending]: (state, action) => {
       state.loading = true;
       state.error = false;
-      console.log("here");
     },
 
     [getUserInfo.fulfilled]: (state, action) => {
       let result = action.payload;
+      // console.log(action.payload);
       if (result) {
-        console.log(action.payload.data);
+        // console.log(action.payload.data);
         state.user = result.data;
+        AsyncStorage.setItem("userData", JSON.stringify(result.data));
       }
 
       state.error = false;

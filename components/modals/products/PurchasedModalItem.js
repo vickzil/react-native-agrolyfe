@@ -1,6 +1,7 @@
 import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import colors from "../../../styles/colors";
+import { addComma, formateDateByName } from "../../helpers/globalFunction";
 
 const PurchasedModalItem = ({ item }) => {
   return (
@@ -8,29 +9,42 @@ const PurchasedModalItem = ({ item }) => {
       <View style={styles.productCard}>
         <View style={styles.productCardContent}>
           <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>Code</Text>
+            <Text style={styles.productCardContentItemRight}>{item?.code}</Text>
+          </View>
+          <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}>Duration</Text>
-            <Text style={styles.productCardContentItemRight}>12 Months</Text>
+            <Text style={styles.productCardContentItemRight}>{item?.duration} Months</Text>
           </View>
           <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}>Rental Fee (%)</Text>
-            <Text style={styles.productCardContentItemRight}>20%</Text>
+            <Text style={styles.productCardContentItemRight}>{item?.newInterestRate}%</Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Amount</Text>
-            <Text style={styles.productCardContentItemRight}>₦3,971.25</Text>
+            <Text style={styles.productCardContentItemLeft}>Amount Purchased</Text>
+            <Text style={styles.productCardContentItemRight}>₦ {addComma(item?.amountInvested)}</Text>
           </View>
           <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}>Date Purchased</Text>
-            <Text style={styles.productCardContentItemRight}>15/05/2022, 8:23 pm</Text>
+            <Text style={styles.productCardContentItemRight}>{formateDateByName(item.createdOn)}</Text>
           </View>
           <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}> Status</Text>
 
-            <Text style={[styles.productCardContentItemRight, styles.productCardContentItemRightStatus]}>Ongoing</Text>
+            <Text
+              style={[
+                styles.productCardContentItemRight,
+                styles.productCardContentItemRightStatus,
+                item.status === "running" ? styles.statusSuccess : null,
+              ]}
+            >
+              {" "}
+              {item?.status}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}>Maturity Date</Text>
-            <Text style={styles.productCardContentItemRight}>15/05/2022, 8:23 pm</Text>
+            <Text style={styles.productCardContentItemRight}>{formateDateByName(item.maturityDate)}</Text>
           </View>
           <View style={[styles.productCardContentItem, { flexDirection: "column" }]}>
             <Text style={[styles.productCardContentItemLeft, { fontWeight: "900" }]}>Total Payout</Text>
@@ -40,15 +54,15 @@ const PurchasedModalItem = ({ item }) => {
                 { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 23 },
               ]}
             >
-              ₦38,971.25
+              ₦{addComma(item?.totalPayoutAmount)}
             </Text>
           </View>
 
-          <TouchableOpacity style={{ marginTop: 30, marginBottom: 40 }}>
+          {/* <TouchableOpacity style={{ marginTop: 30, marginBottom: 40 }}>
             <View style={[styles.productButton, { backgroundColor: colors.greenColor, marginTop: 10 }]}>
               <Text style={styles.buttonText}>Cashout</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </ScrollView>
@@ -107,7 +121,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemRightStatus: {
-    backgroundColor: colors.greenLightColor,
+    backgroundColor: "#b53e07",
     fontSize: 11,
     lineHeight: 20,
     color: "#fff",
@@ -115,6 +129,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 17,
     borderRadius: 20,
     fontFamily: "MontserratBold",
+  },
+
+  statusSuccess: {
+    backgroundColor: colors.greenLightColor,
   },
 
   productCardContentTitle: {

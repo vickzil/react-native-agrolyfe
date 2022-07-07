@@ -13,6 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCountryInfo, getUserInfo } from "../store/auth/actions";
 import { setGreetings } from "../store/auth/authSlice";
 import { getAccountMangager } from "../store/accountManager/actions";
+import { getUserWalletBalance, getWalletOptions } from "../store/wallet/actions";
+import { getAllUserBankAccounts } from "../store/bank/actions";
+import { getTransactionsInfo } from "../store/transactions/actions";
+import { fetchAllInvestment, getMyInvestments } from "../store/products/actions";
 
 const Tab = createBottomTabNavigator();
 const AppStack = () => {
@@ -30,7 +34,13 @@ const AppStack = () => {
     setTimeout(() => {
       dispatch(getCountryInfo("NG"));
       dispatch(getUserInfo(user?.code));
+      dispatch(fetchAllInvestment(user?.code));
+      dispatch(getMyInvestments(user?.code));
       dispatch(getAccountMangager(user?.code));
+      dispatch(getAllUserBankAccounts(user?.code));
+      dispatch(getTransactionsInfo(user?.code));
+      dispatch(getUserWalletBalance(user?.code));
+      dispatch(getWalletOptions(user?.code));
     }, 2200);
   };
 

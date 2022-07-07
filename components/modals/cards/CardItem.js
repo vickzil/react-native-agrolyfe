@@ -1,27 +1,39 @@
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import React from "react";
 const image = require("../../../assets/img/cardimage.jpg");
-const card = require("../../../assets/img/verve.png");
+const verveCard = require("../../../assets/img/verve.png");
+const masterCard = require("../../../assets/img/master-card.png");
+const visaCard = require("../../../assets/img/visa.png");
 
-const CardItem = () => {
+const CardItem = ({ item }) => {
   return (
     <ImageBackground source={image} resizeMode="cover" imageStyle={{ borderRadius: 17 }} style={styles.image}>
       <View style={styles.gridItem}>
-        <Text style={styles.gridItemHeaderText}>0719768893</Text>
+        <Text style={styles.gridItemHeaderText}>{item ? item.cardFirstName + " " + item.cardLastName : "-----"}</Text>
         <View style={styles.gridItemNumber}>
           <Text style={styles.gridItemParaNum}>****</Text>
           <Text style={styles.gridItemParaNum}>****</Text>
           <Text style={styles.gridItemParaNum}>****</Text>
-          <Text style={styles.gridItemParaNum}>7856</Text>
+          <Text style={styles.gridItemParaNum}>{item.cardLast4}</Text>
         </View>
-        <Text style={styles.gridItemParaText}>Access Bank</Text>
+        <Text style={styles.gridItemParaText}>{item.cardBankName}</Text>
         <View style={styles.validTru}>
           <View>
             <Text style={[styles.gridItemBottomParaText, styles.gridItemBottomParaText1]}>Valid THRU</Text>
-            <Text style={styles.gridItemBottomParaText}>01/22</Text>
+            <Text style={styles.gridItemBottomParaText}>
+              {item.cardExpireMonth}/{item.cardExpireMonth.slice(-2)}
+            </Text>
           </View>
           <View style={styles.cardImage}>
-            <Image source={card} style={[{ width: 80, height: 70, borderRadius: 100 }]} resizeMode="contain" />
+            {item.cardType.indexOf("verve DEBIT") >= 0 ? (
+              <Image source={verveCard} style={[{ width: 80, height: 70, borderRadius: 100 }]} resizeMode="contain" />
+            ) : null}
+            {item.cardType.indexOf("master card DEBIT") >= 0 ? (
+              <Image source={masterCard} style={[{ width: 80, height: 70, borderRadius: 100 }]} resizeMode="contain" />
+            ) : null}
+            {item.cardType.indexOf("visa DEBIT") >= 0 ? (
+              <Image source={visaCard} style={[{ width: 80, height: 70, borderRadius: 100 }]} resizeMode="contain" />
+            ) : null}
           </View>
         </View>
       </View>

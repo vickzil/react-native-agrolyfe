@@ -7,7 +7,7 @@ const Tab = ({ color, onPress, tab, icon }) => {
     <TouchableOpacity style={styles.container} onPress={onPress}>
       {icon && <Icon name={icon} size={28} style={[styles.Icon, { color: color }]} />}
 
-      <Text style={[styles.text, { color: color }]}>{tab.name === "ProductNavigator" ? "Products" : tab.name}</Text>
+      <Text style={[styles.text, { color: color }]}>{tab.name === "ProductNavigator" ? "Farm lands" : tab.name}</Text>
     </TouchableOpacity>
   );
 };

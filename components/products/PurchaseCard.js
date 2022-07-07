@@ -4,6 +4,7 @@ import colors from "../../styles/colors";
 import { useDispatch } from "react-redux";
 import IconSearch from "react-native-vector-icons/AntDesign";
 import { setPurchaseDetailsModal } from "../../store/alert/alertSlice";
+import { addComma, formateDateAndTimeByName, formateDateByName } from "../helpers/globalFunction";
 
 const PurchaseCard = ({ item }) => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const PurchaseCard = ({ item }) => {
     dispatch(
       setPurchaseDetailsModal({
         status: true,
-        payload: null,
+        payload: item,
       }),
     );
   };
@@ -39,7 +40,7 @@ const PurchaseCard = ({ item }) => {
           />
         </View>
 
-        <Text style={styles.productCardContentTitle}>agrolyfe_land_lag_001</Text>
+        <Text style={styles.productCardContentTitle}>{item?.availableInvestmentName}</Text>
         <View
           style={{
             width: "100%",
@@ -64,14 +65,14 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 16,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
                 fontFamily: "Montserrat",
               }}
             >
-              20%
+              {item?.newInterestRate}%
             </Text>
           </View>
           <View>
@@ -88,7 +89,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 16,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -122,9 +123,10 @@ const PurchaseCard = ({ item }) => {
                   justifyContent: "flex-start",
                   fontFamily: "Montserrat",
                 },
+                item.status === "running" ? styles.statusSuccess : null,
               ]}
             >
-              20%
+              {item?.status}
             </Text>
           </View>
           <View>
@@ -141,7 +143,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 16,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -149,11 +151,35 @@ const PurchaseCard = ({ item }) => {
                 textAlign: "right",
               }}
             >
-              15/05/2022, 8:23 pm
+              {formateDateByName(item.maturityDate)}
             </Text>
           </View>
         </View>
         <View style={{ flexDirection: "row", marginBottom: 10, justifyContent: "space-between" }}>
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "600",
+                color: colors.greenDarkColor,
+                marginRight: 15,
+                fontFamily: "Poppins",
+              }}
+            >
+              Duration
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                color: "#444",
+                fontWeight: "600",
+                justifyContent: "flex-end",
+                fontFamily: "Montserrat",
+              }}
+            >
+              {item?.duration} Months
+            </Text>
+          </View>
           <View>
             <Text
               style={{
@@ -170,19 +196,18 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 16,
                 color: "#444",
                 fontWeight: "600",
                 flexDirection: "row",
                 justifyContent: "flex-start",
                 fontFamily: "Montserrat",
-                textAlign: "left",
+                textAlign: "right",
               }}
             >
-              ₦3,000
+              ₦{addComma(item?.amountInvested)}
             </Text>
           </View>
-          <View></View>
         </View>
 
         {/* <View style={{ marginTop: 20 }}>
@@ -234,7 +259,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemRightStatus: {
-    backgroundColor: colors.greenLightColor,
+    backgroundColor: "#b53e07",
     fontSize: 11,
     lineHeight: 20,
     color: "#fff",
@@ -244,8 +269,12 @@ const styles = StyleSheet.create({
     fontFamily: "MontserratBold",
   },
 
+  statusSuccess: {
+    backgroundColor: colors.greenLightColor,
+  },
+
   productCardContentTitle: {
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: "700",
     textAlign: "center",
     marginTop: 7,

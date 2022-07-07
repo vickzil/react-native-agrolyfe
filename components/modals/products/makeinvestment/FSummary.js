@@ -2,6 +2,7 @@ import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import colors from "../../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { addComma } from "../../../helpers/globalFunction";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
@@ -9,8 +10,8 @@ let screenHeight = Dimensions.get("window").height;
 const FSummary = ({ summaryDetails }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={[styles.productContainer, { marginBottom: 250 }]}>
-        <View style={{ marginTop: 20, marginBottom: 10, width: "97%", paddingRight: 10 }}>
+      <View style={[styles.productContainer, { marginBottom: 0 }]}>
+        <View style={{ marginTop: 0, marginBottom: 10, width: "97%", paddingRight: 10 }}>
           <View style={styles.productCardContent}>
             <Text
               style={[
@@ -54,41 +55,76 @@ const FSummary = ({ summaryDetails }) => {
                 },
               ]}
             >
-              After purchase of the farm land, a farmer will be assigned to your purchased land for farming activities
-              within a month. On a quarterly basis, a farm rental fee of NGN 44500.00 will be credited to your wallet.
-              This means a total of NGN 160200.00 will be credited to your after the 20.00 farming cycle. A total of NGN
-              1050200.00 would have been paid to you after the farming cycle.
+              {summaryDetails?.additionalInformation}
             </Text>
 
             <View style={styles.productCard}>
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Name</Text>
-                  <Text style={styles.productCardContentItemRight}>my savings</Text>
+                  <Text style={styles.productCardContentItemLeft}>Product</Text>
+                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.name}</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Periodic Amount</Text>
-                  <Text style={styles.productCardContentItemRight}>₦ 890,000</Text>
+                  <Text style={styles.productCardContentItemLeft}>Principal</Text>
+                  <Text style={styles.productCardContentItemRight}>
+                    ₦ {summaryDetails?.principal ? addComma(summaryDetails?.principal) : 0}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Frequency</Text>
-                  <Text style={styles.productCardContentItemRight}>Once a month</Text>
+                  <Text style={styles.productCardContentItemLeft}>Price Per Acre</Text>
+                  <Text style={styles.productCardContentItemRight}>
+                    ₦
+                    {summaryDetails?.pricePerUnit
+                      ? addComma(summaryDetails?.pricePerUnit) + " " + summaryDetails?.unitOfMeasurement
+                      : 0}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Duration</Text>
-                  <Text style={styles.productCardContentItemRight}>12 months</Text>
+                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.durationInMonths} months</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Interest</Text>
-                  <Text style={styles.productCardContentItemRight}>12%</Text>
+                  <Text style={styles.productCardContentItemLeft}>Rental Fee (%)</Text>
+                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.interestRate}%</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>End Date</Text>
-                  <Text style={styles.productCardContentItemRight}>22/06/2023</Text>
+                  <Text style={styles.productCardContentItemLeft}>Post Charges</Text>
+                  <Text style={styles.productCardContentItemRight}>
+                    {summaryDetails?.interestRateAmountAfterCharges
+                      ? addComma(summaryDetails?.interestRateAmountAfterCharges)
+                      : 0}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Payments Methods</Text>
-                  <Text style={styles.productCardContentItemRight}>Card</Text>
+                  <Text style={styles.productCardContentItemLeft}>Mgt. Fee</Text>
+                  <Text style={styles.productCardContentItemRight}>
+                    {summaryDetails?.managementFeeAmount ? addComma(summaryDetails?.managementFeeAmount) : 0} (
+                    {summaryDetails?.managementFeeRate + "%"})
+                  </Text>
+                </View>
+                <View style={styles.productCardContentItem}>
+                  <Text style={styles.productCardContentItemLeft}>Frequency</Text>
+                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.frequency}</Text>
+                </View>
+                <View style={styles.productCardContentItem}>
+                  <Text style={styles.productCardContentItemLeft}>Currency</Text>
+                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.currency}</Text>
+                </View>
+                <View
+                  style={[
+                    styles.productCardContentItem,
+                    { flexDirection: "column", borderBottomWidth: 0, paddingBottom: 60 },
+                  ]}
+                >
+                  <Text style={[styles.productCardContentItemLeft, { fontWeight: "900" }]}>Total Payout</Text>
+                  <Text
+                    style={[
+                      styles.productCardContentItemRight,
+                      { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 23 },
+                    ]}
+                  >
+                    ₦{summaryDetails?.totalPayoutAmount ? addComma(summaryDetails?.totalPayoutAmount) : 0}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -102,7 +138,7 @@ const FSummary = ({ summaryDetails }) => {
 const styles = StyleSheet.create({
   productContainer: {
     width: screenWidth,
-    height: screenHeight,
+    // height: screenHeight,
     flex: 1,
     alignItems: "center",
   },

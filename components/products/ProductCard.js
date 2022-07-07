@@ -69,7 +69,7 @@ const ProductCard = ({ item }) => {
                 fontFamily: "Montserrat",
               }}
             >
-              20%
+              {item.newInterestRate}%
             </Text>
           </View>
         </View>
@@ -96,20 +96,50 @@ const ProductCard = ({ item }) => {
                 fontFamily: "Poppins",
               }}
             >
-              Lagos
+              {item.state}
             </Text>
           </View>
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "600",
+                color: colors.greenLightDarkColor,
+                marginRight: 15,
+                fontFamily: "Poppins",
+                textAlign: "right",
+              }}
+            >
+              Price per acre
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                color: "#444",
+                fontWeight: "600",
+                justifyContent: "flex-end",
+                alignItems: "flex-end",
+                textAlign: "right",
+                marginRight: 15,
+                fontFamily: "Montserrat",
+              }}
+            >
+              {item.pricePerUnit} {item.unitOfMeasurement}
+            </Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row", marginBottom: 10, justifyContent: "flex-end", marginTop: 20 }}>
           <View>
             <TouchableOpacity
               onPress={() =>
                 dispatch(
                   setProductDetailsModal({
                     status: true,
-                    payload: null,
+                    payload: item,
                   }),
                 )
               }
-              style={[styles.productButton, { backgroundColor: colors.greenColor, marginTop: 10 }]}
+              style={[styles.productButton, { backgroundColor: colors.greenColor, marginTop: 10, width: "100%" }]}
               activeOpacity={0.7}
             >
               <Text style={styles.buttonText}>Details</Text>
@@ -163,8 +193,8 @@ const styles = StyleSheet.create({
   productButton: {
     width: "100%",
     textAlign: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 40,
+    paddingVertical: 13,
+    paddingHorizontal: 70,
     borderRadius: 8,
     marginBottom: 10,
   },

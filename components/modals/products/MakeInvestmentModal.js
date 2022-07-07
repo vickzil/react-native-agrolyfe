@@ -14,10 +14,10 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAlertModalSuccess, setMakeInvestmentModal } from "../../../store/alert/alertSlice";
+import { setAlertModal, setAlertModalSuccess, setMakeInvestmentModal } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import axios from "axios";
 import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import ScreenLoading from "../../loader/ScreenLoading";
@@ -30,6 +30,13 @@ const screenHeight = Dimensions.get("window").height;
 
 const MakeInvestmentModal = () => {
   const modal = useSelector((state) => state.alert.makeInvestmentModal);
+
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
+
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
@@ -68,6 +75,12 @@ const MakeInvestmentModal = () => {
     setIsEnabled(false);
   };
 
+  // useEffect(() => {
+  //   if (modal?.payload) {
+  //     setAmount(modal?.payload.minimumAmount);
+  //   }
+  // }, [modal]);
+
   useEffect(() => {
     if (step === 1) {
       if (!amount) {
@@ -82,10 +95,12 @@ const MakeInvestmentModal = () => {
         return;
       }
 
-      if (modal?.card === null) {
-        setEmptyFields(true);
-
-        return;
+      if (modal?.payload) {
+        if (modal?.payload?.frequencyDurations && modal?.payload?.frequencyDurations.length) {
+          if (!duration) {
+            setEmptyFields(true);
+          }
+        }
       }
 
       setEmptyFields(false);
@@ -139,9 +154,7 @@ const MakeInvestmentModal = () => {
     setTimeout(() => {
       setIsLoading(false);
       if (step === 1) {
-        setStep(2);
-        // setButtonText("Submit");
-        scrollViewRef.current?.scrollTo({ x: width, y: 0, animated: true });
+        calculateInvestment();
 
         return;
       }
@@ -152,16 +165,140 @@ const MakeInvestmentModal = () => {
       }
 
       if (step === 3) {
-        setScreenLoading({
-          status: true,
-          message: "please wait...",
-        });
+        makeInvestment();
 
-        setTimeout(() => {
+        // closeModal();
+      }
+    }, 400);
+  };
+
+  const calculateInvestment = () => {
+    setEmptyFields(true);
+    setIsLoading(true);
+
+    let newDuration;
+
+    if (modal?.payload?.frequencyDurations.length > 0) {
+      newDuration = duration;
+    } else {
+      newDuration = modal?.payload?.duration;
+    }
+    let newAmount = amount.replace(/[^a-zA-Z0-9]/g, "");
+
+    let newPayload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      UserCode: user?.code,
+      Code: modal?.payload?.code,
+      Amount: newAmount,
+      NumberOfDurationInWeeks: newDuration,
+      DurationOfInvestment: newDuration,
+      IamInterestedInOilvest: false,
+    };
+
+    console.log(newPayload);
+
+    axios
+      .post(`${baseURL}/v1.0/AvailableInvestment/CalculateROI`, newPayload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          console.log(response?.data?.data);
+          setIsLoading(false);
+          setEmptyFields(false);
+          setSummaryDetails(response?.data?.data);
+          setStep(2);
+          // setButtonText("Submit");
+          scrollViewRef.current?.scrollTo({ x: width, y: 0, animated: true });
+        } else {
+          setIsLoading(false);
+          setSummaryDetails(null);
+          setEmptyFields(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
+  };
+
+  const makeInvestment = () => {
+    setEmptyFields(true);
+    setScreenLoading({
+      status: true,
+      message: "Initiating Purchase...",
+    });
+
+    let newDuration;
+
+    if (duration !== "") {
+      newDuration = duration;
+    } else {
+      newDuration = modal.payload.duration;
+    }
+    let newAmount = amount.replace(/[^a-zA-Z0-9]/g, "");
+
+    axios
+      .post(
+        `${baseURL}/v1.0/UserInvestment/insertUserInvestments`,
+        {
+          AppId: AppId,
+          RequestId: RequestId,
+          Email: user?.email,
+          UserCode: user?.code,
+          AvailableInvestmentCode: modal.payload.code,
+          AmountInvested: newAmount,
+          Duration: newDuration,
+          UpfrontPaidUponInvestment: false,
+          SourceChannel: "online",
+          ReturnsToOilVest: false,
+          Frequency: modal?.payload?.frequency,
+          GroupSubsidiaryCode: user?.subsidiaryCode,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + bearerToken,
+          },
+        },
+      )
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
           dispatch(
             setAlertModalSuccess({
               status: true,
-              payload: null,
+              payload: {
+                amount: newAmount,
+                message:
+                  "Your Purchase of NGN " + addComma(newAmount) + " on " + modal?.payload?.name + "Was successfull",
+              },
             }),
           );
           closeModal();
@@ -170,11 +307,40 @@ const MakeInvestmentModal = () => {
             status: false,
             message: "",
           });
-        }, 4500);
+        } else {
+          setEmptyFields(false);
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
 
-        // closeModal();
-      }
-    }, 400);
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setScreenLoading({
+          status: false,
+          message: "",
+        });
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   return (
@@ -188,14 +354,14 @@ const MakeInvestmentModal = () => {
 
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
-          <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor, marginTop: 40 }]}>
+          <View style={[styles.modalHeader, { backgroundColor: "#fff", marginTop: 40, paddingBottom: 0 }]}>
             <Icon
               name="arrow-left"
               size={40}
-              style={[styles.modalHeaderIcon, { color: "#fff" }]}
+              style={[styles.modalHeaderIcon, { color: "#222" }]}
               onPress={() => previousStep()}
             />
-            <Text style={styles.modalHeaderText}>Purchase Farm land</Text>
+            <Text style={[styles.modalHeaderText, { color: "#333" }]}>Purchase Farm land</Text>
           </View>
 
           <ScrollView
@@ -205,9 +371,15 @@ const MakeInvestmentModal = () => {
             style={{ padding: 10 }}
             showsHorizontalScrollIndicator={false}
           >
-            <FAmount amount={amount} setAmount={setAmount} setDuration={setDuration} duration={duration} />
-            <FSummary summaryDetails={summaryDetails} />
-            <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
+            <FAmount
+              payload={modal?.payload}
+              amount={amount}
+              setAmount={setAmount}
+              setDuration={setDuration}
+              duration={duration}
+            />
+            <FSummary payload={modal?.payload} summaryDetails={summaryDetails} />
+            <FConfirm payload={modal?.payload} isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
           </ScrollView>
 
           <View
