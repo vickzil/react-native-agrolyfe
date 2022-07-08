@@ -9,34 +9,47 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAddBankModal, setDefaultBank, setSelectedBank } from "../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import { setAddBankModal, setSelectedAllBank } from "../../../store/alert/alertSlice";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import AddBankForm from "./AddBankForm";
-
 const { width } = Dimensions.get("screen");
 
 const AddBankModal = () => {
   const modal = useSelector((state) => state.alert.addBankModal);
   const dispatch = useDispatch();
 
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountNumberOld, setAccountNumberOld] = useState("");
+  const [emptyFields, setEmptyFields] = useState(true);
+  const [accountName, setAccountName] = useState(null);
+  const [accountNameError, setAccountNameError] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const closeModal = () => {
+    if (isLoading) {
+      return;
+    }
     dispatch(setAddBankModal(false));
-    dispatch(setSelectedBank(null));
+    dispatch(setSelectedAllBank(null));
     // setDefaultBank(null);
+    resetAndClose();
+  };
+
+  const resetAndClose = () => {
+    setAccountNumber("");
+    setAccountNumberOld("");
+    setAccountName(null);
+    setAccountNameError("");
+    setEmptyFields(true);
+    setIsLoading(false);
   };
 
   return (
-    <Modal
-      visible={modal}
-      animationType="fade"
-      onRequestClose={() => {
-        dispatch(setAddBankModal(false));
-      }}
-    >
+    <Modal visible={modal} animationType="fade" onRequestClose={() => closeModal()}>
       <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
 
       <View style={{ marginTop: -40 }}>
@@ -50,7 +63,21 @@ const AddBankModal = () => {
           <Text style={styles.modalHeaderText}>Add Bank Accounts</Text>
           <Text></Text>
         </View>
-        <AddBankForm closeModal={closeModal} />
+        <AddBankForm
+          closeModal={closeModal}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          accountNumber={accountNumber}
+          setAccountNumber={setAccountNumber}
+          accountNumberOld={accountNumberOld}
+          setAccountNumberOld={setAccountNumberOld}
+          emptyFields={emptyFields}
+          setEmptyFields={setEmptyFields}
+          accountName={accountName}
+          setAccountName={setAccountName}
+          accountNameError={accountNameError}
+          setAccountNameError={setAccountNameError}
+        />
       </View>
     </Modal>
     // </GestureRecognizer>

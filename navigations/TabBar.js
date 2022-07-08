@@ -10,13 +10,14 @@ const TabBar = ({ state, navigation }) => {
 
   const { routes } = state;
 
-  let bottomRoutes = routes.filter(
-    (route) =>
-      route.name === "Home" || route.name === "ProductNavigator" || route.name === "Wallet" || route.name === "Account",
-  );
+  // let bottomRoutes = routes.filter(
+  //   (route) =>
+  //     route.name === "Home" || route.name === "ProductNavigator" || route.name === "Wallet" || route.name === "Account",
+  // );
 
   const renderColor = (currentTab) => (currentTab === selected ? colors.greenLightColor : "#ccc");
   const handlePress = (activeTab, index) => {
+    // console.log(route);
     setSelected(activeTab);
     if (state.index !== index) {
       navigation.navigate(activeTab);
@@ -26,7 +27,7 @@ const TabBar = ({ state, navigation }) => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        {bottomRoutes?.map((route, index) => (
+        {routes?.map((route, index) => (
           <Tab
             tab={route}
             icon={route.params.icon}

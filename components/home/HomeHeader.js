@@ -18,11 +18,17 @@ const HomeHeader = ({ navigation }) => {
   return (
     <View style={styles.homeHeader}>
       <View style={styles.homeHeaderLeft}>
-        {user ? (
-          <Image source={{ uri: user?.photo }} style={{ width: 46, height: 46, borderRadius: 50 }} resizeMode="cover" />
-        ) : (
-          <Image source={userImage} style={{ width: 46, height: 46, borderRadius: 50 }} resizeMode="cover" />
-        )}
+        <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("Account")}>
+          {user ? (
+            <Image
+              source={{ uri: user?.photo }}
+              style={{ width: 46, height: 46, borderRadius: 50 }}
+              resizeMode="cover"
+            />
+          ) : (
+            <Image source={userImage} style={{ width: 46, height: 46, borderRadius: 50 }} resizeMode="cover" />
+          )}
+        </TouchableOpacity>
 
         <View style={styles.homeHeaderLeftdesc}>
           <Text style={styles.homeHeaderLeftdescText1}>{greetings}</Text>

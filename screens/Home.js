@@ -27,7 +27,7 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     if (isFocused) {
-      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
+      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
     }
   }, [isFocused]);
 

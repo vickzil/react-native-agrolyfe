@@ -102,14 +102,16 @@ const FAmount = ({ amount, setAmount, card }) => {
                   >
                     {card ? card?.cardBankName : "Select card"} {card ? " - " + card?.cardLast4 : null}
                   </Text>
-                  <Text
-                    style={[
-                      styles.productCardContentItemRight,
-                      { fontWeight: "700", color: "rgb(63, 156, 243)", fontSize: 15 },
-                    ]}
-                  >
-                    switch card
-                  </Text>
+                  {card ? (
+                    <Text
+                      style={[
+                        styles.productCardContentItemRight,
+                        { fontWeight: "700", color: "rgb(63, 156, 243)", fontSize: 15 },
+                      ]}
+                    >
+                      switch card
+                    </Text>
+                  ) : null}
                 </View>
 
                 <Icon
