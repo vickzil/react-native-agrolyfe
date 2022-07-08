@@ -17,6 +17,8 @@ import { getUserWalletBalance, getWalletOptions } from "../store/wallet/actions"
 import { getAllUserBankAccounts } from "../store/bank/actions";
 import { getTransactionsInfo } from "../store/transactions/actions";
 import { fetchAllInvestment, getMyInvestments } from "../store/products/actions";
+import { getUserReferrals } from "../store/referrals/actions";
+import { getSavingsMainCategories, getUserSavings } from "../store/savings/actions";
 
 const Tab = createBottomTabNavigator();
 const AppStack = () => {
@@ -36,6 +38,9 @@ const AppStack = () => {
       dispatch(getUserInfo(user?.code));
       dispatch(fetchAllInvestment(user?.code));
       dispatch(getMyInvestments(user?.code));
+      dispatch(getUserSavings(user?.code));
+      dispatch(getSavingsMainCategories(user?.code));
+      dispatch(getUserReferrals(user?.code));
       dispatch(getAccountMangager(user?.code));
       dispatch(getAllUserBankAccounts(user?.code));
       dispatch(getTransactionsInfo(user?.code));

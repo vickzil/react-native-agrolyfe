@@ -4,6 +4,7 @@ import colors from "../../styles/colors";
 import IconSearch from "react-native-vector-icons/AntDesign";
 import { useDispatch } from "react-redux";
 import { setMySavingsDetailsModal } from "../../store/alert/alertSlice";
+import { addComma } from "../helpers/globalFunction";
 
 const MySavingsCard = ({ item }) => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const MySavingsCard = ({ item }) => {
     >
       <View style={styles.productCardContent}>
         <View style={styles.productCardContentSub}>
-          <Text style={styles.productCardContentSubTitle}>Savings</Text>
+          <Text style={styles.productCardContentSubTitle}>{item?.savingsMainCategoryCode}</Text>
 
           <IconSearch
             name="lock"
@@ -41,7 +42,7 @@ const MySavingsCard = ({ item }) => {
           />
         </View>
 
-        <Text style={styles.productCardContentTitle}>agrolyfe_land_lag_001</Text>
+        <Text style={styles.productCardContentTitle}>{saving.allias}</Text>
         <View
           style={{ width: "100%", backgroundColor: "#fff", height: 3, paddingHorizontal: 40, marginBottom: 30 }}
         ></View>
@@ -67,7 +68,7 @@ const MySavingsCard = ({ item }) => {
                 fontFamily: "Montserrat",
               }}
             >
-              20%
+              {item.interestRate}%
             </Text>
           </View>
           <View>
@@ -80,7 +81,39 @@ const MySavingsCard = ({ item }) => {
                 textAlign: "right",
               }}
             >
-              Frequency
+              Status
+            </Text>
+
+            <Text
+              style={[
+                styles.productCardContentItemRightStatus,
+                {
+                  fontSize: 18,
+                  color: "#444",
+                  fontWeight: "600",
+                  justifyContent: "flex-end",
+                  fontFamily: "Montserrat",
+                  textAlign: "right",
+                },
+                item.status === "running" ? styles.statusSuccess : null,
+              ]}
+            >
+              {item?.status}
+            </Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row", marginBottom: 10, justifyContent: "space-between" }}>
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "600",
+                color: colors.greenDarkColor,
+                marginRight: 15,
+                fontFamily: "Poppins",
+              }}
+            >
+              Duration
             </Text>
             <Text
               style={{
@@ -89,15 +122,11 @@ const MySavingsCard = ({ item }) => {
                 fontWeight: "600",
                 justifyContent: "flex-end",
                 fontFamily: "Montserrat",
-                textAlign: "right",
               }}
             >
-              Monthly
+              {item.duration} months
             </Text>
           </View>
-        </View>
-        <View style={{ flexDirection: "row", marginBottom: 10, justifyContent: "space-between" }}>
-          <View></View>
           <View>
             <Text
               style={{
@@ -123,7 +152,7 @@ const MySavingsCard = ({ item }) => {
                 textAlign: "right",
               }}
             >
-              ₦3,000
+              ₦{addComma(item?.totalTargetAmountPaid)}
             </Text>
           </View>
         </View>
@@ -175,6 +204,21 @@ const styles = StyleSheet.create({
     fontSize: 17,
     // fontWeight: "800",
     fontFamily: "MontserratBold",
+  },
+
+  productCardContentItemRightStatus: {
+    backgroundColor: "#b53e07",
+    fontSize: 11,
+    lineHeight: 20,
+    color: "#fff",
+    paddingVertical: 3,
+    paddingHorizontal: 17,
+    borderRadius: 20,
+    fontFamily: "MontserratBold",
+  },
+
+  statusSuccess: {
+    backgroundColor: colors.greenLightColor,
   },
 
   productCardContentTitle: {

@@ -6,6 +6,8 @@ import walletSlice from "./wallet/walletSlice";
 import bankSlice from "./bank/bankSlice";
 import transactionSlice from "./transactions/transactionSlice";
 import productSlice from "./products/productSlice";
+import referralSlice from "./referrals/referralSlice";
+import savingsSlice from "./savings/savingsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +18,7 @@ export const store = configureStore({
     bank: bankSlice,
     transactions: transactionSlice,
     products: productSlice,
+    referrals: referralSlice,
+    savings: savingsSlice,
   },
 });

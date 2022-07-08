@@ -1,34 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getTransactionsInfo } from "./actions";
+import { getUserReferrals } from "./actions";
 
 const initialState = {
-  transactions: null,
+  referrals: null,
   error: false,
   loading: true,
 };
 
-const transactionSlice = createSlice({
-  name: "transactions",
+const referralSlice = createSlice({
+  name: "referrals",
   initialState,
   reducers: {},
   extraReducers: {
-    [getTransactionsInfo.pending]: (state, action) => {
+    [getUserReferrals.pending]: (state, action) => {
       state.loading = true;
       state.error = false;
     },
 
-    [getTransactionsInfo.fulfilled]: (state, action) => {
+    [getUserReferrals.fulfilled]: (state, action) => {
       let result = action.payload;
       if (result) {
-        // console.log("transaction ", action.payload.data);
-        state.transactions = result.data;
+        // console.log("referrals ", action.payload.data);
+        state.referrals = result.data;
       }
 
       state.error = false;
       state.loading = false;
     },
 
-    [getTransactionsInfo.rejected]: (state) => {
+    [getUserReferrals.rejected]: (state) => {
       state.error = true;
       state.loading = false;
       // logout();
@@ -36,4 +36,4 @@ const transactionSlice = createSlice({
   },
 });
 
-export default transactionSlice.reducer;
+export default referralSlice.reducer;

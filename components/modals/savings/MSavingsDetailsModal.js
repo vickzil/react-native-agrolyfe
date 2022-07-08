@@ -48,7 +48,7 @@ const MSavingsDetailsModal = () => {
           <Text></Text>
         </View>
 
-        <PurchasedSavingsItemModal />
+        <PurchasedSavingsItemModal currentSavings={modal?.payload} />
 
         {/* <Banks /> */}
       </View>

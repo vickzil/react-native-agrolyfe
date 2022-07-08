@@ -10,28 +10,13 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const SavingDuration = ({ setDuration }) => {
+const SavingDuration = ({ setDuration, payload, item, allDurations }) => {
   const [selectedCustom, setSelectedCustom] = useState(false);
   const [date, setDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const radioButtonsData = [
-    {
-      label: "3 Months",
-      value: "3",
-    },
-    {
-      label: "5 Months",
-      value: "5",
-    },
-    {
-      label: "6 Months",
-      value: "6",
-    },
-    {
-      label: "12 Months",
-      value: "12",
-    },
+    ...allDurations,
     {
       label: "I'll choose my preferred maturity date",
       value: "custom",

@@ -128,30 +128,34 @@ const ProductCard = ({ item }) => {
             </Text>
           </View>
         </View>
-        <View style={{ flexDirection: "row", marginBottom: 10, justifyContent: "flex-end", marginTop: 20 }}>
+        {/* <View style={{ flexDirection: "row", marginBottom: 10, justifyContent: "flex-end", marginTop: 20 }}>
           <View>
             <TouchableOpacity
-              onPress={() =>
-                dispatch(
-                  setProductDetailsModal({
-                    status: true,
-                    payload: item,
-                  }),
-                )
-              }
+              
               style={[styles.productButton, { backgroundColor: colors.greenColor, marginTop: 10, width: "100%" }]}
               activeOpacity={0.7}
             >
               <Text style={styles.buttonText}>Details</Text>
             </TouchableOpacity>
           </View>
-        </View>
-
-        {/* <View style={{ marginTop: 20 }}>
-          <TouchableOpacity style={[styles.productButton, { backgroundColor: colors.greenColor }]} activeOpacity={0.7}>
-            <Text style={styles.buttonText}>Details</Text>
-          </TouchableOpacity>
         </View> */}
+
+        <View style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            style={[styles.productButton, { backgroundColor: "#fff" }]}
+            activeOpacity={0.7}
+            onPress={() =>
+              dispatch(
+                setProductDetailsModal({
+                  status: true,
+                  payload: item,
+                }),
+              )
+            }
+          >
+            <Text style={styles.buttonText}>Farm land Descriptions</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -193,15 +197,20 @@ const styles = StyleSheet.create({
   productButton: {
     width: "100%",
     textAlign: "center",
-    paddingVertical: 13,
+    paddingVertical: 18,
     paddingHorizontal: 70,
     borderRadius: 8,
     marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#dee2e6",
+    elevation: 0.5,
   },
 
   buttonText: {
+    width: "100%",
+    fontSize: 16.5,
     textAlign: "center",
-    color: "#fff",
+    color: "#222",
     fontWeight: "bold",
     fontFamily: "Poppins",
   },

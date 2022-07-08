@@ -1,20 +1,18 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const ReferralHeaderImageTop = () => {
-  const user = require("../../../assets/img/user.jpg");
-
+const ReferralHeaderImageTop = ({ item }) => {
   return (
     <View style={{ justifyContent: "center", alignItems: "center" }}>
       <View style={{ width: 60, height: 60, borderRadius: 100, padding: 4, backgroundColor: "#fff" }}>
         <Image
-          source={user}
+          source={{ uri: item.photo }}
           style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
           resizeMode="cover"
         />
       </View>
-      <Text style={styles.accountUserFullName}>Victor Nwakwue</Text>
-      <Text style={styles.accountTitle}>OIG-00424</Text>
+      <Text style={styles.accountUserFullName}>{item ? item.firstName + " " + item.lastName : "-----"}</Text>
+      <Text style={styles.accountTitle}>{item.code}</Text>
     </View>
   );
 };

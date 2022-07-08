@@ -14,7 +14,7 @@ const UserCard = ({ item }) => {
         dispatch(
           setReferralDetailsModal({
             status: true,
-            payload: null,
+            payload: item,
           }),
         )
       }
@@ -22,12 +22,14 @@ const UserCard = ({ item }) => {
       <View style={styles.userCard}>
         <View style={{ width: 80, height: 80, borderRadius: 100, padding: 4, backgroundColor: "#fff" }}>
           <Image
-            source={item.img}
+            source={{ uri: item.photo }}
             style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
             resizeMode="cover"
           />
         </View>
-        <Text style={[styles.userCardText, { color: colors.greenColor }]}>{item.name}</Text>
+        <Text style={[styles.userCardText, { color: colors.greenColor }]}>
+          {item ? item.firstName + " " + item.lastName : "-----"}
+        </Text>
         <Text style={[styles.userCardText, { color: "#888", marginTop: 3, fontSize: 12 }]}>{item.code}</Text>
       </View>
     </TouchableOpacity>
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
   },
 
   userCardText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "600",
     fontFamily: "Montserrat",
     marginTop: 10,

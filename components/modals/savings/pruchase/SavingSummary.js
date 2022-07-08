@@ -1,12 +1,19 @@
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import colors from "../../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { setSelectCardModal } from "../../../../store/alert/alertSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addComma, formateDateByName } from "../../../helpers/globalFunction";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
 const SavingSummary = ({ summaryDetails }) => {
+  const paymentType = useSelector((state) => state.savings.selectedSavingsType);
+  const paymentDetails = useSelector((state) => state.savings.selectedSavingsTypeDetails);
+  const dispatch = useDispatch();
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer, { marginBottom: 50 }]}>
@@ -32,48 +39,134 @@ const SavingSummary = ({ summaryDetails }) => {
             <View style={styles.productCard}>
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Name</Text>
-                  <Text style={styles.productCardContentItemRight}>my savings</Text>
+                  <Text style={styles.productCardContentItemLeft}>Interest</Text>
+                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.interestRate}%</Text>
+                </View>
+
+                <View style={styles.productCardContentItem}>
+                  <Text style={styles.productCardContentItemLeft}>Duration</Text>
+                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.durationnMonths} months</Text>
+                </View>
+
+                <View style={styles.productCardContentItem}>
+                  <Text style={styles.productCardContentItemLeft}>Frequency</Text>
+                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.frequency}</Text>
+                </View>
+
+                <View style={styles.productCardContentItem}>
+                  <Text style={styles.productCardContentItemLeft}>Vat Rate</Text>
+                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.vatRate}%</Text>
+                </View>
+
+                <View style={styles.productCardContentItem}>
+                  <Text style={styles.productCardContentItemLeft}>End Date</Text>
+                  <Text style={styles.productCardContentItemRight}>{formateDateByName(summaryDetails?.endDate)}</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Periodic Amount</Text>
-                  <Text style={styles.productCardContentItemRight}>₦ 890,000</Text>
-                </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Frequency</Text>
-                  <Text style={styles.productCardContentItemRight}>Once a month</Text>
-                </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Duration</Text>
-                  <Text style={styles.productCardContentItemRight}>12 months</Text>
-                </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Interest</Text>
-                  <Text style={styles.productCardContentItemRight}>12%</Text>
-                </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>End Date</Text>
-                  <Text style={styles.productCardContentItemRight}>22/06/2023</Text>
+                  <Text style={styles.productCardContentItemRight}>
+                    ₦ {summaryDetails ? addComma(summaryDetails?.paymentAmountPerFrequency) : 0}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Number of Payments</Text>
-                  <Text style={styles.productCardContentItemRight}>5</Text>
+                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.totalNumberOfPayments}</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Payments Methods</Text>
-                  <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
-                    <View style={{ alignItems: "flex-end" }}>
-                      <Text style={styles.productCardContentItemRight}>Card</Text>
-                      <Text style={styles.productCardContentItemRight}>Access bank</Text>
-                    </View>
-
-                    <Icon
-                      name="chevron-right"
-                      size={53}
-                      style={[styles.modalHeaderIcon, { color: "#222", fontSize: 23, marginLeft: 5, marginRight: -15 }]}
-                    />
-                  </View>
+                  <Text style={styles.productCardContentItemLeft}>Target Amount</Text>
+                  <Text style={styles.productCardContentItemRight}>
+                    ₦ {summaryDetails ? addComma(summaryDetails?.targetAmount) : 0}
+                  </Text>
                 </View>
+
+                {paymentType && paymentDetails ? (
+                  <View style={styles.productCardContentItem}>
+                    <View>
+                      <Text style={styles.productCardContentItemLeft}>Payments Methods</Text>
+                      <Text style={[styles.productCardContentItemLeft, { color: "#7a8716", fontWeight: "700" }]}>
+                        {paymentType}
+                      </Text>
+                    </View>
+                    <View
+                      style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "center", width: "50%" }}
+                    >
+                      <TouchableOpacity
+                        activeOpacity={0.5}
+                        style={{ alignItems: "flex-end" }}
+                        onPress={() =>
+                          dispatch(
+                            setSelectCardModal({
+                              status: true,
+                              type: "MAKE_SAVINGS",
+                            }),
+                          )
+                        }
+                      >
+                        <Text
+                          numberOfLines={1}
+                          style={[styles.productCardContentItemRight, { color: "#3e87d6", fontSize: 16 }]}
+                        >
+                          {paymentDetails?.cardBankName}
+                        </Text>
+                        <Text
+                          style={[
+                            styles.productCardContentItemRight,
+                            { color: "#3e87d6", fontSize: 15, fontWeight: "700" },
+                          ]}
+                        >
+                          Switch
+                        </Text>
+                      </TouchableOpacity>
+
+                      <Icon
+                        name="chevron-right"
+                        size={53}
+                        style={[
+                          styles.modalHeaderIcon,
+                          { color: "#3e87d6", fontSize: 23, marginLeft: 10, marginRight: -19 },
+                        ]}
+                      />
+                    </View>
+                  </View>
+                ) : (
+                  <View style={styles.productCardContentItem}>
+                    <View>
+                      <Text style={styles.productCardContentItemLeft}>Payments Methods</Text>
+                    </View>
+                    <View
+                      style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "center", width: "50%" }}
+                    >
+                      <TouchableOpacity
+                        activeOpacity={0.5}
+                        style={{ alignItems: "flex-end" }}
+                        onPress={() =>
+                          dispatch(
+                            setSelectCardModal({
+                              status: true,
+                              type: "MAKE_SAVINGS",
+                            }),
+                          )
+                        }
+                      >
+                        <Text
+                          numberOfLines={1}
+                          style={[styles.productCardContentItemRight, { color: "#3e87d6", fontSize: 16 }]}
+                        >
+                          Choose payment
+                        </Text>
+                      </TouchableOpacity>
+
+                      <Icon
+                        name="chevron-right"
+                        size={53}
+                        style={[
+                          styles.modalHeaderIcon,
+                          { color: "#3e87d6", fontSize: 23, marginLeft: 10, marginRight: -19 },
+                        ]}
+                      />
+                    </View>
+                  </View>
+                )}
               </View>
             </View>
           </View>
@@ -86,7 +179,7 @@ const SavingSummary = ({ summaryDetails }) => {
 const styles = StyleSheet.create({
   productContainer: {
     width: screenWidth,
-    height: screenHeight,
+    height: "100%",
     flex: 1,
     alignItems: "center",
   },

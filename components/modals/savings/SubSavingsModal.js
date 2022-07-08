@@ -15,7 +15,6 @@ import { setSubCategorySavingsModal } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import IconSearch from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { savings } from "../../../constant/savings";
 import SavingsCard from "../../savings/SavingsCard";
 
 const { width } = Dimensions.get("screen");
@@ -52,22 +51,33 @@ const SubSavingsModal = () => {
               )
             }
           />
-          <Text style={styles.modalHeaderText}>Sub Category</Text>
+          <Text style={styles.modalHeaderText}> {modal?.payload ? modal?.payload?.name : "Sub Category "}</Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={[styles.modalSearchContainer]}>
+          {/* <View style={[styles.modalSearchContainer]}>
             <View style={[styles.modalSearch]}>
               <IconSearch name="search1" size={20} style={[styles.searchIcon, { color: colors.greenColor }]} />
               <TextInput style={styles.searchInput} placeholder="Search..." />
             </View>
+          </View> */}
+          <View style={{ marginTop: 30 }}>
+            <Text
+              style={{
+                marginTop: 0,
+                textAlign: "center",
+                fontFamily: "Poppins",
+                fontSize: 19,
+                fontWeight: "700",
+                marginBottom: 40,
+              }}
+            >
+              Choose a {modal?.payload ? modal?.payload?.code : "Sub "} plan
+            </Text>
           </View>
-          <View style={[styles.productContainer]}>
-            {/* {savings?.map((item, index) => (
-              
-            ))} */}
-            <SavingsCard />
-            <SavingsCard />
-            <SavingsCard />
+          <View style={[styles.productContainer, { marginTop: 10 }]}>
+            {modal?.payload?.savingsCategories?.map((item, index) => (
+              <SavingsCard key={index} item={item} category={modal?.payload} />
+            ))}
           </View>
         </ScrollView>
       </View>

@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Modal,
@@ -22,6 +23,9 @@ const { width } = Dimensions.get("screen");
 
 const SavingsModal = () => {
   const modal = useSelector((state) => state.alert.savingsModal);
+  const user = useSelector((state) => state.oauth.user);
+  const loading = useSelector((state) => state.oauth.loading);
+
   const dispatch = useDispatch();
 
   return (
@@ -45,9 +49,16 @@ const SavingsModal = () => {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.modalSearchContainer, { backgroundColor: colors.greenDarkColor }]}>
-            <Text style={styles.modalHeaderTex}>NGN 0.00</Text>
-            <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>Main Balance</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={[styles.modalHeaderTex, loading && { marginRight: 10 }]}>
+                {" "}
+                {user ? "NGN " + user?.totalSavingsBalance + ".00" : "NGN 0.00"}
+              </Text>
+              {loading ? <ActivityIndicator size="small" color="#14961E" /> : null}
+            </View>
+            <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>Savings Balance</Text>
           </View>
+
           {/* <View style={[styles.productContainer]}>
             <AllSavings />
           </View> */}

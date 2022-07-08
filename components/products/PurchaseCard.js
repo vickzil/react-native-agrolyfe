@@ -19,7 +19,7 @@ const PurchaseCard = ({ item }) => {
   };
 
   return (
-    <TouchableOpacity style={styles.productCard} activeOpacity={0.7} onPress={() => showDetails()}>
+    <View style={styles.productCard}>
       <View style={styles.productCardContent}>
         <View style={styles.productCardContentSub}>
           <Text style={styles.productCardContentSubTitle}>Purchased</Text>
@@ -210,19 +210,23 @@ const PurchaseCard = ({ item }) => {
           </View>
         </View>
 
-        {/* <View style={{ marginTop: 20 }}>
-          <TouchableOpacity style={[styles.productButton, { backgroundColor: colors.greenDarkColor }]} activeOpacity={0.7}>
-            <Text style={styles.buttonText}>Details</Text>
+        <View style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            style={[styles.productButton, { backgroundColor: colors.greenColor, marginTop: 10 }]}
+            activeOpacity={0.7}
+            onPress={() => showDetails()}
+          >
+            <Text style={styles.buttonText}>Purchase Details</Text>
           </TouchableOpacity>
-        </View> */}
+        </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   productCard: {
-    width: "92%",
+    width: "99%",
     justifyContent: "center",
     // paddingHorizontal: 4,
     // paddingVertical: 15,
@@ -285,7 +289,7 @@ const styles = StyleSheet.create({
   productButton: {
     width: "100%",
     textAlign: "center",
-    paddingVertical: 15,
+    paddingVertical: 20,
     borderRadius: 8,
     marginBottom: 10,
   },

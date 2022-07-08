@@ -5,6 +5,7 @@ import PurchaseCard from "./PurchaseCard";
 import { globalStyles } from "../../styles/global";
 import NoInvestments from "./NoInvestments";
 import { useSelector } from "react-redux";
+import LoadingComponents from "../loader/LoadingComponents";
 
 const products = [];
 
@@ -29,7 +30,22 @@ const MyProducts = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer]}>
-        {myProducts.length ? (
+        {loading ? (
+          <View
+            style={{
+              marginTop: 40,
+              backgroundColor: "#fff",
+              padding: 30,
+              alignItems: "center",
+              paddingTop: 50,
+              height: "100%",
+              width: "100%",
+            }}
+          >
+            <LoadingComponents />
+            <Text style={globalStyles.label}>Loading my purchases...</Text>
+          </View>
+        ) : myProducts && myProducts.length ? (
           <View style={{ marginTop: 60, width: "100%", paddingBottom: 100 }}>
             <View>
               <Text
@@ -37,7 +53,7 @@ const MyProducts = () => {
                   globalStyles.siteTitle,
                   {
                     fontWeight: "800",
-                    fontSize: 18,
+                    fontSize: 22,
                     textTransform: "capitalize",
                     fontFamily: "MontserratBold",
 
@@ -46,11 +62,19 @@ const MyProducts = () => {
                   },
                 ]}
               >
-                My Purchases
+                My Purchased Farm Lands
               </Text>
             </View>
 
-            <View style={{ width: "100%", justifyContent: "center", alignItems: "center", marginTop: 30 }}>
+            <View
+              style={{
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 30,
+                paddingHorizontal: 15,
+              }}
+            >
               {myProducts?.map((item, index) => (
                 <PurchaseCard key={index} item={item} index={index} />
               ))}

@@ -58,7 +58,7 @@ const PurchaseDetailsModal = () => {
               )
             }
           />
-          <Text style={styles.modalHeaderText}>Purchased product</Text>
+          <Text style={styles.modalHeaderText}> Product Details</Text>
           <Text></Text>
         </View>
 

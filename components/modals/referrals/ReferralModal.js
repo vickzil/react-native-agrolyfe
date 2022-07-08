@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Modal,
@@ -23,19 +24,19 @@ const { width } = Dimensions.get("screen");
 
 const ReferralModal = () => {
   const modal = useSelector((state) => state.alert.referralModal);
-  const dispatch = useDispatch();
-  const [referralLink] = useState("https://dashboard.oxfordvest.com/register?code=OIG-00424");
+  const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
+  const walletLoading = useSelector((state) => state.wallet.loading);
+  const referrals = useSelector((state) => state.referrals.referrals);
+  const referralLoading = useSelector((state) => state.referrals.loading);
 
-  const setToastMsg = (msg) => {
-    ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER);
-  };
+  const dispatch = useDispatch();
 
   const handleCopy = (refLink) => {
     copyLink(refLink);
     dispatch(
       setToastModal({
         status: true,
-        message: "link copied",
+        message: "Referral link copied",
       }),
     );
     setTimeout(() => {
@@ -47,24 +48,6 @@ const ReferralModal = () => {
       );
     }, 2500);
   };
-  // const  = (refLink) => {
-  //   Clipboard.setStringAsync(refLink);
-  //   dispatch(
-  //     setToastModal({
-  //       status: true,
-  //       message: "link copied",
-  //     }),
-  //   );
-  //   setTimeout(() => {
-  //     dispatch(
-  //       setToastModal({
-  //         status: false,
-  //         message: "",
-  //       }),
-  //     );
-  //   }, 2500);
-  //   // setToastMsg("link copied");
-  // };
 
   return (
     <Modal
@@ -88,22 +71,41 @@ const ReferralModal = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[{ backgroundColor: colors.greenDarkColor }]}>
             <View style={[styles.modalSearchContainer]}>
-              <Text style={styles.modalHeaderTex}>NGN 0.00</Text>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text style={[styles.modalHeaderTex, walletLoading && { marginRight: 10 }]}>
+                  {" "}
+                  {userWalletBalance ? "NGN " + userWalletBalance?.commissionAvailableBalance + ".00" : "NGN 0.00"}
+                </Text>
+                {walletLoading ? <ActivityIndicator size="small" color="#14961E" /> : null}
+              </View>
               <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>Referral Balance</Text>
             </View>
             <View style={[styles.modalSearchContainer]}>
-              <View style={[styles.modalSearch]}>
-                <TextInput style={styles.searchInput} placeholder="Search..." value={referralLink} />
-                <TouchableOpacity
-                  style={[styles.buttonCopy, { backgroundColor: colors.greenDarkColor }]}
-                  onPress={() => handleCopy(referralLink)}
-                >
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text style={styles.buttonCopyText}>Copy</Text>
-                    <FeatherIcon name="copy" size={15} style={[{ color: "#fff", marginLeft: 6 }]} />
-                  </View>
-                </TouchableOpacity>
-              </View>
+              {referralLoading ? (
+                <View style={{ alignItems: "center" }}>
+                  <ActivityIndicator size="small" color="#14961E" />
+                </View>
+              ) : referrals && referrals?.link ? (
+                <View style={[styles.modalSearch]}>
+                  <TextInput
+                    style={[
+                      styles.searchInput,
+                      { textAlign: "left", alignItems: "flex-start", textAlignVertical: "top" },
+                    ]}
+                    placeholder="referral link"
+                    value={referrals?.link}
+                  />
+                  <TouchableOpacity
+                    style={[styles.buttonCopy, { backgroundColor: colors.greenDarkColor }]}
+                    onPress={() => handleCopy(referrals?.link)}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                      <Text style={styles.buttonCopyText}>Copy</Text>
+                      <FeatherIcon name="copy" size={15} style={[{ color: "#fff", marginLeft: 6 }]} />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              ) : null}
             </View>
           </View>
 

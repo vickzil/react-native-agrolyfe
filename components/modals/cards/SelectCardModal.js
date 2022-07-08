@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setBankModal,
@@ -23,13 +23,24 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import NoItem from "../../extra/NoItem";
+import { setSelectedSavingsType, setSelectedSavingsTypeDetails } from "../../../store/savings/savingsSlice";
 
 const { width } = Dimensions.get("screen");
 
 const SelectCardModal = () => {
   const modal = useSelector((state) => state.alert.selectCardModal);
+  const walletOptions = useSelector((state) => state.wallet.walletOptions);
   const selectedCard = useSelector((state) => state.alert.selectedCard);
   const dispatch = useDispatch();
+
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    if (walletOptions) {
+      setCards(walletOptions?.bySavedCards);
+    }
+  }, [walletOptions]);
+
   const [allBanks] = useState([
     {
       id: 1,
@@ -65,6 +76,11 @@ const SelectCardModal = () => {
         }),
       );
     }
+
+    if (modal.type === "MAKE_SAVINGS") {
+      dispatch(setSelectedSavingsType("Card"));
+      dispatch(setSelectedSavingsTypeDetails(item));
+    }
     // if (modal.type === "ADD_BANK") {
     //   setSelectedCard(item);
     // }
@@ -87,20 +103,20 @@ const SelectCardModal = () => {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
-            {allBanks && allBanks.length ? (
+            {cards && cards.length ? (
               <View>
-                {allBanks?.map((item, index) => (
+                {cards?.map((item, index) => (
                   <TouchableOpacity key={index} style={styles.container} onPress={() => selectCard(item)}>
                     <View style={styles.content} key={index}>
-                      <Text style={[styles.contentText, styles.contentText1]}>{item.name}</Text>
-                      <Text style={[styles.contentText, styles.contentText2]}>{item.accountNumber}</Text>
+                      <Text style={[styles.contentText, styles.contentText1]}>{item?.cardBankName}</Text>
+                      <Text style={[styles.contentText, styles.contentText2]}>{item?.cardLast4}</Text>
                     </View>
                   </TouchableOpacity>
                 ))}
               </View>
             ) : (
               <View style={{ marginTop: 50 }}>
-                <NoItem item={{ type: "CARD", buttonText: "Card Bank", message: "You haven't added any card" }} />
+                <NoItem item={{ type: "CARD", buttonText: "Add Card", message: "You haven't added any card yet" }} />
               </View>
             )}
           </View>

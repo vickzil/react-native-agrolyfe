@@ -7,6 +7,7 @@ import { useIsFocused } from "@react-navigation/native";
 import LoadingComponents from "../loader/LoadingComponents";
 import { useSelector } from "react-redux";
 import NoItem from "../extra/NoItem";
+import { globalStyles } from "../../styles/global";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -32,15 +33,52 @@ const AllProducts = () => {
             <TextInput style={styles.searchInput} placeholder="Search products..." />
           </View> */}
         </View>
+        <View>
+          <Text
+            style={[
+              globalStyles.siteTitle,
+              {
+                fontWeight: "800",
+                fontSize: 22,
+                textTransform: "capitalize",
+                fontFamily: "MontserratBold",
+                marginBottom: 30,
+                textAlign: "center",
+                width: "100%",
+              },
+            ]}
+          >
+            Available Farm Lands
+          </Text>
+        </View>
 
         {loading ? (
-          <View style={{ marginTop: 40, width: "100%", height }}>
+          <View
+            style={{
+              marginTop: 40,
+              backgroundColor: "#fff",
+              padding: 30,
+              alignItems: "center",
+              paddingTop: 50,
+              height: "100%",
+              width: "100%",
+            }}
+          >
             <LoadingComponents />
+            <Text style={globalStyles.label}>Loading farm lands...</Text>
           </View>
         ) : products && products.length ? (
           products?.map((item, index) => <ProductCard key={index} item={item} index={index} />)
         ) : (
-          <View style={{ marginTop: 40 }}>
+          <View
+            style={{
+              width,
+              height,
+              // justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#fff",
+            }}
+          >
             <NoItem item={{ type: "PRODUCTS", buttonText: "", message: "There are currently no available product" }} />
           </View>
         )}

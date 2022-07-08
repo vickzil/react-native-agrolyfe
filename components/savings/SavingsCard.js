@@ -1,29 +1,49 @@
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import colors from "../../styles/colors";
 import IconSearch from "react-native-vector-icons/AntDesign";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPurchaseSavingsModal } from "../../store/alert/alertSlice";
+import { addComma } from "../helpers/globalFunction";
+import { setSelectedSavingsType, setSelectedSavingsTypeDetails } from "../../store/savings/savingsSlice";
 
-const SavingsCard = ({ item }) => {
+const SavingsCard = ({ item, category }) => {
+  const walletOptions = useSelector((state) => state.wallet.walletOptions);
   const dispatch = useDispatch();
+  const [card, setCard] = useState(null);
+
+  useEffect(() => {
+    if (walletOptions) {
+      if (walletOptions?.bySavedCards?.length) {
+        setCard(walletOptions?.bySavedCards[0]);
+      } else {
+        setCard(null);
+      }
+    }
+  }, [walletOptions]);
+
+  const showInitiateModal = () => {
+    if (card) {
+      dispatch(setSelectedSavingsType("Card"));
+      dispatch(setSelectedSavingsTypeDetails(card));
+    }
+
+    dispatch(
+      setPurchaseSavingsModal({
+        status: true,
+        payload: {
+          category: category,
+          subCat: item,
+        },
+      }),
+    );
+  };
 
   return (
-    <TouchableOpacity
-      style={styles.productCard}
-      activeOpacity={0.7}
-      onPress={() =>
-        dispatch(
-          setPurchaseSavingsModal({
-            status: true,
-            payload: item,
-          }),
-        )
-      }
-    >
+    <TouchableOpacity style={styles.productCard} activeOpacity={0.7} onPress={() => showInitiateModal()}>
       <View style={styles.productCardContent}>
         <View style={styles.productCardContentSub}>
-          <Text style={styles.productCardContentSubTitle}>Savings</Text>
+          <Text style={styles.productCardContentSubTitle}>{item?.savingsMainCategoryCode}</Text>
 
           <IconSearch
             name="lock"
@@ -41,7 +61,7 @@ const SavingsCard = ({ item }) => {
           />
         </View>
 
-        <Text style={styles.productCardContentTitle}>agrolyfe_land_lag_001</Text>
+        <Text style={styles.productCardContentTitle}>{item?.name}</Text>
         <View
           style={{ width: "100%", backgroundColor: "#fff", height: 3, paddingHorizontal: 40, marginBottom: 30 }}
         ></View>
@@ -67,7 +87,7 @@ const SavingsCard = ({ item }) => {
                 fontFamily: "Montserrat",
               }}
             >
-              20%
+              {item?.interestRate}%
             </Text>
           </View>
           <View>
@@ -92,7 +112,7 @@ const SavingsCard = ({ item }) => {
                 textAlign: "right",
               }}
             >
-              Monthly
+              {item?.frequency}
             </Text>
           </View>
         </View>
@@ -123,7 +143,7 @@ const SavingsCard = ({ item }) => {
                 textAlign: "right",
               }}
             >
-              ₦3,000
+              ₦{addComma(item?.startAmount)}
             </Text>
           </View>
         </View>

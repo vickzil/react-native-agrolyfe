@@ -15,6 +15,8 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  setAlertModal,
+  setAlertModalSuccess,
   setLoading,
   setMySavingsModal,
   setPurchaseSavingsModal,
@@ -23,7 +25,7 @@ import {
 } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import axios from "axios";
 import SavingsName from "./pruchase/SavingsName";
 import SavingAmount from "./pruchase/SavingAmount";
 import { globalStyles } from "../../../styles/global";
@@ -33,12 +35,21 @@ import SavingFrequency from "./pruchase/SavingFrequency";
 import SavingDuration from "./pruchase/SavingDuration";
 import SavingSummary from "./pruchase/SavingSummary";
 import ScreenLoading from "../../loader/ScreenLoading";
+import { setSelectedSavingsType, setSelectedSavingsTypeDetails } from "../../../store/savings/savingsSlice";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
 
 const PurchaseSavingsModal = () => {
   const modal = useSelector((state) => state.alert.purchaseSavingsModal);
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
+
+  const paymentDetails = useSelector((state) => state.savings.selectedSavingsTypeDetails);
+
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
@@ -54,6 +65,8 @@ const PurchaseSavingsModal = () => {
     status: false,
     message: "",
   });
+  const [allFrequencies, setAllFrequencies] = useState([]);
+  const [allDurations, setAllDurations] = useState([]);
   const [shouldScroll] = useState(false);
 
   const scrollViewRef = useRef(null);
@@ -78,7 +91,37 @@ const PurchaseSavingsModal = () => {
       status: false,
       message: "",
     });
+
+    dispatch(setSelectedSavingsType(null));
+    dispatch(setSelectedSavingsTypeDetails(null));
   };
+
+  useEffect(() => {
+    if (modal && modal.payload) {
+      let parentCat = modal?.payload?.category;
+      if (parentCat) {
+        let formateFrequencies = modal?.payload?.category?.frequencies?.map((frequency) => {
+          return {
+            label: frequency.name,
+            value: frequency.code,
+          };
+        });
+        setAllFrequencies(formateFrequencies);
+      }
+    }
+    if (modal && modal.payload) {
+      let parentCat = modal?.payload?.category;
+      if (parentCat) {
+        let formateDuration = modal?.payload?.category?.durationInMonths?.map((frequency) => {
+          return {
+            label: frequency.name,
+            value: frequency.code,
+          };
+        });
+        setAllDurations(formateDuration);
+      }
+    }
+  }, [modal]);
 
   useEffect(() => {
     if (step === 1) {
@@ -189,21 +232,157 @@ const PurchaseSavingsModal = () => {
         // closeModal();
       }
       if (step === 4) {
-        setStep(5);
-        scrollViewRef.current?.scrollTo({ x: width * 4, y: 0, animated: true });
-        // closeModal();
-        setButtonText("Submit");
+        // setStep(5);
+        // scrollViewRef.current?.scrollTo({ x: width * 4, y: 0, animated: true });
+        // setButtonText("Submit");
+
+        getSummary();
+
+        // here
       }
 
       if (step === 5) {
+        initiateSavings();
+      }
+    }, 400);
+  };
+
+  const getSummary = () => {
+    setEmptyFields(true);
+    setScreenLoading({
+      status: true,
+      message: "Calculating...",
+    });
+
+    let newAmount = amount.replace(/[^a-zA-Z0-9]/g, "");
+
+    let newPayload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      UserCode: user?.code,
+      DurationInMonths: duration instanceof Date ? 0 : duration,
+      Frequency: frequency,
+      InstallmentAmount: newAmount,
+      SavingsMainCategoryCode: modal?.payload?.subCat?.savingsMainCategoryCode,
+      EndDate: duration instanceof Date ? duration : "",
+    };
+
+    console.log(newPayload);
+
+    axios
+      .post(`${baseURL}/v1.0/UserSavings/getUserSavingsSummary`, newPayload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          console.log(response?.data?.data);
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+          setEmptyFields(false);
+          setSummaryDetails(response?.data?.data);
+          setStep(5);
+          scrollViewRef.current?.scrollTo({ x: width * 4, y: 0, animated: true });
+          setButtonText("Submit");
+        } else {
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+          setSummaryDetails(null);
+          setEmptyFields(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
         setScreenLoading({
-          status: true,
-          message: "please wait...",
+          status: false,
+          message: "",
         });
 
-        setTimeout(() => {
-          closeModal();
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
+  };
 
+  const initiateSavings = () => {
+    setEmptyFields(true);
+    setScreenLoading({
+      status: true,
+      message: "Initiating Savings...",
+    });
+
+    let newAmount = amount.replace(/[^a-zA-Z0-9]/g, "");
+
+    let newPayload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      UserCode: user?.code,
+      DurationInMonths: duration instanceof Date ? 0 : duration,
+      Frequency: frequency,
+      SavingsAmount: newAmount,
+      Allias: name,
+      SavingsMainCategoryCode: modal?.payload?.subCat?.savingsMainCategoryCode,
+      EndDate: duration instanceof Date ? duration : "",
+      PaymentMethod: "card",
+      PaymentMethodCode: paymentDetails?.code,
+      SavingsCategoryCode: modal?.payload?.subCat?.code,
+    };
+
+    console.log(newPayload);
+
+    axios
+      .post(`${baseURL}/v1.0/UserSavings/addUserSavingsBySavedCard`, newPayload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          console.log(response?.data?.data);
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+          dispatch(
+            setAlertModalSuccess({
+              status: true,
+              payload: {
+                amount: newAmount,
+                message:
+                  "Your savings of NGN " +
+                  addComma(newAmount) +
+                  " on " +
+                  modal?.payload?.subCat?.name +
+                  "Was successfull",
+              },
+            }),
+          );
           dispatch(
             setSubCategorySavingsModal({
               status: false,
@@ -214,15 +393,41 @@ const PurchaseSavingsModal = () => {
           dispatch(setSavingsModal(false));
           dispatch(setMySavingsModal(false));
 
+          closeModal();
+        } else {
+          setEmptyFields(false);
           setScreenLoading({
             status: false,
             message: "",
           });
-        }, 4500);
 
-        // closeModal();
-      }
-    }, 400);
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setScreenLoading({
+          status: false,
+          message: "",
+        });
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   return (
@@ -240,7 +445,7 @@ const PurchaseSavingsModal = () => {
       {/* <StatusBar translucent barStyle={statusbar} /> */}
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
-          <View style={[styles.modalHeader, { backgroundColor: "#FFF", marginTop: 40 }]}>
+          <View style={[styles.modalHeader, { backgroundColor: "#FFF", marginTop: 30, paddingBottom: 0 }]}>
             <Icon
               name="arrow-left"
               size={40}
@@ -256,11 +461,37 @@ const PurchaseSavingsModal = () => {
             ref={scrollViewRef}
             showsHorizontalScrollIndicator={false}
           >
-            <SavingsName name={name} setName={setName} />
-            <SavingAmount amount={amount} setAmount={setAmount} />
-            <SavingFrequency frequency={frequency} setFrequency={setFrequency} />
-            <SavingDuration duration={duration} setDuration={setDuration} />
-            <SavingSummary summaryDetails={summaryDetails} />
+            <SavingsName
+              payload={modal?.payload?.category}
+              item={modal?.payload?.subCat}
+              name={name}
+              setName={setName}
+            />
+            <SavingAmount
+              payload={modal?.payload?.category}
+              item={modal?.payload?.subCat}
+              amount={amount}
+              setAmount={setAmount}
+            />
+            <SavingFrequency
+              payload={modal?.payload?.category}
+              item={modal?.payload?.subCat}
+              frequency={frequency}
+              setFrequency={setFrequency}
+              allFrequencies={allFrequencies}
+            />
+            <SavingDuration
+              payload={modal?.payload?.category}
+              item={modal?.payload?.subCat}
+              duration={duration}
+              setDuration={setDuration}
+              allDurations={allDurations}
+            />
+            <SavingSummary
+              payload={modal?.payload?.category}
+              item={modal?.payload?.subCat}
+              summaryDetails={summaryDetails}
+            />
           </ScrollView>
 
           <View

@@ -3,43 +3,77 @@ import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../styles/colors";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAllProductModal, setSubCategorySavingsModal } from "../../store/alert/alertSlice";
+import LoadingComponents from "../loader/LoadingComponents";
+import NoItem from "../extra/NoItem";
+import { globalStyles } from "../../styles/global";
 
 const AllSavings = () => {
+  const savingsCategories = useSelector((state) => state.savings.SavingsCategories);
+  const loading = useSelector((state) => state.savings.catLoading);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const goToSubCategory = () => {
+  const goToSubCategory = (item) => {
     dispatch(
       setSubCategorySavingsModal({
         status: true,
-        payload: null,
+        payload: item,
       }),
     );
   };
 
   return (
     <View style={styles.wrapper}>
-      <Text
-        style={{
-          marginTop: 0,
-          textAlign: "center",
-          fontFamily: "Poppins",
-          fontSize: 19,
-          fontWeight: "700",
-          marginBottom: 40,
-        }}
-      >
-        Choose a plan
-      </Text>
-      <TouchableOpacity style={styles.container} onPress={() => goToSubCategory()}>
-        <Icon name="leaf-maple" size={20} style={[styles.Icon, { color: colors.greenColor }]} />
-        <View style={styles.content}>
-          <Text style={[styles.contentText, styles.contentText1]}>Standard Savings</Text>
-          <Text style={[styles.contentText, styles.contentText2]}>4 Available products</Text>
+      {loading ? (
+        <View
+          style={{
+            marginTop: 40,
+            backgroundColor: "#fff",
+            padding: 30,
+            alignItems: "center",
+            paddingTop: 50,
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <LoadingComponents />
+          <Text style={globalStyles.label}>Loading categories...</Text>
         </View>
-      </TouchableOpacity>
+      ) : savingsCategories && savingsCategories.length ? (
+        <>
+          <Text
+            style={{
+              marginTop: 0,
+              textAlign: "center",
+              fontFamily: "Poppins",
+              fontSize: 19,
+              fontWeight: "700",
+              marginBottom: 40,
+            }}
+          >
+            Choose a plan
+          </Text>
+
+          {savingsCategories?.map((item, index) => (
+            <TouchableOpacity style={styles.container} key={index} onPress={() => goToSubCategory(item)}>
+              <Icon name="leaf-maple" size={20} style={[styles.Icon, { color: colors.greenColor }]} />
+              <View style={styles.content}>
+                <Text style={[styles.contentText, styles.contentText1]}>{item?.name}</Text>
+                <Text style={[styles.contentText, styles.contentText2]}>
+                  {item?.savingsCategories?.length} Available plan
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </>
+      ) : (
+        <View style={{ marginTop: 40 }}>
+          <NoItem item={{ type: "SAVINGS", buttonText: "", message: "No available savings plan" }} />
+        </View>
+      )}
 
       {/* <TouchableOpacity style={styles.container}>
         <Icon name="wallet-outline" size={20} style={[styles.Icon, { color: colors.greenColor }]} />

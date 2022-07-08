@@ -36,7 +36,7 @@ import AlertSuccessModal from "./AlertSuccessModal";
 import MakeInvestmentModal from "./products/MakeInvestmentModal";
 import AlertModal from "./AlertModal";
 import FundWalletByCardModal from "./fundwallet/FundWalletByCardModal";
-import SelectCardModal from "./fundwallet/SelectCardModal";
+import SelectCardModal from "./cards/SelectCardModal";
 import AddCardModal from "./cards/AddCardModal";
 import ToastModal from "./ToastModal";
 import LogoutModal from "./LogoutModal";

@@ -37,8 +37,19 @@ const Transactions = () => {
 
       <View style={{ marginTop: 5, marginBottom: 40 }}>
         {loading ? (
-          <View style={{ marginTop: 40 }}>
+          <View
+            style={{
+              marginTop: 40,
+              backgroundColor: "#fff",
+              padding: 30,
+              alignItems: "center",
+              paddingTop: 50,
+              height: "100%",
+              width: "100%",
+            }}
+          >
             <LoadingComponents />
+            <Text style={globalStyles.label}>Loading transactions...</Text>
           </View>
         ) : allTransactions && allTransactions.length ? (
           allTransactions?.map((item, index) => <TransactionItem item={item} key={index} index={index} />)

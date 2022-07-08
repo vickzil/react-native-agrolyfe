@@ -13,7 +13,6 @@ const Cards = () => {
   const loading = useSelector((state) => state.wallet.optionLoading);
   const dispatch = useDispatch();
 
-  const [hasCard] = useState(false);
   const [cards, setCards] = useState([]);
 
   const addCard = () => {

@@ -27,6 +27,8 @@ const NoItem = ({ item: { type, buttonText, message } }) => {
         {type === "TRANSACTIONS" && (
           <Icon name="card-bulleted-outline" size={60} style={[{ color: colors.greenNormalColor }]} />
         )}
+        {type === "SAVINGS" && <Icon name="leaf-maple" size={60} style={[{ color: colors.greenNormalColor }]} />}
+        {type === "PRODUCTS" && <Icon name="leaf-maple" size={60} style={[{ color: colors.greenNormalColor }]} />}
         {type === "REFERRALS" && <EntypoIcon name="users" size={60} style={[{ color: colors.greenNormalColor }]} />}
       </View>
       <View style={{ paddingHorizontal: 19 }}>

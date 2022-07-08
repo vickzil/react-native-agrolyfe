@@ -1,38 +1,95 @@
 import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import colors from "../../../styles/colors";
+import { formateDateByName } from "../../helpers/globalFunction";
 
-const PurchasedSavingsItemModal = ({ item }) => {
+const PurchasedSavingsItemModal = ({ currentSavings }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.productCard}>
         <View style={styles.productCardContent}>
+          <Text
+            style={[
+              styles.productCardContentItemRight,
+              {
+                textAlign: "center",
+                fontSize: 29,
+                marginBottom: 35,
+                fontWeight: "700",
+                color: colors.greenDarkDarkColor,
+                fontFamily: "Poppins",
+                letterSpacing: -0.35644,
+              },
+            ]}
+          >
+            Summary
+          </Text>
+          <Text
+            style={[
+              {
+                textAlign: "center",
+                fontSize: 16,
+                marginBottom: 30,
+                fontWeight: "600",
+                color: "#555",
+                fontFamily: "Poppins",
+              },
+            ]}
+          >
+            {currentSavings?.paymentSummary}
+          </Text>
+        </View>
+        <View style={styles.productCardContent}>
+          <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>Plan Type</Text>
+            <Text style={styles.productCardContentItemRight}>{currentSavings.savingsMainCategoryCode} Plan</Text>
+          </View>
           <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}>Duration</Text>
-            <Text style={styles.productCardContentItemRight}>12 Months</Text>
+            <Text style={styles.productCardContentItemRight}>{currentSavings.duration}</Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Rental Fee (%)</Text>
-            <Text style={styles.productCardContentItemRight}>20%</Text>
+            <Text style={styles.productCardContentItemLeft}>Frequency</Text>
+            <Text style={styles.productCardContentItemRight}>{currentSavings.frequency}</Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Amount</Text>
-            <Text style={styles.productCardContentItemRight}>₦3,971.25</Text>
-          </View>
-          <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Date Purchased</Text>
-            <Text style={styles.productCardContentItemRight}>15/05/2022, 8:23 pm</Text>
+            <Text style={styles.productCardContentItemLeft}>Next Due Date</Text>
+            <Text style={styles.productCardContentItemRight}>{formateDateByName(currentSavings.nextDueDate)}</Text>
           </View>
           <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}> Status</Text>
 
-            <Text style={[styles.productCardContentItemRight, styles.productCardContentItemRightStatus]}>Ongoing</Text>
+            <Text
+              style={[
+                styles.productCardContentItemRight,
+                styles.productCardContentItemRightStatus,
+                item.status === "running" ? styles.statusSuccess : null,
+              ]}
+            >
+              {currentSavings.status}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Maturity Date</Text>
-            <Text style={styles.productCardContentItemRight}>15/05/2022, 8:23 pm</Text>
+            <Text style={styles.productCardContentItemLeft}>First Payment On</Text>
+            <Text style={styles.productCardContentItemRight}>{formateDateByName(currentSavings.firstPaymentOn)}</Text>
           </View>
-          <View style={[styles.productCardContentItem, { flexDirection: "column" }]}>
+          <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>Last Debit On</Text>
+            <Text style={styles.productCardContentItemRight}>{formateDateByName(currentSavings.lastDebitOn)}</Text>
+          </View>
+          <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>Start Date</Text>
+            <Text style={styles.productCardContentItemRight}>{formateDateByName(currentSavings.startDate)}</Text>
+          </View>
+          <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>End Date</Text>
+            <Text style={styles.productCardContentItemRight}>{formateDateByName(currentSavings.endDate)}</Text>
+          </View>
+          <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>Payment Method</Text>
+            <Text style={styles.productCardContentItemRight}>{currentSavings.paymentMethod}</Text>
+          </View>
+          {/* <View style={[styles.productCardContentItem, { flexDirection: "column" }]}>
             <Text style={[styles.productCardContentItemLeft, { fontWeight: "900" }]}>Total Payout</Text>
             <Text
               style={[
@@ -42,13 +99,13 @@ const PurchasedSavingsItemModal = ({ item }) => {
             >
               ₦38,971.25
             </Text>
-          </View>
+          </View> */}
 
-          <TouchableOpacity style={{ marginTop: 30, marginBottom: 40 }}>
+          {/* <TouchableOpacity style={{ marginTop: 30, marginBottom: 40 }}>
             <View style={[styles.productButton, { backgroundColor: colors.greenColor, marginTop: 10 }]}>
               <Text style={styles.buttonText}>Cashout</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </ScrollView>
@@ -107,7 +164,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemRightStatus: {
-    backgroundColor: colors.greenLightColor,
+    backgroundColor: "#b53e07",
     fontSize: 11,
     lineHeight: 20,
     color: "#fff",
@@ -115,6 +172,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 17,
     borderRadius: 20,
     fontFamily: "MontserratBold",
+  },
+
+  statusSuccess: {
+    backgroundColor: colors.greenLightColor,
   },
 
   productCardContentTitle: {

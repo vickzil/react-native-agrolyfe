@@ -6,22 +6,7 @@ import RadioForm from "react-native-simple-radio-button";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const SavingFrequency = ({ frequency, setFrequency }) => {
-  const radioButtonsData = [
-    {
-      label: "Once a day",
-      value: "daily",
-    },
-    {
-      label: "Once a week",
-      value: "weekly",
-    },
-    {
-      label: "Once a month",
-      value: "monthly",
-    },
-  ];
-
+const SavingFrequency = ({ frequency, setFrequency, payload, item, allFrequencies }) => {
   return (
     <View style={[styles.productContainer]}>
       <View style={{ marginTop: 60, marginBottom: 10, width: "95%", paddingRight: 10 }}>
@@ -42,7 +27,7 @@ const SavingFrequency = ({ frequency, setFrequency }) => {
         </Text>
         <View style={{ marginTop: 20, marginBottom: 30 }}>
           <RadioForm
-            radio_props={radioButtonsData}
+            radio_props={allFrequencies}
             // initial={0}
             buttonColor={colors.greenColor}
             selectedButtonColor={colors.greenColor}

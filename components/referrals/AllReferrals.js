@@ -1,59 +1,48 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserCard from "./UserCard";
 import NoItem from "../extra/NoItem";
-
-const referrals = [
-  {
-    id: 1,
-    name: "Victor Nwakwue",
-    code: "CUSUV87557",
-    img: require("../../assets/img/user.jpg"),
-  },
-  {
-    id: 2,
-    name: "Ik Daniel",
-    code: "CUSUV87557",
-    img: require("../../assets/img/user.jpg"),
-  },
-  {
-    id: 3,
-    name: "Chima Obi",
-    code: "CUSUV87557",
-    img: require("../../assets/img/user.jpg"),
-  },
-  {
-    id: 4,
-    name: "Chima Obi",
-    code: "CUSUV87557",
-    img: require("../../assets/img/user.jpg"),
-  },
-  {
-    id: 5,
-    name: "Chima Obi",
-    code: "CUSUV87557",
-    img: require("../../assets/img/user.jpg"),
-  },
-  {
-    id: 6,
-    name: "Chima Obi",
-    code: "CUSUV87557",
-    img: require("../../assets/img/user.jpg"),
-  },
-];
+import { useSelector } from "react-redux";
+import LoadingComponents from "../loader/LoadingComponents";
+import { globalStyles } from "../../styles/global";
 
 const AllReferrals = () => {
+  const referrals = useSelector((state) => state.referrals.referrals);
+  const loading = useSelector((state) => state.referrals.loading);
+
+  const [allReferrals, setAllReferrals] = useState([]);
+
+  useEffect(() => {
+    if (referrals) {
+      setAllReferrals(referrals?.referralData);
+    }
+  }, [referrals]);
+
   return (
     <View style={[styles.productContainer]}>
       <View style={styles.cardGrid}>
-        {referrals.length ? (
+        {loading ? (
+          <View
+            style={{
+              marginTop: 40,
+              backgroundColor: "#fff",
+              padding: 30,
+              alignItems: "center",
+              paddingTop: 50,
+              height: "100%",
+            }}
+          >
+            <LoadingComponents />
+            <Text style={globalStyles.label}>Loading referrals...</Text>
+          </View>
+        ) : allReferrals && allReferrals.length ? (
           <View style={styles.referralContainer}>
-            {referrals.map((referral, index) => (
+            {allReferrals.map((referral, index) => (
               <UserCard item={referral} key={index} index={index} />
             ))}
           </View>
         ) : (
-          <View style={{ marginTop: 50 }}>
+          <View style={{ marginTop: 40 }}>
             <NoItem item={{ type: "REFERRALS", buttonText: "", message: "You have no Referrals" }} />
           </View>
         )}
