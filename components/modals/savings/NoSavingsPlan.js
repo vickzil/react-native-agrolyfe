@@ -11,6 +11,14 @@ const noImage = require("../../../assets/img/savings.png");
 const NoSavingsPlan = () => {
   const dispatch = useDispatch();
 
+  const showSavingsPlan = () => {
+    dispatch(setSavingsModal(true));
+
+    setTimeout(() => {
+      dispatch(setMySavingsModal(false));
+    }, 400);
+  };
+
   return (
     <View style={[styles.productContainer]}>
       <View style={{ alignItems: "center", marginTop: -50 }}>
@@ -28,10 +36,7 @@ const NoSavingsPlan = () => {
 
         <TouchableOpacity
           style={[styles.button, { backgroundColor: colors.greenColor }]}
-          onPress={() => {
-            dispatch(setSavingsModal(true));
-            dispatch(setMySavingsModal(false));
-          }}
+          onPress={() => showSavingsPlan()}
         >
           <Text style={styles.buttonText}>Start saving</Text>
         </TouchableOpacity>

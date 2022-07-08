@@ -31,7 +31,7 @@ const SavingsModal = () => {
   return (
     <Modal
       visible={modal}
-      animationType="slide"
+      animationType="fade"
       onRequestClose={() => {
         dispatch(setSavingsModal(false));
       }}

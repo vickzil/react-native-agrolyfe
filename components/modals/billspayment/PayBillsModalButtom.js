@@ -46,7 +46,13 @@ const PayBillsModalButtom = ({ bottomSheet, closeModal }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <BottomSheet hasDraggableIcon ref={bottomSheet} height={380} sheetBackgroundColor="#FFFFFF">
+      <BottomSheet
+        hasDraggableIcon
+        ref={bottomSheet}
+        height={380}
+        onRequestClose={() => closeModal()}
+        sheetBackgroundColor="#FFFFFF"
+      >
         <View style={styles.accountTabs}>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showPurchaseAirtime()}>
             <View style={styles.imageWidth}>
