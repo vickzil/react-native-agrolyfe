@@ -21,32 +21,13 @@ let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
 const userImage = require("../../../../assets/img/user.jpg");
+const MTNImage = require("../../../../assets/img/mtn.png");
+const GLOImage = require("../../../../assets/img/glo.png");
+const AirtelImage = require("../../../../assets/img/airtel.jpg");
+const EtisalatImage = require("../../../../assets/img/etisalat.jpg");
 
-const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobileNumber }) => {
+const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobileNumber, airtimeDataProviders }) => {
   const dispatch = useDispatch();
-
-  const [overview] = useState([
-    {
-      id: 1,
-      name: "MTN",
-      img: require("../../../../assets/img/mtn.png"),
-    },
-    {
-      id: 2,
-      name: "GLO",
-      img: require("../../../../assets/img/glo.png"),
-    },
-    {
-      id: 3,
-      name: "Airtel",
-      img: require("../../../../assets/img/airtel.jpg"),
-    },
-    {
-      id: 4,
-      name: "Etisalat",
-      img: require("../../../../assets/img/etisalat.jpg"),
-    },
-  ]);
 
   const selectItemm = (item) => {
     // console.log(item);
@@ -61,13 +42,24 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
           styles.card,
           index === 0 && styles.addMarginLeft,
           index === 3 && styles.addMarginRight,
-          selectedNetwork && selectedNetwork.id == item.id ? globalStyles.selectedItem : styles.hasBore,
+          selectedNetwork && selectedNetwork.code == item.code ? globalStyles.selectedItem : styles.hasBore,
           styles.imageCard,
 
           { padding: 10, backgroundColor: "#fff", justifyContent: "center", alignItems: "center" },
         ]}
       >
-        <Image source={item.img} style={[{ width: 72, height: 72, borderRadius: 100 }]} resizeMode="cover" />
+        {item?.name === "mtn" && (
+          <Image source={MTNImage} style={[{ width: 72, height: 65, borderRadius: 100 }]} resizeMode="cover" />
+        )}
+        {item?.name === "glo" && (
+          <Image source={GLOImage} style={[{ width: 72, height: 65, borderRadius: 100 }]} resizeMode="cover" />
+        )}
+        {item?.name === "airtel" && (
+          <Image source={AirtelImage} style={[{ width: 72, height: 65, borderRadius: 100 }]} resizeMode="cover" />
+        )}
+        {item?.name === "etisalat" && (
+          <Image source={EtisalatImage} style={[{ width: 72, height: 65, borderRadius: 100 }]} resizeMode="cover" />
+        )}
       </TouchableOpacity>
     );
   };
@@ -76,23 +68,40 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
     <ScrollView showsVerticalScrollIndicator={false} style={{ width: screenWidth, paddingBottom: 0 }}>
       <View style={[styles.productContainer]}>
         <View style={{ marginTop: 30, marginBottom: 10, width: "95%", paddingRight: 10 }}>
-          <View style={{ marginBottom: 50 }}>
+          <View style={{ marginBottom: 30 }}>
             <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 20, fontWeight: "600" }]}>
               Select network provider
             </Text>
             <FlatList
               horizontal
               contentContainerStyle={{ paddingRight: 30 }}
-              data={overview}
+              data={airtimeDataProviders}
               style={{ width: screenWidth, marginRight: 30, paddingRight: 0 }}
               showsHorizontalScrollIndicator={false}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.code}
               renderItem={({ item, index }) => <AirtimeList item={item} index={index} />}
             />
           </View>
+          <View style={{ marginTop: 0, marginBottom: 10, width: "100%", paddingRight: 0 }}>
+            <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 2, fontWeight: "600" }]}>
+              Amount
+            </Text>
+            <CurrencyInput
+              value={amount}
+              onChangeValue={setAmount}
+              prefix="₦ "
+              delimiter=","
+              // separator="."
+              precision={0}
+              // onChangeText={(formattedValue) => {
+              //   console.log(formattedValue);
+              // }}
+              style={[globalStyles.inputContainer, { fontSize: 25, fontWeight: "bold" }]}
+            />
+          </View>
           <View>
-            <View style={{ marginTop: 0, marginBottom: 10, width: "100%", paddingRight: 0 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
+            <View style={{ marginTop: 20, marginBottom: 10, width: "100%", paddingRight: 0 }}>
+              <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 2, fontWeight: "600" }]}>
                 Mobile Number
               </Text>
               <View style={[globalStyles.inputContainer, { height: 57 }]}>
@@ -104,24 +113,6 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
                   style={[globalStyles.inputTextt, { fontSize: 19, fontWeight: "600" }]}
                 />
               </View>
-            </View>
-
-            <View style={{ marginTop: 20, marginBottom: 10, width: "100%", paddingRight: 0 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
-                Amount
-              </Text>
-              <CurrencyInput
-                value={amount}
-                onChangeValue={setAmount}
-                prefix="₦ "
-                delimiter=","
-                // separator="."
-                precision={0}
-                // onChangeText={(formattedValue) => {
-                //   console.log(formattedValue);
-                // }}
-                style={[globalStyles.inputContainer, { fontSize: 25, fontWeight: "bold" }]}
-              />
             </View>
           </View>
         </View>

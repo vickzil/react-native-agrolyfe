@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserInfo, getCountryInfo } from "./actions";
+import { getUserInfo, getCountryInfo, resendUserTransactionPin } from "./actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
@@ -15,6 +15,8 @@ const initialState = {
   hasLogin: false,
   error: false,
   loading: false,
+  resendPinLoading: false,
+  resendPinCompleted: false,
   greetings: "",
 };
 
@@ -63,6 +65,22 @@ const authSlice = createSlice({
     [getUserInfo.rejected]: (state) => {
       state.error = true;
       state.loading = false;
+      // logout();
+    },
+
+    [resendUserTransactionPin.pending]: (state, action) => {
+      state.resendPinLoading = true;
+      state.resendPinCompleted = false;
+    },
+
+    [resendUserTransactionPin.fulfilled]: (state, action) => {
+      state.resendPinLoading = false;
+      state.resendPinCompleted = true;
+    },
+
+    [resendUserTransactionPin.rejected]: (state) => {
+      state.resendPinLoading = false;
+      state.resendPinCompleted = false;
       // logout();
     },
 

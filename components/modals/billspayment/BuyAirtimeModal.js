@@ -15,6 +15,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  setAlertModal,
   setAlertModalSuccess,
   setBuyAirtimeModalModal,
   setSelectedNetwork,
@@ -22,7 +23,7 @@ import {
 } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import axios from "axios";
 import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import ScreenLoading from "../../loader/ScreenLoading";
@@ -30,13 +31,25 @@ import HeaderBalance from "../../extra/HeaderBalance";
 import FirstScreen from "./airtime/FirstScreen";
 import FSummary from "./airtime/FSummary";
 import FConfirm from "./airtime/FConfirm";
+import { getUserWalletBalance } from "../../../store/wallet/actions";
+import { getUserInfo } from "../../../store/auth/actions";
+import { getTransactionsInfo } from "../../../store/transactions/actions";
+import { addComma } from "../../helpers/globalFunction";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
 
 const BuyAirtimeModal = () => {
   const modal = useSelector((state) => state.alert.buyAirtimeModal);
+  const airtimeDataProviders = useSelector((state) => state.utility.airtimeDataProviders);
   const selectedNetwork = useSelector((state) => state.alert.selectedNetwork);
+
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
+
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
@@ -91,12 +104,6 @@ const BuyAirtimeModal = () => {
         return;
       }
 
-      if (amount && amount < 100) {
-        setEmptyFields(true);
-
-        return;
-      }
-
       setEmptyFields(false);
     }
 
@@ -116,6 +123,10 @@ const BuyAirtimeModal = () => {
   }, [step, amount, isEnabled, modal]);
 
   const previousStep = () => {
+    // setScreenLoading({
+    //   status: false,
+    //   message: "",
+    // });
     if (isLoading) {
       return;
     }
@@ -162,29 +173,99 @@ const BuyAirtimeModal = () => {
       }
 
       if (step === 3) {
-        setScreenLoading({
-          status: true,
-          message: "please wait...",
-        });
-
-        setTimeout(() => {
-          dispatch(
-            setAlertModalSuccess({
-              status: true,
-              payload: null,
-            }),
-          );
-          closeModal();
-
-          setScreenLoading({
-            status: false,
-            message: "",
-          });
-        }, 4500);
+        buyAirtime();
 
         // closeModal();
       }
     }, 400);
+  };
+
+  const buyAirtime = () => {
+    setEmptyFields(true);
+
+    setScreenLoading({
+      status: true,
+      message: "Initiating Request...",
+    });
+
+    let newAmount = amount;
+
+    let newPayload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      UserCode: user?.code,
+      Amount: newAmount,
+      PhoneNumber: mobileNumber,
+      NetworkID: selectedNetwork.code,
+    };
+
+    console.log(newPayload);
+
+    axios
+      .post(`${baseURL}/v1.0/UtilityPayment/buyAirtime`, newPayload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          console.log(response?.data?.data);
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+          dispatch(
+            setAlertModalSuccess({
+              status: true,
+              payload: {
+                amount: newAmount,
+                message: "Your airtime purchase of NGN " + addComma(newAmount) + " Was successful",
+              },
+            }),
+          );
+
+          dispatch(getUserWalletBalance(user?.code));
+          dispatch(getUserInfo(user?.code));
+          dispatch(getTransactionsInfo(user?.code));
+
+          closeModal();
+        } else {
+          setEmptyFields(false);
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setScreenLoading({
+          status: false,
+          message: "",
+        });
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   return (
@@ -238,8 +319,14 @@ const BuyAirtimeModal = () => {
               setMobileNumber={setMobileNumber}
               mobileNumber={mobileNumber}
               selectedNetwork={selectedNetwork}
+              airtimeDataProviders={airtimeDataProviders}
             />
-            <FSummary summaryDetails={summaryDetails} />
+            <FSummary
+              amount={amount}
+              mobileNumber={mobileNumber}
+              selectedNetwork={selectedNetwork}
+              summaryDetails={summaryDetails}
+            />
             <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} step={step} />
           </ScrollView>
 

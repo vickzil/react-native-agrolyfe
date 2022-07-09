@@ -1,16 +1,20 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
-const bankImage = require("../../../assets/img/access-bank.png");
+import { bankList } from "../../../constant/bankList";
+// const bankImage = require("../../../assets/img/bank.png");
 
-const BankItem = () => {
+const BankItem = ({ item }) => {
+  let bankImage =
+    bankList.find((imageBank) => imageBank.code == item.bankCode)?.flag || require("../../../assets/img/bank.png");
+
   return (
     <View style={styles.bankGridItem}>
-      <Text style={styles.bankGridItemHeaderText}>0719768893</Text>
-      <Text style={styles.bankGridItemParaText}>Access Bank</Text>
+      <Text style={styles.bankGridItemHeaderText}>{item?.accountNumber}</Text>
+      <Text style={styles.bankGridItemParaText}>{item?.bankName}</Text>
       <View style={styles.bankImage}>
-        <Image source={bankImage} style={[{ width: 100, height: 100, borderRadius: 100 }]} resizeMode="contain" />
+        <Image source={bankImage} style={[{ width: "40%", height: 80, borderRadius: 100 }]} resizeMode="contain" />
       </View>
-      <Text style={styles.bankGridItemBottomParaText}>VICTOR IKECHUKWU NWAKWUE</Text>
+      <Text style={styles.bankGridItemBottomParaText}>{item?.accountName}</Text>
     </View>
   );
 };
@@ -62,6 +66,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
     textTransform: "uppercase",
     letterSpacing: 2,
+    marginTop: 40,
   },
 });
 export default BankItem;

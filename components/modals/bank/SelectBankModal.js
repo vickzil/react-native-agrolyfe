@@ -9,9 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  setAddBankModal,
   setBankModal,
   setDefaultBank,
   setSelectBankModal,
@@ -23,27 +24,26 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import NoItem from "../../extra/NoItem";
+import LoadingComponents from "../../loader/LoadingComponents";
+import { globalStyles } from "../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
 const SelectBankModal = () => {
   const modal = useSelector((state) => state.alert.selectBankModal);
   const selectedBank = useSelector((state) => state.alert.selectedBank);
+  const banks = useSelector((state) => state.bank.userBankAccount);
+  const loading = useSelector((state) => state.bank.loading);
+
   const dispatch = useDispatch();
-  const [allBanks] = useState([
-    {
-      id: 1,
-      name: "Access bank",
-      code: "8765437",
-      accountNumber: "0975488383567",
-    },
-    {
-      id: 2,
-      name: "Union bank",
-      code: "8765437",
-      accountNumber: "023488383567",
-    },
-  ]);
+
+  const [allBanks, setAllBanks] = useState([]);
+
+  useEffect(() => {
+    if (banks && banks.length) {
+      setAllBanks(banks);
+    }
+  }, [banks]);
 
   const closeModal = () => {
     dispatch(
@@ -65,6 +65,7 @@ const SelectBankModal = () => {
         }),
       );
     }
+
     // if (modal.type === "ADD_BANK") {
     //   setSelectedBank(item);
     // }
@@ -87,19 +88,82 @@ const SelectBankModal = () => {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
-            {allBanks && allBanks.length ? (
-              <View>
+            {loading ? (
+              <View
+                style={{
+                  marginTop: 40,
+                  backgroundColor: "#fff",
+                  padding: 30,
+                  alignItems: "center",
+                  paddingTop: 50,
+                  height: "100%",
+                  width: "100%",
+                }}
+              >
+                <LoadingComponents />
+                <Text style={globalStyles.label}>Loading saved banks...</Text>
+              </View>
+            ) : allBanks && allBanks.length ? (
+              <View style={{ marginBottom: 20 }}>
                 {allBanks?.map((item, index) => (
-                  <TouchableOpacity key={index} style={styles.container} onPress={() => selectBank(item)}>
-                    <View style={styles.content} key={index}>
-                      <Text style={[styles.contentText, styles.contentText1]}>{item.name}</Text>
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.container,
+                      index === allBanks.length - 1 && styles.removeElevation,
+                      selectedBank?.code === item.code && styles.selectedItem,
+                    ]}
+                    onPress={() => selectBank(item)}
+                  >
+                    <View style={[styles.content]} key={index}>
+                      <Text style={[styles.contentText, styles.contentText1]}>{item.bankName}</Text>
                       <Text style={[styles.contentText, styles.contentText2]}>{item.accountNumber}</Text>
                     </View>
                   </TouchableOpacity>
                 ))}
+
+                <View style={{ marginTop: 90, alignItems: "center", textAlign: "center" }}>
+                  <View style={{ position: "relative", alignItems: "center" }}>
+                    <Text style={{ position: "absolute", top: 10, backgroundColor: "#ced4ed", width: 300, height: 2 }}>
+                      {" "}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.contentText,
+                        styles.contentText1,
+                        { backgroundColor: "#fff", padding: 5, marginTop: -5 },
+                      ]}
+                    >
+                      OR
+                    </Text>
+                    <View style={{ marginTop: 30 }}>
+                      <TouchableOpacity
+                        style={[globalStyles.button, { paddingHorizontal: 50 }]}
+                        onPress={() => dispatch(setAddBankModal(true))}
+                      >
+                        <Text
+                          style={[
+                            {
+                              fontStyle: "normal",
+                              fontWeight: "700",
+                              fontSize: 17,
+                              lineHeight: 29,
+                              marginBottom: 0,
+                              fontFamily: "Poppins",
+                              color: "#fff",
+                              textAlign: "center",
+                            },
+                          ]}
+                        >
+                          Add Bank
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
               </View>
             ) : (
-              <View style={{ marginTop: 50 }}>
+              <View style={{ marginTop: 40 }}>
                 <NoItem
                   item={{ type: "BANK", buttonText: "Add Bank", message: "You haven't added any bank accounts" }}
                 />
@@ -161,7 +225,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 15,
     marginBottom: 2,
-    elevation: 2,
+    elevation: 1,
+  },
+
+  removeElevation: {
+    elevation: 0,
   },
 
   content: {
@@ -181,6 +249,13 @@ const styles = StyleSheet.create({
   contentText2: {
     fontSize: 14,
     color: colors.greenColor,
+  },
+
+  selectedItem: {
+    width: "97%",
+    borderWidth: 3,
+    borderColor: "#e79b0e",
+    marginLeft: 5,
   },
 });
 export default SelectBankModal;

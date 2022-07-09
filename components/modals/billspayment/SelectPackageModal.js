@@ -45,12 +45,12 @@ const SelectPackageModal = ({ data, closeModal, choosenPage, selectedPackage }) 
                     key={index}
                     style={[
                       styles.container,
-                      selectedPackage && selectedPackage.id == item.id ? styles.selectedItem : null,
+                      selectedPackage && selectedPackage?.code == item.code ? styles.selectedItem : null,
                     ]}
                     onPress={() => choosenPage(item)}
                   >
                     <View style={styles.content} key={index}>
-                      <Text style={[styles.contentText, styles.contentText1]}>{item.name}</Text>
+                      <Text style={[styles.contentText, styles.contentText1]}>{item?.name}</Text>
                     </View>
                   </TouchableOpacity>
                 ))}

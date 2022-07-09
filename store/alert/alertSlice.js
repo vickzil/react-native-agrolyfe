@@ -86,6 +86,7 @@ const initialState = {
   allCountries: [],
   selectedCountry: null,
   selectedBank: null,
+  selectedWallet: null,
   selectedAllBank: null,
   selectedCard: null,
   selectedUser: null,
@@ -98,6 +99,11 @@ const initialState = {
   },
 
   selectBankModal: {
+    status: false,
+    type: "",
+  },
+
+  selectWalletModal: {
     status: false,
     type: "",
   },
@@ -270,6 +276,13 @@ const alertSlice = createSlice({
       };
     },
 
+    setSelectWalletModal: (state, { payload }) => {
+      state.selectWalletModal = {
+        status: payload.status,
+        type: payload.type,
+      };
+    },
+
     setSelectAllBankModal: (state, { payload }) => {
       state.selectAllBankModal = {
         status: payload.status,
@@ -360,6 +373,10 @@ const alertSlice = createSlice({
       state.selectedBank = payload;
     },
 
+    setSelectedWallet: (state, { payload }) => {
+      state.selectedWallet = payload;
+    },
+
     setSelectedAllBank: (state, { payload }) => {
       state.selectedAllBank = payload;
     },
@@ -448,9 +465,11 @@ export const {
   setAllCountries,
   setSelectedCountry,
   setSelectBankModal,
+  setSelectWalletModal,
   setSelectAllBankModal,
   setSelectCardModal,
   setSelectedBank,
+  setSelectedWallet,
   setSelectedAllBank,
   setSelectedCard,
   setDefaultBank,

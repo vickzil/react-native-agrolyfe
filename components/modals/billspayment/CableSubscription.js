@@ -15,6 +15,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  setAlertModal,
   setAlertModalSuccess,
   setCableSubscriptionModal,
   setSelectedNetwork,
@@ -22,7 +23,7 @@ import {
 } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import axios from "axios";
 import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import ScreenLoading from "../../loader/ScreenLoading";
@@ -30,13 +31,22 @@ import HeaderBalance from "../../extra/HeaderBalance";
 import FirstScreen from "./cable/FirstScreen";
 import FSummary from "./cable/FSummary";
 import FConfirm from "./cable/FConfirm";
+import { getUserWalletBalance } from "../../../store/wallet/actions";
+import { getUserInfo } from "../../../store/auth/actions";
+import { getTransactionsInfo } from "../../../store/transactions/actions";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
 
 const CableSubscription = () => {
   const modal = useSelector((state) => state.alert.cableSubscriptionModal);
-  const selectedNetwork = useSelector((state) => state.alert.selectedNetwork);
+  const cableTvProviders = useSelector((state) => state.utility.cableTvProviders);
+
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
@@ -55,6 +65,12 @@ const CableSubscription = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [shouldScroll] = useState(false);
   const scrollViewRef2 = useRef(null);
+
+  useEffect(() => {
+    if (selectedPackage && selectedProduct) {
+      setAmount(selectedProduct?.amount);
+    }
+  }, [selectedProduct, selectedPackage]);
 
   const closeModal = () => {
     dispatch(setCableSubscriptionModal(false));
@@ -136,6 +152,7 @@ const CableSubscription = () => {
     }
     if (step === 3) {
       setStep(2);
+      setIsEnabled(false);
       setButtonText("Proceed");
       scrollViewRef2.current?.scrollTo({ x: width, y: 0, animated: true });
       return;
@@ -162,29 +179,97 @@ const CableSubscription = () => {
       }
 
       if (step === 3) {
-        setScreenLoading({
-          status: true,
-          message: "please wait...",
-        });
+        buyCableSub();
+      }
+    }, 400);
+  };
 
-        setTimeout(() => {
-          dispatch(
-            setAlertModalSuccess({
-              status: true,
-              payload: null,
-            }),
-          );
-          closeModal();
+  const buyCableSub = () => {
+    setEmptyFields(true);
 
+    setScreenLoading({
+      status: true,
+      message: "Initiating Request...",
+    });
+
+    let newAmount = amount;
+
+    let newPayload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      UserCode: user?.code,
+      Amount: newAmount,
+      Code: selectedProduct.code,
+      Phone: "",
+      ServiceID: selectedPackage.serviceId,
+      SmartCardNumber: ICUNumber,
+    };
+
+    axios
+      .post(`${baseURL}/v1.0/UtilityPayment/buyCableTV`, newPayload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          console.log(response?.data?.data);
           setScreenLoading({
             status: false,
             message: "",
           });
-        }, 4500);
+          dispatch(
+            setAlertModalSuccess({
+              status: true,
+              payload: {
+                amount: newAmount,
+                message: `Purchase of ${selectedProduct.name} at ${addComma(newAmount)} Was successful`,
+              },
+            }),
+          );
 
-        // closeModal();
-      }
-    }, 400);
+          dispatch(getUserWalletBalance(user?.code));
+          dispatch(getUserInfo(user?.code));
+          dispatch(getTransactionsInfo(user?.code));
+
+          closeModal();
+        } else {
+          setEmptyFields(false);
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setScreenLoading({
+          status: false,
+          message: "",
+        });
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   return (
@@ -241,8 +326,15 @@ const CableSubscription = () => {
               setSelectedProduct={setSelectedProduct}
               selectedPackage={selectedPackage}
               setSelectedPackage={setSelectedPackage}
+              cableTvProviders={cableTvProviders}
             />
-            <FSummary summaryDetails={summaryDetails} />
+            <FSummary
+              amount={amount}
+              ICUNumber={ICUNumber}
+              selectedPackage={selectedPackage}
+              selectedProduct={selectedProduct}
+              summaryDetails={summaryDetails}
+            />
             <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} step={step} />
           </ScrollView>
 

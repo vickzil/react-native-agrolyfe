@@ -1,12 +1,23 @@
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Dimensions, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { useSelector } from "react-redux";
+import { addComma } from "../helpers/globalFunction";
 
 const { width } = Dimensions.get("screen");
 const HeaderBalance = () => {
+  const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
+  const walletLoading = useSelector((state) => state.wallet.loading);
+
   return (
     <View style={[styles.modalSearchContainer]}>
-      <Text style={styles.modalHeaderTex}>₦ 0.00</Text>
-      <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>main balance</Text>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text style={[styles.modalHeaderTex, walletLoading && { marginRight: 10 }]}>
+          {" "}
+          {userWalletBalance ? "NGN " + addComma(userWalletBalance?.availableBalance) + ".00" : "NGN 0.00"}
+        </Text>
+        {walletLoading ? <ActivityIndicator size="small" color="#14961E" /> : null}
+      </View>
+      <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>Main balance</Text>
     </View>
   );
 };

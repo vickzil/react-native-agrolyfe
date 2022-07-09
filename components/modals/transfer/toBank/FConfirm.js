@@ -21,14 +21,15 @@ const FConfirm = ({ pin, setPin, step }) => {
   return (
     <View style={[styles.productContainer]}>
       <View style={{ justifyContent: "center", width: "80%", marginTop: 50, alignItems: "center" }}>
-        <Text style={[styles.productCardContentItemLeft, { fontSize: 22, fontWeight: "900", marginBottom: 4 }]}>
+        <Text style={[styles.productCardContentItemLeft, { fontSize: 28, fontWeight: "900", marginBottom: 4 }]}>
           Transaction Pin
         </Text>
-        <View style={{ alignItems: "center" }}>
+        <View style={{ alignItems: "center", marginBottom: 60 }}>
           <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center" }]}>
             Enter your 4-digit TRANSACTION PIN to approve this transfer
           </Text>
         </View>
+
         <KeycodeInput
           style={{ fontFamily: "Poppins", letterSpacing: -0.35644 }}
           alphaNumeric={false}

@@ -56,7 +56,7 @@ const savingsSlice = createSlice({
     [getSavingsMainCategories.fulfilled]: (state, action) => {
       let result = action.payload;
       if (result) {
-        console.log("SavingsCategories ", action.payload?.data);
+        // console.log("SavingsCategories ", action.payload?.data);
         state.SavingsCategories = result?.data;
       }
 

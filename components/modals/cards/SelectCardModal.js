@@ -41,21 +41,6 @@ const SelectCardModal = () => {
     }
   }, [walletOptions]);
 
-  const [allBanks] = useState([
-    {
-      id: 1,
-      name: "Access bank",
-      code: "8765437",
-      accountNumber: "3567",
-    },
-    {
-      id: 2,
-      name: "Union bank",
-      code: "8765437",
-      accountNumber: "3567",
-    },
-  ]);
-
   const closeModal = () => {
     dispatch(
       setSelectCardModal({

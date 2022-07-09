@@ -10,7 +10,11 @@ const initialState = {
 const transactionSlice = createSlice({
   name: "transactions",
   initialState,
-  reducers: {},
+  reducers: {
+    saveUserTransactions: (state, { payload }) => {
+      state.transactions = payload;
+    },
+  },
   extraReducers: {
     [getTransactionsInfo.pending]: (state, action) => {
       state.loading = true;
@@ -35,5 +39,7 @@ const transactionSlice = createSlice({
     },
   },
 });
+
+export const { saveUserTransactions } = transactionSlice.actions;
 
 export default transactionSlice.reducer;

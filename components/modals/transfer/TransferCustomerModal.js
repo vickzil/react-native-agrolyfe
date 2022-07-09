@@ -14,10 +14,15 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setTransferToCustomerModal } from "../../../store/alert/alertSlice";
+import {
+  setAlertModal,
+  setAlertModalSuccess,
+  setSubCategorySavingsModal,
+  setTransferToCustomerModal,
+} from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import axios from "axios";
 import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import ScreenLoading from "../../loader/ScreenLoading";
@@ -25,12 +30,22 @@ import FAmount from "./toCustomer/FAmount";
 import FSummary from "./toCustomer/FSummary";
 import FConfirm from "./toCustomer/FConfirm";
 import HeaderBalance from "../../extra/HeaderBalance";
+import { addComma } from "../../helpers/globalFunction";
+import { getUserInfo } from "../../../store/auth/actions";
+import { getUserWalletBalance } from "../../../store/wallet/actions";
+import { getTransactionsInfo } from "../../../store/transactions/actions";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
 
 const TransferCustomerModal = () => {
   const modal = useSelector((state) => state.alert.transferToCustomerModal);
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
+
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
@@ -146,23 +161,101 @@ const TransferCustomerModal = () => {
       }
 
       if (step === 3) {
-        setScreenLoading({
-          status: true,
-          message: "please wait...",
-        });
-
-        setTimeout(() => {
-          closeModal();
-
-          setScreenLoading({
-            status: false,
-            message: "",
-          });
-        }, 4500);
+        initiateTransfer();
 
         // closeModal();
       }
     }, 400);
+  };
+
+  const initiateTransfer = () => {
+    setEmptyFields(true);
+    setScreenLoading({
+      status: true,
+      message: "Initiating transfer...",
+    });
+
+    let newAmount = amount.replace(/[^a-zA-Z0-9]/g, "");
+
+    let newPayload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      UserCode: user?.code,
+      Amount: newAmount,
+      PIN: pin,
+      DebitUserCode: user?.code,
+      CreditUserCode: modal?.user?.code,
+      Narration: "",
+      AdditionalInfo: "",
+    };
+
+    console.log(newPayload);
+
+    axios
+      .post(`${baseURL}/v1.0/Withdrawal/fundsTransfer`, newPayload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          console.log(response?.data?.data);
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+          dispatch(
+            setAlertModalSuccess({
+              status: true,
+              payload: {
+                amount: newAmount,
+                message: "Transfer of NGN " + addComma(newAmount) + " to " + modal?.user?.firstName + "Was successfull",
+              },
+            }),
+          );
+
+          dispatch(getUserWalletBalance(user?.code));
+          dispatch(getUserInfo(user?.code));
+          dispatch(getTransactionsInfo(user?.code));
+
+          closeModal();
+        } else {
+          setEmptyFields(false);
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setScreenLoading({
+          status: false,
+          message: "",
+        });
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   return (
@@ -172,6 +265,9 @@ const TransferCustomerModal = () => {
       onRequestClose={() => previousStep()}
       style={{ flex: 1, backgroundColor: "#fff" }}
     >
+      <View>
+        <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
+      </View>
       <ScreenLoading visibility={screenLoading} />
 
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -179,8 +275,8 @@ const TransferCustomerModal = () => {
           <View
             style={[
               {
-                backgroundColor: colors.greenDarkColor,
-                marginTop: 40,
+                backgroundColor: "#fff",
+                marginTop: 30,
                 borderBottomLeftRadius: 5,
                 borderBottomRightRadius: 5,
               },
@@ -190,10 +286,12 @@ const TransferCustomerModal = () => {
               <Icon
                 name="arrow-left"
                 size={40}
-                style={[styles.modalHeaderIcon, { color: "#fff" }]}
+                style={[styles.modalHeaderIcon, { color: "#111" }]}
                 onPress={() => previousStep()}
               />
-              <Text style={styles.modalHeaderText}>Transfer to {modal?.user?.userName || "user"}</Text>
+              <Text style={[styles.modalHeaderText, { color: "#222" }]}>
+                Transfer to {modal?.user?.firstName || "user"}
+              </Text>
             </View>
 
             {/* <HeaderBalance /> */}
@@ -206,9 +304,9 @@ const TransferCustomerModal = () => {
             style={{ padding: 10 }}
             showsHorizontalScrollIndicator={false}
           >
-            <FAmount amount={amount} setAmount={setAmount} user={modal?.user} />
-            <FSummary summaryDetails={summaryDetails} />
-            <FConfirm pin={pin} setPin={setPin} step={step} />
+            <FAmount amount={amount} setAmount={setAmount} calculatedUser={modal?.user} />
+            <FSummary amount={amount} calculatedUser={modal?.user} />
+            <FConfirm pin={pin} setPin={setPin} step={step} calculatedUser={modal?.user} />
           </ScrollView>
 
           <View

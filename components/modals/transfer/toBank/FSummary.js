@@ -2,15 +2,16 @@ import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import colors from "../../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { addComma } from "../../../helpers/globalFunction";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FSummary = ({ summaryDetails }) => {
+const FSummary = ({ amount, selectedBank, selectedWallet }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={[styles.productContainer, { marginBottom: 0 }]}>
-        <View style={{ marginTop: 20, marginBottom: 10, width: "96%", paddingRight: 10 }}>
+      <View style={[styles.productContainer, { marginBottom: 50 }]}>
+        <View style={{ marginTop: 20, marginBottom: 10, width: "97%", paddingRight: 0 }}>
           <View style={styles.productCardContent}>
             <Text
               style={[
@@ -32,32 +33,31 @@ const FSummary = ({ summaryDetails }) => {
             <View style={styles.productCard}>
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Name</Text>
-                  <Text style={styles.productCardContentItemRight}>my savings</Text>
+                  <Text style={styles.productCardContentItemLeft}> Amount</Text>
+                  <Text style={styles.productCardContentItemRight}>₦ {amount ? addComma(amount) + ".00" : 0}</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Periodic Amount</Text>
-                  <Text style={styles.productCardContentItemRight}>₦ 890,000</Text>
+                  <Text style={styles.productCardContentItemLeft}>Bank</Text>
+                  <Text style={styles.productCardContentItemRight}>{selectedBank?.bankName}</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Frequency</Text>
-                  <Text style={styles.productCardContentItemRight}>Once a month</Text>
+                  <Text style={styles.productCardContentItemLeft}>Debit from</Text>
+                  <Text style={styles.productCardContentItemRight}>{selectedWallet?.name}</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Duration</Text>
-                  <Text style={styles.productCardContentItemRight}>12 months</Text>
+                  <Text style={styles.productCardContentItemLeft}>Charges</Text>
+                  <Text style={styles.productCardContentItemRight}>₦ 0.00</Text>
                 </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Interest</Text>
-                  <Text style={styles.productCardContentItemRight}>12%</Text>
-                </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>End Date</Text>
-                  <Text style={styles.productCardContentItemRight}>22/06/2023</Text>
-                </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Number of Payments</Text>
-                  <Text style={styles.productCardContentItemRight}>5</Text>
+                <View style={[styles.productCardContentItem]}>
+                  <Text style={[styles.productCardContentItemLeft, { fontWeight: "900", fontSize: 22 }]}>Total</Text>
+                  <Text
+                    style={[
+                      styles.productCardContentItemRight,
+                      { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 22 },
+                    ]}
+                  >
+                    ₦ {amount ? addComma(amount) + ".00" : 0}
+                  </Text>
                 </View>
               </View>
             </View>

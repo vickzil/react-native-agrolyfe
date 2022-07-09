@@ -10,9 +10,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const userImage = require("../../../../assets/img/user.jpg");
-
-const FAmount = ({ amount, setAmount, user }) => {
+const FAmount = ({ amount, setAmount, calculatedUser }) => {
   const dispatch = useDispatch();
 
   return (
@@ -22,14 +20,16 @@ const FAmount = ({ amount, setAmount, user }) => {
           <View style={{ justifyContent: "center", alignItems: "center", marginTop: 0 }}>
             <View style={globalStyles.accountImage}>
               <Image
-                source={userImage}
+                source={{ uri: calculatedUser?.photo }}
                 style={[{ width: "100%", height: "100%", borderRadius: 100 }]}
                 resizeMode="cover"
               />
             </View>
 
-            <Text style={globalStyles.accountUserFullName}>Victor Nwakwue</Text>
-            <Text style={globalStyles.accountTitle}>{user?.userName}</Text>
+            <Text style={globalStyles.accountUserFullName}>
+              {calculatedUser?.firstName + " " + calculatedUser.lastName}
+            </Text>
+            <Text style={globalStyles.accountTitle}>{calculatedUser?.userName}</Text>
           </View>
         </View>
         <View>

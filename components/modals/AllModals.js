@@ -46,6 +46,7 @@ import MSavingsDetailsModal from "./savings/MSavingsDetailsModal";
 import PageLoading from "../loader/PageLoading";
 import AddBVNModal from "./profile/bvn/AddBVNModal";
 import SelectAllBanksModal from "./bank/SelectAllBanksModal";
+import SelectWalletModal from "./fundwallet/SelectWalletModal";
 // import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
@@ -97,6 +98,7 @@ const AllModals = () => {
       <SelectCardModal />
       <ToastModal />
       <LogoutModal />
+      <SelectWalletModal />
       {/* <TransferModalButtom /> */}
       {/* <MyPurchasesModal /> */}
     </>

@@ -8,6 +8,7 @@ import transactionSlice from "./transactions/transactionSlice";
 import productSlice from "./products/productSlice";
 import referralSlice from "./referrals/referralSlice";
 import savingsSlice from "./savings/savingsSlice";
+import utilitiesSlice from "./utilities/utilitiesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     products: productSlice,
     referrals: referralSlice,
     savings: savingsSlice,
+    utility: utilitiesSlice,
   },
 });

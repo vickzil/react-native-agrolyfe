@@ -14,9 +14,11 @@ import BottomSheet from "react-native-gesture-bottom-sheet";
 import { useDispatch, useSelector } from "react-redux";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { setSelectedUser, setTransferToCustomerModal } from "../../../store/alert/alertSlice";
+import { setAlertModal, setSelectedUser, setTransferToCustomerModal } from "../../../store/alert/alertSlice";
 import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
+import axios from "axios";
+import { removeAtFromString } from "../../helpers/globalFunction";
 
 const { width } = Dimensions.get("screen");
 
@@ -24,21 +26,20 @@ const CustomerModalButtom = ({ bottomSheet, closeModal }) => {
   const dispatch = useDispatch();
 
   const [userName, setUserName] = useState("");
-  const [buttonText, setButtonText] = useState("Continue");
+  const [calculatedUser, setCalculatedUser] = useState(null);
+  const [buttonText, setButtonText] = useState("Search");
   const [emptyFields, setEmptyFields] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const user = require("../../../assets/img/user-default.png");
+  const userImage = require("../../../assets/img/user-default.png");
+
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
   //   const modal = useSelector((state) => state.alert.transferModal);
 
-  //   useEffect(() => {
-  //     if (modal.status === true) {
-  //       bottomSheet.current.show();
-  //     }
-  //     // else {
-  //     //   bottomSheet.current.hide();
-  //     // }
-  //   }, [modal]);
+  useEffect(() => {}, [bottomSheet]);
 
   useEffect(() => {
     if (!userName) {
@@ -50,24 +51,83 @@ const CustomerModalButtom = ({ bottomSheet, closeModal }) => {
   }, [userName]);
 
   const procceed = () => {
-    setEmptyFields(true);
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      let user = {
-        firstName: "Victor Nwakwue",
-        userName: userName,
-      };
+    if (calculatedUser) {
+      let inputUserName = removeAtFromString(userName).trim();
+      if (calculatedUser?.userName !== inputUserName) {
+        searchUser();
+        return;
+      }
 
-      dispatch(setSelectedUser(user));
+      dispatch(setSelectedUser(calculatedUser));
       dispatch(
         setTransferToCustomerModal({
           status: true,
-          user: user,
+          user: calculatedUser,
         }),
       );
       closeTransferModal();
-    }, 1400);
+
+      return;
+    }
+
+    searchUser();
+  };
+
+  const searchUser = () => {
+    setEmptyFields(true);
+    setLoading(true);
+    let inputUserName = removeAtFromString(userName).trim();
+
+    let newPayload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      UserName: inputUserName.toLowerCase(),
+    };
+
+    axios
+      .post(`${baseURL}/v1.0/User/getUserInfoByUserName`, newPayload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        if (response?.data?.success == true) {
+          setEmptyFields(false);
+          setCalculatedUser(response?.data?.data);
+          setLoading(false);
+          setButtonText("Continue");
+        } else {
+          setButtonText("Search");
+          setLoading(false);
+          setCalculatedUser(null);
+          setEmptyFields(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setLoading(false);
+        setButtonText("Search");
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   const closeTransferModal = () => {
@@ -75,12 +135,13 @@ const CustomerModalButtom = ({ bottomSheet, closeModal }) => {
     setLoading(false);
     setButtonText("Continue");
     setUserName("");
+    setCalculatedUser(null);
     closeModal();
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <BottomSheet hasDraggableIcon ref={bottomSheet} height={600} onRequestClose={() => closeTransferModal()}>
+      <BottomSheet hasDraggableIcon ref={bottomSheet} height={600} onRequestClose={() => closeTransferModal()} on>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.modalHeader]}>
             <Icon
@@ -103,32 +164,54 @@ const CustomerModalButtom = ({ bottomSheet, closeModal }) => {
                 position: "relative",
               }}
             >
-              <Image
-                source={user}
-                style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
-                resizeMode="cover"
-              />
+              {calculatedUser ? (
+                <Image
+                  source={{ uri: calculatedUser?.photo }}
+                  style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
+                  resizeMode="cover"
+                />
+              ) : (
+                <Image
+                  source={userImage}
+                  style={[styles.accountImage, { width: "100%", height: "100%", borderRadius: 100 }]}
+                  resizeMode="cover"
+                />
+              )}
             </View>
 
-            <Text style={styles.accountUserFullName}>*********</Text>
+            {calculatedUser ? (
+              <>
+                <Text style={[styles.accountUserFullName, { fontSize: 20, marginBottom: 0, paddingBottom: 0 }]}>
+                  {calculatedUser?.firstName + " " + calculatedUser.lastName}
+                </Text>
+                <Text style={[styles.accountUserFullName, { marginTop: 0, fontWeight: "900" }]}>
+                  @{calculatedUser?.userName}
+                </Text>
+              </>
+            ) : (
+              <Text style={styles.accountUserFullName}>*********</Text>
+            )}
           </View>
 
-          <View style={{ justifyContent: "center", alignItems: "center", marginTop: 0 }}>
-            <Text
-              style={[globalStyles.label, { fontSize: 15, textAlign: "center", marginBottom: 40, fontWeight: "600" }]}
-            >
-              Enter customer username
-            </Text>
-            <View style={[styles.inputContainer]}>
-              <TextInput
-                value={userName}
-                autoFocus={true}
-                onChangeText={(text) => setUserName(text)}
-                autoCorrect={false}
-                style={[globalStyles.inputTextt, styles.inputField]}
-              />
+          {!calculatedUser ? (
+            <View style={{ justifyContent: "center", alignItems: "center", marginTop: 0 }}>
+              <Text
+                style={[globalStyles.label, { fontSize: 15, textAlign: "center", marginBottom: 40, fontWeight: "600" }]}
+              >
+                Enter customer username
+              </Text>
+              <View style={[styles.inputContainer]}>
+                <Text style={{ fontWeight: "900", fontSize: 20, marginRight: 4 }}>@</Text>
+                <TextInput
+                  value={userName}
+                  autoFocus={true}
+                  onChangeText={(text) => setUserName(text)}
+                  autoCorrect={false}
+                  style={[globalStyles.inputTextt, styles.inputField]}
+                />
+              </View>
             </View>
-          </View>
+          ) : null}
         </ScrollView>
         <View
           style={{

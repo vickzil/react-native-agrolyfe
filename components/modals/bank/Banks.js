@@ -1,35 +1,63 @@
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BankItem from "./BankItem";
 import NoItem from "../../extra/NoItem";
 import colors from "../../../styles/colors";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { setAddBankModal } from "../../../store/alert/alertSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { globalStyles } from "../../../styles/global";
+import LoadingComponents from "../../loader/LoadingComponents";
 
 const Banks = () => {
+  const banks = useSelector((state) => state.bank.userBankAccount);
+  const loading = useSelector((state) => state.bank.loading);
+
   const dispatch = useDispatch();
   const [hasBank] = useState(false);
+
+  const [allBanks, setAllBanks] = useState([]);
+
+  useEffect(() => {
+    if (banks && banks.length) {
+      setAllBanks(banks);
+    }
+  }, [banks]);
+
   return (
     <View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={[styles.productContainer]}>
           <View style={styles.bankGrid}>
-            {hasBank ? (
-              <>
-                <BankItem />
-                {/* <BankItem />
-                <BankItem />
-                <BankItem /> */}
-              </>
+            {loading ? (
+              <View
+                style={{
+                  marginTop: 40,
+                  backgroundColor: "#fff",
+                  padding: 30,
+                  alignItems: "center",
+                  paddingTop: 50,
+                  height: "100%",
+                  width: "100%",
+                }}
+              >
+                <LoadingComponents />
+                <Text style={globalStyles.label}>Loading saved banks...</Text>
+              </View>
+            ) : allBanks && allBanks.length ? (
+              allBanks?.map((item, index) => <BankItem item={item} key={index} index={index} />)
             ) : (
-              <NoItem item={{ type: "BANK", buttonText: "Add Bank", message: "You haven't added any bank accounts" }} />
+              <View style={{ marginTop: 40 }}>
+                <NoItem
+                  item={{ type: "BANK", buttonText: "Add Bank", message: "You haven't added any bank accounts" }}
+                />
+              </View>
             )}
           </View>
         </View>
       </ScrollView>
 
-      {hasBank && (
+      {banks && banks.length && (
         <TouchableOpacity style={[styles.buttonFloat]}>
           <Text style={styles.buttonFloatText}>
             <MaterialIcons

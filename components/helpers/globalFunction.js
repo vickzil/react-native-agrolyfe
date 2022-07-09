@@ -21,6 +21,15 @@ export const copyLink = (refLink) => {
   return Clipboard.setStringAsync(refLink);
 };
 
+export const removeAtFromString = (str) => {
+  var i,
+    frags = str.split("@");
+  for (i = 0; i < frags.length; i++) {
+    frags[i] = frags[i].charAt(0).toLowerCase() + frags[i].slice(1);
+  }
+  return frags.join(" ");
+};
+
 export const removeDashFromString = (str) => {
   var i,
     frags = str.split("-");

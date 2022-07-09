@@ -14,10 +14,16 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setTransferToBankModal } from "../../../store/alert/alertSlice";
+import {
+  setSelectedBank,
+  setSelectedWallet,
+  setTransferToBankModal,
+  setAlertModalSuccess,
+  setAlertModal,
+} from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import axios from "axios";
 import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import ScreenLoading from "../../loader/ScreenLoading";
@@ -25,12 +31,24 @@ import FAmount from "./toBank/FAmount";
 import FSummary from "./toBank/FSummary";
 import FConfirm from "./toBank/FConfirm";
 import HeaderBalance from "../../extra/HeaderBalance";
+import { getUserWalletBalance } from "../../../store/wallet/actions";
+import { getUserInfo } from "../../../store/auth/actions";
+import { getTransactionsInfo } from "../../../store/transactions/actions";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
 
 const TransferToBankModal = () => {
   const modal = useSelector((state) => state.alert.transferToBankModal);
+  const selectedBank = useSelector((state) => state.alert.selectedBank);
+  const selectedWallet = useSelector((state) => state.alert.selectedWallet);
+
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
+
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
@@ -65,6 +83,8 @@ const TransferToBankModal = () => {
       message: "",
     });
     setPin(false);
+    dispatch(setSelectedBank(null));
+    dispatch(setSelectedWallet(null));
   };
 
   useEffect(() => {
@@ -81,7 +101,12 @@ const TransferToBankModal = () => {
         return;
       }
 
-      if (modal?.bank === null) {
+      if (selectedBank === null) {
+        setEmptyFields(true);
+
+        return;
+      }
+      if (selectedWallet === null) {
         setEmptyFields(true);
 
         return;
@@ -103,7 +128,7 @@ const TransferToBankModal = () => {
 
       setEmptyFields(false);
     }
-  }, [step, amount, pin, modal]);
+  }, [step, amount, pin, modal, selectedBank, selectedWallet]);
 
   const previousStep = () => {
     if (isLoading) {
@@ -152,23 +177,102 @@ const TransferToBankModal = () => {
       }
 
       if (step === 3) {
-        setScreenLoading({
-          status: true,
-          message: "please wait...",
-        });
-
-        setTimeout(() => {
-          closeModal();
-
-          setScreenLoading({
-            status: false,
-            message: "",
-          });
-        }, 4500);
+        transferToBank();
 
         // closeModal();
       }
     }, 400);
+  };
+
+  const transferToBank = () => {
+    setEmptyFields(true);
+
+    setScreenLoading({
+      status: true,
+      message: "Initiating Request...",
+    });
+
+    let newAmount = amount.replace(/[^a-zA-Z0-9]/g, "");
+
+    let newPayload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      UserCode: user?.code,
+      Amount: newAmount,
+      PIN: pin,
+      Narration: "",
+      UserBankAccountCode: selectedBank.code,
+      AdditionalInfo: "",
+      SourceOfDebit: selectedWallet.code,
+    };
+
+    console.log(newPayload);
+
+    axios
+      .post(`${baseURL}/v1.0/Withdrawal/payout`, newPayload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          console.log(response?.data?.data);
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+          dispatch(
+            setAlertModalSuccess({
+              status: true,
+              payload: {
+                amount: newAmount,
+                message: "Transfer of NGN " + addComma(newAmount) + " Was successful",
+              },
+            }),
+          );
+
+          dispatch(getUserWalletBalance(user?.code));
+          dispatch(getUserInfo(user?.code));
+          dispatch(getTransactionsInfo(user?.code));
+
+          closeModal();
+        } else {
+          setEmptyFields(false);
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setScreenLoading({
+          status: false,
+          message: "",
+        });
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   return (
@@ -204,8 +308,13 @@ const TransferToBankModal = () => {
             style={{ padding: 10 }}
             showsHorizontalScrollIndicator={false}
           >
-            <FAmount amount={amount} setAmount={setAmount} bank={modal?.bank} />
-            <FSummary summaryDetails={summaryDetails} />
+            <FAmount amount={amount} setAmount={setAmount} bank={selectedBank} selectedWallet={selectedWallet} />
+            <FSummary
+              amount={amount}
+              selectedBank={selectedBank}
+              selectedWallet={selectedWallet}
+              summaryDetails={summaryDetails}
+            />
             <FConfirm pin={pin} setPin={setPin} step={step} />
           </ScrollView>
 

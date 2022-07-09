@@ -69,3 +69,50 @@ export const getCountryInfo = createAsyncThunk("oauth/getCountryInfo", async (pa
     body: JSON.stringify(newPayload),
   }).then((res) => res.json());
 });
+
+export const resendUserTransactionPin = createAsyncThunk(
+  "oauth/resendUserTransactionPin",
+  async (payload, { getState }) => {
+    const baseURL = getState().oauth.baseURL;
+    const AppId = getState().oauth.AppId;
+    const RequestId = getState().oauth.RequestId;
+    const bearerToken = getState().oauth.bearerToken;
+
+    let newPayload = {
+      AppId,
+      RequestId,
+      Country: payload,
+    };
+
+    return fetch(`${baseURL}/v1.0/OAuth/resendTransactionPIN`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + bearerToken,
+      },
+
+      body: JSON.stringify(newPayload),
+    }).then((res) => res.json());
+  },
+);
+
+export const allGlobalFunctions = createAsyncThunk(
+  "oauth/allGlobalFunctions",
+  async (payload, { getState, dispatch }) => {
+    const user = getState().oauth.user;
+
+    dispatch(getCountryInfo("NG"));
+    dispatch(fetchAllInvestment(user?.code));
+    dispatch(getMyInvestments(user?.code));
+    dispatch(getUserSavings(user?.code));
+    dispatch(getSavingsMainCategories(user?.code));
+    dispatch(getUserReferrals(user?.code));
+    dispatch(getAccountMangager(user?.code));
+    dispatch(getAllUserBankAccounts(user?.code));
+    dispatch(getTransactionsInfo(user?.code));
+    dispatch(getUserWalletBalance(user?.code));
+    dispatch(getWalletOptions(user?.code));
+  },
+);

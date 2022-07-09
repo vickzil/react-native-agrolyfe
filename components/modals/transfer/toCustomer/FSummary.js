@@ -2,11 +2,14 @@ import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import colors from "../../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useSelector } from "react-redux";
+import { addComma } from "../../../helpers/globalFunction";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FSummary = ({ summaryDetails }) => {
+const FSummary = ({ calculatedUser, amount }) => {
+  const user = useSelector((state) => state.oauth.user);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer, { marginBottom: 50 }]}>
@@ -32,32 +35,18 @@ const FSummary = ({ summaryDetails }) => {
             <View style={styles.productCard}>
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Name</Text>
-                  <Text style={styles.productCardContentItemRight}>my savings</Text>
+                  <Text style={styles.productCardContentItemLeft}>From</Text>
+                  <Text style={styles.productCardContentItemRight}>{user.firstName + " " + user.lastName}</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Periodic Amount</Text>
-                  <Text style={styles.productCardContentItemRight}>₦ 890,000</Text>
+                  <Text style={styles.productCardContentItemLeft}>To</Text>
+                  <Text style={styles.productCardContentItemRight}>
+                    {calculatedUser.firstName + " " + calculatedUser.lastName}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Frequency</Text>
-                  <Text style={styles.productCardContentItemRight}>Once a month</Text>
-                </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Duration</Text>
-                  <Text style={styles.productCardContentItemRight}>12 months</Text>
-                </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Interest</Text>
-                  <Text style={styles.productCardContentItemRight}>12%</Text>
-                </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>End Date</Text>
-                  <Text style={styles.productCardContentItemRight}>22/06/2023</Text>
-                </View>
-                <View style={styles.productCardContentItem}>
-                  <Text style={styles.productCardContentItemLeft}>Number of Payments</Text>
-                  <Text style={styles.productCardContentItemRight}>5</Text>
+                  <Text style={styles.productCardContentItemLeft}>Amount</Text>
+                  <Text style={styles.productCardContentItemRight}>{amount ? addComma(amount) : 0}</Text>
                 </View>
               </View>
             </View>

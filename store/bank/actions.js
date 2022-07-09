@@ -12,6 +12,8 @@ export const getAllUserBankAccounts = createAsyncThunk("bank/getAllUserBankAccou
     UserCode: payload,
   };
 
+  // console.log(JSON.stringify(newPayload));
+
   return fetch(`${baseURL}/v1.0/UserBankAccount/getAllUserBankAccounts`, {
     method: "POST",
     mode: "cors",

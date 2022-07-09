@@ -29,6 +29,7 @@ const FirstScreen = ({
   ICUNumber,
   selectedPackage,
   setSelectedPackage,
+  cableTvProviders,
 }) => {
   const dispatch = useDispatch();
 
@@ -58,6 +59,7 @@ const FirstScreen = ({
 
   const choosenPage = (sPackage) => {
     setSelectedPackage(sPackage);
+    setSelectedProduct(null);
     setSelectPackageModal({
       status: false,
       data: [],
@@ -76,20 +78,7 @@ const FirstScreen = ({
   const choosePackage = () => {
     setSelectPackageModal({
       status: true,
-      data: [
-        {
-          id: 1,
-          name: "DSTV",
-        },
-        {
-          id: 2,
-          name: "GOTV",
-        },
-        {
-          id: 3,
-          name: "STARTIMES",
-        },
-      ],
+      data: cableTvProviders,
     });
   };
 
@@ -97,28 +86,7 @@ const FirstScreen = ({
     setSelectedProduct(null);
     setSelectProductModal({
       status: true,
-      data: [
-        {
-          id: 1,
-          name: "Dstv Padi",
-        },
-        {
-          id: 2,
-          name: "Dstv Yanga",
-        },
-        {
-          id: 3,
-          name: "Dstv Confam",
-        },
-        {
-          id: 4,
-          name: "Dstv Compact",
-        },
-        {
-          id: 5,
-          name: "Dstv Premium",
-        },
-      ],
+      data: selectedPackage?.cableTVProviderPlans,
     });
   };
 

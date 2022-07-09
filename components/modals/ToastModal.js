@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setToastModal } from "../../store/alert/alertSlice";
 
 const ToastModal = () => {
   const dispatch = useDispatch();
