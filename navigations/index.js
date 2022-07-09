@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
 import { saveUserInfo, setBearerToken, setHasLogin, setToken } from "../store/auth/authSlice";
-import { getAuthentication } from "../store/auth/actions";
 import axiosInstance from "../components/helpers/axiosInstance";
 import axios from "axios";
 

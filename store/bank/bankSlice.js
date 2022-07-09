@@ -10,7 +10,11 @@ const initialState = {
 const bankSlice = createSlice({
   name: "bank",
   initialState,
-  reducers: {},
+  reducers: {
+    setUserBankAccount: (state, { payload }) => {
+      state.userBankAccount = payload;
+    },
+  },
   extraReducers: {
     [getAllUserBankAccounts.pending]: (state, action) => {
       state.loading = true;
@@ -35,5 +39,7 @@ const bankSlice = createSlice({
     },
   },
 });
+
+export const { setUserBankAccount } = bankSlice.actions;
 
 export default bankSlice.reducer;

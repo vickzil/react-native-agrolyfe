@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
+import { addComma } from "../helpers/globalFunction";
 import HomeWalletItem from "./HomeWalletItem";
 
 const HomeWalletOverview = () => {
@@ -10,7 +11,7 @@ const HomeWalletOverview = () => {
     {
       id: 1,
       heading: "Main wallet Balance",
-      paragraph: userWalletBalance ? "₦ " + userWalletBalance?.availableBalance : "₦ 0",
+      paragraph: userWalletBalance ? "₦ " + addComma(userWalletBalance?.availableBalance) : "₦ 0",
       buttonText: "Fund Wallet",
       type: "Fund",
     },

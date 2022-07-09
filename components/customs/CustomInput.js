@@ -26,10 +26,12 @@ const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...
           style={{
             color: "gray",
             flex: 1,
-            fontSize: 17,
-            fontWeight: "500",
+            fontSize: 19,
+            fontWeight: "600",
             fontFamily: "Poppins",
             letterSpacing: -0.35644,
+            height: "100%",
+            padding: 0,
           }}
           {...props}
         />
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
   },
 
   inputContainer: {
-    height: 55,
+    height: 60,
     backgroundColor: "#f8f8f8",
     flexDirection: "row",
     paddingHorizontal: 15,

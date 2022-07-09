@@ -12,6 +12,7 @@ import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import { saveUserInfo, setHasLogin, setToken } from "../store/auth/authSlice";
 import colors from "../styles/colors";
 import axios from "axios";
+import { getTransactionsInfo } from "../store/transactions/actions";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const Login = ({ navigation }) => {
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
-  const [valid, setValid] = useState(false);
+  const [valid, setValid] = useState(true);
   // const [loading, setLoading] = useState(false);
 
   const [inputs, setInputs] = useState({
@@ -36,23 +37,33 @@ const Login = ({ navigation }) => {
   // }, [bearerToken]);
 
   const validate = () => {
-    setValid(true);
+    // setValid(true);
+
     if (!inputs.email) {
       handleError("Please input email", "email");
       setValid(false);
-    } else if (validEmail(inputs.email) == false) {
+
+      return;
+    }
+
+    if (validEmail(inputs.email) == false) {
       handleError("Please input valid email", "email");
       setValid(false);
+
+      return;
     }
 
     if (!inputs.password) {
       handleError("Please input password", "passworld");
       setValid(false);
+
+      return;
     }
 
-    if (valid) {
-      handleLogin();
-    }
+    handleLogin();
+
+    console.log(valid);
+    console.log("here");
     Keyboard.dismiss();
   };
 
@@ -120,6 +131,7 @@ const Login = ({ navigation }) => {
               dispatch(saveUserInfo(data));
               dispatch(setToken(token));
               dispatch(setHasLogin(true));
+              dispatch(getTransactionsInfo(data?.code));
 
               dispatch(
                 setLoading({

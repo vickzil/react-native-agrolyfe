@@ -17,6 +17,7 @@ import { setLoading, setLogoutModal } from "../../store/alert/alertSlice";
 import colors from "../../styles/colors";
 import { globalStyles } from "../../styles/global";
 import { setToken } from "../../store/auth/authSlice";
+import { logoutAllAccount } from "../../store/auth/actions";
 
 const { width } = Dimensions.get("screen");
 
@@ -59,6 +60,7 @@ const LogoutModal = () => {
       AsyncStorage.removeItem("user");
 
       dispatch(setToken(""));
+      dispatch(logoutAllAccount());
       dispatch(
         setLoading({
           status: false,

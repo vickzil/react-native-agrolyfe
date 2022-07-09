@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import { saveUserInfo, setHasLogin, setToken } from "../store/auth/authSlice";
 import axios from "axios";
+import { getTransactionsInfo } from "../store/transactions/actions";
 
 const TwoFactor = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -66,6 +67,7 @@ const TwoFactor = ({ navigation, route }) => {
           AsyncStorage.setItem("hasLoggedIn", "yes");
 
           dispatch(saveUserInfo(data));
+          dispatch(getTransactionsInfo(data?.code));
           dispatch(setToken(token));
           dispatch(setHasLogin(true));
 

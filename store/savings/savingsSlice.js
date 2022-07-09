@@ -17,6 +17,14 @@ const savingsSlice = createSlice({
   name: "savings",
   initialState,
   reducers: {
+    setMySavings: (state, { payload }) => {
+      state.mySavings = payload;
+    },
+
+    setSavingsCategories: (state, { payload }) => {
+      state.SavingsCategories = payload;
+    },
+
     setSelectedSavingsType: (state, { payload }) => {
       state.selectedSavingsType = payload;
     },
@@ -71,6 +79,7 @@ const savingsSlice = createSlice({
   },
 });
 
-export const { setSelectedSavingsType, setSelectedSavingsTypeDetails } = savingsSlice.actions;
+export const { setSelectedSavingsType, setSelectedSavingsTypeDetails, setSavingsCategories, setMySavings } =
+  savingsSlice.actions;
 
 export default savingsSlice.reducer;

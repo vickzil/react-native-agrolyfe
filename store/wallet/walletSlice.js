@@ -13,7 +13,15 @@ const initialState = {
 const walletSlice = createSlice({
   name: "wallet",
   initialState,
-  reducers: {},
+  reducers: {
+    setUserWalletBalance: (state, { payload }) => {
+      state.userWalletBalance = payload;
+    },
+
+    setWalletOptions: (state, { payload }) => {
+      state.walletOptions = payload;
+    },
+  },
   extraReducers: {
     [getUserWalletBalance.pending]: (state, action) => {
       state.loading = true;
@@ -60,5 +68,7 @@ const walletSlice = createSlice({
     },
   },
 });
+
+export const { setUserWalletBalance, setWalletOptions } = walletSlice.actions;
 
 export default walletSlice.reducer;

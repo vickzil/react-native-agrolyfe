@@ -1,11 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-// import { getAccountMangager } from "../accountManager/actions";
-// import { getAllUserBankAccounts } from "../bank/actions";
-// import { fetchAllInvestment, getMyInvestments } from "../products/actions";
-// import { getUserReferrals } from "../referrals/actions";
-// import { getSavingsMainCategories, getUserSavings } from "../savings/actions";
-// import { getTransactionsInfo } from "../transactions/actions";
-// import { getUserWalletBalance, getWalletOptions } from "../wallet/actions";
+import { setUserBankAccount } from "../bank/bankSlice";
+import { setMyProducts } from "../products/productSlice";
+import { setReferrals } from "../referrals/referralSlice";
+import { setMySavings } from "../savings/savingsSlice";
+import { saveUserTransactions } from "../transactions/transactionSlice";
+import { setUserWalletBalance } from "../wallet/walletSlice";
 
 export const getUserInfo = createAsyncThunk("oauth/getUserInfo", async (payload, { getState, dispatch }) => {
   const user = getState().oauth.user;
@@ -98,21 +97,11 @@ export const resendUserTransactionPin = createAsyncThunk(
   },
 );
 
-export const allGlobalFunctions = createAsyncThunk(
-  "oauth/allGlobalFunctions",
-  async (payload, { getState, dispatch }) => {
-    const user = getState().oauth.user;
-
-    dispatch(getCountryInfo("NG"));
-    dispatch(fetchAllInvestment(user?.code));
-    dispatch(getMyInvestments(user?.code));
-    dispatch(getUserSavings(user?.code));
-    dispatch(getSavingsMainCategories(user?.code));
-    dispatch(getUserReferrals(user?.code));
-    dispatch(getAccountMangager(user?.code));
-    dispatch(getAllUserBankAccounts(user?.code));
-    dispatch(getTransactionsInfo(user?.code));
-    dispatch(getUserWalletBalance(user?.code));
-    dispatch(getWalletOptions(user?.code));
-  },
-);
+export const logoutAllAccount = createAsyncThunk("oauth/logoutAccount", async (payload, { dispatch }) => {
+  dispatch(setUserWalletBalance(null));
+  dispatch(setMySavings(null));
+  dispatch(setReferrals(null));
+  dispatch(setMyProducts(null));
+  dispatch(setUserBankAccount(null));
+  dispatch(saveUserTransactions(null));
+});

@@ -11,7 +11,15 @@ const initialState = {
 const utilitiesSlice = createSlice({
   name: "utility",
   initialState,
-  reducers: {},
+  reducers: {
+    setAirtimeDataProviders: (state, { payload }) => {
+      state.airtimeDataProviders = payload;
+    },
+
+    setCableTvProviders: (state, { payload }) => {
+      state.cableTvProviders = payload;
+    },
+  },
   extraReducers: {
     [getAirtimeDataProvidersPlans.pending]: (state, action) => {
       state.loading = true;
@@ -59,4 +67,5 @@ const utilitiesSlice = createSlice({
   },
 });
 
+export const { setAirtimeDataProviders, setCableTvProviders } = utilitiesSlice.actions;
 export default utilitiesSlice.reducer;

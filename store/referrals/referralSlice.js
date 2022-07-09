@@ -10,7 +10,11 @@ const initialState = {
 const referralSlice = createSlice({
   name: "referrals",
   initialState,
-  reducers: {},
+  reducers: {
+    setReferrals: (state, { payload }) => {
+      state.referrals = payload;
+    },
+  },
   extraReducers: {
     [getUserReferrals.pending]: (state, action) => {
       state.loading = true;
@@ -36,4 +40,5 @@ const referralSlice = createSlice({
   },
 });
 
+export const { setReferrals } = referralSlice.actions;
 export default referralSlice.reducer;
