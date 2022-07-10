@@ -76,11 +76,12 @@ export const resendUserTransactionPin = createAsyncThunk(
     const AppId = getState().oauth.AppId;
     const RequestId = getState().oauth.RequestId;
     const bearerToken = getState().oauth.bearerToken;
+    const user = getState().oauth.user;
 
     let newPayload = {
       AppId,
       RequestId,
-      Country: payload,
+      UserCode: user.code,
     };
 
     return fetch(`${baseURL}/v1.0/OAuth/resendTransactionPIN`, {

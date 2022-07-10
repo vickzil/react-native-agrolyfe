@@ -67,6 +67,33 @@ const Login = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
+  const handleOnChange = (text, input) => {
+    setInputs((prevState) => ({ ...prevState, [input]: text.replace(/\s/g, "") }));
+  };
+
+  const handleError = (errorMessage, input) => {
+    setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
+  };
+
+  const getUserInfos = async (userCode) => {
+    const response = await axios.post(
+      `${baseURL}/v1.0/Dashboard/getUserInfo`,
+      {
+        AppId: AppId,
+        RequestId: RequestId,
+        UserCode: userCode,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      },
+    );
+
+    return response;
+  };
+
   const handleLogin = () => {
     dispatch(
       setLoading({
@@ -106,8 +133,8 @@ const Login = ({ navigation }) => {
           if (response?.data?.data?.emailConfirmed) {
             const twoFactor = response.data.data.token.twoFactorToken;
             const data = response.data.data;
-            const token = response.data.data.token.token;
-            const expireTo = response.data.data.token.expireTo;
+            // const token = response.data.data.token.token;
+            // const expireTo = response.data.data.token.expireTo;
 
             if (twoFactor) {
               dispatch(
@@ -123,22 +150,13 @@ const Login = ({ navigation }) => {
                 email: inputs.email,
               });
             } else {
-              AsyncStorage.setItem("user", JSON.stringify(data));
-              AsyncStorage.setItem("token", token);
-              AsyncStorage.setItem("appexrat", expireTo);
-              AsyncStorage.setItem("hasLoggedIn", "yes");
-
-              dispatch(saveUserInfo(data));
-              dispatch(setToken(token));
-              dispatch(setHasLogin(true));
-              dispatch(getTransactionsInfo(data?.code));
-
-              dispatch(
-                setLoading({
-                  status: false,
-                  message: "",
-                }),
-              );
+              getUserInfos(data.code)
+                .then((response) => {
+                  setUserDetails(response.data.data);
+                })
+                .catch(() => {
+                  setUserDetails(data);
+                });
             }
           } else {
             navigation.navigate("InputCode");
@@ -200,12 +218,23 @@ const Login = ({ navigation }) => {
       });
   };
 
-  const handleOnChange = (text, input) => {
-    setInputs((prevState) => ({ ...prevState, [input]: text }));
-  };
+  const setUserDetails = (data) => {
+    AsyncStorage.setItem("user", JSON.stringify(data));
+    AsyncStorage.setItem("token", data.token.token);
+    AsyncStorage.setItem("appexrat", data.token.expireTo);
+    AsyncStorage.setItem("hasLoggedIn", "yes");
 
-  const handleError = (errorMessage, input) => {
-    setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
+    dispatch(saveUserInfo(data));
+    dispatch(setToken(data.token.token));
+    dispatch(setHasLogin(true));
+    dispatch(getTransactionsInfo(data?.code));
+
+    dispatch(
+      setLoading({
+        status: false,
+        message: "",
+      }),
+    );
   };
 
   return (
@@ -229,7 +258,7 @@ const Login = ({ navigation }) => {
         <View style={{ marginVertical: 20 }}>
           <CustomInput
             error={errors.email}
-            onChangeText={(text) => handleOnChange(text, "email")}
+            onChangeText={(text) => handleOnChange(text.replace(/\s/g, ""), "email")}
             onFocus={() => {
               handleError(null, "email");
             }}
@@ -259,7 +288,7 @@ const Login = ({ navigation }) => {
 
           <CustomInput
             error={errors.password}
-            onChangeText={(text) => handleOnChange(text, "password")}
+            onChangeText={(text) => handleOnChange(text.replace(/\s/g, ""), "password")}
             placeholder="Enter your password"
             lable="Password"
             onFocus={() => {

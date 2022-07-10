@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { addComma } from "../helpers/globalFunction";
@@ -30,6 +30,8 @@ const WalletOverview = () => {
       type: "Paybills",
     },
   ]);
+
+  useEffect(() => {}, [userWalletBalance]);
   return (
     <View style={{ horizontalPadding: 0, marginTop: 5, marginBottom: 20 }}>
       <FlatList

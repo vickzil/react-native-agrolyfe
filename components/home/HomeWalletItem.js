@@ -8,6 +8,7 @@ import { useRef } from "react";
 import TransferModalButtom from "../modals/transfer/TransferModalButtom";
 import PayBillsModalButtom from "../modals/billspayment/PayBillsModalButtom";
 import FundWalletModalButtom from "../modals/fundwallet/FundWalletModalButtom";
+import { addComma } from "../helpers/globalFunction";
 
 const { width } = Dimensions.get("screen");
 // const imagedrop = require("../../assets/img/imagedrop.png");
@@ -17,7 +18,7 @@ const HomeWalletItem = ({ item, index }) => {
   const transferModal = useRef();
   const paybillsModal = useRef();
   const fundWalletModal = useRef();
-
+  const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
   const loading = useSelector((state) => state.wallet.loading);
 
   const handlePress = (data) => {
@@ -46,6 +47,8 @@ const HomeWalletItem = ({ item, index }) => {
     paybillsModal.current.close();
   };
 
+  let mainWallet = userWalletBalance?.availableBalance || 0;
+
   return (
     <>
       <TransferModalButtom bottomSheet={transferModal} closeTransferModal={closeTransferModal} />
@@ -54,7 +57,11 @@ const HomeWalletItem = ({ item, index }) => {
       <View style={[styles.card, index === 0 && styles.addMarginLeft]}>
         <Text style={styles.cardHeading}>{item.heading}</Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={[styles.paragraph, { color: colors.greenColor }]}>{item.paragraph}</Text>
+          <Text style={[styles.paragraph, { color: colors.greenColor }]}>
+            {/* {item?.paragraph} */}
+
+            {index === 0 ? "₦ " + addComma(mainWallet) : item?.paragraph}
+          </Text>
           {index === 0 ? loading ? <ActivityIndicator size="small" color="#14961E" /> : null : null}
         </View>
 

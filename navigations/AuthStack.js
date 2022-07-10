@@ -9,14 +9,27 @@ import ForgotPassword from "../screens/ForgotPassword";
 import InputCode from "../screens/InputCode";
 import CompleteRegister from "../screens/CompleteRegister";
 import PageLoading from "../components/loader/PageLoading";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TwoFactor from "../screens/TwoFactor";
 import AlertModal from "../components/modals/AlertModal";
+import { removeStorageItemValue } from "../components/helpers/globalFunction";
+import { setUserWalletBalance } from "../store/wallet/walletSlice";
+import { getTransactionsInfo } from "../store/transactions/actions";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
   const [initialRouteName, setInitialRouteName] = useState();
   const hasLogin = useSelector((state) => state.oauth.hasLogin);
+
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   removeStorageItemValue("token");
+  //   removeStorageItemValue("appexrat");
+  //   removeStorageItemValue("user");
+  //   dispatch(setUserWalletBalance(null));
+  //   dispatch(getTransactionsInfo(null));
+  // }, []);
 
   // useEffect(() => {
   //   authLogin();

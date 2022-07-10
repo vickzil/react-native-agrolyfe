@@ -212,7 +212,8 @@ const TransferCustomerModal = () => {
               status: true,
               payload: {
                 amount: newAmount,
-                message: "Transfer of NGN " + addComma(newAmount) + " to " + modal?.user?.firstName + "Was successfull",
+                message:
+                  "Transfer of NGN " + addComma(newAmount) + " to " + modal?.user?.firstName + " Was successfull",
               },
             }),
           );

@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { addComma } from "../helpers/globalFunction";
 import HomeWalletItem from "./HomeWalletItem";
 
 const HomeWalletOverview = () => {
-  const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
-
   const [overview] = useState([
     {
       id: 1,
       heading: "Main wallet Balance",
-      paragraph: userWalletBalance ? "₦ " + addComma(userWalletBalance?.availableBalance) : "₦ 0",
+      paragraph: "₦ 0",
       buttonText: "Fund Wallet",
       type: "Fund",
     },
@@ -30,6 +28,7 @@ const HomeWalletOverview = () => {
       type: "Paybills",
     },
   ]);
+
   return (
     <View style={{ horizontalPadding: 25, marginTop: -110, marginBottom: 30 }}>
       <FlatList

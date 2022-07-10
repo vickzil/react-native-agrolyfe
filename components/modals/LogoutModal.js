@@ -16,8 +16,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setLoading, setLogoutModal } from "../../store/alert/alertSlice";
 import colors from "../../styles/colors";
 import { globalStyles } from "../../styles/global";
-import { setToken } from "../../store/auth/authSlice";
+import { saveUserInfo, setToken } from "../../store/auth/authSlice";
 import { logoutAllAccount } from "../../store/auth/actions";
+import { setUserWalletBalance } from "../../store/wallet/walletSlice";
+import { removeStorageItemValue } from "../helpers/globalFunction";
 
 const { width } = Dimensions.get("screen");
 
@@ -54,13 +56,16 @@ const LogoutModal = () => {
         message: "please wait...",
       }),
     );
-    setTimeout(() => {
-      AsyncStorage.removeItem("token");
-      AsyncStorage.removeItem("appexrat");
-      AsyncStorage.removeItem("user");
 
+    removeStorageItemValue("token");
+    removeStorageItemValue("appexrat");
+    removeStorageItemValue("user");
+
+    setTimeout(() => {
       dispatch(setToken(""));
+      dispatch(saveUserInfo(null));
       dispatch(logoutAllAccount());
+      dispatch(setUserWalletBalance(null));
       dispatch(
         setLoading({
           status: false,

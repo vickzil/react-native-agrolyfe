@@ -31,13 +31,15 @@ const Home = ({ navigation }) => {
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
+  const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
+
   // const ref = useRef(null);
   const scrollViewRef = useRef();
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
+      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
     }
   }, [isFocused]);
 
@@ -97,6 +99,8 @@ const Home = ({ navigation }) => {
     return response;
   };
 
+  useEffect(() => {}, [userWalletBalance, user]);
+
   // const logout = () => {
   //   AsyncStorage.setItem("user", JSON.stringify({ ...userDetails, loggedIn: false }));
   //   navigation.navigate("Login");
@@ -110,7 +114,7 @@ const Home = ({ navigation }) => {
       .then((response) => {
         dispatch(saveUserInfo(response?.data?.data));
 
-        // console.log(response.data);
+        console.log(response.data?.data);
         setTimeout(() => {
           setRefreshing(false);
         }, 2000);

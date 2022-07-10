@@ -10,12 +10,20 @@ const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...
     <View style={{ marginBottom: 20 }}>
       <Text style={styles.label}>{lable}</Text>
 
-      <View style={[styles.inputContainer, { borderColor: error ? "red" : IsFocused ? "#777" : "#ced4ed" }]}>
+      <View
+        style={[
+          styles.inputContainer,
+          { borderColor: error ? "red" : IsFocused ? "#777" : "#ced4ed" },
+          IsFocused && styles.nprmalBackground,
+        ]}
+      >
         <Icon name={iconName} size={22} color="#666" style={{ marginRight: 16 }} />
         <TextInput
           secureTextEntry={hidePassword}
-          autoCorrect={false}
-          autoComplete={"off"}
+          // autoCorrect={false}
+          // autoComplete={"off"}
+          autoCapitalize="none"
+          selectionColor="#f8f8f8"
           onFocus={() => {
             onFocus();
             setIsFocused(true);
@@ -65,5 +73,9 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     alignItems: "center",
     borderRadius: 4,
+  },
+
+  nprmalBackground: {
+    backgroundColor: "#f8f8f8",
   },
 });

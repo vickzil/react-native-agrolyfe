@@ -1,4 +1,5 @@
 import * as Clipboard from "expo-clipboard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const serializeJSON = (data) => {
   return Object.keys(data)
@@ -15,6 +16,15 @@ export const validEmail = (email) => {
 
 export const addComma = (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+export const removeStorageItemValue = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key);
+    return true;
+  } catch (exception) {
+    return false;
+  }
 };
 
 export const copyLink = (refLink) => {

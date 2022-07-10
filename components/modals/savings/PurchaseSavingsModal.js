@@ -379,7 +379,7 @@ const PurchaseSavingsModal = () => {
                   addComma(newAmount) +
                   " on " +
                   modal?.payload?.subCat?.name +
-                  "Was successfull",
+                  " Was successfull",
               },
             }),
           );

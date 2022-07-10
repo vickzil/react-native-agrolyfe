@@ -26,7 +26,7 @@ const Tab = createBottomTabNavigator();
 const AppStack = () => {
   const resendPinCompleted = useSelector((state) => state.oauth.resendPinCompleted);
   const dispatch = useDispatch();
-  // const user = useSelector((state) => state.oauth.user);
+  const loggedInUser = useSelector((state) => state.oauth.user);
 
   useEffect(() => {
     if (resendPinCompleted) {
@@ -70,8 +70,10 @@ const AppStack = () => {
       dispatch(getWalletOptions(user?.code));
       dispatch(getAirtimeDataProvidersPlans(user?.code));
       dispatch(getCableTVProviders(user?.code));
-    }, 2200);
+    }, 1200);
   };
+
+  useEffect(() => {}, [loggedInUser]);
 
   const getGreetings = () => {
     let day = new Date();

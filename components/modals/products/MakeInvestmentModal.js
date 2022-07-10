@@ -297,7 +297,7 @@ const MakeInvestmentModal = () => {
               payload: {
                 amount: newAmount,
                 message:
-                  "Your Purchase of NGN " + addComma(newAmount) + " on " + modal?.payload?.name + "Was successfull",
+                  "Your Purchase of NGN " + addComma(newAmount) + " on " + modal?.payload?.name + " Was successfull",
               },
             }),
           );
