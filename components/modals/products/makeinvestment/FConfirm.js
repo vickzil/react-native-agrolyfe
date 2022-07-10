@@ -24,19 +24,24 @@ const FConfirm = ({ isEnabled, setIsEnabled }) => {
         <Text
           style={[
             styles.productCardContentItemLeft,
-            { fontSize: 28, fontWeight: "900", marginBottom: 10, color: colors.greenLightDarkColor },
+            { fontSize: 28, fontWeight: "600", marginBottom: 10, color: "#444", fontFamily: "PoppinsBold" },
           ]}
         >
           Confirm Purchase
         </Text>
 
         <View style={{ alignItems: "center" }}>
-          <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center" }]}>
+          <Text
+            style={[
+              globalStyles.label,
+              { fontSize: 19, textAlign: "center", fontWeight: "600", fontFamily: "Poppins", marginBottom: 60 },
+            ]}
+          >
             Are you sure you want to purchase this products
           </Text>
-          <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center", color: colors.greenColor }]}>
+          {/* <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center", color: colors.greenColor }]}>
             I certify that I have read, understand and accept Terms & Conditions
-          </Text>
+          </Text> */}
         </View>
         <View style={{ marginTop: 60 }}>
           <Switch

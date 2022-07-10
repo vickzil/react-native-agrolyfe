@@ -29,12 +29,12 @@ const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
 
   const showFundWalletModal = () => {
     dispatch(setFundwalletByLocalTransferModal(true));
-    closeModal();
+    // closeModal();
   };
 
   const showFundWalletTransferModal = () => {
     dispatch(setFundwalletByForeignTransferModal(true));
-    closeModal();
+    // closeModal();
   };
 
   const showPaymentEvidentModal = () => {
@@ -135,7 +135,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#d3b7b7",
     paddingBottom: 8,
-    fontWeight: "bold",
+    fontWeight: "600",
+    fontFamily: "PoppinsBold",
+    // letterSpacing: -0.35644,
 
     // paddingVertical: 18,
   },

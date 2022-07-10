@@ -26,9 +26,9 @@ const SavingSummary = ({ summaryDetails }) => {
                   textAlign: "center",
                   fontSize: 29,
                   marginBottom: 35,
-                  fontWeight: "700",
+                  fontWeight: "600",
                   color: colors.greenDarkDarkColor,
-                  fontFamily: "Poppins",
+                  fontFamily: "PoppinsBold",
                   letterSpacing: -0.35644,
                 },
               ]}

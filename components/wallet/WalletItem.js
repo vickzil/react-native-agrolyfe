@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     color: "rgba(24, 133, 111, 0.54)",
     marginBottom: 7,
     textAlign: "left",
+    fontFamily: "Poppins",
   },
 
   paragraph: {

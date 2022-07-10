@@ -25,7 +25,10 @@ const TransactionItem = ({ item }) => {
           <Text style={[styles.transactionItemLeftP, styles.transactionItemLeftP1]}>
             {formateDateAndTimeByName(item.createdOn)}
           </Text>
-          <Text style={[styles.transactionItemLeftP]}>{item.description}</Text>
+          <Text style={[styles.transactionItemLeftP, { fontFamily: "Poppins" }]}>
+            {item.description}
+            {/* {removeUnderscoreFromString(item.type)} */}
+          </Text>
         </View>
         <View style={styles.transactionItemRight}>
           <Text

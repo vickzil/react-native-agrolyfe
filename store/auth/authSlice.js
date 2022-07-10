@@ -42,6 +42,10 @@ const authSlice = createSlice({
     setGreetings: (state, { payload }) => {
       state.greetings = payload;
     },
+
+    setResendPinCompleted: (state, { payload }) => {
+      state.resendPinCompleted = payload;
+    },
   },
   extraReducers: {
     [getUserInfo.pending]: (state, action) => {
@@ -51,7 +55,7 @@ const authSlice = createSlice({
 
     [getUserInfo.fulfilled]: (state, action) => {
       let result = action.payload;
-      // console.log(action.payload);
+      console.log("user", action.payload);
       if (result) {
         // console.log(action.payload.data);
         state.user = result.data;
@@ -98,6 +102,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { saveUserInfo, setToken, setHasLogin, setBearerToken, setGreetings } = authSlice.actions;
+export const { saveUserInfo, setToken, setHasLogin, setBearerToken, setGreetings, setResendPinCompleted } =
+  authSlice.actions;
 
 export default authSlice.reducer;

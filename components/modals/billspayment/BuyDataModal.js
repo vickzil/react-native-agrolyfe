@@ -127,7 +127,7 @@ const BuyDataModal = () => {
 
       setEmptyFields(false);
     }
-  }, [step, selectedPackage, isEnabled, modal]);
+  }, [step, selectedNetwork, selectedPackage, mobileNumber, isEnabled, modal]);
 
   const previousStep = () => {
     if (isLoading) {
@@ -304,7 +304,9 @@ const BuyDataModal = () => {
                 style={[styles.modalHeaderIcon, { color: "#fff" }]}
                 onPress={() => previousStep()}
               />
-              <Text style={styles.modalHeaderText}>Data subscription</Text>
+              <Text style={[styles.modalHeaderText, { fontWeight: "600", fontFamily: "PoppinsBold" }]}>
+                Data subscription
+              </Text>
             </View>
 
             <HeaderBalance />

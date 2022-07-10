@@ -120,7 +120,7 @@ const BuyAirtimeModal = () => {
 
       setEmptyFields(false);
     }
-  }, [step, amount, isEnabled, modal]);
+  }, [step, amount, mobileNumber, isEnabled, modal]);
 
   const previousStep = () => {
     // setScreenLoading({
@@ -301,7 +301,9 @@ const BuyAirtimeModal = () => {
                 style={[styles.modalHeaderIcon, { color: "#fff" }]}
                 onPress={() => previousStep()}
               />
-              <Text style={styles.modalHeaderText}>Buy Airtime</Text>
+              <Text style={[styles.modalHeaderText, { fontWeight: "600", fontFamily: "PoppinsBold" }]}>
+                Buy Airtime
+              </Text>
             </View>
 
             <HeaderBalance />

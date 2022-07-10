@@ -295,7 +295,9 @@ const TransferToBankModal = () => {
                 style={[styles.modalHeaderIcon, { color: "#fff" }]}
                 onPress={() => previousStep()}
               />
-              <Text style={styles.modalHeaderText}>Transfer to bank</Text>
+              <Text style={[styles.modalHeaderText, { fontWeight: "600", fontFamily: "PoppinsBold" }]}>
+                Transfer to bank
+              </Text>
             </View>
 
             <HeaderBalance />

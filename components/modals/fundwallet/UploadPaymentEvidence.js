@@ -123,8 +123,13 @@ const UploadPaymentEvidence = () => {
       onRequestClose={() => previousStep()}
       style={{ flex: 1, backgroundColor: "#fff" }}
     >
+      {modal && (
+        <View>
+          <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
+        </View>
+      )}
       <ScreenLoading visibility={screenLoading} />
-      <POPUpModal visible={showCModal} setVisible={setShowCModal} modalTitle=" Currency">
+      <POPUpModal visible={showCModal} setVisible={setShowCModal} modalTitle=" Currencies" lightBackground={true}>
         <View>
           {[
             "NAIRA (NGN)",
@@ -153,14 +158,16 @@ const UploadPaymentEvidence = () => {
 
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
-          <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor, marginTop: 40 }]}>
+          <View style={[styles.modalHeader, { backgroundColor: "#fff", marginTop: 30 }]}>
             <Icon
               name="arrow-left"
               size={40}
-              style={[styles.modalHeaderIcon, { color: "#fff" }]}
+              style={[styles.modalHeaderIcon, { color: "#111" }]}
               onPress={() => previousStep()}
             />
-            <Text style={styles.modalHeaderText}>Upload payment Evidence</Text>
+            <Text style={[styles.modalHeaderText, { fontWeight: "600", fontFamily: "PoppinsBold" }]}>
+              Upload payment Evidence
+            </Text>
           </View>
 
           <ScrollView
@@ -172,7 +179,7 @@ const UploadPaymentEvidence = () => {
             <View style={{ width: width, height: screenHeight, flex: 1, alignItems: "center" }}>
               <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 12, width: "100%" }}>
                 <View style={[globalStyles.productCardContent, { marginBottom: 0, width: "100%" }]}>
-                  <View style={{ marginTop: 20, marginBottom: 30, width: "100%" }}>
+                  <View style={{ marginTop: 40, marginBottom: 30, width: "100%" }}>
                     <Text
                       style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}
                     >
@@ -181,6 +188,7 @@ const UploadPaymentEvidence = () => {
 
                     <TextInputMask
                       type={"money"}
+                      autoFocus={true}
                       options={{
                         precision: 0,
                         //   separator: ",",
@@ -188,6 +196,7 @@ const UploadPaymentEvidence = () => {
                         unit: "₦",
                         suffixUnit: "",
                       }}
+                      placeholder="0"
                       value={amount}
                       onChangeText={(text) => {
                         setAmount(text);
@@ -304,7 +313,7 @@ const styles = StyleSheet.create({
     lineHeight: 29,
     marginBottom: 0,
     fontFamily: "Poppins",
-    color: "#fff",
+    color: "#222",
   },
 
   modalSearchContainer: {

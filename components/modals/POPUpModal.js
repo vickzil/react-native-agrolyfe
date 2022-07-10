@@ -3,6 +3,7 @@ import {
   Image,
   Modal,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -17,7 +18,7 @@ import { SvgUri } from "react-native-svg";
 
 const { width } = Dimensions.get("screen");
 
-const POPUpModal = ({ visible, setVisible, children, modalTitle = "Select option" }) => {
+const POPUpModal = ({ visible, setVisible, children, modalTitle = "Select option", lightBackground }) => {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
     setVisible(false);
@@ -44,15 +45,15 @@ const POPUpModal = ({ visible, setVisible, children, modalTitle = "Select option
       style={{ marginBottom: 0 }}
     >
       <View style={{ flex: 1, backgroundColor: "#f8f8f8", marginBottom: 0 }}>
-        <View style={{ backgroundColor: colors.greenDarkColor }}>
+        <View style={[lightBackground ? { backgroundColor: "#fff" } : { backgroundColor: colors.greenDarkColor }]}>
           <View style={[styles.modalHeader]}>
             <Icon
               name="arrow-left"
-              size={25}
-              style={[styles.modalHeaderIcon, { color: "#fff" }]}
+              size={40}
+              style={[styles.modalHeaderIcon, lightBackground ? { color: "#111" } : { color: "#fff" }]}
               onPress={() => closeModal()}
             />
-            <Text style={styles.modalHeaderText}>{modalTitle}</Text>
+            <Text style={[styles.modalHeaderText, lightBackground && { color: "#111" }]}>{modalTitle}</Text>
             <Text></Text>
           </View>
         </View>

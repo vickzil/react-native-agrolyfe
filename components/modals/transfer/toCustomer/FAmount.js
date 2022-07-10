@@ -15,23 +15,26 @@ const FAmount = ({ amount, setAmount, calculatedUser }) => {
 
   return (
     <View style={[styles.productContainer]}>
-      <View style={{ marginTop: 30, marginBottom: 10, width: "95%", paddingRight: 10 }}>
-        <View style={{ marginBottom: 50 }}>
-          <View style={{ justifyContent: "center", alignItems: "center", marginTop: 0 }}>
-            <View style={globalStyles.accountImage}>
-              <Image
-                source={{ uri: calculatedUser?.photo }}
-                style={[{ width: "100%", height: "100%", borderRadius: 100 }]}
-                resizeMode="cover"
-              />
-            </View>
+      <View style={{ marginTop: 30, marginBottom: 10, width: "90%", paddingRight: 10 }}>
+        {calculatedUser && (
+          <View style={{ marginBottom: 50 }}>
+            <View style={{ justifyContent: "center", alignItems: "center", marginTop: 0 }}>
+              <View style={globalStyles.accountImage}>
+                <Image
+                  source={{ uri: calculatedUser?.photo }}
+                  style={[{ width: "100%", height: "100%", borderRadius: 100 }]}
+                  resizeMode="cover"
+                />
+              </View>
 
-            <Text style={globalStyles.accountUserFullName}>
-              {calculatedUser?.firstName + " " + calculatedUser.lastName}
-            </Text>
-            <Text style={globalStyles.accountTitle}>{calculatedUser?.userName}</Text>
+              <Text style={[globalStyles.accountUserFullName, { fontSize: 19 }]}>
+                {calculatedUser?.firstName + " " + calculatedUser?.lastName}
+              </Text>
+              <Text style={[globalStyles.accountTitle, { fontSize: 26 }]}>{calculatedUser?.userName}</Text>
+            </View>
           </View>
-        </View>
+        )}
+
         <View>
           <View style={{ marginTop: 0, marginBottom: 30, alignItems: "center" }}>
             <Text
@@ -59,18 +62,24 @@ const FAmount = ({ amount, setAmount, calculatedUser }) => {
                 unit: "₦",
                 suffixUnit: "",
               }}
+              placeholder="0"
               value={amount}
               onChangeText={(text) => {
                 setAmount(text);
               }}
               style={[
                 {
-                  borderBottomWidth: 1,
+                  width: "80%",
+                  height: 55,
+                  // backgroundColor: "#fff",
+                  flexDirection: "row",
+                  paddingHorizontal: 15,
+                  borderBottomWidth: 2,
                   borderColor: colors.greenColor,
-                  height: 50,
+                  alignItems: "center",
+                  borderRadius: 8,
                   fontSize: 33,
                   fontWeight: "700",
-                  width: "100%",
                   textAlign: "center",
                 },
               ]}

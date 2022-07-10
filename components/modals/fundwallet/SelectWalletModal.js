@@ -127,7 +127,7 @@ const SelectWalletModal = () => {
                   >
                     <View style={[styles.content]} key={index}>
                       <Text style={[styles.contentText, styles.contentText1]}>{item.name}</Text>
-                      <Text style={[styles.contentText, styles.contentText2]}>
+                      <Text style={[styles.contentText, styles.contentText2, { fontSize: 20 }]}>
                         {item ? "₦ " + addComma(item?.amount) : "0.00"}
                       </Text>
                     </View>

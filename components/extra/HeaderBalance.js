@@ -17,7 +17,9 @@ const HeaderBalance = () => {
         </Text>
         {walletLoading ? <ActivityIndicator size="small" color="#14961E" /> : null}
       </View>
-      <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>Main balance</Text>
+      <Text style={[styles.modalHeaderTex, styles.modalHeaderText2, { fontFamily: "Montserrat", fontWeight: "600" }]}>
+        Main balance
+      </Text>
     </View>
   );
 };

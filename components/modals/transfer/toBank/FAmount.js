@@ -17,17 +17,17 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ width: screenWidth, paddingBottom: 0 }}>
       <View style={[styles.productContainer, { paddingBottom: 0 }]}>
-        <View style={{ marginTop: 20, marginBottom: 10, width: "95%", paddingRight: 10 }}>
+        <View style={{ marginTop: 0, marginBottom: 10, width: "95%", paddingRight: 10 }}>
           <View>
             <View style={{ marginTop: 20, marginBottom: 30 }}>
               <Text
                 style={[
                   styles.productCardContentItemLeft,
                   {
-                    fontSize: 20,
+                    fontSize: 16,
                     marginBottom: 20,
-                    fontWeight: "800",
-                    fontFamily: "Poppins",
+                    fontWeight: "600",
+                    fontFamily: "Montserrat",
                     letterSpacing: -0.35644,
                     color: colors.greenDarkDarkColor,
                   },
@@ -38,6 +38,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
 
               <TextInputMask
                 type={"money"}
+                autoFocus={true}
                 options={{
                   precision: 0,
                   //   separator: ",",
@@ -45,6 +46,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                   unit: "₦",
                   suffixUnit: "",
                 }}
+                placeholder="0"
                 value={amount}
                 onChangeText={(text) => {
                   setAmount(text);
@@ -60,11 +62,11 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
               style={[
                 styles.productCardContentItemLeft,
                 {
-                  fontSize: 20,
+                  fontSize: 16,
                   marginBottom: 15,
-                  fontWeight: "700",
+                  fontWeight: "600",
                   color: colors.greenDarkDarkColor,
-                  fontFamily: "Poppins",
+                  fontFamily: "Montserrat",
                   letterSpacing: -0.35644,
                 },
               ]}
@@ -102,7 +104,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                     <Text
                       style={[
                         styles.productCardContentItemRight,
-                        { fontWeight: "700", color: "rgb(63, 156, 243)", fontSize: 16 },
+                        { fontWeight: "600", color: colors.greenColor, fontSize: 16 },
                       ]}
                     >
                       {bank ? bank?.bankName : "Select bank"}
@@ -110,7 +112,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                     <Text
                       style={[
                         styles.productCardContentItemRight,
-                        { fontWeight: "700", color: "rgb(63, 156, 243)", fontSize: 18 },
+                        { fontWeight: "600", color: colors.greenColor, fontSize: 18 },
                       ]}
                     >
                       {bank ? bank?.accountNumber : null}
@@ -120,7 +122,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                   <Icon
                     name="chevron-right"
                     size={53}
-                    style={[styles.modalHeaderIcon, { color: "rgb(63, 156, 243)", fontSize: 23, marginRight: 0 }]}
+                    style={[styles.modalHeaderIcon, { color: colors.greenColor, fontSize: 23, marginRight: 0 }]}
                   />
                 </View>
               </TouchableOpacity>
@@ -131,11 +133,11 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
               style={[
                 styles.productCardContentItemLeft,
                 {
-                  fontSize: 20,
+                  fontSize: 16,
                   marginBottom: 15,
-                  fontWeight: "700",
+                  fontWeight: "600",
                   color: colors.greenDarkDarkColor,
-                  fontFamily: "Poppins",
+                  fontFamily: "Montserrat",
                   letterSpacing: -0.35644,
                 },
               ]}
@@ -173,7 +175,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                     <Text
                       style={[
                         styles.productCardContentItemRight,
-                        { fontWeight: "700", color: "rgb(63, 156, 243)", fontSize: 16 },
+                        { fontWeight: "600", color: colors.greenColor, fontSize: 16 },
                       ]}
                     >
                       {selectedWallet ? selectedWallet?.name : "Select Wallet"}
@@ -182,7 +184,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                       <Text
                         style={[
                           styles.productCardContentItemRight,
-                          { fontWeight: "700", color: "rgb(63, 156, 243)", fontSize: 18 },
+                          { fontWeight: "600", color: colors.greenColor, fontSize: 18 },
                         ]}
                       >
                         {selectedWallet ? "₦ " + addComma(selectedWallet?.amount) : "Switch wallet"}
@@ -193,7 +195,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                   <Icon
                     name="chevron-right"
                     size={53}
-                    style={[styles.modalHeaderIcon, { color: "rgb(63, 156, 243)", fontSize: 23, marginRight: 0 }]}
+                    style={[styles.modalHeaderIcon, { color: colors.greenColor, fontSize: 23, marginRight: 0 }]}
                   />
                 </View>
               </TouchableOpacity>
@@ -210,7 +212,7 @@ export default FAmount;
 const styles = StyleSheet.create({
   productContainer: {
     width: screenWidth,
-    height: screenHeight,
+    // height: screenHeight,
     flex: 1,
     alignItems: "center",
   },

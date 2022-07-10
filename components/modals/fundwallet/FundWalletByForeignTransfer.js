@@ -1,5 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { SafeAreaView, TouchableOpacity, Text, StyleSheet, View, Image, ScrollView, Dimensions } from "react-native";
+import {
+  SafeAreaView,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  View,
+  Image,
+  ScrollView,
+  Dimensions,
+  StatusBar,
+} from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import { useDispatch, useSelector } from "react-redux";
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
@@ -69,12 +79,19 @@ const FundWalletByForeignTransfer = () => {
   //   draggable={false}
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: "#fff" }]}>
+      {modal && (
+        <View>
+          <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
+        </View>
+      )}
       <BottomSheet
         ref={bottomSheetRef}
         draggable={false}
         onClose={() => closeFundModal()}
         onRequestClose={() => closeFundModal()}
         height={height}
+        sheetBackgroundColor="#fff"
+        radius={1}
       >
         <View style={[styles.modalHeader]}>
           <Icon
@@ -89,7 +106,10 @@ const FundWalletByForeignTransfer = () => {
         <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 12 }}>
           <View style={{ marginBottom: 40, marginTop: 0 }}>
             <Text
-              style={[globalStyles.label, { fontSize: 22, textAlign: "left", marginBottom: 10, fontWeight: "900" }]}
+              style={[
+                globalStyles.label,
+                { fontSize: 22, textAlign: "left", marginBottom: 10, fontWeight: "600", fontFamily: "PoppinsBold" },
+              ]}
             >
               Bank transfer (USD/EUR/GBP)
             </Text>
@@ -126,7 +146,7 @@ const FundWalletByForeignTransfer = () => {
                       //   textAlign: "left",
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontWeight: "700", fontSize: 19, color: colors.greenColor }]}>
+                    <Text style={[globalStyles.label, { fontWeight: "600", fontSize: 19, color: colors.greenColor }]}>
                       {item.currency}
                     </Text>
                     <View style={{ alignItems: "flex-end" }}>

@@ -21,7 +21,7 @@ import { getUserReferrals } from "../store/referrals/actions";
 import { getAllUserBankAccounts } from "../store/bank/actions";
 import { getUserWalletBalance, getWalletOptions } from "../store/wallet/actions";
 import { getAccountMangager } from "../store/accountManager/actions";
-import { getAirtimeDataProvidersPlans, getCableTVProviders } from "../store/utilities/actions";
+import { getAirtimeDataProvidersPlans, getCableTVProviders, otherFunctions } from "../store/utilities/actions";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -128,17 +128,19 @@ const Home = ({ navigation }) => {
 
       // console.log(response?.data?.data);
 
-      dispatch(fetchAllInvestment(user?.code));
-      dispatch(getMyInvestments(user?.code));
-      dispatch(getUserSavings(user?.code));
-      dispatch(getSavingsMainCategories(user?.code));
-      dispatch(getUserReferrals(user?.code));
-      dispatch(getAccountMangager(user?.code));
-      dispatch(getAllUserBankAccounts(user?.code));
-      dispatch(getUserWalletBalance(user?.code));
-      dispatch(getWalletOptions(user?.code));
-      dispatch(getAirtimeDataProvidersPlans(user?.code));
-      dispatch(getCableTVProviders(user?.code));
+      dispatch(otherFunctions());
+
+      // dispatch(fetchAllInvestment(user?.code));
+      // dispatch(getMyInvestments(user?.code));
+      // dispatch(getUserSavings(user?.code));
+      // dispatch(getSavingsMainCategories(user?.code));
+      // dispatch(getUserReferrals(user?.code));
+      // dispatch(getAccountMangager(user?.code));
+      // dispatch(getAllUserBankAccounts(user?.code));
+      // dispatch(getUserWalletBalance(user?.code));
+      // dispatch(getWalletOptions(user?.code));
+      // dispatch(getAirtimeDataProvidersPlans(user?.code));
+      // dispatch(getCableTVProviders(user?.code));
     });
   }, []);
 

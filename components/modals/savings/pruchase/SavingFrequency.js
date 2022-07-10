@@ -14,12 +14,12 @@ const SavingFrequency = ({ frequency, setFrequency, payload, item, allFrequencie
           style={[
             styles.productCardContentItemLeft,
             {
-              fontSize: 29,
-              marginBottom: 35,
-              fontWeight: "700",
-              color: colors.greenDarkDarkColor,
-              fontFamily: "Poppins",
+              fontSize: 23,
+              marginBottom: 20,
+              fontWeight: "600",
+              fontFamily: "Montserrat",
               letterSpacing: -0.35644,
+              color: colors.greenDarkDarkColor,
             },
           ]}
         >
@@ -36,7 +36,7 @@ const SavingFrequency = ({ frequency, setFrequency, payload, item, allFrequencie
               fontSize: 20,
               fontFamily: "Poppins",
               letterSpacing: -0.35644,
-              marginTop: 10,
+              paddingTop: 10,
               marginBottom: 40,
             }}
             onPress={(value) => {

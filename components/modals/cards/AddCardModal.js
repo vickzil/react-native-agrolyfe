@@ -132,11 +132,11 @@ const styles = StyleSheet.create({
 
   modalHeaderText: {
     fontStyle: "normal",
-    fontWeight: "700",
+    fontWeight: "600",
     fontSize: 20,
     lineHeight: 29,
     marginBottom: 0,
-    fontFamily: "Poppins",
+    fontFamily: "PoppinsBold",
     letterSpacing: -0.35644,
     color: "#333",
   },

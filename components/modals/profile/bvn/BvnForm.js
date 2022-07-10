@@ -17,7 +17,16 @@ const BvnForm = () => {
         }}
       >
         <Text
-          style={[styles.label, { fontWeight: "700", fontSize: 22, textAlign: "center", color: colors.greenColor }]}
+          style={[
+            styles.label,
+            {
+              fontWeight: "600",
+              fontSize: 22,
+              textAlign: "center",
+              color: colors.greenColor,
+              fontFamily: "PoppinsBold",
+            },
+          ]}
         >
           Why do we need your BVN ?
         </Text>
@@ -72,9 +81,9 @@ const BvnForm = () => {
             dispatch(setAddbvnModal(true));
             dispatch(setBvnModal(false));
           }}
-          style={globalStyles.button}
+          style={[globalStyles.button, { fontFamily: "PoppinsBold" }]}
         >
-          <Text style={globalStyles.buttonText}>Add Bvn</Text>
+          <Text style={[globalStyles.buttonText, { fontFamily: "PoppinsBold" }]}>Add Bvn</Text>
         </TouchableOpacity>
       </View>
     </View>

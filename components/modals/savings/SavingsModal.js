@@ -4,6 +4,7 @@ import {
   FlatList,
   Modal,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -36,6 +37,11 @@ const SavingsModal = () => {
         dispatch(setSavingsModal(false));
       }}
     >
+      {modal && (
+        <View>
+          <StatusBar backgroundColor={colors.greenDarkColor} barStyle={"light-content"} />
+        </View>
+      )}
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
@@ -88,11 +94,11 @@ const styles = StyleSheet.create({
 
   modalHeaderText: {
     fontStyle: "normal",
-    fontWeight: "700",
+    fontWeight: "600",
     fontSize: 19,
     lineHeight: 29,
     marginBottom: 0,
-    fontFamily: "Montserrat",
+    fontFamily: "PoppinsBold",
     color: "#fff",
     marginLeft: -45,
   },

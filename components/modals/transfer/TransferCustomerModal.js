@@ -20,16 +20,16 @@ import {
   setSubCategorySavingsModal,
   setTransferToCustomerModal,
 } from "../../../store/alert/alertSlice";
-import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import axios from "axios";
 import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import ScreenLoading from "../../loader/ScreenLoading";
+import FName from "./toCustomer/FName";
 import FAmount from "./toCustomer/FAmount";
 import FSummary from "./toCustomer/FSummary";
 import FConfirm from "./toCustomer/FConfirm";
-import HeaderBalance from "../../extra/HeaderBalance";
+import { removeAtFromString } from "../../helpers/globalFunction";
 import { addComma } from "../../helpers/globalFunction";
 import { getUserInfo } from "../../../store/auth/actions";
 import { getUserWalletBalance } from "../../../store/wallet/actions";
@@ -50,9 +50,11 @@ const TransferCustomerModal = () => {
 
   const [step, setStep] = useState(1);
   const [amount, setAmount] = useState(null);
+  const [userName, setUserName] = useState("");
+  const [calculatedUser, setCalculatedUser] = useState(null);
   const [summaryDetails, setSummaryDetails] = useState(null);
-  const [pin, setPin] = useState(false);
-  const [buttonText, setButtonText] = useState("Proceed");
+  const [pin, setPin] = useState(null);
+  const [buttonText, setButtonText] = useState("Search User");
   const [emptyFields, setEmptyFields] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [screenLoading, setScreenLoading] = useState({
@@ -79,11 +81,22 @@ const TransferCustomerModal = () => {
       status: false,
       message: "",
     });
-    setPin(false);
+    setPin(null);
+    setCalculatedUser(null);
+    setUserName("");
   };
 
   useEffect(() => {
     if (step === 1) {
+      if (!userName) {
+        setEmptyFields(true);
+
+        return;
+      }
+
+      setEmptyFields(false);
+    }
+    if (step === 2) {
       if (!amount) {
         setEmptyFields(true);
 
@@ -99,11 +112,11 @@ const TransferCustomerModal = () => {
       setEmptyFields(false);
     }
 
-    if (step === 2) {
+    if (step === 3) {
       setEmptyFields(false);
     }
 
-    if (step === 3) {
+    if (step === 4) {
       if (!pin) {
         setEmptyFields(true);
 
@@ -112,7 +125,7 @@ const TransferCustomerModal = () => {
 
       setEmptyFields(false);
     }
-  }, [step, amount, pin, modal]);
+  }, [step, amount, pin, modal, userName]);
 
   const previousStep = () => {
     if (isLoading) {
@@ -129,14 +142,20 @@ const TransferCustomerModal = () => {
     }
     if (step === 2) {
       setStep(1);
-      setButtonText("Proceed");
+      setButtonText("Continue");
       scrollViewRef2.current?.scrollTo({ x: 0, y: 0, animated: true });
       return;
     }
     if (step === 3) {
       setStep(2);
-      setButtonText("Proceed");
+      setButtonText("Continue");
       scrollViewRef2.current?.scrollTo({ x: width, y: 0, animated: true });
+      return;
+    }
+    if (step === 4) {
+      setStep(3);
+      setButtonText("Continue");
+      scrollViewRef2.current?.scrollTo({ x: width * 2, y: 0, animated: true });
       return;
     }
   };
@@ -147,25 +166,102 @@ const TransferCustomerModal = () => {
     setTimeout(() => {
       setIsLoading(false);
       if (step === 1) {
-        setStep(2);
-        // setButtonText("Submit");
-        scrollViewRef2.current?.scrollTo({ x: width, y: 0, animated: true });
-
+        searchUser();
         return;
       }
       if (step === 2) {
         setStep(3);
-        setButtonText("Submit");
+
         scrollViewRef2.current?.scrollTo({ x: width * 2, y: 0, animated: true });
         // closeModal();
       }
-
       if (step === 3) {
+        setStep(4);
+        setButtonText("Submit");
+        scrollViewRef2.current?.scrollTo({ x: width * 3, y: 0, animated: true });
+        // closeModal();
+      }
+
+      if (step === 4) {
         initiateTransfer();
 
         // closeModal();
       }
     }, 400);
+  };
+
+  const removeUser = () => {
+    setEmptyFields(true);
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setUserName("");
+      setButtonText("Search");
+      setIsLoading(false);
+      setCalculatedUser(null);
+    }, 500);
+  };
+
+  const searchUser = () => {
+    setEmptyFields(true);
+    setIsLoading(true);
+    let inputUserName = removeAtFromString(userName).trim();
+
+    let newPayload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      UserName: inputUserName.toLowerCase(),
+    };
+
+    console.log(newPayload);
+
+    axios
+      .post(`${baseURL}/v1.0/User/getUserInfoByUserName`, newPayload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        if (response?.data?.success == true) {
+          setEmptyFields(false);
+          setCalculatedUser(response?.data?.data);
+          setIsLoading(false);
+          setButtonText("Continue");
+
+          setStep(2);
+          scrollViewRef2.current?.scrollTo({ x: width, y: 0, animated: true });
+        } else {
+          setButtonText("Search");
+          setIsLoading(false);
+          setCalculatedUser(null);
+          setEmptyFields(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setButtonText("Search");
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   const initiateTransfer = () => {
@@ -184,12 +280,12 @@ const TransferCustomerModal = () => {
       Amount: newAmount,
       PIN: pin,
       DebitUserCode: user?.code,
-      CreditUserCode: modal?.user?.code,
+      CreditUserCode: calculatedUser?.code,
       Narration: "",
       AdditionalInfo: "",
     };
 
-    console.log(newPayload);
+    // console.log(newPayload);
 
     axios
       .post(`${baseURL}/v1.0/Withdrawal/fundsTransfer`, newPayload, {
@@ -213,7 +309,7 @@ const TransferCustomerModal = () => {
               payload: {
                 amount: newAmount,
                 message:
-                  "Transfer of NGN " + addComma(newAmount) + " to " + modal?.user?.firstName + " Was successfull",
+                  "Transfer of NGN " + addComma(newAmount) + " to " + calculatedUser?.firstName + " Was successfull",
               },
             }),
           );
@@ -266,9 +362,11 @@ const TransferCustomerModal = () => {
       onRequestClose={() => previousStep()}
       style={{ flex: 1, backgroundColor: "#fff" }}
     >
-      <View>
-        <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
-      </View>
+      {modal?.status && (
+        <View>
+          <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
+        </View>
+      )}
       <ScreenLoading visibility={screenLoading} />
 
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -290,8 +388,8 @@ const TransferCustomerModal = () => {
                 style={[styles.modalHeaderIcon, { color: "#111" }]}
                 onPress={() => previousStep()}
               />
-              <Text style={[styles.modalHeaderText, { color: "#222" }]}>
-                Transfer to {modal?.user?.firstName || "user"}
+              <Text style={[styles.modalHeaderText, { color: "#222", fontWeight: "600", fontFamily: "PoppinsBold" }]}>
+                Transfer to {modal?.user?.firstName || "Customer"}
               </Text>
             </View>
 
@@ -305,9 +403,16 @@ const TransferCustomerModal = () => {
             style={{ padding: 10 }}
             showsHorizontalScrollIndicator={false}
           >
-            <FAmount amount={amount} setAmount={setAmount} calculatedUser={modal?.user} />
-            <FSummary amount={amount} calculatedUser={modal?.user} />
-            <FConfirm pin={pin} setPin={setPin} step={step} calculatedUser={modal?.user} />
+            <FName
+              userName={userName}
+              setUserName={setUserName}
+              calculatedUser={calculatedUser}
+              setCalculatedUser={setCalculatedUser}
+              removeUser={removeUser}
+            />
+            <FAmount amount={amount} setAmount={setAmount} calculatedUser={calculatedUser} />
+            <FSummary amount={amount} calculatedUser={calculatedUser} />
+            <FConfirm pin={pin} setPin={setPin} step={step} calculatedUser={calculatedUser} />
           </ScrollView>
 
           <View

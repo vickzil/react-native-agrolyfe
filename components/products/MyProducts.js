@@ -52,11 +52,10 @@ const MyProducts = () => {
                 style={[
                   globalStyles.siteTitle,
                   {
-                    fontWeight: "800",
+                    fontWeight: "600",
                     fontSize: 22,
                     textTransform: "capitalize",
-                    fontFamily: "MontserratBold",
-
+                    fontFamily: "PoppinsBold",
                     textAlign: "center",
                     width: "100%",
                   },

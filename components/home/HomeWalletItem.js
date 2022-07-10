@@ -107,12 +107,13 @@ const styles = StyleSheet.create({
 
   cardHeading: {
     fontWeight: "500",
-    fontSize: 17,
+    fontSize: 15,
     textAlign: "center",
     letterSpacing: -0.35644,
     color: "rgba(24, 133, 111, 0.54)",
     marginBottom: 7,
     textAlign: "left",
+    fontFamily: "PoppinsBold",
   },
 
   paragraph: {

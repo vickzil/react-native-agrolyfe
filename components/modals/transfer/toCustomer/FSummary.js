@@ -41,7 +41,7 @@ const FSummary = ({ calculatedUser, amount }) => {
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>To</Text>
                   <Text style={styles.productCardContentItemRight}>
-                    {calculatedUser.firstName + " " + calculatedUser.lastName}
+                    {calculatedUser?.firstName + " " + calculatedUser?.lastName}
                   </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
@@ -60,7 +60,7 @@ const FSummary = ({ calculatedUser, amount }) => {
 const styles = StyleSheet.create({
   productContainer: {
     width: screenWidth,
-    height: screenHeight,
+    // height: screenHeight,
     flex: 1,
     alignItems: "center",
   },

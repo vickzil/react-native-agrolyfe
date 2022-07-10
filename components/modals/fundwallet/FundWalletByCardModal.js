@@ -187,7 +187,7 @@ const FundWalletByCardModal = () => {
               style={[styles.modalHeaderIcon, { color: "#fff" }]}
               onPress={() => previousStep()}
             />
-            <Text style={styles.modalHeaderText}>Fund wallet By Card</Text>
+            <Text style={[styles.modalHeaderText, { fontWeight: "600" }]}>Fund wallet By Card</Text>
           </View>
 
           <ScrollView

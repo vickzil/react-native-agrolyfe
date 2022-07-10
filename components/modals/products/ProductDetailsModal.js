@@ -10,18 +10,23 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setMakeInvestmentModal, setProductDetailsModal } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FlatListSlider from "../../customs/flatListSlider";
 import { globalStyles } from "../../../styles/global";
+import { addComma } from "../../helpers/globalFunction";
 const { width } = Dimensions.get("screen");
 
 const ProductDetailsModal = () => {
   const modal = useSelector((state) => state.alert.productDetailsModal);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log(modal?.payload);
+  }, [modal]);
 
   const closeModal = () => {
     dispatch(
@@ -89,10 +94,14 @@ const ProductDetailsModal = () => {
         </View>
         <View style={styles.bodyTopContainer}>
           <View style={styles.bodyTopCard}>
-            <Text style={[styles.productDetailsBodyProductName]}>{modal?.payload?.name}</Text>
+            <Text style={[styles.productDetailsBodyProductName, { color: "#fff", textTransform: "capitalize" }]}>
+              {modal?.payload?.name}
+            </Text>
             <View style={[styles.productDetailsBodyNameRate, { marginTop: 20 }]}>
-              <Text style={[styles.productDetailsBodyLabel, { fontSize: 17, fontWeight: "500" }]}>Rental fee (%) </Text>
-              <Text style={[styles.productDetailsBodyLabel, { fontSize: 20, fontWeight: "800" }]}>
+              <Text style={[styles.productDetailsBodyLabel, { fontSize: 17, fontWeight: "500", color: "#fff" }]}>
+                Rental fee (%){" "}
+              </Text>
+              <Text style={[styles.productDetailsBodyLabel, { fontSize: 20, fontWeight: "800", color: "#fff" }]}>
                 {modal?.payload?.newInterestRate}%
               </Text>
             </View>
@@ -101,20 +110,48 @@ const ProductDetailsModal = () => {
         <ScrollView style={styles.productDetailsBody} showsVerticalScrollIndicator={false}>
           <View style={styles.productDetailsBodyContainer}>
             <View style={styles.productCardContentItem}>
+              <Text style={styles.productCardContentItemLeft}>Price Per Acre</Text>
+              <Text style={styles.productCardContentItemRight}>
+                ₦{" "}
+                {modal?.payload ? addComma(modal?.payload?.pricePerUnit) + " " + modal?.payload?.unitOfMeasurement : 0}{" "}
+              </Text>
+            </View>
+            <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>Duration</Text>
               <Text style={styles.productCardContentItemRight}>{modal?.payload?.duration} Months</Text>
+            </View>
+
+            <View style={styles.productCardContentItem}>
+              <Text style={styles.productCardContentItemLeft}>Min Amount</Text>
+              <Text style={styles.productCardContentItemRight}>
+                ₦ {modal?.payload ? addComma(modal?.payload?.minimumAmount) : 0}{" "}
+              </Text>
+            </View>
+            <View style={styles.productCardContentItem}>
+              <Text style={styles.productCardContentItemLeft}>Max Amount</Text>
+              <Text style={styles.productCardContentItemRight}>
+                ₦ {modal?.payload ? addComma(modal?.payload?.maximumAmount) : 0}{" "}
+              </Text>
+            </View>
+            <View style={styles.productCardContentItem}>
+              <Text style={styles.productCardContentItemLeft}>Country</Text>
+              <Text style={styles.productCardContentItemRight}>
+                {modal?.payload && modal?.payload?.country === "NG" ? "Nigeria" : modal?.payload?.country}
+              </Text>
             </View>
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>State</Text>
               <Text style={styles.productCardContentItemRight}>{modal?.payload?.state}</Text>
             </View>
-            <Text style={styles.productDetailsBodyLabel}>Description</Text>
+            <Text style={[styles.productDetailsBodyLabel, { fontWeight: "600", fontFamily: "PoppinsBold" }]}>
+              Description
+            </Text>
             <Text style={styles.productDetailsBodyDesc}>{modal?.payload?.description}</Text>
           </View>
         </ScrollView>
         <View style={[globalStyles.buttonFloat, { marginTop: 50 }]}>
           <TouchableOpacity style={{}} onPress={() => showMakeInvestmentModal()}>
-            <View style={[styles.productButton, { backgroundColor: colors.greenColor, marginTop: 10 }]}>
+            <View style={[styles.productButton, { backgroundColor: colors.greenDarkColor, marginTop: 10 }]}>
               <Text style={styles.buttonText}>Purchase product</Text>
             </View>
           </TouchableOpacity>
@@ -178,11 +215,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 5,
-    backgroundColor: "#f1f1f1",
-    marginTop: -40,
+    backgroundColor: colors.greenDarkColor,
+    marginTop: -80,
     zIndex: 60,
-    borderWidth: 1,
-    borderColor: colors.greenDarkDarkColor,
+    elevation: 1,
   },
 
   productDetailsBodyContainer: {

@@ -40,7 +40,7 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
       </POPUpModal>
       <View style={{ marginTop: 0, marginBottom: 10, width: "95%", paddingRight: 10 }}>
         <View>
-          <View style={{ marginTop: 20, marginBottom: 30 }}>
+          <View style={{ marginTop: 30, marginBottom: 30 }}>
             <View style={{ justifyContent: "center", alignItems: "center", marginTop: 0 }}>
               <View style={globalStyles.accountImage}>
                 <Image
@@ -51,7 +51,9 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
               </View>
 
               <Text style={globalStyles.accountUserFullName}>{payload?.name}</Text>
-              <Text style={globalStyles.accountTitle}>{payload?.newInterestRate}% Rental Fee</Text>
+              <Text style={[globalStyles.accountTitle, { fontWeight: "600", fontFamily: "PoppinsBold", fontSize: 22 }]}>
+                {payload?.newInterestRate}% Rental Fee
+              </Text>
             </View>
           </View>
           <View style={{ marginTop: 40, alignItems: "center" }}>
@@ -80,18 +82,24 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
                 unit: "₦",
                 suffixUnit: "",
               }}
+              placeholder="0"
               value={amount}
               onChangeText={(text) => {
                 setAmount(text);
               }}
               style={[
                 {
-                  borderBottomWidth: 1,
+                  width: "80%",
+                  height: 55,
+                  // backgroundColor: "#fff",
+                  flexDirection: "row",
+                  paddingHorizontal: 15,
+                  borderBottomWidth: 2,
                   borderColor: colors.greenColor,
-                  height: 50,
+                  alignItems: "center",
+                  borderRadius: 8,
                   fontSize: 33,
                   fontWeight: "700",
-                  width: "100%",
                   textAlign: "center",
                 },
               ]}

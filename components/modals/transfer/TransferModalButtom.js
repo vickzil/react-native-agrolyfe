@@ -6,7 +6,7 @@ import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { setSelectBankModal } from "../../../store/alert/alertSlice";
+import { setSelectBankModal, setTransferToCustomerModal } from "../../../store/alert/alertSlice";
 import CustomerModalButtom from "./CustomerModalButtom";
 
 const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
@@ -28,13 +28,20 @@ const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
   };
 
   const transferToCustomer = () => {
-    searchCustomerModal.current.show();
+    // searchCustomerModal.current.show();
     closeTransferModal();
+
+    dispatch(
+      setTransferToCustomerModal({
+        status: true,
+        user: null,
+      }),
+    );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <CustomerModalButtom bottomSheet={searchCustomerModal} closeModal={closeCustomerModal} />
+      {/* <CustomerModalButtom bottomSheet={searchCustomerModal} closeModal={closeCustomerModal} /> */}
       <BottomSheet hasDraggableIcon ref={bottomSheet} height={300} onRequestClose={() => closeTransferModal()}>
         <View style={styles.accountTabs}>
           <TouchableOpacity

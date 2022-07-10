@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   Dimensions,
+  Keyboard,
   StyleSheet,
   Switch,
   Text,
@@ -59,12 +60,17 @@ const FConfirm = ({ pin, setPin, step }) => {
           }}
           onComplete={(value) => {
             setPin(value);
+            Keyboard.dismiss();
           }}
         />
 
-        <View style={styles.resendPinContainer}>
-          <TouchableOpacity style={styles.resendPinButton} activeOpacity={0.3} onPress={() => sendTransactionPin()}>
-            <View style={styles.resendPinFlex}>
+        <View style={globalStyles.resendPinContainer}>
+          <TouchableOpacity
+            style={globalStyles.resendPinButton}
+            activeOpacity={0.3}
+            onPress={() => sendTransactionPin()}
+          >
+            <View style={globalStyles.resendPinFlex}>
               {resendPinLoading === true ? (
                 <ActivityIndicator size="small" color="#14961E" style={{ marginRight: 6 }} />
               ) : (
@@ -97,24 +103,5 @@ const styles = StyleSheet.create({
     marginRight: 15,
     fontFamily: "Poppins",
     letterSpacing: -0.35644,
-  },
-
-  resendPinContainer: {
-    marginTop: 90,
-  },
-
-  resendPinButton: {
-    backgroundColor: "#fff",
-    color: "#222",
-    paddingHorizontal: 28,
-    paddingVertical: 10,
-    borderRadius: 20,
-    borderWidth: 1.5,
-    borderColor: colors.greenColor,
-  },
-
-  resendPinFlex: {
-    flexDirection: "row",
-    alignItems: "center",
   },
 });

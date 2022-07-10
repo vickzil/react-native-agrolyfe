@@ -9,8 +9,8 @@ export const globalStyles = StyleSheet.create({
   },
   siteTitle: {
     fontFamily: "Poppins",
-    letterSpacing: -0.35644,
-    fontWeight: "800",
+    // letterSpacing: -0.35644,
+    fontWeight: "600",
     fontSize: 13,
     color: "#555",
     marginBottom: 5,
@@ -22,7 +22,7 @@ export const globalStyles = StyleSheet.create({
     fontSize: 16,
     color: "#444",
     marginBottom: 10,
-    fontFamily: "Poppins",
+    fontFamily: "PoppinsBold",
     letterSpacing: -0.35644,
   },
 
@@ -158,5 +158,25 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#e79b0e",
     marginLeft: 5,
+  },
+
+  resendPinContainer: {
+    marginTop: 90,
+  },
+
+  resendPinButton: {
+    backgroundColor: "#fff",
+    color: "#222",
+    paddingHorizontal: 28,
+    paddingVertical: 10,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: colors.greenColor,
+  },
+
+  resendPinFlex: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });

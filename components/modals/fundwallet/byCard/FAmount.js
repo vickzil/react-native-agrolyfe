@@ -22,10 +22,10 @@ const FAmount = ({ amount, setAmount, card }) => {
               style={[
                 styles.productCardContentItemLeft,
                 {
-                  fontSize: 20,
+                  fontSize: 16,
                   marginBottom: 20,
-                  fontWeight: "800",
-                  fontFamily: "Poppins",
+                  fontWeight: "600",
+                  fontFamily: "Montserrat",
                   letterSpacing: -0.35644,
                   color: colors.greenDarkDarkColor,
                 },
@@ -36,6 +36,7 @@ const FAmount = ({ amount, setAmount, card }) => {
 
             <TextInputMask
               type={"money"}
+              autoFocus={true}
               options={{
                 precision: 0,
                 //   separator: ",",
@@ -43,6 +44,7 @@ const FAmount = ({ amount, setAmount, card }) => {
                 unit: "₦",
                 suffixUnit: "",
               }}
+              placeholder="0"
               value={amount}
               onChangeText={(text) => {
                 setAmount(text);
@@ -58,11 +60,11 @@ const FAmount = ({ amount, setAmount, card }) => {
             style={[
               styles.productCardContentItemLeft,
               {
-                fontSize: 20,
+                fontSize: 16,
                 marginBottom: 15,
-                fontWeight: "700",
+                fontWeight: "600",
                 color: colors.greenDarkDarkColor,
-                fontFamily: "Poppins",
+                fontFamily: "Montserrat",
                 letterSpacing: -0.35644,
               },
             ]}
@@ -97,7 +99,7 @@ const FAmount = ({ amount, setAmount, card }) => {
                   <Text
                     style={[
                       styles.productCardContentItemRight,
-                      { fontWeight: "700", color: "rgb(63, 156, 243)", fontSize: 16 },
+                      { fontWeight: "600", color: colors.greenColor, fontSize: 16 },
                     ]}
                   >
                     {card ? card?.cardBankName : "Select card"} {card ? " - " + card?.cardLast4 : null}
@@ -106,7 +108,7 @@ const FAmount = ({ amount, setAmount, card }) => {
                     <Text
                       style={[
                         styles.productCardContentItemRight,
-                        { fontWeight: "700", color: "rgb(63, 156, 243)", fontSize: 15 },
+                        { fontWeight: "600", color: colors.greenColor, fontSize: 15 },
                       ]}
                     >
                       switch card
@@ -117,7 +119,7 @@ const FAmount = ({ amount, setAmount, card }) => {
                 <Icon
                   name="chevron-right"
                   size={53}
-                  style={[styles.modalHeaderIcon, { color: "rgb(63, 156, 243)", fontSize: 23, marginRight: 0 }]}
+                  style={[styles.modalHeaderIcon, { color: colors.greenColor, fontSize: 23, marginRight: 0 }]}
                 />
               </View>
             </TouchableOpacity>

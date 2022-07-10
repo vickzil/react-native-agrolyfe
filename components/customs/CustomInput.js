@@ -32,14 +32,15 @@ const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...
             setIsFocused(false);
           }}
           style={{
-            color: "gray",
+            color: "#333",
             flex: 1,
-            fontSize: 19,
             fontWeight: "600",
             fontFamily: "Poppins",
             letterSpacing: -0.35644,
             height: "100%",
             padding: 0,
+            fontSize: 19,
+            fontWeight: "700",
           }}
           {...props}
         />

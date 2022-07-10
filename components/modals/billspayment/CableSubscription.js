@@ -305,7 +305,9 @@ const CableSubscription = () => {
                 style={[styles.modalHeaderIcon, { color: "#fff" }]}
                 onPress={() => previousStep()}
               />
-              <Text style={styles.modalHeaderText}>Cable subscription</Text>
+              <Text style={[styles.modalHeaderText, { fontWeight: "600", fontFamily: "PoppinsBold" }]}>
+                Cable subscription
+              </Text>
             </View>
 
             <HeaderBalance />

@@ -205,7 +205,9 @@ const CustomerModalButtom = ({ bottomSheet, closeModal }) => {
                 <TextInput
                   value={userName}
                   autoFocus={true}
-                  onChangeText={(text) => setUserName(text)}
+                  autoCapitalize="none"
+                  selectionColor="#f8f8f8"
+                  onChangeText={(text) => setUserName(text.replace(/\s/g, ""))}
                   autoCorrect={false}
                   style={[globalStyles.inputTextt, styles.inputField]}
                 />

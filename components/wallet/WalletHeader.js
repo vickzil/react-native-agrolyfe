@@ -1,22 +1,14 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StyleSheet, View } from "react-native";
+
 import WalletOverview from "./WalletOverview";
 import HeaderImageTop from "./HeaderImageTop";
 const WalletHeader = ({ navigation }) => {
-  const user = require("../../assets/img/user.jpg");
-
-  const logout = () => {
-    // AsyncStorage.setItem("user", JSON.stringify({ ...userDetails, loggedIn: false }));
-    navigation.navigate("Login");
-    // console.log(this.props);
-  };
-
   return (
     <View style={styles.homeHeader}>
       <View style={{ marginBottom: 20, marginTop: 20 }}>
         <HeaderImageTop />
+        {/* <ReloadButton /> */}
       </View>
       <View>
         <WalletOverview />

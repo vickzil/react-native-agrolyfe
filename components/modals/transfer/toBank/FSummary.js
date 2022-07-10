@@ -11,7 +11,7 @@ const FSummary = ({ amount, selectedBank, selectedWallet }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer, { marginBottom: 50 }]}>
-        <View style={{ marginTop: 20, marginBottom: 10, width: "97%", paddingRight: 0 }}>
+        <View style={{ marginTop: 20, marginBottom: 10, width: "97%", paddingRight: 10 }}>
           <View style={styles.productCardContent}>
             <Text
               style={[
@@ -34,7 +34,7 @@ const FSummary = ({ amount, selectedBank, selectedWallet }) => {
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}> Amount</Text>
-                  <Text style={styles.productCardContentItemRight}>₦ {amount ? addComma(amount) + ".00" : 0}</Text>
+                  <Text style={styles.productCardContentItemRight}> {amount ? addComma(amount) + ".00" : 0}</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Bank</Text>
@@ -56,7 +56,7 @@ const FSummary = ({ amount, selectedBank, selectedWallet }) => {
                       { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 22 },
                     ]}
                   >
-                    ₦ {amount ? addComma(amount) + ".00" : 0}
+                    {amount ? addComma(amount) + ".00" : 0}
                   </Text>
                 </View>
               </View>
@@ -71,7 +71,7 @@ const FSummary = ({ amount, selectedBank, selectedWallet }) => {
 const styles = StyleSheet.create({
   productContainer: {
     width: screenWidth,
-    height: screenHeight,
+    // height: screenHeight,
     flex: 1,
     alignItems: "center",
   },
@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
 
   productCardContentItem: {
     flexDirection: "row",
-    paddingBottom: 25,
-    marginBottom: 20,
+    paddingBottom: 20,
+    marginBottom: 15,
     justifyContent: "space-between",
     borderBottomWidth: 1,
     borderColor: "#f0f0f0",

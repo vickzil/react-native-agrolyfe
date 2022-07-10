@@ -70,7 +70,9 @@ const BvnModal = () => {
               zIndex: 20,
             }}
           >
-            <Text style={{ color: "#fff", fontWeight: "700", fontSize: 24, textAlign: "center" }}>
+            <Text
+              style={{ color: "#fff", fontWeight: "600", fontSize: 24, textAlign: "center", fontFamily: "PoppinsBold" }}
+            >
               We need you to add your BVN to further secure your account.
             </Text>
           </View>

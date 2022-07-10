@@ -29,7 +29,7 @@ const AppStack = () => {
   const loggedInUser = useSelector((state) => state.oauth.user);
 
   useEffect(() => {
-    if (resendPinCompleted) {
+    if (resendPinCompleted === true) {
       dispatch(
         setToastModal({
           status: true,
@@ -37,6 +37,7 @@ const AppStack = () => {
         }),
       );
       setTimeout(() => {
+        dispatch(setResendPinCompleted(false));
         dispatch(
           setToastModal({
             status: false,
