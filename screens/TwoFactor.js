@@ -2,7 +2,6 @@ import { Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, View } from "reac
 import React, { useEffect, useState } from "react";
 import { KeycodeInput } from "react-native-keycode";
 import Logo from "../components/logo/Logo";
-import { globalStyles } from "../styles/global";
 import colors from "../styles/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
@@ -125,15 +124,25 @@ const TwoFactor = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
-      <ScrollView contentContainerStyle={{ paddingTop: 40, paddingHorizontal: 20, paddingBottom: 40 }}>
+      <ScrollView contentContainerStyle={{ paddingTop: 20, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
         <View style={[styles.productContainer]}>
-          <View style={{ justifyContent: "center", width: "80%", marginTop: 50, alignItems: "center" }}>
-            <Text style={[styles.productCardContentItemLeft, { fontSize: 27, fontWeight: "900", marginBottom: 4 }]}>
+          <View style={{ justifyContent: "center", width: "100%", marginTop: 0, alignItems: "center" }}>
+            <Text
+              style={[
+                styles.productCardContentItemLeft,
+                { fontSize: 27, fontWeight: "900", marginBottom: 4, color: colors.greenProductColor },
+              ]}
+            >
               Two-Factor Verification
             </Text>
             <View style={{ alignItems: "center", marginTop: 10 }}>
-              <Text style={[globalStyles.label, { fontSize: 17, textAlign: "center" }]}>
+              <Text
+                style={[
+                  // globalStyles.label,
+                  { fontSize: 17, textAlign: "center", paddingHorizontal: 40, fontWeight: "600" },
+                ]}
+              >
                 Enter your 4-digit CODE sent to your email to continue
               </Text>
             </View>
@@ -158,7 +167,7 @@ const TwoFactor = ({ navigation, route }) => {
               }}
             />
 
-            <View style={{ marginTop: 70 }}>
+            <View style={{ marginTop: 90 }}>
               <Text
                 onPress={() => navigation.navigate("Login")}
                 style={{

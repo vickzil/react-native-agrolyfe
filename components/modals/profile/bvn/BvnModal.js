@@ -28,7 +28,7 @@ const BvnModal = () => {
             },
           ]}
         >
-          <View style={[styles.modalHeader]}>
+          {/* <View style={[styles.modalHeader]}>
             <Icon
               name="window-close"
               size={33}
@@ -37,7 +37,7 @@ const BvnModal = () => {
             />
             <Text style={styles.modalHeaderText}></Text>
             <Text></Text>
-          </View>
+          </View> */}
 
           <Image
             source={banner}
@@ -64,7 +64,7 @@ const BvnModal = () => {
             style={{
               flex: 1,
               position: "absolute",
-              top: 110,
+              top: 100,
               width,
               paddingHorizontal: 30,
               zIndex: 20,

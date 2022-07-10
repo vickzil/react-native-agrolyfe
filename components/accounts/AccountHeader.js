@@ -23,6 +23,7 @@ const { width } = Dimensions.get("screen");
 
 const AccountHeader = () => {
   const user = useSelector((state) => state.oauth.user);
+  const APPVERSION = useSelector((state) => state.oauth.APPVERSION);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
@@ -185,7 +186,7 @@ const AccountHeader = () => {
         </View> */}
         <View style={[styles.accountTabs, { marginTop: 20 }]}>
           <Text style={{ color: "#999", textTransform: "uppercase", fontSize: 15 }}>
-            OXFORD AGROLYFE APP VERSION 2.12.0
+            OXFORD AGROLYFE APP VERSION {APPVERSION}
           </Text>
         </View>
       </View>

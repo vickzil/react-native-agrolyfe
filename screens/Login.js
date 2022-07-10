@@ -9,7 +9,7 @@ import CustomInput from "../components/customs/CustomInput";
 import { validEmail } from "../components/helpers/globalFunction";
 import Logo from "../components/logo/Logo";
 import { setAlertModal, setLoading } from "../store/alert/alertSlice";
-import { saveUserInfo, setHasLogin, setToken } from "../store/auth/authSlice";
+import { saveUserInfo, setHasLogin, setToken, setVerificationInfo } from "../store/auth/authSlice";
 import colors from "../styles/colors";
 import axios from "axios";
 import { getTransactionsInfo } from "../store/transactions/actions";
@@ -94,6 +94,33 @@ const Login = ({ navigation }) => {
     return response;
   };
 
+  const getVerificationInfo = (userCode) => {
+    axios
+      .post(
+        `${baseURL}/v1.0/Dashboard/getVerificationInfo`,
+        {
+          AppId: AppId,
+          RequestId: RequestId,
+          UserCode: userCode,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + bearerToken,
+          },
+        },
+      )
+      .then((response) => {
+        let data = response.data.data;
+
+        // AsyncStorage.setItem("verificationInfo", JSON.stringify(data));
+
+        console.log(data);
+
+        dispatch(setVerificationInfo(data));
+      });
+  };
+
   const handleLogin = () => {
     dispatch(
       setLoading({
@@ -150,6 +177,7 @@ const Login = ({ navigation }) => {
                 email: inputs.email,
               });
             } else {
+              getVerificationInfo(data.code);
               getUserInfos(data.code)
                 .then((response) => {
                   setUserDetails(response.data.data);

@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setAllProductModal, setMyPurchasesModal } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
@@ -17,12 +17,22 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IconSearch from "react-native-vector-icons/AntDesign";
 import { products } from "../../../constant/products";
 import ProductCard from "../../products/ProductCard";
+import { useIsFocused } from "@react-navigation/native";
 
 const { width } = Dimensions.get("screen");
 
 const AllProductsModal = () => {
   const modal = useSelector((state) => state.alert.allProductModal);
   const dispatch = useDispatch();
+
+  const scrollViewRef = useRef();
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    return () => {
+      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
+    };
+  }, [isFocused]);
 
   const handleShowMyProducts = () => {
     dispatch(setMyPurchasesModal(true));
@@ -52,7 +62,7 @@ const AllProductsModal = () => {
           />
           <Text style={styles.modalHeaderText}>All Products</Text>
         </View>
-        <ScrollView>
+        <ScrollView ref={scrollViewRef}>
           <View style={[styles.modalSearchContainer, { backgroundColor: colors.greenDarkColor }]}>
             <View style={[styles.modalSearch]}>
               <IconSearch

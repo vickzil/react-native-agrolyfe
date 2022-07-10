@@ -19,13 +19,13 @@ const AllProducts = () => {
   const loading = useSelector((state) => state.products.loading);
 
   useEffect(() => {
-    if (isFocused) {
+    return () => {
       scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
-    }
+    };
   }, [isFocused]);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
       <View style={[styles.productContainer]}>
         <View style={[styles.modalSearchContainer]}>
           {/* <View style={[styles.modalSearch]}>

@@ -5,6 +5,7 @@ import { setReferrals } from "../referrals/referralSlice";
 import { setMySavings } from "../savings/savingsSlice";
 import { saveUserTransactions } from "../transactions/transactionSlice";
 import { setUserWalletBalance } from "../wallet/walletSlice";
+import { setAdverts, setDashboardMessage, setVerificationInfo } from "./authSlice";
 
 export const getUserInfo = createAsyncThunk("oauth/getUserInfo", async (payload, { getState, dispatch }) => {
   const user = getState().oauth.user;
@@ -98,6 +99,61 @@ export const resendUserTransactionPin = createAsyncThunk(
   },
 );
 
+export const getDashBoardNotification = createAsyncThunk(
+  "oauth/getDashBoardNotification",
+  async (payload, { getState }) => {
+    const baseURL = getState().oauth.baseURL;
+    const AppId = getState().oauth.AppId;
+    const RequestId = getState().oauth.RequestId;
+    const bearerToken = getState().oauth.bearerToken;
+    const user = getState().oauth.user;
+
+    let newPayload = {
+      AppId,
+      RequestId,
+      UserCode: user.code,
+    };
+
+    return fetch(`${baseURL}/v1.0/Dashboard/dashBoardNotification`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + bearerToken,
+      },
+
+      body: JSON.stringify(newPayload),
+    }).then((res) => res.json());
+  },
+);
+
+export const getAdverts = createAsyncThunk("oauth/getAdverts", async (payload, { getState }) => {
+  const baseURL = getState().oauth.baseURL;
+  const AppId = getState().oauth.AppId;
+  const RequestId = getState().oauth.RequestId;
+  const bearerToken = getState().oauth.bearerToken;
+  const user = getState().oauth.user;
+
+  let newPayload = {
+    AppId,
+    RequestId,
+    UserCode: user.code,
+  };
+
+  return fetch(`${baseURL}/v1.0/Dashboard/adverts`, {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + bearerToken,
+    },
+
+    body: JSON.stringify(newPayload),
+  }).then((res) => res.json());
+});
+
 export const logoutAllAccount = createAsyncThunk("oauth/logoutAccount", async (payload, { dispatch }) => {
   dispatch(setUserWalletBalance(null));
   dispatch(setMySavings(null));
@@ -105,4 +161,7 @@ export const logoutAllAccount = createAsyncThunk("oauth/logoutAccount", async (p
   dispatch(setMyProducts(null));
   dispatch(setUserBankAccount(null));
   dispatch(saveUserTransactions(null));
+  dispatch(setVerificationInfo(null));
+  dispatch(setDashboardMessage(null));
+  dispatch(setAdverts(null));
 });

@@ -40,7 +40,7 @@ const BvnForm = () => {
               borderColor: "#ced4ce",
               paddingVertical: 22,
               paddingHorizontal: 12,
-              borderRadius: 4,
+              borderRadius: 7,
             },
           ]}
         >
@@ -74,17 +74,44 @@ const BvnForm = () => {
         </View>
       </View>
 
-      <View style={{ marginTop: 20, width: "100%" }}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => {
-            dispatch(setAddbvnModal(true));
-            dispatch(setBvnModal(false));
-          }}
-          style={[globalStyles.button, { fontFamily: "PoppinsBold" }]}
-        >
-          <Text style={[globalStyles.buttonText, { fontFamily: "PoppinsBold" }]}>Add Bvn</Text>
-        </TouchableOpacity>
+      <View
+        style={{
+          marginTop: 20,
+          width: "100%",
+          justifyContent: "center",
+        }}
+      >
+        <View style={{ width: "49%", alignItems: "center", flexDirection: "row" }}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              dispatch(setBvnModal(false));
+            }}
+            style={[
+              globalStyles.button,
+              {
+                fontFamily: "PoppinsBold",
+                marginRight: 10,
+                backgroundColor: "#fff",
+                borderWidth: 2,
+                borderColor: "#e8e8e8",
+              },
+            ]}
+          >
+            <Text style={[globalStyles.buttonText, { fontFamily: "PoppinsBold", color: "#222" }]}>Skip</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              dispatch(setAddbvnModal(true));
+              dispatch(setBvnModal(false));
+            }}
+            style={[globalStyles.button, { fontFamily: "PoppinsBold" }]}
+          >
+            <Text style={[globalStyles.buttonText, { fontFamily: "PoppinsBold" }]}>Continue</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

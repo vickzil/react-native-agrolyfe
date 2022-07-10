@@ -10,8 +10,8 @@ import ProductNavigator from "./ProductNavigator";
 import AllModals from "../components/modals/AllModals";
 import PageLoading from "../components/loader/PageLoading";
 import { useDispatch, useSelector } from "react-redux";
-import { getCountryInfo, getUserInfo } from "../store/auth/actions";
-import { setGreetings, setPaystackRef } from "../store/auth/authSlice";
+import { getAdverts, getCountryInfo, getDashBoardNotification, getUserInfo } from "../store/auth/actions";
+import { setGreetings, setPaystackRef, setResendPinCompleted } from "../store/auth/authSlice";
 import { getAccountMangager } from "../store/accountManager/actions";
 import { getUserWalletBalance, getWalletOptions } from "../store/wallet/actions";
 import { getAllUserBankAccounts } from "../store/bank/actions";
@@ -19,7 +19,14 @@ import { getTransactionsInfo } from "../store/transactions/actions";
 import { fetchAllInvestment, getMyInvestments } from "../store/products/actions";
 import { getUserReferrals } from "../store/referrals/actions";
 import { getSavingsMainCategories, getUserSavings } from "../store/savings/actions";
-import { setAlertModal, setLoading, setToastModal } from "../store/alert/alertSlice";
+import {
+  setAddBankModal,
+  setAlertModal,
+  setBvnModal,
+  setCreatePinModal,
+  setLoading,
+  setToastModal,
+} from "../store/alert/alertSlice";
 import { getAirtimeDataProvidersPlans, getCableTVProviders, otherGlobalFunctions } from "../store/utilities/actions";
 import axios from "axios";
 
@@ -29,6 +36,7 @@ const AppStack = () => {
   const paystackRef = useSelector((state) => state.oauth.paystackRef);
 
   const user = useSelector((state) => state.oauth.user);
+  const verificationInfo = useSelector((state) => state.oauth.verificationInfo);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
@@ -66,6 +74,7 @@ const AppStack = () => {
   useEffect(() => {
     getGreetings();
     globalFunctions();
+    checkVerifications();
   }, []);
 
   const globalFunctions = async () => {
@@ -73,6 +82,8 @@ const AppStack = () => {
     let user = JSON.parse(storedUser);
     setTimeout(() => {
       dispatch(getCountryInfo("NG"));
+      dispatch(getDashBoardNotification("NG"));
+      dispatch(getAdverts(user?.code));
       dispatch(getUserInfo(user?.code));
       dispatch(fetchAllInvestment(user?.code));
       dispatch(getMyInvestments(user?.code));
@@ -102,6 +113,28 @@ const AppStack = () => {
       dispatch(setGreetings("Good Afternoon!"));
     } else {
       dispatch(setGreetings("Good Evening!"));
+    }
+  };
+
+  const checkVerifications = () => {
+    if (verificationInfo) {
+      if (verificationInfo?.userTransactionPINOn === null) {
+        dispatch(setCreatePinModal(true));
+
+        return;
+      }
+
+      if (verificationInfo?.bvnVerifiedOn === null) {
+        dispatch(setBvnModal(true));
+
+        return;
+      }
+
+      if (verificationInfo?.userBankAccountOn === null) {
+        dispatch(setAddBankModal(true));
+
+        return;
+      }
     }
   };
 

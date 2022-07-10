@@ -11,10 +11,16 @@ const Account = ({ navigation }) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused) {
+    return () => {
       scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
-    }
+    };
   }, [isFocused]);
+
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
+  //   }
+  // }, [isFocused]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

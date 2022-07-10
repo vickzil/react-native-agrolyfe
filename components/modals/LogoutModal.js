@@ -16,7 +16,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setLoading, setLogoutModal } from "../../store/alert/alertSlice";
 import colors from "../../styles/colors";
 import { globalStyles } from "../../styles/global";
-import { saveUserInfo, setToken } from "../../store/auth/authSlice";
+import {
+  saveUserInfo,
+  setAdverts,
+  setDashboardMessage,
+  setToken,
+  setVerificationInfo,
+} from "../../store/auth/authSlice";
 import { logoutAllAccount } from "../../store/auth/actions";
 import { setUserWalletBalance } from "../../store/wallet/walletSlice";
 import { removeStorageItemValue } from "../helpers/globalFunction";
@@ -66,6 +72,9 @@ const LogoutModal = () => {
       dispatch(saveUserInfo(null));
       dispatch(logoutAllAccount());
       dispatch(setUserWalletBalance(null));
+      dispatch(setVerificationInfo(null));
+      dispatch(setDashboardMessage(null));
+      dispatch(setAdverts(null));
       dispatch(
         setLoading({
           status: false,

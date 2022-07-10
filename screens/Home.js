@@ -22,6 +22,7 @@ import { getAllUserBankAccounts } from "../store/bank/actions";
 import { getUserWalletBalance, getWalletOptions } from "../store/wallet/actions";
 import { getAccountMangager } from "../store/accountManager/actions";
 import { getAirtimeDataProvidersPlans, getCableTVProviders, otherFunctions } from "../store/utilities/actions";
+import MarqueeTextSample from "../components/extra/MarqueeTextSample";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -38,10 +39,16 @@ const Home = ({ navigation }) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused) {
+    return () => {
       scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
-    }
+    };
   }, [isFocused]);
+
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
+  //   }
+  // }, [isFocused]);
 
   useEffect(() => {
     getUserDetails();
@@ -153,8 +160,11 @@ const Home = ({ navigation }) => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
         <HomeHeader navigation={navigation} />
+
         <HomeWalletOverview />
         <View style={{ paddingHorizontal: 15, paddingBottom: 70 }}>
+          <MarqueeTextSample />
+
           <QuickMenus navigation={navigation} />
           <Transactions />
         </View>

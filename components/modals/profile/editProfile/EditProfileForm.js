@@ -193,7 +193,7 @@ const EditProfileForm = ({ handleLoading }) => {
             fontSize: 20,
             fontFamily: "Poppins",
             letterSpacing: -0.35644,
-            marginTop: 5,
+            paddingTop: 5,
             marginRight: 20,
           }}
           onPress={(value) => {

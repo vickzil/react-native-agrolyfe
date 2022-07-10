@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserInfo, getCountryInfo, resendUserTransactionPin } from "./actions";
+import { getUserInfo, getCountryInfo, resendUserTransactionPin, getDashBoardNotification, getAdverts } from "./actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
@@ -20,6 +20,9 @@ const initialState = {
   resendPinCompleted: false,
   greetings: "",
   paystackRef: null,
+  verificationInfo: null,
+  dashboardMessage: null,
+  adverts: null,
 };
 
 const authSlice = createSlice({
@@ -51,6 +54,17 @@ const authSlice = createSlice({
 
     setPaystackRef: (state, { payload }) => {
       state.paystackRef = payload;
+    },
+
+    setVerificationInfo: (state, { payload }) => {
+      state.verificationInfo = payload;
+    },
+
+    setDashboardMessage: (state, { payload }) => {
+      state.dashboardMessage = payload;
+    },
+    setAdverts: (state, { payload }) => {
+      state.adverts = payload;
     },
   },
   extraReducers: {
@@ -86,7 +100,7 @@ const authSlice = createSlice({
     [resendUserTransactionPin.fulfilled]: (state, action) => {
       state.resendPinLoading = false;
       state.resendPinCompleted = true;
-      console.log(action.payload);
+      // console.log(action.payload);
     },
 
     [resendUserTransactionPin.rejected]: (state) => {
@@ -105,6 +119,21 @@ const authSlice = createSlice({
       state.error = false;
       state.loading = false;
     },
+    [getDashBoardNotification.fulfilled]: (state, action) => {
+      let result = action.payload;
+      if (result) {
+        // console.log(action.payload.data);
+        state.dashboardMessage = result.data;
+      }
+    },
+
+    [getAdverts.fulfilled]: (state, action) => {
+      let result = action.payload;
+      if (result) {
+        // console.log(action.payload.data);
+        state.adverts = result.data;
+      }
+    },
   },
 });
 
@@ -116,6 +145,9 @@ export const {
   setGreetings,
   setResendPinCompleted,
   setPaystackRef,
+  setVerificationInfo,
+  setDashboardMessage,
+  setAdverts,
 } = authSlice.actions;
 
 export default authSlice.reducer;
