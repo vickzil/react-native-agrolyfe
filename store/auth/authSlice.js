@@ -19,6 +19,7 @@ const initialState = {
   resendPinLoading: false,
   resendPinCompleted: false,
   greetings: "",
+  paystackRef: null,
 };
 
 const authSlice = createSlice({
@@ -46,6 +47,10 @@ const authSlice = createSlice({
 
     setResendPinCompleted: (state, { payload }) => {
       state.resendPinCompleted = payload;
+    },
+
+    setPaystackRef: (state, { payload }) => {
+      state.paystackRef = payload;
     },
   },
   extraReducers: {
@@ -103,7 +108,14 @@ const authSlice = createSlice({
   },
 });
 
-export const { saveUserInfo, setToken, setHasLogin, setBearerToken, setGreetings, setResendPinCompleted } =
-  authSlice.actions;
+export const {
+  saveUserInfo,
+  setToken,
+  setHasLogin,
+  setBearerToken,
+  setGreetings,
+  setResendPinCompleted,
+  setPaystackRef,
+} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -2,11 +2,12 @@ import { Dimensions, StyleSheet, Switch, Text, TextInput, View } from "react-nat
 import React from "react";
 import { globalStyles } from "../../../../styles/global";
 import colors from "../../../../styles/colors";
+import { addComma } from "../../../helpers/globalFunction";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FConfirm = ({ isEnabled, setIsEnabled }) => {
+const FConfirm = ({ isEnabled, setIsEnabled, amount, card }) => {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   return (
@@ -27,15 +28,15 @@ const FConfirm = ({ isEnabled, setIsEnabled }) => {
             { fontSize: 28, fontWeight: "900", marginBottom: 10, color: colors.greenLightDarkColor },
           ]}
         >
-          Confirm Deposit
+          Confirm Deposit By Card
         </Text>
 
         <View style={{ alignItems: "center" }}>
-          <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center" }]}>
-            Are you sure you want to proceed
+          <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center", paddingHorizontal: 10 }]}>
+            I agree to be debited {amount ? addComma(amount) : 0} immediately from my {card?.cardBankName} card
           </Text>
         </View>
-        <View style={{ marginTop: 60 }}>
+        <View style={{ marginTop: 100 }}>
           <Switch
             trackColor={{ false: "#767577", true: colors.greenLightColor }}
             thumbColor={isEnabled ? colors.greenColor : "#f4f3f4"}

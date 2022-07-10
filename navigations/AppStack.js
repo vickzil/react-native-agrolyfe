@@ -11,7 +11,7 @@ import AllModals from "../components/modals/AllModals";
 import PageLoading from "../components/loader/PageLoading";
 import { useDispatch, useSelector } from "react-redux";
 import { getCountryInfo, getUserInfo } from "../store/auth/actions";
-import { setGreetings } from "../store/auth/authSlice";
+import { setGreetings, setPaystackRef } from "../store/auth/authSlice";
 import { getAccountMangager } from "../store/accountManager/actions";
 import { getUserWalletBalance, getWalletOptions } from "../store/wallet/actions";
 import { getAllUserBankAccounts } from "../store/bank/actions";
@@ -19,14 +19,29 @@ import { getTransactionsInfo } from "../store/transactions/actions";
 import { fetchAllInvestment, getMyInvestments } from "../store/products/actions";
 import { getUserReferrals } from "../store/referrals/actions";
 import { getSavingsMainCategories, getUserSavings } from "../store/savings/actions";
-import { setToastModal } from "../store/alert/alertSlice";
-import { getAirtimeDataProvidersPlans, getCableTVProviders } from "../store/utilities/actions";
+import { setAlertModal, setLoading, setToastModal } from "../store/alert/alertSlice";
+import { getAirtimeDataProvidersPlans, getCableTVProviders, otherGlobalFunctions } from "../store/utilities/actions";
+import axios from "axios";
 
 const Tab = createBottomTabNavigator();
 const AppStack = () => {
   const resendPinCompleted = useSelector((state) => state.oauth.resendPinCompleted);
+  const paystackRef = useSelector((state) => state.oauth.paystackRef);
+
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
+
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.oauth.user);
+
+  useEffect(() => {
+    if (paystackRef !== null) {
+      insertUserCard(paystackRef);
+    }
+  }, [paystackRef]);
 
   useEffect(() => {
     if (resendPinCompleted === true) {
@@ -88,6 +103,97 @@ const AppStack = () => {
     } else {
       dispatch(setGreetings("Good Evening!"));
     }
+  };
+
+  const insertUserCard = (paymentRef) => {
+    dispatch(
+      setLoading({
+        status: true,
+        message: "please wait...",
+      }),
+    );
+
+    let payload = {
+      AppId,
+      RequestId,
+      UserCode: user?.code,
+      ProviderCardReference: paymentRef,
+      Provider: "paystack",
+      Amount: 100,
+      Currency: "NGN",
+    };
+
+    axios
+      .post(`${baseURL}/v1.0/UserCard/insertUserCard`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        console.log(response?.data);
+        dispatch(setPaystackRef(null));
+
+        if (response?.data?.success == true) {
+          dispatch(getUserInfo(user?.code));
+          dispatch(otherGlobalFunctions());
+
+          setTimeout(() => {
+            dispatch(
+              setLoading({
+                status: false,
+                message: "",
+              }),
+            );
+
+            dispatch(
+              setAlertModal({
+                status: true,
+                type: "SUCCESS",
+                title: "Card maintenance was successful",
+                des: response.data.message,
+                payload: null,
+              }),
+            );
+          }, 2000);
+        } else {
+          dispatch(
+            setLoading({
+              status: false,
+              message: "",
+            }),
+          );
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: "Login Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        dispatch(setPaystackRef(null));
+        dispatch(
+          setLoading({
+            status: false,
+            message: "",
+          }),
+        );
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   return (

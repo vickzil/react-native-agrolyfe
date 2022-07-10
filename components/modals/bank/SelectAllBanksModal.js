@@ -122,10 +122,10 @@ const SelectAllBanksModal = () => {
           </View>
         </View>
 
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={[styles.productContainer]}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 160 }}>
+          <View style={[styles.productContainer, { height: "100%" }]}>
             {allFilterBanks && allFilterBanks.length ? (
-              <View style={{ marginBottom: 150 }}>
+              <View style={{ marginBottom: 70 }}>
                 {allFilterBanks?.map((item, index) => (
                   <TouchableOpacity key={index} style={styles.container} onPress={() => selectBank(item)}>
                     <View style={styles.content} key={index}>
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
-    paddingBottom: 20,
+    paddingBottom: 7,
   },
 
   modalSearch: {

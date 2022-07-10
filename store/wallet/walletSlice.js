@@ -31,7 +31,7 @@ const walletSlice = createSlice({
     [getUserWalletBalance.fulfilled]: (state, action) => {
       let result = action.payload;
       if (result) {
-        // console.log(action.payload.data);
+        // console.log(action);
         state.userWalletBalance = result.data;
       }
 

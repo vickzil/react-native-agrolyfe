@@ -17,6 +17,7 @@ import {
   setSelectCardModal,
   setSelectedCard,
   setFundWalletByCardModal,
+  setAddCardModal,
 } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -24,6 +25,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import NoItem from "../../extra/NoItem";
 import { setSelectedSavingsType, setSelectedSavingsTypeDetails } from "../../../store/savings/savingsSlice";
+import { globalStyles } from "../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
@@ -98,6 +100,46 @@ const SelectCardModal = () => {
                     </View>
                   </TouchableOpacity>
                 ))}
+
+                <View style={{ marginTop: 90, alignItems: "center", textAlign: "center" }}>
+                  <View style={{ position: "relative", alignItems: "center" }}>
+                    <Text style={{ position: "absolute", top: 10, backgroundColor: "#ced4ed", width: 300, height: 2 }}>
+                      {" "}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.contentText,
+                        styles.contentText1,
+                        { backgroundColor: "#fff", padding: 5, marginTop: -5 },
+                      ]}
+                    >
+                      OR
+                    </Text>
+                    <View style={{ marginTop: 30 }}>
+                      <TouchableOpacity
+                        style={[globalStyles.button, { paddingHorizontal: 50 }]}
+                        onPress={() => dispatch(setAddCardModal(true))}
+                      >
+                        <Text
+                          style={[
+                            {
+                              fontStyle: "normal",
+                              fontWeight: "700",
+                              fontSize: 17,
+                              lineHeight: 29,
+                              marginBottom: 0,
+                              fontFamily: "Poppins",
+                              color: "#fff",
+                              textAlign: "center",
+                            },
+                          ]}
+                        >
+                          Add Another card
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
               </View>
             ) : (
               <View style={{ marginTop: 50 }}>

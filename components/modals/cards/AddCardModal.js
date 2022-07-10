@@ -13,9 +13,16 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
-import { setAddCardModal } from "../../../store/alert/alertSlice";
+import {
+  setAddCardModal,
+  setCardModal,
+  setFundWalletByCardModal,
+  setSelectCardModal,
+} from "../../../store/alert/alertSlice";
 import { globalStyles } from "../../../styles/global";
 import colors from "../../../styles/colors";
+import PayStackPackage from "../../customs/PayStackPackage";
+import { setPaystackRef } from "../../../store/auth/authSlice";
 
 const { width } = Dimensions.get("screen");
 
@@ -23,6 +30,8 @@ const AddCardModal = () => {
   const modal = useSelector((state) => state.alert.addCardModal);
   const dispatch = useDispatch();
   const scaleValue = useRef(new Animated.Value(0)).current;
+
+  const paystackWebViewRef = useRef();
 
   useEffect(() => {
     if (modal === true) {
@@ -44,8 +53,49 @@ const AddCardModal = () => {
     dispatch(setAddCardModal(false));
   };
 
+  const onSuccess = (response) => {
+    // console.log(response);
+    if (response?.status === "success") {
+      console.log("succss");
+      console.log(response?.transactionRef);
+      console.log(response?.transactionRef?.trxref);
+      dispatch(setPaystackRef(response?.transactionRef?.trxref));
+    }
+    closeModal();
+    dispatch(
+      setSelectCardModal({
+        status: false,
+        type: "",
+      }),
+    );
+
+    dispatch(
+      setFundWalletByCardModal({
+        status: false,
+        card: null,
+      }),
+    );
+
+    dispatch(setCardModal(false));
+  };
+
+  const onError = () => {
+    closeModal();
+  };
+
+  const showPaystackPayment = () => {
+    paystackWebViewRef.current.startTransaction();
+    //
+  };
+
+  const insertUserCard = () => {
+    paystackWebViewRef.current.startTransaction();
+    //
+  };
+
   return (
     <Modal transparent visible={modal} animationType="fade" onRequestClose={() => closeModal()}>
+      <PayStackPackage amount={100} paystackWebViewRef={paystackWebViewRef} onSuccess={onSuccess} onError={onError} />
       <View style={[styles.modalBackground, { flex: 1 }]}>
         <Animated.View style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
           <View style={{ alignItems: "center" }}>
@@ -91,11 +141,11 @@ const AddCardModal = () => {
                 activeOpacity={0.5}
                 style={[
                   globalStyles.button,
-                  { marginTop: 20, borderRadius: 6, zIndex: 6, width: 140, backgroundColor: "#3d665d", height: 50 },
+                  { marginTop: 20, borderRadius: 6, zIndex: 6, width: 200, backgroundColor: "#3d665d", height: 50 },
                 ]}
-                onPress={() => closeModal()}
+                onPress={() => showPaystackPayment()}
               >
-                <Text style={globalStyles.buttonText}>Proceed</Text>
+                <Text style={globalStyles.buttonText}>Proceed with paystack</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -14,29 +14,38 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setFundWalletByCardModal } from "../../../store/alert/alertSlice";
+import { setAlertModal, setAlertModalSuccess, setFundWalletByCardModal } from "../../../store/alert/alertSlice";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import axios from "axios";
 import { globalStyles } from "../../../styles/global";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import ScreenLoading from "../../loader/ScreenLoading";
 import FAmount from "./byCard/FAmount";
 import FConfirm from "./byCard/FConfirm";
 import FSummary from "./byCard/FSummary";
+import { getUserInfo } from "../../../store/auth/actions";
+import { otherGlobalFunctions } from "../../../store/utilities/actions";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
 
 const FundWalletByCardModal = () => {
   const modal = useSelector((state) => state.alert.fundWalletByCardModal);
+
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
+
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
   const [amount, setAmount] = useState(null);
   const [summaryDetails, setSummaryDetails] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
-  const [buttonText, setButtonText] = useState("Proceed");
+  const [buttonText, setButtonText] = useState("Continue");
   const [emptyFields, setEmptyFields] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [screenLoading, setScreenLoading] = useState({
@@ -57,7 +66,7 @@ const FundWalletByCardModal = () => {
     setAmount(null);
     setSummaryDetails(null);
     setStep(1);
-    setButtonText("Proceed");
+    setButtonText("Continue");
     setEmptyFields(true);
     setScreenLoading({
       status: false,
@@ -119,13 +128,13 @@ const FundWalletByCardModal = () => {
     }
     if (step === 2) {
       setStep(1);
-      setButtonText("Proceed");
+      setButtonText("Continue");
       scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
       return;
     }
     if (step === 3) {
       setStep(2);
-      setButtonText("Proceed");
+      setButtonText("Continue");
       scrollViewRef.current?.scrollTo({ x: width, y: 0, animated: true });
       return;
     }
@@ -150,23 +159,98 @@ const FundWalletByCardModal = () => {
       }
 
       if (step === 3) {
-        setScreenLoading({
-          status: true,
-          message: "please wait...",
-        });
+        fundWalletByCard();
+        // closeModal();
+      }
+    }, 400);
+  };
 
-        setTimeout(() => {
-          closeModal();
+  const fundWalletByCard = () => {
+    setEmptyFields(true);
 
+    setScreenLoading({
+      status: true,
+      message: "Initiating Request...",
+    });
+
+    let newAmount = amount.replace(/[^a-zA-Z0-9]/g, "");
+
+    let newPayload = {
+      AppId: AppId,
+      RequestId: RequestId,
+      UserCode: user?.code,
+      Amount: newAmount,
+      UserCardCode: modal?.card?.code,
+      Currency: "NGN",
+      Narration: "",
+    };
+
+    console.log(newPayload);
+
+    axios
+      .post(`${baseURL}/v1.0/Wallet/debitSavedUserCard`, newPayload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          console.log(response?.data?.data);
           setScreenLoading({
             status: false,
             message: "",
           });
-        }, 4500);
+          dispatch(
+            setAlertModalSuccess({
+              status: true,
+              payload: {
+                amount: newAmount,
+                message: "Top-up of NGN " + addComma(newAmount) + " Was successful ",
+              },
+            }),
+          );
 
-        // closeModal();
-      }
-    }, 400);
+          dispatch(getUserInfo(user?.code));
+          dispatch(otherGlobalFunctions());
+
+          closeModal();
+        } else {
+          setEmptyFields(false);
+          setScreenLoading({
+            status: false,
+            message: "",
+          });
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setScreenLoading({
+          status: false,
+          message: "",
+        });
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   return (
@@ -198,8 +282,8 @@ const FundWalletByCardModal = () => {
             showsHorizontalScrollIndicator={false}
           >
             <FAmount amount={amount} setAmount={setAmount} card={modal?.card} />
-            <FSummary summaryDetails={summaryDetails} />
-            <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
+            <FSummary amount={amount} card={modal?.card} summaryDetails={summaryDetails} />
+            <FConfirm amount={amount} card={modal?.card} isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
           </ScrollView>
 
           <View
