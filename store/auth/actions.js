@@ -5,7 +5,6 @@ import { setReferrals } from "../referrals/referralSlice";
 import { setMySavings } from "../savings/savingsSlice";
 import { saveUserTransactions } from "../transactions/transactionSlice";
 import { setUserWalletBalance } from "../wallet/walletSlice";
-import { setAdverts, setDashboardMessage, setVerificationInfo } from "./authSlice";
 
 export const getUserInfo = createAsyncThunk("oauth/getUserInfo", async (payload, { getState, dispatch }) => {
   const user = getState().oauth.user;
@@ -161,7 +160,4 @@ export const logoutAllAccount = createAsyncThunk("oauth/logoutAccount", async (p
   dispatch(setMyProducts(null));
   dispatch(setUserBankAccount(null));
   dispatch(saveUserTransactions(null));
-  dispatch(setVerificationInfo(null));
-  dispatch(setDashboardMessage(null));
-  dispatch(setAdverts(null));
 });

@@ -15,6 +15,7 @@ import AlertModal from "../components/modals/AlertModal";
 import { removeStorageItemValue } from "../components/helpers/globalFunction";
 import { setUserWalletBalance } from "../store/wallet/walletSlice";
 import { getTransactionsInfo } from "../store/transactions/actions";
+import { setAdverts, setDashboardMessage, setVerificationInfo } from "../store/auth/authSlice";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
@@ -23,13 +24,11 @@ const AuthStack = () => {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   removeStorageItemValue("token");
-  //   removeStorageItemValue("appexrat");
-  //   removeStorageItemValue("user");
-  //   dispatch(setUserWalletBalance(null));
-  //   dispatch(getTransactionsInfo(null));
-  // }, []);
+  useEffect(() => {
+    dispatch(setVerificationInfo(null));
+    dispatch(setDashboardMessage(null));
+    dispatch(setAdverts(null));
+  }, []);
 
   // useEffect(() => {
   //   authLogin();
