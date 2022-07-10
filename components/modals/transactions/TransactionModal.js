@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexWrap: "wrap",
     paddingTop: 30,
-    paddingBottom: 100,
+    paddingBottom: 150,
+    height: "100%",
   },
 });
 export default TransactionModal;

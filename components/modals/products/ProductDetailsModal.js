@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.greenDarkColor,
     marginTop: -80,
     zIndex: 60,
-    elevation: 1,
+    // elevation: 1,
   },
 
   productDetailsBodyContainer: {

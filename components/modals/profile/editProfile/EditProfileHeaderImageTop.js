@@ -4,10 +4,19 @@ import React, { useEffect, useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../../../../styles/colors";
 import * as ImagePicker from "expo-image-picker";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { serializeJSON } from "../../../helpers/globalFunction";
+import { setAlertModal } from "../../../../store/alert/alertSlice";
+import { getUserInfo } from "../../../../store/auth/actions";
 
-const EditProfileHeaderImageTop = () => {
+const EditProfileHeaderImageTop = ({ handleLoading }) => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.baseURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
 
   const [image, setImage] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(false);
@@ -28,20 +37,97 @@ const EditProfileHeaderImageTop = () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      base64: true,
+      // base64: true,
       // allowsEditing: true,
       // aspect: [4, 3],
       quality: 1,
     });
 
-    // console.log(result);
+    console.log(result);
 
     if (!result.cancelled) {
       // setImage(result.uri);
-      setUploadedImage(true);
-      setImage("data:image/png;base64," + result.base64);
-      console.log("data:image/png;base64," + result.base64);
+      uploadProfileImage(result);
+      // setIsLoading(true);
     }
+    // if (!result.cancelled) {
+    //   // setImage(result.uri);
+    //   setUploadedImage(true);
+    //   setImage("data:image/png;base64," + result.base64);
+    //   console.log("data:image/png;base64," + result.base64);
+    // }
+  };
+
+  const uploadProfileImage = (image) => {
+    handleLoading(true);
+
+    let fd = new FormData();
+
+    fd.append("File", {
+      uri: image?.uri,
+      type: "image/jpg",
+      name: "image-agrolyfe" + new Date() + ".jpg",
+      size: 74715,
+      webkitRelativePath: "",
+      lastModified: Date.now(),
+      lastModifiedDate: new Date(),
+    });
+    fd.append("AppId", AppId);
+    fd.append("RequestId", RequestId);
+    fd.append("UserCode", user?.code);
+    fd.append("FileType", "profile_photos");
+
+    axios
+      .post(`${baseURL}/v1.0/User/fileUpload`, fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          handleLoading(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "SUCCESS",
+              title: "Profile Updated",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+
+          dispatch(getUserInfo(user?.code));
+        } else {
+          handleLoading(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        handleLoading(false);
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
+      });
   };
 
   return (

@@ -1,4 +1,4 @@
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Keyboard, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setEditProfileModal } from "../../../../store/alert/alertSlice";
@@ -7,6 +7,7 @@ import colors from "../../../../styles/colors";
 import EditProfileHeaderImageTop from "./EditProfileHeaderImageTop";
 import EditProfileForm from "./EditProfileForm";
 import Modal from "react-native-modal";
+import ScreenLoading from "../../../loader/ScreenLoading";
 
 const { width } = Dimensions.get("screen");
 let screenHeight = Dimensions.get("window").height;
@@ -15,12 +16,24 @@ const EditProfileModal = () => {
   const modal = useSelector((state) => state.alert.editProfileModal);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [screenLoading, setScreenLoading] = useState({
+    status: false,
+    message: "Please wait...",
+  });
 
   const closeModal = () => {
     if (isLoading) {
       return;
     }
     dispatch(setEditProfileModal(false));
+  };
+
+  const handleLoading = (status) => {
+    Keyboard.dismiss();
+    setScreenLoading({
+      status: status,
+      message: "Please wait...",
+    });
   };
 
   return (
@@ -32,9 +45,10 @@ const EditProfileModal = () => {
       onBackButtonPress={() => closeModal()}
       onBackdropPress={() => closeModal()}
       onSwipeComplete={() => closeModal()}
-      swipeDirection="left"
+      swipeDirection="right"
       style={{ width: width, height: screenHeight, margin: 0, padding: 0 }}
     >
+      <ScreenLoading visibility={screenLoading} />
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
@@ -48,11 +62,11 @@ const EditProfileModal = () => {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[{ backgroundColor: colors.greenDarkColor, paddingTop: 20, paddingBottom: 30 }]}>
-            <EditProfileHeaderImageTop />
+            <EditProfileHeaderImageTop handleLoading={handleLoading} />
           </View>
 
           <View style={[styles.productContainer]}>
-            <EditProfileForm isLoading={isLoading} setIsLoading={setIsLoading} />
+            <EditProfileForm handleLoading={handleLoading} />
           </View>
         </ScrollView>
       </View>

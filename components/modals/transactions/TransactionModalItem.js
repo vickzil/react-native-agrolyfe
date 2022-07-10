@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     // borderColor: "#f0f0f0",
     marginTop: 50,
     marginBottom: 20,
-    elevation: 1,
+    // elevation: 1,
   },
 
   productCardContent: {

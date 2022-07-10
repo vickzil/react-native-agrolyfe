@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
   baseURL: "https://oxfordvestapi.azurewebsites.net/api",
+  walletURL: "https://oxfordwalletapi.azurewebsites.net/api",
   AppId: "agrolyfe",
   APPVERSION: "1.1.3",
   RequestId: "001web001web" + Math.floor(Math.random() * 10),
@@ -55,7 +56,7 @@ const authSlice = createSlice({
 
     [getUserInfo.fulfilled]: (state, action) => {
       let result = action.payload;
-      console.log("user", action.payload);
+      // console.log("user", action.payload);
       if (result) {
         // console.log(action.payload.data);
         state.user = result.data;

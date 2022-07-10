@@ -15,7 +15,7 @@ import axios from "axios";
 import { serializeJSON } from "../../../helpers/globalFunction";
 import CustomLoadingButton from "../../../customs/CustomLoadingButton";
 
-const EditProfileForm = ({ isLoading, setIsLoading }) => {
+const EditProfileForm = ({ handleLoading }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.oauth.user);
   const [country, setCountry] = useState("");
@@ -81,7 +81,7 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
     }
 
     setEmptyFields(true);
-    setIsLoading(true);
+    handleLoading(true);
 
     axios
       .post(
@@ -114,7 +114,7 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
         // console.log(response?.data);
 
         if (response?.data?.success == true) {
-          setIsLoading(false);
+          handleLoading(false);
           setEmptyFields(false);
 
           dispatch(
@@ -129,7 +129,7 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
 
           dispatch(getUserInfo(user?.code));
         } else {
-          setIsLoading(false);
+          handleLoading(false);
 
           dispatch(
             setAlertModal({
@@ -143,7 +143,7 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
         }
       })
       .catch(() => {
-        setIsLoading(false);
+        handleLoading(false);
 
         dispatch(
           setAlertModal({
@@ -164,7 +164,8 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
         <View style={[styles.inputContainer]}>
           <TextInput
             value={middleName}
-            onChangeText={(text) => setMiddleName(text)}
+            autoFocus={true}
+            onChangeText={(text) => setMiddleName(text.replace(/\s/g, ""))}
             autoCorrect={false}
             placeholder="Enter middle name"
             style={globalStyles.inputTextt}
@@ -268,7 +269,7 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
           onPress={() => updateUserProfile()}
           emptyFields={emptyFields}
           buttonText={"Update"}
-          loading={isLoading}
+          loading={false}
         />
       </View>
     </View>

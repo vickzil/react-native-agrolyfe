@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 17,
     paddingHorizontal: 10,
-    elevation: 3,
+    // elevation: 3,
   },
 
   modalHeaderIcon: {

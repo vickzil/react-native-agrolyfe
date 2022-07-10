@@ -78,7 +78,9 @@ const ReferralModal = () => {
                 </Text>
                 {walletLoading ? <ActivityIndicator size="small" color="#14961E" /> : null}
               </View>
-              <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>Referral Balance</Text>
+              <Text style={[styles.modalHeaderTex, styles.modalHeaderText2, { fontWeight: "600" }]}>
+                Referral Balance
+              </Text>
             </View>
             <View style={[styles.modalSearchContainer]}>
               {referralLoading ? (

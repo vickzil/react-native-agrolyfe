@@ -1,6 +1,7 @@
 import {
   Dimensions,
   FlatList,
+  Keyboard,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -14,8 +15,8 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setPaymentEvidenceModal } from "../../../store/alert/alertSlice";
-import colors from "../../../styles/colors";
+import { setAlertModal, setPaymentEvidenceModal } from "../../../store/alert/alertSlice";
+import * as ImagePicker from "expo-image-picker";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { TextInputMask } from "react-native-masked-text";
 import { globalStyles } from "../../../styles/global";
@@ -23,16 +24,29 @@ import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import ScreenLoading from "../../loader/ScreenLoading";
 import POPUpModal from "../POPUpModal";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import FeatherIcons from "react-native-vector-icons/Feather";
+import axios from "axios";
+import { getUserInfo } from "../../../store/auth/actions";
+
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
 
 const UploadPaymentEvidence = () => {
-  const modal = useSelector((state) => state.alert.paymentEvidenceModal);
   const dispatch = useDispatch();
+
+  const modal = useSelector((state) => state.alert.paymentEvidenceModal);
+  const walletOptions = useSelector((state) => state.wallet.walletOptions);
+
+  const user = useSelector((state) => state.oauth.user);
+  const baseURL = useSelector((state) => state.oauth.walletURL);
+  const bearerToken = useSelector((state) => state.oauth.bearerToken);
+  const AppId = useSelector((state) => state.oauth.AppId);
+  const RequestId = useSelector((state) => state.oauth.RequestId);
 
   const [amount, setAmount] = useState(null);
   const [currency, setCurrency] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
+  const [uploadedImage, setUploadedImage] = useState(null);
   const [buttonText, setButtonText] = useState("Submit");
   const [emptyFields, setEmptyFields] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +62,7 @@ const UploadPaymentEvidence = () => {
   const closeModal = () => {
     dispatch(setPaymentEvidenceModal(false));
 
+    setUploadedImage(null);
     setAmount(null);
     setCurrency("");
     setAdditionalInfo("");
@@ -66,24 +81,20 @@ const UploadPaymentEvidence = () => {
       return;
     }
 
-    if (amount && amount < 100) {
-      setEmptyFields(true);
-
-      return;
-    }
     if (!currency) {
       setEmptyFields(true);
 
       return;
     }
-    if (!additionalInfo) {
+
+    if (!uploadedImage) {
       setEmptyFields(true);
 
       return;
     }
 
     setEmptyFields(false);
-  }, [amount, currency, additionalInfo]);
+  }, [amount, currency, uploadedImage, additionalInfo]);
 
   const previousStep = () => {
     if (isLoading) {
@@ -95,25 +106,101 @@ const UploadPaymentEvidence = () => {
     closeModal();
   };
 
-  const procceed = () => {
-    setEmptyFields(true);
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setScreenLoading({
-        status: true,
-        message: "please wait...",
+  const handleLoading = (status) => {
+    Keyboard.dismiss();
+    setScreenLoading({
+      status: status,
+      message: "Please wait...",
+    });
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setUploadedImage(result);
+    }
+  };
+
+  const submitForm = () => {
+    handleLoading(true);
+
+    let fd = new FormData();
+    let newAmount = amount.replace(/[^a-zA-Z0-9]/g, "");
+
+    fd.append("Evidence", {
+      uri: uploadedImage?.uri,
+      type: "image/jpg",
+      name: "image-agrolyfe" + new Date() + ".jpg",
+      size: 74715,
+      webkitRelativePath: "",
+      lastModified: Date.now(),
+      lastModifiedDate: new Date(),
+    });
+    fd.append("AppId", AppId);
+    fd.append("RequestId", RequestId);
+    fd.append("UserCode", user?.code);
+    fd.append("Email", user?.email);
+    fd.append("Currency", currency?.code);
+    fd.append("Amount", newAmount);
+    fd.append("AdditionalInformation", additionalInfo);
+
+    axios
+      .post(`${baseURL}/v1.0/PaymentEvidence/sendpaymentEvidence`, fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + bearerToken,
+        },
+      })
+      .then((response) => {
+        // console.log(response?.data);
+
+        if (response?.data?.success == true) {
+          handleLoading(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "SUCCESS",
+              title: "Payment Evidence Submitted",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+
+          dispatch(getUserInfo(user?.code));
+
+          previousStep();
+        } else {
+          handleLoading(false);
+
+          dispatch(
+            setAlertModal({
+              status: true,
+              type: "error",
+              title: " Error",
+              des: response.data.message,
+              payload: null,
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        handleLoading(false);
+
+        dispatch(
+          setAlertModal({
+            status: true,
+            type: "error",
+            title: "Service Error",
+            des: "Service is temporarily unavailable. Please try again in a few minutes.",
+            payload: null,
+          }),
+        );
       });
-
-      setTimeout(() => {
-        closeModal();
-
-        setScreenLoading({
-          status: false,
-          message: "",
-        });
-      }, 4500);
-    }, 400);
   };
 
   return (
@@ -131,15 +218,7 @@ const UploadPaymentEvidence = () => {
       <ScreenLoading visibility={screenLoading} />
       <POPUpModal visible={showCModal} setVisible={setShowCModal} modalTitle=" Currencies" lightBackground={true}>
         <View>
-          {[
-            "NAIRA (NGN)",
-            "US DOLLAR (USD)",
-            "EURO (EUR)",
-            "UGANDA SHILLING (UGX)",
-            "GREAT BRITISH POUNDS (GBP)",
-            "GHANA CEDIS (GHS)",
-            "RWANDA FRANCE (RWF)",
-          ]?.map((item, index) => (
+          {walletOptions?.currencies?.map((item, index) => (
             <TouchableOpacity
               key={index}
               style={[globalStyles.selectContainer, currency == item ? globalStyles.selectedItem : null]}
@@ -149,7 +228,7 @@ const UploadPaymentEvidence = () => {
               }}
             >
               <View style={globalStyles.selectContent} key={index}>
-                <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item}</Text>
+                <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item?.name}</Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -176,12 +255,16 @@ const UploadPaymentEvidence = () => {
             ref={scrollViewRef}
             showsHorizontalScrollIndicator={false}
           >
-            <View style={{ width: width, height: screenHeight, flex: 1, alignItems: "center" }}>
-              <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 12, width: "100%" }}>
+            <View style={{ width: width, flex: 1, alignItems: "center" }}>
+              <ScrollView
+                horizontal={false}
+                showsVerticalScrollIndicator={false}
+                style={{ paddingHorizontal: 12, width: "100%", paddingBottom: 20 }}
+              >
                 <View style={[globalStyles.productCardContent, { marginBottom: 0, width: "100%" }]}>
-                  <View style={{ marginTop: 40, marginBottom: 30, width: "100%" }}>
+                  <View style={{ marginTop: 10, marginBottom: 20, width: "100%" }}>
                     <Text
-                      style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}
+                      style={[styles.productCardContentItemLeft, { fontSize: 16, marginBottom: 5, fontWeight: "600" }]}
                     >
                       Amount
                     </Text>
@@ -208,15 +291,15 @@ const UploadPaymentEvidence = () => {
                       ]}
                     />
                   </View>
-                  <View style={{ marginTop: 10, marginBottom: 30 }}>
+                  <View style={{ marginTop: 10, marginBottom: 20 }}>
                     <Text
-                      style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}
+                      style={[styles.productCardContentItemLeft, { fontSize: 16, marginBottom: 5, fontWeight: "600" }]}
                     >
                       Currency
                     </Text>
 
                     <TouchableOpacity style={[globalStyles.inputContainer]} onPress={() => setShowCModal(true)}>
-                      <TextInput value={currency} editable={false} style={globalStyles.inputTextt} />
+                      <TextInput value={currency?.name} editable={false} style={globalStyles.inputTextt} />
                       <FontAwesome5Icon name="chevron-circle-down" size={16} color="#666" style={{ marginRight: 10 }} />
                     </TouchableOpacity>
 
@@ -246,9 +329,9 @@ const UploadPaymentEvidence = () => {
                   textError="Error"
                 /> */}
                   </View>
-                  <View style={{ marginTop: 10, marginBottom: 30 }}>
+                  <View style={{ marginTop: 10, marginBottom: 20 }}>
                     <Text
-                      style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}
+                      style={[styles.productCardContentItemLeft, { fontSize: 16, marginBottom: 5, fontWeight: "600" }]}
                     >
                       Additional information
                     </Text>
@@ -260,6 +343,47 @@ const UploadPaymentEvidence = () => {
                         style={globalStyles.inputTextt}
                       />
                     </View>
+                  </View>
+                  <View style={{ marginTop: 10, marginBottom: 80 }}>
+                    <Text
+                      style={[styles.productCardContentItemLeft, { fontSize: 16, marginBottom: 5, fontWeight: "600" }]}
+                    >
+                      Upload Evidience of Payment
+                    </Text>
+
+                    <TouchableOpacity
+                      onPress={() => pickImage()}
+                      style={[
+                        globalStyles.inputContainer,
+                        {
+                          height: 120,
+                          flexDirection: "column",
+                          borderWidth: 0,
+                          backgroundColor: "#f1f1f1",
+                          justifyContent: "center",
+                          marginTop: 15,
+                        },
+                      ]}
+                    >
+                      {uploadedImage ? (
+                        <>
+                          <FeatherIcons name="image" size={31} style={[{ color: "#444", padding: 2 }]} />
+                          <Text style={{ fontSize: 15, fontWeight: "700", marginTop: 10, color: "#555" }}>
+                            {uploadedImage?.uri.substring(
+                              uploadedImage?.uri.length,
+                              uploadedImage?.uri.lastIndexOf("/"),
+                            )}
+                          </Text>
+                        </>
+                      ) : (
+                        <>
+                          <FeatherIcons name="upload-cloud" size={31} style={[{ color: "#444", padding: 2 }]} />
+                          <Text style={{ fontSize: 19, fontWeight: "700", marginTop: 10, color: "#555" }}>
+                            Upload photo
+                          </Text>
+                        </>
+                      )}
+                    </TouchableOpacity>
                   </View>
                 </View>
               </ScrollView>
@@ -280,7 +404,7 @@ const UploadPaymentEvidence = () => {
             ]}
           >
             <CustomLoadingButton
-              onPress={() => procceed()}
+              onPress={() => submitForm()}
               emptyFields={emptyFields}
               buttonText={buttonText}
               loading={isLoading}

@@ -1,11 +1,13 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const AccountImageFullName = () => {
   const user = useSelector((state) => state.oauth.user);
 
   const userImage = require("../../assets/img/user-default.png");
+
+  useEffect(() => {}, [user]);
 
   return (
     <View style={{ justifyContent: "center", alignItems: "center" }}>

@@ -362,11 +362,6 @@ const TransferCustomerModal = () => {
       onRequestClose={() => previousStep()}
       style={{ flex: 1, backgroundColor: "#fff" }}
     >
-      {modal?.status && (
-        <View>
-          <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
-        </View>
-      )}
       <ScreenLoading visibility={screenLoading} />
 
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>

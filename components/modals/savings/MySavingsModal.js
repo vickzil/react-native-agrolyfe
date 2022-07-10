@@ -62,6 +62,7 @@ const MySavingsModal = () => {
             onPress={() => closeModal()}
           />
           <Text style={styles.modalHeaderText}>My Savings</Text>
+          <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* <View style={[styles.modalSearchContainer]}>
@@ -133,6 +134,7 @@ const styles = StyleSheet.create({
     width,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 15,
     paddingHorizontal: 10,
   },
@@ -145,11 +147,12 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: 17,
+    fontSize: 19,
     lineHeight: 29,
     marginBottom: 0,
     fontFamily: "PoppinsBold",
     color: "#111",
+    marginLeft: -45,
   },
 
   modalSearchContainer: {

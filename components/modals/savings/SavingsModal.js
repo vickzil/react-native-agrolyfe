@@ -62,7 +62,7 @@ const SavingsModal = () => {
               </Text>
               {loading ? <ActivityIndicator size="small" color="#14961E" /> : null}
             </View>
-            <Text style={[styles.modalHeaderTex, styles.modalHeaderText2]}>Savings Balance</Text>
+            <Text style={[styles.modalHeaderTex, styles.modalHeaderText2, { fontWeight: "600" }]}>Savings Balance</Text>
           </View>
 
           {/* <View style={[styles.productContainer]}>
