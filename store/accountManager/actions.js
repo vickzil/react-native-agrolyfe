@@ -12,7 +12,7 @@ export const getAccountMangager = createAsyncThunk("oauth/getAccountMangager", a
     UserCode: payload,
   };
 
-  return fetch(`${baseURL}/v1.0/Dashboard/getAccountMangager`, {
+  const response = await fetch(`${baseURL}/v1.0/Dashboard/getAccountMangager`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -22,5 +22,9 @@ export const getAccountMangager = createAsyncThunk("oauth/getAccountMangager", a
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });

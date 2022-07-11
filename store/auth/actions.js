@@ -31,7 +31,7 @@ export const getUserInfo = createAsyncThunk("oauth/getUserInfo", async (payload,
   // dispatch(getUserWalletBalance(user?.code));
   // dispatch(getWalletOptions(user?.code));
 
-  return fetch(`${baseURL}/v1.0/Dashboard/getUserInfo`, {
+  const response = await fetch(`${baseURL}/v1.0/Dashboard/getUserInfo`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -41,7 +41,11 @@ export const getUserInfo = createAsyncThunk("oauth/getUserInfo", async (payload,
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });
 
 export const getCountryInfo = createAsyncThunk("oauth/getCountryInfo", async (payload, { getState }) => {
@@ -56,7 +60,7 @@ export const getCountryInfo = createAsyncThunk("oauth/getCountryInfo", async (pa
     Country: payload,
   };
 
-  return fetch(`${baseURL}/v1.0/Dashboard/getCountryInfo`, {
+  const response = await fetch(`${baseURL}/v1.0/Dashboard/getCountryInfo`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -66,7 +70,11 @@ export const getCountryInfo = createAsyncThunk("oauth/getCountryInfo", async (pa
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });
 
 export const resendUserTransactionPin = createAsyncThunk(
@@ -84,7 +92,7 @@ export const resendUserTransactionPin = createAsyncThunk(
       UserCode: user.code,
     };
 
-    return fetch(`${baseURL}/v1.0/OAuth/resendTransactionPIN`, {
+    const response = await fetch(`${baseURL}/v1.0/OAuth/resendTransactionPIN`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -94,7 +102,11 @@ export const resendUserTransactionPin = createAsyncThunk(
       },
 
       body: JSON.stringify(newPayload),
-    }).then((res) => res.json());
+    }).then((res) => {
+      return res.json();
+    });
+
+    return response;
   },
 );
 
@@ -113,7 +125,7 @@ export const getDashBoardNotification = createAsyncThunk(
       UserCode: user.code,
     };
 
-    return fetch(`${baseURL}/v1.0/Dashboard/dashBoardNotification`, {
+    const response = await fetch(`${baseURL}/v1.0/Dashboard/dashBoardNotification`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -123,7 +135,11 @@ export const getDashBoardNotification = createAsyncThunk(
       },
 
       body: JSON.stringify(newPayload),
-    }).then((res) => res.json());
+    }).then((res) => {
+      return res.json();
+    });
+
+    return response;
   },
 );
 
@@ -140,7 +156,7 @@ export const getAdverts = createAsyncThunk("oauth/getAdverts", async (payload, {
     UserCode: user.code,
   };
 
-  return fetch(`${baseURL}/v1.0/Dashboard/adverts`, {
+  const response = await fetch(`${baseURL}/v1.0/Dashboard/adverts`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -150,7 +166,11 @@ export const getAdverts = createAsyncThunk("oauth/getAdverts", async (payload, {
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });
 
 export const logoutAllAccount = createAsyncThunk("oauth/logoutAccount", async (payload, { dispatch }) => {

@@ -12,7 +12,7 @@ export const getUserReferrals = createAsyncThunk("referrals/getUserReferrals", a
     UserCode: payload,
   };
 
-  return fetch(`${baseURL}/v1.0/Dashboard/getUserReferrals`, {
+  const response = await fetch(`${baseURL}/v1.0/Dashboard/getUserReferrals`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -22,5 +22,9 @@ export const getUserReferrals = createAsyncThunk("referrals/getUserReferrals", a
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });

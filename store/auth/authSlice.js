@@ -80,7 +80,7 @@ const authSlice = createSlice({
 
     [getUserInfo.fulfilled]: (state, action) => {
       let result = action.payload;
-      // console.log("user", action.payload);
+      console.log("user", action.payload);
       if (result) {
         // console.log(action.payload.data);
         state.user = result.data;

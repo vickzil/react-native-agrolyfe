@@ -59,6 +59,10 @@ const initialState = {
     status: false,
     payload: null,
   },
+  topUpSavingsModal: {
+    status: false,
+    payload: null,
+  },
   referralModal: false,
   referralDetailsModal: {
     status: false,
@@ -222,6 +226,13 @@ const alertSlice = createSlice({
 
     setPurchaseSavingsModal: (state, { payload }) => {
       state.purchaseSavingsModal = {
+        status: payload.status,
+        payload: payload.payload,
+      };
+    },
+
+    setTopUpSavingsModal: (state, { payload }) => {
+      state.topUpSavingsModal = {
         status: payload.status,
         payload: payload.payload,
       };
@@ -454,6 +465,7 @@ export const {
   setSubCategorySavingsModal,
   setMySavingsDetailsModal,
   setPurchaseSavingsModal,
+  setTopUpSavingsModal,
   setReferralModal,
   setTransactionDetailsModal,
   setProductDetailsModal,

@@ -14,7 +14,7 @@ export const getAllUserBankAccounts = createAsyncThunk("bank/getAllUserBankAccou
 
   // console.log(JSON.stringify(newPayload));
 
-  return fetch(`${baseURL}/v1.0/UserBankAccount/getAllUserBankAccounts`, {
+  const response = await fetch(`${baseURL}/v1.0/UserBankAccount/getAllUserBankAccounts`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -24,5 +24,9 @@ export const getAllUserBankAccounts = createAsyncThunk("bank/getAllUserBankAccou
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });

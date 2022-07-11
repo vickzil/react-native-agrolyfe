@@ -14,7 +14,7 @@ export const getUserSavings = createAsyncThunk("savings/getUserSavings", async (
     pageSize: 40,
   };
 
-  return fetch(`${baseURL}/v1.0/UserSavings/getUserSavings`, {
+  const response = await fetch(`${baseURL}/v1.0/UserSavings/getUserSavings`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -24,7 +24,11 @@ export const getUserSavings = createAsyncThunk("savings/getUserSavings", async (
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });
 
 export const getSavingsMainCategories = createAsyncThunk(
@@ -41,7 +45,7 @@ export const getSavingsMainCategories = createAsyncThunk(
       UserCode: payload,
     };
 
-    return fetch(`${baseURL}/v1.0/SavingsMainCategory/getSavingMainCategoriesInfo`, {
+    const response = await fetch(`${baseURL}/v1.0/SavingsMainCategory/getSavingMainCategoriesInfo`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -51,6 +55,10 @@ export const getSavingsMainCategories = createAsyncThunk(
       },
 
       body: JSON.stringify(newPayload),
-    }).then((res) => res.json());
+    }).then((res) => {
+      return res.json();
+    });
+
+    return response;
   },
 );

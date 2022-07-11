@@ -1,9 +1,12 @@
 import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import colors from "../../../styles/colors";
-import { formateDateByName } from "../../helpers/globalFunction";
+import { addComma, formateDateByName } from "../../helpers/globalFunction";
+import { useDispatch } from "react-redux";
+import { setTopUpSavingsModal } from "../../../store/alert/alertSlice";
 
 const PurchasedSavingsItemModal = ({ currentSavings }) => {
+  const dispatch = useDispatch();
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.productCard}>
@@ -45,8 +48,18 @@ const PurchasedSavingsItemModal = ({ currentSavings }) => {
             <Text style={styles.productCardContentItemRight}>{currentSavings.savingsMainCategoryCode} Plan</Text>
           </View>
           <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>Code</Text>
+            <Text style={styles.productCardContentItemRight}>{currentSavings.code}</Text>
+          </View>
+          <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>Periodic Amount</Text>
+            <Text style={styles.productCardContentItemRight}>
+              ₦ {currentSavings ? addComma(currentSavings?.paymentAmountPerFrequency) : 0}
+            </Text>
+          </View>
+          <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}>Duration</Text>
-            <Text style={styles.productCardContentItemRight}>{currentSavings.duration}</Text>
+            <Text style={styles.productCardContentItemRight}>{currentSavings.duration} Months</Text>
           </View>
           <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}>Frequency</Text>
@@ -63,11 +76,26 @@ const PurchasedSavingsItemModal = ({ currentSavings }) => {
               style={[
                 styles.productCardContentItemRight,
                 styles.productCardContentItemRightStatus,
-                item.status === "running" ? styles.statusSuccess : null,
+                currentSavings.status === "running" ? styles.statusSuccess : null,
+                currentSavings.status === "new" ? styles.statusNew : null,
               ]}
             >
               {currentSavings.status}
             </Text>
+          </View>
+          <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>Number of Payments</Text>
+            <Text style={styles.productCardContentItemRight}>{currentSavings?.totalNumberOfPayments}</Text>
+          </View>
+          <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>Current Installment</Text>
+            <Text style={styles.productCardContentItemRight}>
+              ₦ {currentSavings ? addComma(currentSavings?.currentInstallment) : 0}
+            </Text>
+          </View>
+          <View style={styles.productCardContentItem}>
+            <Text style={styles.productCardContentItemLeft}>Vat Rate</Text>
+            <Text style={styles.productCardContentItemRight}>{currentSavings?.vatRate}%</Text>
           </View>
           <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}>First Payment On</Text>
@@ -89,7 +117,7 @@ const PurchasedSavingsItemModal = ({ currentSavings }) => {
             <Text style={styles.productCardContentItemLeft}>Payment Method</Text>
             <Text style={styles.productCardContentItemRight}>{currentSavings.paymentMethod}</Text>
           </View>
-          {/* <View style={[styles.productCardContentItem, { flexDirection: "column" }]}>
+          <View style={[styles.productCardContentItem, { flexDirection: "column" }]}>
             <Text style={[styles.productCardContentItemLeft, { fontWeight: "900" }]}>Total Payout</Text>
             <Text
               style={[
@@ -97,15 +125,25 @@ const PurchasedSavingsItemModal = ({ currentSavings }) => {
                 { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 23 },
               ]}
             >
-              ₦38,971.25
+              ₦ {currentSavings ? addComma(currentSavings?.totalPayoutAmount) : 0}
             </Text>
-          </View> */}
+          </View>
 
-          {/* <TouchableOpacity style={{ marginTop: 30, marginBottom: 40 }}>
+          <TouchableOpacity
+            style={{ marginTop: 30, marginBottom: 40 }}
+            onPress={() =>
+              dispatch(
+                setTopUpSavingsModal({
+                  status: true,
+                  payload: currentSavings,
+                }),
+              )
+            }
+          >
             <View style={[styles.productButton, { backgroundColor: colors.greenColor, marginTop: 10 }]}>
-              <Text style={styles.buttonText}>Cashout</Text>
+              <Text style={styles.buttonText}>Top up</Text>
             </View>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -176,6 +214,11 @@ const styles = StyleSheet.create({
 
   statusSuccess: {
     backgroundColor: colors.greenLightColor,
+  },
+
+  statusNew: {
+    backgroundColor: "blue",
+    color: "#fff",
   },
 
   productCardContentTitle: {

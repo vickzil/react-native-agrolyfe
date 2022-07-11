@@ -16,7 +16,7 @@ export const getTransactionsInfo = createAsyncThunk(
       PageSize: 20,
     };
 
-    return fetch(`${baseURL}/v1.0/Wallet/getUserTransactionInfo`, {
+    const response = await fetch(`${baseURL}/v1.0/Wallet/getUserTransactionInfo`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -26,6 +26,10 @@ export const getTransactionsInfo = createAsyncThunk(
       },
 
       body: JSON.stringify(newPayload),
-    }).then((res) => res.json());
+    }).then((res) => {
+      return res.json();
+    });
+
+    return response;
   },
 );

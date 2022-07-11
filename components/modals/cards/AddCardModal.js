@@ -17,7 +17,10 @@ import {
   setAddCardModal,
   setCardModal,
   setFundWalletByCardModal,
+  setMySavingsDetailsModal,
+  setMySavingsModal,
   setSelectCardModal,
+  setTopUpSavingsModal,
 } from "../../../store/alert/alertSlice";
 import { globalStyles } from "../../../styles/global";
 import colors from "../../../styles/colors";
@@ -75,6 +78,22 @@ const AddCardModal = () => {
         card: null,
       }),
     );
+
+    dispatch(
+      setTopUpSavingsModal({
+        status: false,
+        payload: null,
+      }),
+    );
+
+    dispatch(
+      setMySavingsDetailsModal({
+        status: false,
+        payload: null,
+      }),
+    );
+
+    dispatch(setMySavingsModal(false));
 
     dispatch(setCardModal(false));
   };

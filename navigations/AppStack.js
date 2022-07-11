@@ -66,7 +66,7 @@ const AppStack = () => {
   const loggedInUser = useSelector((state) => state.oauth.user);
 
   const [active, setActive] = useState(true);
-  const [timer, setTimer] = useState(30000);
+  const [timer, setTimer] = useState(180000);
 
   useEffect(() => {
     if (paystackRef !== null) {
@@ -96,33 +96,33 @@ const AppStack = () => {
 
   useEffect(() => {
     getGreetings();
-    getAppAuthentication();
+    // getAppAuthentication();
     globalFunctions();
     checkVerifications();
   }, []);
 
-  const getAppAuthentication = async () => {
-    const response = await axios.post(`/v1.0/Authenticate/authenticateEndpoints`, {
-      AppId: AppId,
-      Secret: secretKey,
-    });
+  // const getAppAuthentication = async () => {
+  //   const response = await axios.post(`/v1.0/Authenticate/authenticateEndpoints`, {
+  //     AppId: AppId,
+  //     Secret: secretKey,
+  //   });
 
-    if (response && response?.data) {
-      let appToken = response.data.value.token;
-      AsyncStorage.setItem("bearerToken", appToken);
-      axios.defaults.headers.common["Authorization"] = appToken;
+  //   if (response && response?.data) {
+  //     let appToken = response.data.value.token;
+  //     AsyncStorage.setItem("bearerToken", appToken);
+  //     axios.defaults.headers.common["Authorization"] = appToken;
 
-      axiosInstance.interceptors.request.use(function (config) {
-        config.headers.Authorization = appToken;
+  //     axiosInstance.interceptors.request.use(function (config) {
+  //       config.headers.Authorization = appToken;
 
-        return config;
-      });
+  //       return config;
+  //     });
 
-      dispatch(setBearerToken(appToken));
-    }
+  //     dispatch(setBearerToken(appToken));
+  //   }
 
-    // console.log(response?.data);
-  };
+  //   // console.log(response?.data);
+  // };
 
   const globalFunctions = async () => {
     const storedUser = user || (await AsyncStorage.getItem("user"));
@@ -308,7 +308,7 @@ const AppStack = () => {
 
   const resetTimmer = () => {
     setActive(true);
-    setTimer(30000);
+    setTimer(180000);
   };
 
   return (
@@ -319,8 +319,6 @@ const AppStack = () => {
         onAction={(isActive) => {
           setActive(isActive);
           logoutUserDueToInactivity();
-
-          console.log("active", isActive);
         }}
         // style={{ padding: 0, height: 0 }}
       >

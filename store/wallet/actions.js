@@ -12,7 +12,7 @@ export const getUserWalletBalance = createAsyncThunk("wallet/getUserWalletBalanc
     UserCode: payload,
   };
 
-  return fetch(`${baseURL}/v1.0/Dashboard/userWalletBalance`, {
+  const response = await fetch(`${baseURL}/v1.0/Dashboard/userWalletBalance`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -22,7 +22,11 @@ export const getUserWalletBalance = createAsyncThunk("wallet/getUserWalletBalanc
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });
 
 export const getWalletOptions = createAsyncThunk("wallet/getWalletOptions", async (payload, { getState }) => {
@@ -37,7 +41,7 @@ export const getWalletOptions = createAsyncThunk("wallet/getWalletOptions", asyn
     UserCode: payload,
   };
 
-  return fetch(`${baseURL}/v1.0/Dashboard/getWalletFundingOptions`, {
+  const response = await fetch(`${baseURL}/v1.0/Dashboard/getWalletFundingOptions`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -47,7 +51,11 @@ export const getWalletOptions = createAsyncThunk("wallet/getWalletOptions", asyn
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });
 
 // export const insertUserCard = createAsyncThunk("wallet/insertUserCard", async (payload, { getState }) => {

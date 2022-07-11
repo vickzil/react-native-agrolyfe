@@ -24,7 +24,7 @@ export const getAirtimeDataProvidersPlans = createAsyncThunk(
 
     // console.log(JSON.stringify(newPayload));
 
-    return fetch(`${baseURL}/v1.0/UtilityPayment/getAirtimeDataProvidersPlans`, {
+    const response = await fetch(`${baseURL}/v1.0/UtilityPayment/getAirtimeDataProvidersPlans`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -34,7 +34,11 @@ export const getAirtimeDataProvidersPlans = createAsyncThunk(
       },
 
       body: JSON.stringify(newPayload),
-    }).then((res) => res.json());
+    }).then((res) => {
+      return res.json();
+    });
+
+    return response;
   },
 );
 
@@ -51,7 +55,7 @@ export const getCableTVProviders = createAsyncThunk("utility/getCableTVProviders
 
   // console.log(JSON.stringify(newPayload));
 
-  return fetch(`${baseURL}/v1.0/UtilityPayment/getCableTVProviders`, {
+  const response = await fetch(`${baseURL}/v1.0/UtilityPayment/getCableTVProviders`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -61,7 +65,11 @@ export const getCableTVProviders = createAsyncThunk("utility/getCableTVProviders
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });
 
 export const otherFunctions = createAsyncThunk("util/otherFunctions", async (payload, { getState, dispatch }) => {

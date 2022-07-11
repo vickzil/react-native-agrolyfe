@@ -12,7 +12,7 @@ export const fetchAllInvestment = createAsyncThunk("products/fetchAllInvestment"
     UserCode: payload,
   };
 
-  return fetch(`${baseURL}/v1.0/AvailableInvestment/getAllAvailableInvestments`, {
+  const response = await fetch(`${baseURL}/v1.0/AvailableInvestment/getAllAvailableInvestments`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -22,7 +22,11 @@ export const fetchAllInvestment = createAsyncThunk("products/fetchAllInvestment"
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });
 
 export const getMyInvestments = createAsyncThunk("products/getMyInvestments", async (payload, { getState }) => {
@@ -37,7 +41,7 @@ export const getMyInvestments = createAsyncThunk("products/getMyInvestments", as
     UserCode: payload,
   };
 
-  return fetch(`${baseURL}/v1.0/Dashboard/portfolio`, {
+  const response = await fetch(`${baseURL}/v1.0/Dashboard/portfolio`, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -47,5 +51,9 @@ export const getMyInvestments = createAsyncThunk("products/getMyInvestments", as
     },
 
     body: JSON.stringify(newPayload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
+
+  return response;
 });

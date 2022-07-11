@@ -48,6 +48,7 @@ import AddBVNModal from "./profile/bvn/AddBVNModal";
 import SelectAllBanksModal from "./bank/SelectAllBanksModal";
 import SelectWalletModal from "./fundwallet/SelectWalletModal";
 import AddPinModal from "./profile/changePin/AddPinModal";
+import TopUpSavingsModal from "./savings/TopUpSavingsModal";
 // import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
@@ -66,6 +67,7 @@ const AllModals = () => {
       <SavingsModal />
       <SubSavingsModal />
       <MSavingsDetailsModal />
+      <TopUpSavingsModal />
       <PurchaseSavingsModal />
       <ReferralModal />
       <ReferralDetailsModal />
