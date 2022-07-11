@@ -48,6 +48,7 @@ const PurchaseSavingsModal = () => {
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
 
+  const paymentType = useSelector((state) => state.savings.selectedSavingsType);
   const paymentDetails = useSelector((state) => state.savings.selectedSavingsTypeDetails);
 
   const dispatch = useDispatch();
@@ -166,9 +167,20 @@ const PurchaseSavingsModal = () => {
       setEmptyFields(false);
     }
     if (step === 5) {
+      if (!paymentType) {
+        setEmptyFields(true);
+
+        return;
+      }
+      if (!paymentDetails) {
+        setEmptyFields(true);
+
+        return;
+      }
+
       setEmptyFields(false);
     }
-  }, [step, name, amount, frequency, duration]);
+  }, [step, name, amount, frequency, duration, paymentDetails, paymentType]);
 
   const previousStep = () => {
     if (isLoading) {
@@ -277,10 +289,10 @@ const PurchaseSavingsModal = () => {
         },
       })
       .then((response) => {
-        console.log(response?.data);
+        // console.log(response?.data);
 
         if (response?.data?.success == true) {
-          console.log(response?.data?.data);
+          // console.log(response?.data?.data);
           setScreenLoading({
             status: false,
             message: "",
@@ -351,7 +363,7 @@ const PurchaseSavingsModal = () => {
       SavingsCategoryCode: modal?.payload?.subCat?.code,
     };
 
-    console.log(newPayload);
+    // console.log(newPayload);
 
     axios
       .post(`${baseURL}/v1.0/UserSavings/addUserSavingsBySavedCard`, newPayload, {
@@ -361,10 +373,10 @@ const PurchaseSavingsModal = () => {
         },
       })
       .then((response) => {
-        console.log(response?.data);
+        // console.log(response?.data);
 
         if (response?.data?.success == true) {
-          console.log(response?.data?.data);
+          // console.log(response?.data?.data);
           setScreenLoading({
             status: false,
             message: "",
@@ -490,6 +502,8 @@ const PurchaseSavingsModal = () => {
             <SavingSummary
               payload={modal?.payload?.category}
               item={modal?.payload?.subCat}
+              paymentDetails={paymentDetails}
+              paymentType={paymentType}
               summaryDetails={summaryDetails}
             />
           </ScrollView>

@@ -15,13 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { saveUserInfo } from "../store/auth/authSlice";
 import { saveUserTransactions } from "../store/transactions/transactionSlice";
-import { fetchAllInvestment, getMyInvestments } from "../store/products/actions";
-import { getSavingsMainCategories, getUserSavings } from "../store/savings/actions";
-import { getUserReferrals } from "../store/referrals/actions";
-import { getAllUserBankAccounts } from "../store/bank/actions";
-import { getUserWalletBalance, getWalletOptions } from "../store/wallet/actions";
-import { getAccountMangager } from "../store/accountManager/actions";
-import { getAirtimeDataProvidersPlans, getCableTVProviders, otherFunctions } from "../store/utilities/actions";
+
+import { otherFunctions } from "../store/utilities/actions";
 import MarqueeTextSample from "../components/extra/MarqueeTextSample";
 
 const Home = ({ navigation }) => {
@@ -121,7 +116,7 @@ const Home = ({ navigation }) => {
       .then((response) => {
         dispatch(saveUserInfo(response?.data?.data));
 
-        console.log(response.data?.data);
+        // console.log(response.data?.data);
         setTimeout(() => {
           setRefreshing(false);
         }, 2000);

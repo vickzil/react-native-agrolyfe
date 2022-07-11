@@ -43,7 +43,7 @@ const EditProfileHeaderImageTop = ({ handleLoading }) => {
       quality: 1,
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.cancelled) {
       // setImage(result.uri);
@@ -85,7 +85,7 @@ const EditProfileHeaderImageTop = ({ handleLoading }) => {
         },
       })
       .then((response) => {
-        console.log(response?.data);
+        // console.log(response?.data);
 
         if (response?.data?.success == true) {
           handleLoading(false);

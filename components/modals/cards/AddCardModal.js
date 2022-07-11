@@ -56,9 +56,9 @@ const AddCardModal = () => {
   const onSuccess = (response) => {
     // console.log(response);
     if (response?.status === "success") {
-      console.log("succss");
-      console.log(response?.transactionRef);
-      console.log(response?.transactionRef?.trxref);
+      // console.log("succss");
+      // console.log(response?.transactionRef);
+      // console.log(response?.transactionRef?.trxref);
       dispatch(setPaystackRef(response?.transactionRef?.trxref));
     }
     closeModal();

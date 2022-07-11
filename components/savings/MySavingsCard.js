@@ -42,7 +42,7 @@ const MySavingsCard = ({ item }) => {
           />
         </View>
 
-        <Text style={styles.productCardContentTitle}>{saving.allias}</Text>
+        <Text style={styles.productCardContentTitle}>{item?.allias}</Text>
         <View
           style={{ width: "100%", backgroundColor: "#fff", height: 3, paddingHorizontal: 40, marginBottom: 30 }}
         ></View>
@@ -96,6 +96,7 @@ const MySavingsCard = ({ item }) => {
                   textAlign: "right",
                 },
                 item.status === "running" ? styles.statusSuccess : null,
+                item.status === "new" ? styles.statusNew : null,
               ]}
             >
               {item?.status}
@@ -219,6 +220,11 @@ const styles = StyleSheet.create({
 
   statusSuccess: {
     backgroundColor: colors.greenLightColor,
+  },
+
+  statusNew: {
+    backgroundColor: "blue",
+    color: "#fff",
   },
 
   productCardContentTitle: {

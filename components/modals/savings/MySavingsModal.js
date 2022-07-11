@@ -53,7 +53,7 @@ const MySavingsModal = () => {
           <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
         </View>
       )}
-      <View>
+      <View style={{ flex: 1 }}>
         <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
           <Icon
             name="arrow-left"
@@ -96,7 +96,7 @@ const MySavingsModal = () => {
         </ScrollView>
 
         {mySavings && mySavings.length ? (
-          <TouchableOpacity style={[styles.buttonFloat]}>
+          <TouchableOpacity style={[styles.buttonFloat]} activeOpacity={0.4}>
             <Text
               style={styles.buttonFloatText}
               onPress={() => {
@@ -132,6 +132,7 @@ const MySavingsModal = () => {
 const styles = StyleSheet.create({
   modalHeader: {
     width,
+
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

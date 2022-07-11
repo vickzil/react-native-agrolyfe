@@ -42,7 +42,7 @@ const TwoFactor = ({ navigation, route }) => {
       token: value,
     };
 
-    console.log(payload);
+    // console.log(payload);
     // console.log(bearerToken);
 
     axios
@@ -53,7 +53,7 @@ const TwoFactor = ({ navigation, route }) => {
         },
       })
       .then((response) => {
-        console.log(response?.data);
+        // console.log(response?.data);
 
         if (response?.data?.success == true) {
           const data = JSON.parse(userData);

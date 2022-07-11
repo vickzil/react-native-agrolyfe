@@ -11,6 +11,7 @@ const initialState = {
   secretKey: "helloworld",
   bearerToken: "",
   user: null,
+  loginIdentity: null,
   countryInfo: null,
   token: null,
   hasLogin: false,
@@ -31,6 +32,10 @@ const authSlice = createSlice({
   reducers: {
     saveUserInfo: (state, { payload }) => {
       state.user = payload;
+    },
+
+    SaveLoginIdentity: (state, { payload }) => {
+      state.loginIdentity = payload;
     },
 
     setToken: (state, { payload }) => {
@@ -148,6 +153,7 @@ export const {
   setVerificationInfo,
   setDashboardMessage,
   setAdverts,
+  SaveLoginIdentity,
 } = authSlice.actions;
 
 export default authSlice.reducer;

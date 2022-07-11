@@ -9,9 +9,7 @@ import { addComma, formateDateByName } from "../../../helpers/globalFunction";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const SavingSummary = ({ summaryDetails }) => {
-  const paymentType = useSelector((state) => state.savings.selectedSavingsType);
-  const paymentDetails = useSelector((state) => state.savings.selectedSavingsTypeDetails);
+const SavingSummary = ({ summaryDetails, paymentType, paymentDetails }) => {
   const dispatch = useDispatch();
 
   return (

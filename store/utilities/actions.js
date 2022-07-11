@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getAccountMangager } from "../accountManager/actions";
+import { logoutAllAccount2 } from "../alert/actions";
+import { logoutAllAccount } from "../auth/actions";
 import { getAllUserBankAccounts } from "../bank/actions";
 import { fetchAllInvestment, getMyInvestments } from "../products/actions";
 import { getUserReferrals } from "../referrals/actions";
@@ -64,8 +66,13 @@ export const getCableTVProviders = createAsyncThunk("utility/getCableTVProviders
 
 export const otherFunctions = createAsyncThunk("util/otherFunctions", async (payload, { getState, dispatch }) => {
   const user = getState().oauth.user;
+  const bearerToken = getState().oauth.bearerToken;
 
-  console.log(user);
+  if (!bearerToken) {
+    dispatch(logoutAllAccount());
+    dispatch(logoutAllAccount2());
+    return;
+  }
 
   dispatch(fetchAllInvestment(user?.code));
   dispatch(getMyInvestments(user?.code));
@@ -78,6 +85,8 @@ export const otherFunctions = createAsyncThunk("util/otherFunctions", async (pay
   dispatch(getWalletOptions(user?.code));
   dispatch(getAirtimeDataProvidersPlans(user?.code));
   dispatch(getCableTVProviders(user?.code));
+
+  console.log("here");
 });
 
 export const otherGlobalFunctions = createAsyncThunk(

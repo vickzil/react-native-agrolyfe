@@ -47,7 +47,7 @@ const InputCode = ({ navigation, route }) => {
       OTP: value,
     };
 
-    console.log(payload);
+    // console.log(payload);
 
     axios
       .post(`${baseURL}/v1.0/UserOnboard/validateOTP`, payload, {
@@ -57,7 +57,7 @@ const InputCode = ({ navigation, route }) => {
         },
       })
       .then((response) => {
-        console.log(response?.data);
+        // console.log(response?.data);
 
         if (response?.data?.success == true) {
           dispatch(

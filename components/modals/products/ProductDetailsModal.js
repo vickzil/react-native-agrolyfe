@@ -24,10 +24,6 @@ const ProductDetailsModal = () => {
   const modal = useSelector((state) => state.alert.productDetailsModal);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(modal?.payload);
-  }, [modal]);
-
   const closeModal = () => {
     dispatch(
       setProductDetailsModal({

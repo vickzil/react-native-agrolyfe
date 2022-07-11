@@ -71,7 +71,7 @@ const CompleteRegister = ({ navigation, route }) => {
     hideDatePicker();
     handleError(".", "dob");
 
-    console.log(inputs.dob);
+    // console.log(inputs.dob);
   };
 
   const validate = () => {

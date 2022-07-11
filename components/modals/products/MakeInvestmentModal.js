@@ -196,7 +196,7 @@ const MakeInvestmentModal = () => {
       IamInterestedInOilvest: false,
     };
 
-    console.log(newPayload);
+    // console.log(newPayload);
 
     axios
       .post(`${baseURL}/v1.0/AvailableInvestment/CalculateROI`, newPayload, {
@@ -206,10 +206,10 @@ const MakeInvestmentModal = () => {
         },
       })
       .then((response) => {
-        console.log(response?.data);
+        // console.log(response?.data);
 
         if (response?.data?.success == true) {
-          console.log(response?.data?.data);
+          // console.log(response?.data?.data);
           setIsLoading(false);
           setEmptyFields(false);
           setSummaryDetails(response?.data?.data);

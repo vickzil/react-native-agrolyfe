@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
-import { saveUserInfo, setBearerToken, setHasLogin, setToken } from "../store/auth/authSlice";
+import { SaveLoginIdentity, saveUserInfo, setBearerToken, setHasLogin, setToken } from "../store/auth/authSlice";
 import axiosInstance from "../components/helpers/axiosInstance";
 import axios from "axios";
 
@@ -27,6 +27,7 @@ export default function MainApp() {
 
   useLayoutEffect(() => {
     getAppAuthentication();
+    getLoginIdentity();
   }, []);
 
   const getAppAuthentication = async () => {
@@ -79,6 +80,14 @@ export default function MainApp() {
     } catch (error) {
       dispatch(setHasLogin(false));
     }
+  };
+
+  const getLoginIdentity = async () => {
+    const storedLoginIdentity = await AsyncStorage.getItem("loginIdentity");
+    let loginIdentity = JSON.parse(storedLoginIdentity) || null;
+    setTimeout(() => {
+      dispatch(SaveLoginIdentity(loginIdentity));
+    }, 700);
   };
 
   return (

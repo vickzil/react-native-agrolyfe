@@ -15,11 +15,10 @@ import AlertModal from "../components/modals/AlertModal";
 import { removeStorageItemValue } from "../components/helpers/globalFunction";
 import { setUserWalletBalance } from "../store/wallet/walletSlice";
 import { getTransactionsInfo } from "../store/transactions/actions";
-import { setAdverts, setDashboardMessage, setVerificationInfo } from "../store/auth/authSlice";
+import { SaveLoginIdentity, setAdverts, setDashboardMessage, setVerificationInfo } from "../store/auth/authSlice";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
-  const [initialRouteName, setInitialRouteName] = useState();
   const hasLogin = useSelector((state) => state.oauth.hasLogin);
 
   const dispatch = useDispatch();

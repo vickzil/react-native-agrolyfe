@@ -9,7 +9,7 @@ const Header = ({ title, icons }) => {
 
   const goBack = () => {
     navigation.goBack();
-    console.log(navigation);
+    // console.log(navigation);
   };
 
   return (

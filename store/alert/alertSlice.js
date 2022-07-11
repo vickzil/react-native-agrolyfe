@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { logoutAllAccount2 } from "./actions";
 
 const initialState = {
+  anything: null,
   alertModal: {
     status: false,
     type: "",
@@ -421,6 +423,15 @@ const alertSlice = createSlice({
         status: payload.status,
         user: payload.user,
       };
+    },
+  },
+
+  extraReducers: {
+    [logoutAllAccount2.fulfilled]: (state, action) => {
+      let result = action.payload;
+      if (result) {
+        state.anything = result.data;
+      }
     },
   },
 });

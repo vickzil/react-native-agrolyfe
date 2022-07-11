@@ -215,7 +215,7 @@ const BuyDataModal = () => {
         // console.log(response?.data);
 
         if (response?.data?.success == true) {
-          console.log(response?.data?.data);
+          // console.log(response?.data?.data);
           setScreenLoading({
             status: false,
             message: "",

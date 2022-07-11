@@ -82,7 +82,7 @@ const Wallet = ({ navigation }) => {
       .then((response) => {
         dispatch(saveUserInfo(response?.data?.data));
 
-        console.log(response.data?.data);
+        // console.log(response.data?.data);
         setTimeout(() => {
           setRefreshing(false);
         }, 2000);
