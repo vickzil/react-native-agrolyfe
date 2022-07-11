@@ -323,7 +323,7 @@ const TopUpSavingsModal = () => {
                         dispatch(
                           setSelectCardModal({
                             status: true,
-                            type: "Fund_WALLET_BY_CARD",
+                            type: "TOPUP_BY_CARD",
                           }),
                         )
                       }
