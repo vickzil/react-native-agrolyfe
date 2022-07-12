@@ -45,7 +45,7 @@ const FeedbackPromptModal = () => {
               We'd welcome your feedback
             </Text>
             <Text style={[{ marginVertical: 20, fontSize: 18, textAlign: "center" }]}>
-              Thank you for making use of our platform. would you like to participate in a brief customer satisfaction
+              Thank you for making use of our platform. Would you like to participate in a brief customer satisfaction
               survey to let us know how we can improve your experience.
             </Text>
 

@@ -1,7 +1,7 @@
 import { Alert, Dimensions, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAlertModalSuccess } from "../../store/alert/alertSlice";
+import { setAlertModalSuccess, setFeedbackPromptModal } from "../../store/alert/alertSlice";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import colors from "../../styles/colors";
 import { globalStyles } from "../../styles/global";
@@ -11,6 +11,7 @@ const { width } = Dimensions.get("screen");
 
 const AlertSuccessModal = () => {
   const modal = useSelector((state) => state.alert.alertModalSuccess);
+  const hasFeedBack = useSelector((state) => state.oauth.hasFeedBack);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -20,6 +21,10 @@ const AlertSuccessModal = () => {
         payload: null,
       }),
     );
+
+    if (!hasFeedBack) {
+      dispatch(setFeedbackPromptModal(true));
+    }
   };
 
   return (

@@ -29,6 +29,7 @@ import CustomTextArea from "../../customs/CustomTextArea";
 import POPUpModal from "../POPUpModal";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
 import { getUserInfo } from "../../../store/auth/actions";
+import { setHasFeedBack } from "../../../store/auth/authSlice";
 const { width, height } = Dimensions.get("window");
 let screenHeight = Dimensions.get("window").height;
 
@@ -39,8 +40,6 @@ const FeedbackModal = () => {
 
   const modal = useSelector((state) => state.alert.feedbackModal);
 
-  const hasFeedBack = useSelector((state) => state.oauth.hasFeedBack);
-
   const user = useSelector((state) => state.oauth.user);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -48,7 +47,7 @@ const FeedbackModal = () => {
   const RequestId = useSelector((state) => state.oauth.RequestId);
 
   const [emptyFields, setEmptyFields] = useState(true);
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState();
   const [description, setDescription] = useState("");
   const [feedbackType, setFeedbackType] = useState(null);
   const [screenLoading, setScreenLoading] = useState({
@@ -81,7 +80,7 @@ const FeedbackModal = () => {
     dispatch(setFeedbackModal(false));
     setFeedbackType(null);
     setDescription("");
-    setRating(1);
+    setRating();
     setEmptyFields(true);
   };
 
@@ -133,6 +132,7 @@ const FeedbackModal = () => {
         if (response?.data?.success == true) {
           // console.log(response?.data?.data);
           AsyncStorage.setItem("hasFeedBack", "true");
+          dispatch(setHasFeedBack(true));
           setScreenLoading({
             status: false,
             message: "",
@@ -149,9 +149,6 @@ const FeedbackModal = () => {
 
           dispatch(getUserInfo(user?.code));
           dispatch(otherGlobalFunctions());
-          if (!hasFeedBack) {
-            dispatch(setFeedbackPromptModal(true));
-          }
 
           closeModal();
         } else {
