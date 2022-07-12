@@ -20,8 +20,10 @@ import {
 import {
   saveUserInfo,
   setAdverts,
+  setBearerToken,
   setDashboardMessage,
   setGreetings,
+  setHasFeedBack,
   setPaystackRef,
   setResendPinCompleted,
   setToken,
@@ -73,6 +75,14 @@ const AppStack = () => {
       insertUserCard(paystackRef);
     }
   }, [paystackRef]);
+
+  useEffect(() => {
+    (async () => {
+      const hasFeedBack = await AsyncStorage.getItem("hasFeedBack");
+      let responseM = hasFeedBack ? true : false;
+      dispatch(setHasFeedBack(responseM));
+    })();
+  }, []);
 
   useEffect(() => {
     if (resendPinCompleted === true) {
@@ -320,7 +330,6 @@ const AppStack = () => {
           setActive(isActive);
           logoutUserDueToInactivity();
         }}
-        // style={{ padding: 0, height: 0 }}
       >
         <Tab.Navigator tabBar={(props) => <TabBar {...props} />} screenOptions={{ headerShown: false }}>
           <Tab.Screen name="Home" component={Home} initialParams={{ icon: "home" }} />

@@ -2,31 +2,23 @@ import "../ignoreWarnings";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RefreshControl, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HomeHeader from "../components/home/HomeHeader";
 import HomeWalletOverview from "../components/home/HomeWalletOverview";
 import QuickMenus from "../components/home/QuickMenus";
 import Transactions from "../components/transactions/Transactions";
 import { useIsFocused } from "@react-navigation/native";
-import GeneralStatusBarColor from "../components/customs/statusbar/GeneralStatusBarColor";
 import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
-import { setLogoutModal } from "../store/alert/alertSlice";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { saveUserInfo } from "../store/auth/authSlice";
-import { saveUserTransactions } from "../store/transactions/transactionSlice";
 
-import { otherFunctions } from "../store/utilities/actions";
+import { otherGlobalFunctions } from "../store/utilities/actions";
 import MarqueeTextSample from "../components/extra/MarqueeTextSample";
+import { getUserInfo } from "../store/auth/actions";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
   const [userDetails, setUserDetails] = useState();
   const user = useSelector((state) => state.oauth.user);
-  const baseURL = useSelector((state) => state.oauth.baseURL);
-  const bearerToken = useSelector((state) => state.oauth.bearerToken);
-  const AppId = useSelector((state) => state.oauth.AppId);
-  const RequestId = useSelector((state) => state.oauth.RequestId);
   const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
 
   // const ref = useRef(null);
@@ -55,51 +47,49 @@ const Home = ({ navigation }) => {
     }
   };
 
-  const wait = (timeout) => {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
-  };
+  // const getUserInfos = async () => {
+  //   return await fetch(`${baseURL}/v1.0/Dashboard/getUserInfo`, {
+  //     method: "POST",
+  //     // mode: "cors",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + bearerToken,
+  //     },
 
-  const getUserInfos = async () => {
-    let savedToken = AsyncStorage.getItem("token");
-    const userToken = "Bearer " + bearerToken || "Bearer " + savedToken;
-    const response = await axios.post(
-      `${baseURL}/v1.0/Dashboard/getUserInfo`,
-      {
-        AppId: AppId,
-        RequestId: RequestId,
-        UserCode: user?.code,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: userToken,
-        },
-      },
-    );
+  //     body: JSON.stringify({
+  //       AppId: AppId,
+  //       RequestId: RequestId,
+  //       UserCode: user?.code,
+  //     }),
+  //   }).then((res) => {
+  //     return res.json();
+  //   });
+  // };
 
-    return response;
-  };
+  // const getAllTransactions = async () => {
+  //   const response = await fetch(`${baseURL}/v1.0/Wallet/getUserTransactionInfo`, {
+  //     method: "POST",
+  //     mode: "cors",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + bearerToken,
+  //     },
 
-  const getAllTransactions = async () => {
-    const response = await axios.post(
-      `${baseURL}/v1.0/Wallet/getUserTransactionInfo`,
-      {
-        AppId: AppId,
-        RequestId: RequestId,
-        UserCode: user?.code,
-        TransactionType: "",
-        PageSize: 20,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + bearerToken,
-        },
-      },
-    );
+  //     body: JSON.stringify({
+  //       AppId: AppId,
+  //       RequestId: RequestId,
+  //       UserCode: user?.code,
+  //       TransactionType: "",
+  //       PageSize: 20,
+  //     }),
+  //   }).then((res) => {
+  //     return res.json();
+  //   });
 
-    return response;
-  };
+  //   return response;
+  // };
 
   useEffect(() => {}, [userWalletBalance, user]);
 
@@ -110,41 +100,40 @@ const Home = ({ navigation }) => {
 
   const [refreshing, setRefreshing] = useState(false);
 
-  const onRefresh = useCallback(() => {
+  // const onRefresh = useCallback(() => {
+  //   setRefreshing(true);
+  //   // getUserInfos()
+  //   //   .then((response) => {
+  //   //     // dispatch(saveUserInfo(response?.data));
+
+  //   //     console.log(response);
+  //   //     setTimeout(() => {
+  //   //       setRefreshing(false);
+  //   //     }, 2000);
+  //   //   })
+  //   //   .catch(() => {
+  //   //     setRefreshing(false);
+  //   //   });
+
+  //   setTimeout(() => {
+  //     setRefreshing(false);
+  //   }, 3000);
+
+  //   // getAllTransactions().then((response) => {
+  //   //   dispatch(saveUserTransactions(response?.data));
+
+  //   //   dispatch(otherFunctions());
+  //   // });
+  // }, []);
+
+  const onRefresh = () => {
     setRefreshing(true);
-    getUserInfos()
-      .then((response) => {
-        dispatch(saveUserInfo(response?.data?.data));
-
-        // console.log(response.data?.data);
-        setTimeout(() => {
-          setRefreshing(false);
-        }, 2000);
-      })
-      .catch(() => {
-        setRefreshing(false);
-      });
-
-    getAllTransactions().then((response) => {
-      dispatch(saveUserTransactions(response?.data?.data));
-
-      // console.log(response?.data?.data);
-
-      dispatch(otherFunctions());
-
-      // dispatch(fetchAllInvestment(user?.code));
-      // dispatch(getMyInvestments(user?.code));
-      // dispatch(getUserSavings(user?.code));
-      // dispatch(getSavingsMainCategories(user?.code));
-      // dispatch(getUserReferrals(user?.code));
-      // dispatch(getAccountMangager(user?.code));
-      // dispatch(getAllUserBankAccounts(user?.code));
-      // dispatch(getUserWalletBalance(user?.code));
-      // dispatch(getWalletOptions(user?.code));
-      // dispatch(getAirtimeDataProvidersPlans(user?.code));
-      // dispatch(getCableTVProviders(user?.code));
-    });
-  }, []);
+    dispatch(getUserInfo(user?.code));
+    dispatch(otherGlobalFunctions());
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 3500);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

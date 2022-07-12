@@ -15,6 +15,7 @@ const initialState = {
   countryInfo: null,
   token: null,
   hasLogin: false,
+  hasFeedBack: false,
   error: false,
   loading: false,
   resendPinLoading: false,
@@ -68,8 +69,13 @@ const authSlice = createSlice({
     setDashboardMessage: (state, { payload }) => {
       state.dashboardMessage = payload;
     },
+
     setAdverts: (state, { payload }) => {
       state.adverts = payload;
+    },
+
+    setHasFeedBack: (state, { payload }) => {
+      state.hasFeedBack = payload;
     },
   },
   extraReducers: {
@@ -154,6 +160,7 @@ export const {
   setDashboardMessage,
   setAdverts,
   SaveLoginIdentity,
+  setHasFeedBack,
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,6 +1,7 @@
 import {
   Dimensions,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Switch,
@@ -29,6 +30,8 @@ import Modal from "react-native-modal";
 import ScreenLoading from "../../loader/ScreenLoading";
 import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import { addComma } from "../../helpers/globalFunction";
+import { otherGlobalFunctions } from "../../../store/utilities/actions";
+import { getUserInfo } from "../../../store/auth/actions";
 const { width, height } = Dimensions.get("window");
 let screenHeight = Dimensions.get("window").height;
 

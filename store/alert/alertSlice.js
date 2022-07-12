@@ -138,6 +138,9 @@ const initialState = {
     status: false,
     user: null,
   },
+
+  feedbackModal: false,
+  feedbackPromptModal: false,
 };
 
 const alertSlice = createSlice({
@@ -435,6 +438,14 @@ const alertSlice = createSlice({
         user: payload.user,
       };
     },
+
+    setFeedbackModal: (state, { payload }) => {
+      state.feedbackModal = payload;
+    },
+
+    setFeedbackPromptModal: (state, { payload }) => {
+      state.feedbackPromptModal = payload;
+    },
   },
 
   extraReducers: {
@@ -507,6 +518,8 @@ export const {
   setSelectedUser,
   setSelectedNetwork,
   setTransferToCustomerModal,
+  setFeedbackModal,
+  setFeedbackPromptModal,
 } = alertSlice.actions;
 
 export default alertSlice.reducer;

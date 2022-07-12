@@ -25,6 +25,13 @@ export default function MainApp() {
     authLogin();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const appToken = await AsyncStorage.getItem("bearerToken");
+      dispatch(setBearerToken(appToken));
+    })();
+  }, []);
+
   useLayoutEffect(() => {
     getAppAuthentication();
     getLoginIdentity();

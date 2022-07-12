@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 17,
+    paddingVertical: 7,
     paddingHorizontal: 10,
     // elevation: 3,
   },
@@ -89,11 +89,12 @@ const styles = StyleSheet.create({
 
   modalHeaderText: {
     fontStyle: "normal",
-    fontWeight: "700",
+    fontWeight: "600",
     fontSize: 19,
     lineHeight: 29,
     marginBottom: 0,
-    fontFamily: "Montserrat",
+    fontFamily: "PoppinsBold",
+    letterSpacing: -0.35644,
     color: "#fff",
     marginLeft: -45,
   },
