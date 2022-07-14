@@ -17,6 +17,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Cards from "./Cards";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import SvgComponent2 from "../../customs/SvgComponent2";
 
 const { width } = Dimensions.get("screen");
 
@@ -32,6 +33,7 @@ const CardModal = () => {
         dispatch(setCardModal(false));
       }}
     >
+      <SvgComponent2 />
       <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
 
       <View style={{ marginTop: -40 }}>

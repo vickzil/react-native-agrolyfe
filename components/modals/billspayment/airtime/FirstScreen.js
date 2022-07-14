@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import CurrencyInput from "react-native-currency-input";
+import { TextInputMask } from "react-native-masked-text";
 import { globalStyles } from "../../../../styles/global";
 import colors from "../../../../styles/colors";
 import { setSelectBankModal, setSelectCardModal, setSelectedNetwork } from "../../../../store/alert/alertSlice";
@@ -20,7 +20,6 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const userImage = require("../../../../assets/img/user.jpg");
 const MTNImage = require("../../../../assets/img/mtn.png");
 const GLOImage = require("../../../../assets/img/glo.png");
 const AirtelImage = require("../../../../assets/img/airtel.jpg");
@@ -86,17 +85,24 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
             <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 2, fontWeight: "600" }]}>
               Amount
             </Text>
-            <CurrencyInput
+
+            <TextInputMask
+              type={"money"}
+              options={{
+                precision: 0,
+                //   separator: ",",
+                delimiter: ",",
+                unit: "₦",
+                suffixUnit: "",
+              }}
+              placeholder="0"
               value={amount}
-              onChangeValue={setAmount}
-              prefix="₦ "
-              delimiter=","
-              // separator="."
-              precision={0}
-              // onChangeText={(formattedValue) => {
-              //   console.log(formattedValue);
-              // }}
-              style={[globalStyles.inputContainer, { fontSize: 25, fontWeight: "bold" }]}
+              onChangeText={(text) => {
+                setAmount(text);
+              }}
+              style={[
+                { borderBottomWidth: 1, borderColor: colors.greenColor, height: 50, fontSize: 33, fontWeight: "700" },
+              ]}
             />
           </View>
           <View>

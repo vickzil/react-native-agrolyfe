@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 import colors from "../styles/colors";
 import Tab from "./Tab";
 
 const { width } = Dimensions.get("screen");
 
 const TabBar = ({ state, navigation }) => {
+  // const selectedMenu = useSelector((state) => state.oauth.selectedMenu);
   const [selected, setSelected] = useState("Home");
 
   const { routes } = state;

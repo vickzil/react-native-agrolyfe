@@ -7,8 +7,6 @@ import colors from "../../../../styles/colors";
 import NoItem from "../../../extra/NoItem";
 import LoadingComponents from "../../../loader/LoadingComponents";
 
-const userImage = require("../../../../assets/img/user.jpg");
-
 const { width } = Dimensions.get("screen");
 
 const AccountManagerModal = () => {

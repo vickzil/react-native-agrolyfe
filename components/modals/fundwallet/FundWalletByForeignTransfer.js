@@ -22,6 +22,7 @@ import { copyLink } from "../../helpers/globalFunction";
 import LoadingComponents from "../../loader/LoadingComponents";
 import NoItem from "../../extra/NoItem";
 import RenderHtml from "react-native-render-html";
+import SvgComponent from "../../customs/SvgComponent";
 
 const { height, width } = Dimensions.get("window");
 const FundWalletByForeignTransfer = () => {
@@ -93,6 +94,7 @@ const FundWalletByForeignTransfer = () => {
         sheetBackgroundColor="#fff"
         radius={1}
       >
+        <SvgComponent />
         <View style={[styles.modalHeader]}>
           <Icon
             name="chevron-left"

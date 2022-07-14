@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../../styles/colors";
 import ChangePasswordForm from "./ChangePasswordForm";
 import ScreenLoading from "../../../loader/ScreenLoading";
+import SvgComponent from "../../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 
@@ -35,6 +36,7 @@ const ChangePasswordModal = () => {
     <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <ScreenLoading visibility={{ status: isLoading, message: "Please wait ..." }} />
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+        <SvgComponent />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"

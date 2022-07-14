@@ -17,6 +17,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Banks from "./Banks";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import SvgComponent from "../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 
@@ -36,6 +37,7 @@ const BankModal = () => {
         dispatch(setBankModal(false));
       }}
     >
+      <SvgComponent />
       <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
 
       <View style={{ marginTop: -40 }}>

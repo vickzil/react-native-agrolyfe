@@ -17,7 +17,14 @@ const PageLoading = () => {
               <Text
                 style={[
                   globalStyles.label,
-                  { marginBottom: -5, fontSize: 16, marginTop: 19, fontWeight: "700", color: "#4d4b4b" },
+                  {
+                    marginBottom: -5,
+                    fontSize: 16,
+                    marginTop: 19,
+                    fontWeight: "600",
+                    color: "#4d4b4b",
+                    fontFamily: "Poppins",
+                  },
                 ]}
               >
                 {loading.message}
@@ -39,7 +46,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
     width: "100%",
     height: "100%",
-    backgroundColor: "rgba(0,0,0,0.2)",
+    backgroundColor: "rgba(0,0,0,0.7)",
     justifyContent: "center",
     alignItems: "center",
   },

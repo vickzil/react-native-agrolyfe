@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -18,6 +18,7 @@ import ScreenLoading from "../loader/ScreenLoading";
 import AccountImageFullName from "./AccountImageFullName";
 import axios from "axios";
 import { getUserInfo } from "../../store/auth/actions";
+import Logo from "../logo/Logo";
 
 const { width } = Dimensions.get("screen");
 
@@ -186,8 +187,15 @@ const AccountHeader = () => {
         </View> */}
         <View style={[styles.accountTabs, { marginTop: 20 }]}>
           <Text style={{ color: "#999", textTransform: "uppercase", fontSize: 15 }}>
-            OXFORD AGROLYFE APP VERSION {APPVERSION}
+            AGROLYFE APP VERSION {APPVERSION}
           </Text>
+        </View>
+        <View style={[styles.accountTabs, { marginTop: 20, alignItems: "center" }]}>
+          <Image
+            source={require("../../assets/img/logo.png")}
+            style={{ width: 160, height: 160 }}
+            resizeMode="contain"
+          />
         </View>
       </View>
     </View>

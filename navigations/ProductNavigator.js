@@ -10,12 +10,23 @@ import colors from "../styles/colors";
 import GeneralStatusBarColor from "../components/customs/statusbar/GeneralStatusBarColor";
 import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import SvgComponent from "../components/customs/SvgComponent";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedMenu } from "../store/auth/authSlice";
 
 // const Stack = createNativeStackNavigator();
 const TopTab = createMaterialTopTabNavigator();
 const ProductNavigator = () => {
+  const dispatch = useDispatch();
+  const selectedMenu = useSelector((state) => state.oauth.selectedMenu);
+
+  useEffect(() => {
+    dispatch(setSelectedMenu("ProductNavigator"));
+  }, [selectedMenu]);
   return (
     <SafeAreaProvider>
+      <SvgComponent />
       <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
       <TopTab.Navigator
         tabBarScrollEnabled={false}

@@ -9,6 +9,7 @@ import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import { saveUserInfo, setHasLogin, setToken } from "../store/auth/authSlice";
 import axios from "axios";
 import { getTransactionsInfo } from "../store/transactions/actions";
+import SvgComponent from "../components/customs/SvgComponent";
 
 const TwoFactor = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -124,6 +125,7 @@ const TwoFactor = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
+      <SvgComponent />
       <ScrollView contentContainerStyle={{ paddingTop: 20, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
         <View style={[styles.productContainer]}>
@@ -131,7 +133,7 @@ const TwoFactor = ({ navigation, route }) => {
             <Text
               style={[
                 styles.productCardContentItemLeft,
-                { fontSize: 27, fontWeight: "900", marginBottom: 4, color: colors.greenProductColor },
+                { fontSize: 22, fontWeight: "900", marginBottom: 4, fontFamily: "Poppins" },
               ]}
             >
               Two-Factor Verification
@@ -140,7 +142,13 @@ const TwoFactor = ({ navigation, route }) => {
               <Text
                 style={[
                   // globalStyles.label,
-                  { fontSize: 17, textAlign: "center", paddingHorizontal: 40, fontWeight: "600" },
+                  {
+                    fontSize: 16,
+                    textAlign: "center",
+                    fontFamily: "Poppins",
+                    fontWeight: "600",
+                    paddingHorizontal: 40,
+                  },
                 ]}
               >
                 Enter your 4-digit CODE sent to your email to continue
@@ -174,8 +182,9 @@ const TwoFactor = ({ navigation, route }) => {
                   color: colors.greenDarkDarkColor,
                   textAlign: "center",
                   fontSize: 16,
-                  fontWeight: "bold",
+                  fontWeight: "600",
                   marginTop: 20,
+                  fontFamily: "Poppins",
                 }}
               >
                 Back to Login

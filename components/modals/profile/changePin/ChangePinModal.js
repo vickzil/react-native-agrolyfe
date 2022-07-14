@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../../styles/colors";
 import ChangePinForm from "./ChangePinForm";
 import ScreenLoading from "../../../loader/ScreenLoading";
+import SvgComponent from "../../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 
@@ -21,8 +22,8 @@ const ChangePinModal = () => {
   return (
     <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <ScreenLoading visibility={{ status: isLoading, message: "Please wait ..." }} />
-
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+      <SvgComponent />
+      <View style={{ flex: 1 }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
@@ -33,6 +34,7 @@ const ChangePinModal = () => {
           <Text style={styles.modalHeaderText}>Change pin</Text>
           <Text></Text>
         </View>
+
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
             <ChangePinForm isLoading={isLoading} setIsLoading={setIsLoading} closeModal={closeModal} />

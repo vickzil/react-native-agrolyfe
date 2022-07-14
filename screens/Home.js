@@ -1,7 +1,7 @@
 import "../ignoreWarnings";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { RefreshControl, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Image, RefreshControl, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import HomeHeader from "../components/home/HomeHeader";
 import HomeWalletOverview from "../components/home/HomeWalletOverview";
@@ -14,22 +14,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { otherGlobalFunctions } from "../store/utilities/actions";
 import MarqueeTextSample from "../components/extra/MarqueeTextSample";
 import { getUserInfo } from "../store/auth/actions";
+import SvgComponent from "../components/customs/SvgComponent";
+import HomeProducts from "../components/home/HomeProducts";
+import { setSelectedMenu } from "../store/auth/authSlice";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
   const [userDetails, setUserDetails] = useState();
   const user = useSelector((state) => state.oauth.user);
   const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
-
+  const selectedMenu = useSelector((state) => state.oauth.selectedMenu);
   // const ref = useRef(null);
   const scrollViewRef = useRef();
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    dispatch(setSelectedMenu("Home"));
     return () => {
       scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
     };
   }, [isFocused]);
+
+  useEffect(() => {
+    dispatch(setSelectedMenu("Home"));
+  }, [selectedMenu]);
 
   // useEffect(() => {
   //   if (isFocused) {
@@ -137,6 +145,7 @@ const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <SvgComponent />
       <FocusAwareStatusBar backgroundColor="#25453b" barStyle="light-content" />
       <ScrollView
         ref={scrollViewRef}
@@ -147,10 +156,20 @@ const Home = ({ navigation }) => {
 
         <HomeWalletOverview />
         <View style={{ paddingHorizontal: 15, paddingBottom: 70 }}>
-          <MarqueeTextSample />
+          <HomeProducts />
+          {/* <MarqueeTextSample /> */}
 
           <QuickMenus navigation={navigation} />
+
           <Transactions />
+
+          <View style={[{ marginTop: -20, alignItems: "center" }]}>
+            <Image
+              source={require("../assets/img/logo.png")}
+              style={{ width: 160, height: 160 }}
+              resizeMode="contain"
+            />
+          </View>
         </View>
       </ScrollView>
 

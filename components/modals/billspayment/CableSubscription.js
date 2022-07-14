@@ -34,6 +34,7 @@ import FConfirm from "./cable/FConfirm";
 import { getUserWalletBalance } from "../../../store/wallet/actions";
 import { getUserInfo } from "../../../store/auth/actions";
 import { getTransactionsInfo } from "../../../store/transactions/actions";
+import SvgComponent2 from "../../customs/SvgComponent2";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -288,6 +289,7 @@ const CableSubscription = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={{ height: screenHeight }}>
+          <SvgComponent2 />
           <View
             style={[
               {

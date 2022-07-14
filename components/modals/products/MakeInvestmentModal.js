@@ -354,7 +354,7 @@ const MakeInvestmentModal = () => {
 
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
-          <View style={[styles.modalHeader, { backgroundColor: "#fff", marginTop: 40, paddingBottom: 0 }]}>
+          <View style={[styles.modalHeader, { backgroundColor: "#fff", marginTop: 30, paddingBottom: 0 }]}>
             <Icon
               name="arrow-left"
               size={40}

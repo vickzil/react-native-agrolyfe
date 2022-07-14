@@ -6,8 +6,10 @@ import MainApp from "./navigations";
 
 export default function App() {
   const [loaded] = useFonts({
-    Montserrat: require("./assets/fonts/Montserrat-Regular.ttf"),
-    MontserratBold: require("./assets/fonts/Montserrat-Bold.ttf"),
+    // Montserrat: require("./assets/fonts/Montserrat-Regular.ttf"),
+    // MontserratBold: require("./assets/fonts/Montserrat-Bold.ttf"),
+    Montserrat: require("./assets/fonts/Poppins-Regular.ttf"),
+    MontserratBold: require("./assets/fonts/Poppins-Bold.ttf"),
     Poppins: require("./assets/fonts/Poppins-Regular.ttf"),
     PoppinsBold: require("./assets/fonts/Poppins-Bold.ttf"),
   });

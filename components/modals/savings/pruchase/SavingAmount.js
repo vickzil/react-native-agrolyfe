@@ -1,8 +1,6 @@
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import CurrencyInput from "react-native-currency-input";
 import { TextInputMask } from "react-native-masked-text";
-import { globalStyles } from "../../../../styles/global";
 import colors from "../../../../styles/colors";
 
 let screenWidth = Dimensions.get("window").width;

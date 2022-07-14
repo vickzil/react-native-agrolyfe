@@ -27,6 +27,7 @@ import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import FeatherIcons from "react-native-vector-icons/Feather";
 import axios from "axios";
 import { getUserInfo } from "../../../store/auth/actions";
+import SvgComponent from "../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -237,6 +238,7 @@ const UploadPaymentEvidence = () => {
 
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
+          <SvgComponent />
           <View style={[styles.modalHeader, { backgroundColor: "#fff", marginTop: 30 }]}>
             <Icon
               name="arrow-left"

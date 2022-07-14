@@ -44,7 +44,7 @@ const Transactions = () => {
               padding: 30,
               alignItems: "center",
               paddingTop: 50,
-              height: "100%",
+              height: 150,
               width: "100%",
             }}
           >

@@ -12,10 +12,12 @@ import { saveUserTransactions } from "../store/transactions/transactionSlice";
 import { fetchAllInvestment, getMyInvestments } from "../store/products/actions";
 import { otherFunctions, otherGlobalFunctions } from "../store/utilities/actions";
 import { getUserInfo } from "../store/auth/actions";
+import SvgComponent from "../components/customs/SvgComponent";
+import { setSelectedMenu } from "../store/auth/authSlice";
 
 const Wallet = ({ navigation }) => {
   const user = useSelector((state) => state.oauth.user);
-
+  const selectedMenu = useSelector((state) => state.oauth.selectedMenu);
   const dispatch = useDispatch();
 
   const [refreshing, setRefreshing] = useState(false);
@@ -31,6 +33,10 @@ const Wallet = ({ navigation }) => {
     };
   }, [isFocused]);
 
+  useEffect(() => {
+    dispatch(setSelectedMenu("Wallet"));
+  }, [selectedMenu]);
+
   const onRefresh = () => {
     setRefreshing(true);
     dispatch(getUserInfo(user?.code));
@@ -42,6 +48,7 @@ const Wallet = ({ navigation }) => {
 
   return (
     <SafeAreaView>
+      <SvgComponent />
       <FocusAwareStatusBar backgroundColor="#25453b" barStyle="light-content" />
       <ScrollView
         ref={scrollViewRef}

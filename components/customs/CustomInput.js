@@ -13,24 +13,23 @@ const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...
       <View
         style={[
           styles.inputContainer,
-          { borderColor: error ? "red" : IsFocused ? "#777" : "#ced4ed" },
-          IsFocused && styles.nprmalBackground,
+          // { borderColor: error ? "red" : IsFocused ? "#777" : "#ced4ed" },
+          // IsFocused && styles.nprmalBackground,
         ]}
       >
-        <Icon name={iconName} size={22} color="#666" style={{ marginRight: 16 }} />
+        <Icon name={iconName} size={18} color="#666" style={{ marginRight: 16 }} />
         <TextInput
           secureTextEntry={hidePassword}
           // autoCorrect={false}
           // autoComplete={"off"}
           autoCapitalize="none"
-          selectionColor="#f8f8f8"
-          onFocus={() => {
-            onFocus();
-            setIsFocused(true);
-          }}
-          onBlur={() => {
-            setIsFocused(false);
-          }}
+          // onFocus={() => {
+          //   onFocus();
+          //   setIsFocused(true);
+          // }}
+          // onBlur={() => {
+          //   setIsFocused(false);
+          // }}
           style={{
             color: "#333",
             flex: 1,
@@ -39,14 +38,14 @@ const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...
             letterSpacing: -0.35644,
             height: "100%",
             padding: 0,
-            fontSize: 19,
+            fontSize: 16,
           }}
           {...props}
         />
         {password && (
           <Icon
             onPress={() => setHidePassword(!hidePassword)}
-            style={{ fontSize: 28, color: "#666" }}
+            style={{ fontSize: 20, color: "#666" }}
             name={hidePassword ? "eye-outline" : "eye-off-outline"}
           />
         )}
@@ -71,6 +70,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 15,
     borderWidth: 0.5,
+    borderColor: "#ced4ed",
     alignItems: "center",
     borderRadius: 4,
   },

@@ -1,6 +1,17 @@
 import { StyleSheet } from "react-native";
 import colors from "./colors";
 export const globalStyles = StyleSheet.create({
+  h1Style: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  h2Style: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  pStyle: {
+    fontSize: 12,
+  },
   siteTitleWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -19,7 +30,7 @@ export const globalStyles = StyleSheet.create({
 
   label: {
     marginVertical: 5,
-    fontSize: 16,
+    fontSize: 15,
     color: "#444",
     marginBottom: 10,
     fontFamily: "PoppinsBold",
@@ -53,7 +64,7 @@ export const globalStyles = StyleSheet.create({
   inputTextt: {
     color: "#333",
     flex: 1,
-    fontSize: 17,
+    fontSize: 15,
     fontFamily: "Poppins",
     letterSpacing: -0.35644,
   },
@@ -80,8 +91,8 @@ export const globalStyles = StyleSheet.create({
 
   buttonText: {
     color: "#fff",
-    fontWeight: "bold",
-    fontSize: 17,
+    fontWeight: "600",
+    fontSize: 15,
     fontFamily: "Poppins",
     letterSpacing: -0.35644,
   },
@@ -99,10 +110,11 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#fff",
     position: "relative",
   },
+
   accountUserFullName: {
     fontFamily: "Poppins",
     marginTop: 14,
-    fontSize: 17,
+    fontSize: 16,
     color: "#666",
   },
 
@@ -110,8 +122,9 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "Poppins",
     fontSize: 15,
     color: "#222",
-    fontWeight: "700",
+    fontWeight: "600",
   },
+
   productCardContent: {
     width: "98%",
     justifyContent: "flex-start",
@@ -143,14 +156,16 @@ export const globalStyles = StyleSheet.create({
   },
 
   selectContentText1: {
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: "700",
     marginBottom: 5,
+    textTransform: "capitalize",
   },
 
   selectContentText2: {
-    fontSize: 14,
+    fontSize: 13,
     color: colors.greenColor,
+    textTransform: "capitalize",
   },
 
   selectedItem: {

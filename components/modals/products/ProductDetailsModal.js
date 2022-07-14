@@ -89,7 +89,7 @@ const ProductDetailsModal = () => {
           />
         </View>
         <View style={styles.bodyTopContainer}>
-          <View style={styles.bodyTopCard}>
+          {/* <View style={styles.bodyTopCard}>
             <Text style={[styles.productDetailsBodyProductName, { color: "#fff", textTransform: "capitalize" }]}>
               {modal?.payload?.name}
             </Text>
@@ -101,10 +101,18 @@ const ProductDetailsModal = () => {
                 {modal?.payload?.newInterestRate}%
               </Text>
             </View>
-          </View>
+          </View> */}
         </View>
         <ScrollView style={styles.productDetailsBody} showsVerticalScrollIndicator={false}>
           <View style={styles.productDetailsBodyContainer}>
+            <View style={styles.productCardContentItem}>
+              <Text style={styles.productCardContentItemLeft}>Product Name</Text>
+              <Text style={styles.productCardContentItemRight}>{modal?.payload?.name}</Text>
+            </View>
+            <View style={styles.productCardContentItem}>
+              <Text style={styles.productCardContentItemLeft}>Rental fee (%)</Text>
+              <Text style={styles.productCardContentItemRight}>{modal?.payload?.newInterestRate}%</Text>
+            </View>
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>Price Per Acre</Text>
               <Text style={styles.productCardContentItemRight}>
@@ -112,6 +120,7 @@ const ProductDetailsModal = () => {
                 {modal?.payload ? addComma(modal?.payload?.pricePerUnit) + " " + modal?.payload?.unitOfMeasurement : 0}{" "}
               </Text>
             </View>
+
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>Duration</Text>
               <Text style={styles.productCardContentItemRight}>{modal?.payload?.duration} Months</Text>
@@ -148,7 +157,7 @@ const ProductDetailsModal = () => {
         <View style={[globalStyles.buttonFloat, { marginTop: 50 }]}>
           <TouchableOpacity style={{}} onPress={() => showMakeInvestmentModal()}>
             <View style={[styles.productButton, { backgroundColor: colors.greenDarkColor, marginTop: 10 }]}>
-              <Text style={styles.buttonText}>Purchase product</Text>
+              <Text style={styles.buttonText}>purchase land </Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -233,7 +242,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemLeft: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "600",
     color: colors.greenLightDarkColor,
     marginRight: 15,
@@ -241,7 +250,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemRight: {
-    fontSize: 16,
+    fontSize: 15,
     color: "#444",
     fontWeight: "600",
     justifyContent: "flex-end",
@@ -264,7 +273,7 @@ const styles = StyleSheet.create({
   },
 
   productDetailsBodyLabel: {
-    fontSize: 22,
+    fontSize: 18,
     color: "#444",
     fontWeight: "900",
     fontFamily: "MontserratBold",
@@ -273,7 +282,7 @@ const styles = StyleSheet.create({
 
   productDetailsBodyDesc: {
     width: "100%",
-    fontSize: 16,
+    fontSize: 15,
     color: "#333",
     fontWeight: "300",
     fontFamily: "Poppins",
@@ -285,7 +294,7 @@ const styles = StyleSheet.create({
   productButton: {
     width: "100%",
     textAlign: "center",
-    paddingVertical: 13,
+    paddingVertical: 16,
     paddingHorizontal: 40,
     borderRadius: 8,
     marginTop: 30,

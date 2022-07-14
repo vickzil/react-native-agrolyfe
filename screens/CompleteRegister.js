@@ -24,6 +24,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ConfirmationModalButtom from "../components/modals/ConfirmationModalButtom";
 import axios from "axios";
+import SvgComponent from "../components/customs/SvgComponent";
 
 const CompleteRegister = ({ navigation, route }) => {
   const { email, code } = route.params;
@@ -211,6 +212,7 @@ const CompleteRegister = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
+      <SvgComponent />
       <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
       <ConfirmationModalButtom
         bottomSheet={confirmationModal}
@@ -219,8 +221,12 @@ const CompleteRegister = ({ navigation, route }) => {
       />
       <ScrollView contentContainerStyle={{ paddingTop: 10, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
-        <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins" }}>Nice Work!</Text>
-        <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Please complete your registration</Text>
+        <Text style={{ color: "black", fontSize: 22, fontWeight: "bold", fontFamily: "Poppins", textAlign: "center" }}>
+          Nice Work!
+        </Text>
+        <Text style={{ color: "gray", fontSize: 16, marginVertical: 10, textAlign: "center" }}>
+          Please complete your registration
+        </Text>
 
         <View style={{ marginVertical: 20 }}>
           <CustomInput
@@ -310,7 +316,14 @@ const CompleteRegister = ({ navigation, route }) => {
           </View>
           <Text
             onPress={() => navigation.navigate("Login")}
-            style={{ color: "black", textAlign: "center", fontSize: 16, fontWeight: "bold", marginTop: 20 }}
+            style={{
+              color: "black",
+              textAlign: "center",
+              fontSize: 16,
+              fontWeight: "600",
+              marginTop: 20,
+              fontFamily: "Poppins",
+            }}
           >
             Back to Login
           </Text>

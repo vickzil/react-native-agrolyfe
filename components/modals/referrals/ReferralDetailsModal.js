@@ -19,6 +19,7 @@ import AllReferrals from "../../referrals/AllReferrals";
 import ReferralHeaderImageTop from "./ReferralHeaderImageTop";
 import ReferralInvestment from "./ReferralInvestment";
 import axios from "axios";
+import SvgComponent from "../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 
@@ -129,6 +130,7 @@ const ReferralDetailsModal = () => {
   return (
     <Modal visible={modal?.status} animationType="slide" onRequestClose={() => closeModal()}>
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+        <SvgComponent />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"

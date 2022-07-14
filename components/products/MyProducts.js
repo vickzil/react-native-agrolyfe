@@ -53,7 +53,7 @@ const MyProducts = () => {
                   globalStyles.siteTitle,
                   {
                     fontWeight: "600",
-                    fontSize: 22,
+                    fontSize: 18,
                     textTransform: "capitalize",
                     fontFamily: "PoppinsBold",
                     textAlign: "center",
@@ -61,7 +61,7 @@ const MyProducts = () => {
                   },
                 ]}
               >
-                My Purchased Farm Lands
+                Purchased Farm Lands
               </Text>
             </View>
 

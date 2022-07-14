@@ -50,9 +50,11 @@ import axios from "axios";
 import UserInactivity from "react-native-user-inactivity";
 import { removeStorageItemValue } from "../components/helpers/globalFunction";
 import { setUserWalletBalance } from "../store/wallet/walletSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 const AppStack = () => {
+  const navigate = useNavigation();
   const resendPinCompleted = useSelector((state) => state.oauth.resendPinCompleted);
   const paystackRef = useSelector((state) => state.oauth.paystackRef);
 
@@ -68,7 +70,7 @@ const AppStack = () => {
   const loggedInUser = useSelector((state) => state.oauth.user);
 
   const [active, setActive] = useState(true);
-  const [timer, setTimer] = useState(180000);
+  const [timer, setTimer] = useState(280000);
 
   useEffect(() => {
     if (paystackRef !== null) {
@@ -109,6 +111,8 @@ const AppStack = () => {
     // getAppAuthentication();
     globalFunctions();
     checkVerifications();
+
+    // console.log(navigate);
   }, []);
 
   // const getAppAuthentication = async () => {
@@ -303,6 +307,7 @@ const AppStack = () => {
   };
 
   const logoutUserDueToInactivity = () => {
+    navigate.navigate("Home");
     removeStorageItemValue("token");
     removeStorageItemValue("appexrat");
     removeStorageItemValue("user");
@@ -318,7 +323,7 @@ const AppStack = () => {
 
   const resetTimmer = () => {
     setActive(true);
-    setTimer(180000);
+    setTimer(280000);
   };
 
   return (

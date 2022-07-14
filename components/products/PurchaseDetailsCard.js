@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemLeft: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "600",
     color: colors.greenLightDarkColor,
     marginRight: 15,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemRight: {
-    fontSize: 16,
+    fontSize: 15,
     color: "#444",
     fontWeight: "600",
     justifyContent: "flex-end",
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 17,
     borderRadius: 20,
     fontFamily: "MontserratBold",
+    textTransform: "capitalize",
   },
 
   productCardContentTitle: {

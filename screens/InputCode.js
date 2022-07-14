@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import axios from "axios";
+import SvgComponent from "../components/customs/SvgComponent";
 
 const InputCode = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -109,15 +110,26 @@ const InputCode = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
+      <SvgComponent />
       <ScrollView contentContainerStyle={{ paddingTop: 40, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
         <View style={[styles.productContainer]}>
           <View style={{ justifyContent: "center", width: "80%", marginTop: 50, alignItems: "center" }}>
-            <Text style={[styles.productCardContentItemLeft, { fontSize: 27, fontWeight: "900", marginBottom: 4 }]}>
+            <Text
+              style={[
+                styles.productCardContentItemLeft,
+                { fontSize: 22, fontWeight: "900", marginBottom: 4, fontFamily: "Poppins" },
+              ]}
+            >
               Confirm Verification
             </Text>
             <View style={{ alignItems: "center", marginTop: 10 }}>
-              <Text style={[globalStyles.label, { fontSize: 17, textAlign: "center" }]}>
+              <Text
+                style={[
+                  globalStyles.label,
+                  { fontSize: 16, textAlign: "center", fontFamily: "Poppins", fontWeight: "600" },
+                ]}
+              >
                 Enter your 4-digit CODE sent to your email to continue
               </Text>
             </View>
@@ -148,8 +160,9 @@ const InputCode = ({ navigation, route }) => {
                   color: colors.greenDarkDarkColor,
                   textAlign: "center",
                   fontSize: 16,
-                  fontWeight: "bold",
+                  fontWeight: "600",
                   marginTop: 20,
+                  fontFamily: "Poppins",
                 }}
               >
                 Back to Login

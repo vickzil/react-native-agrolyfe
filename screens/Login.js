@@ -14,6 +14,7 @@ import colors from "../styles/colors";
 import axios from "axios";
 import { getTransactionsInfo } from "../store/transactions/actions";
 import * as LocalAuthentication from "expo-local-authentication";
+import SvgComponent from "../components/customs/SvgComponent";
 
 const Login = ({ navigation }) => {
   const userImage = require("../assets/img/user-default.png");
@@ -44,9 +45,8 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     if (isBiometricsSupported) {
       // handleBiometricAuth();
-
-      console.log(isBiometricsSupported);
-      console.log(isBiometricsSupported);
+      // console.log(isBiometricsSupported);
+      // console.log(isBiometricsSupported);
     }
   }, [isBiometricsSupported]);
 
@@ -280,6 +280,7 @@ const Login = ({ navigation }) => {
                 email: inputs.email,
               });
             } else {
+              console.log(data);
               AsyncStorage.setItem("loggedInUserDetails", JSON.stringify(data));
               setLoggedInUserDetails(data);
               getVerificationInfo(data.code);
@@ -427,166 +428,175 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
-      <ScrollView
-        contentContainerStyle={[loginIdentity ? { paddingTop: 0 } : { paddingTop: 50 }, { paddingHorizontal: 20 }]}
-      >
-        <Logo />
-        <Text
-          style={{
-            color: "black",
-            fontSize: 30,
-            fontWeight: "bold",
-            fontFamily: "Poppins",
-            paddingTop: 0,
-            letterSpacing: -0.35644,
-            textAlign: "center",
-            marginTop: -17,
-          }}
-        >
-          {hasLogin ? "Welcome Back" : "Login"}
-        </Text>
-        <Text style={{ color: "gray", fontSize: 17, marginVertical: 2, textAlign: "center" }}>
-          Please sign in to your account
-        </Text>
+    <SafeAreaView
+      style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins", position: "relative", width: "100%" }}
+    >
+      <SvgComponent />
 
-        <View style={{ marginVertical: 20 }}>
-          {loginIdentity ? (
-            <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 20 }}>
-              <View style={{ width: 100, height: 100, borderRadius: 100, padding: 4, backgroundColor: "#fff" }}>
-                {loginIdentity?.photo ? (
-                  <Image
-                    source={{ uri: loginIdentity?.photo }}
-                    style={{ width: "100%", height: "100%", borderRadius: 50 }}
-                    resizeMode="cover"
-                  />
-                ) : (
-                  <Image
-                    source={userImage}
-                    style={{ width: "100%", height: "100%", borderRadius: 50 }}
-                    resizeMode="cover"
-                  />
-                )}
+      <ScrollView contentContainerStyle={[{ paddingHorizontal: 20, paddingTop: 0 }]}>
+        <Logo />
+        <View
+          style={[
+            loginIdentity ? { paddingTop: 0 } : { paddingTop: 50 },
+            { flex: 1, width: "100%", justifyContent: "flex-end" },
+          ]}
+        >
+          <Text
+            style={{
+              color: "black",
+              fontSize: 22,
+              fontWeight: "bold",
+              fontFamily: "Poppins",
+              paddingTop: 0,
+              letterSpacing: -0.35644,
+              textAlign: "center",
+              marginTop: -17,
+            }}
+          >
+            {hasLogin ? "Welcome Back" : "Login"}
+          </Text>
+          <Text style={{ color: "gray", fontSize: 16, marginVertical: 2, textAlign: "center" }}>
+            Please sign in to your account
+          </Text>
+
+          <View style={{ marginVertical: 20 }}>
+            {loginIdentity ? (
+              <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 20 }}>
+                <View style={{ width: 100, height: 100, borderRadius: 100, padding: 4, backgroundColor: "#fff" }}>
+                  {loginIdentity?.photo ? (
+                    <Image
+                      source={{ uri: loginIdentity?.photo }}
+                      style={{ width: "100%", height: "100%", borderRadius: 50 }}
+                      resizeMode="cover"
+                    />
+                  ) : (
+                    <Image
+                      source={userImage}
+                      style={{ width: "100%", height: "100%", borderRadius: 50 }}
+                      resizeMode="cover"
+                    />
+                  )}
+                </View>
+                <Text
+                  style={{
+                    fontFamily: "PoppinsBold",
+                    marginTop: 14,
+                    fontSize: 16,
+                    color: "#222",
+                  }}
+                >
+                  {loginIdentity?.fullName}
+                </Text>
               </View>
+            ) : (
+              <>
+                <CustomInput
+                  error={errors.email}
+                  onChangeText={(text) => handleOnChange(text.replace(/\s/g, ""), "email")}
+                  onFocus={() => {
+                    handleError(null, "email");
+                  }}
+                  placeholder="Enter your email"
+                  lable="Email"
+                  iconName="email-outline"
+                />
+
+                <View>
+                  <TouchableOpacity>
+                    <Text
+                      onPress={() => navigation.navigate("ForgotPassword")}
+                      style={{
+                        color: colors.greenColor,
+                        textAlign: "right",
+                        fontSize: 16,
+                        fontWeight: "600",
+                        marginTop: -7,
+                        fontFamily: "Poppins",
+                        letterSpacing: -0.35644,
+                      }}
+                    >
+                      Forgot Password?
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
+
+            <CustomInput
+              error={errors.password}
+              onChangeText={(text) => handleOnChange(text.replace(/\s/g, ""), "password")}
+              placeholder="Enter your password"
+              lable="Password"
+              onFocus={() => {
+                handleError(null, "password");
+              }}
+              iconName="lock-outline"
+              password={true}
+            />
+            {loginIdentity && (
               <Text
+                onPress={() => logoutUserIdentityForPassword()}
                 style={{
-                  fontFamily: "PoppinsBold",
-                  marginTop: 14,
-                  fontSize: 18,
-                  color: "#222",
+                  color: colors.greenColor,
+                  textAlign: "center",
+                  fontSize: 16,
+                  fontWeight: "600",
+                  // marginTop: -7,
+                  fontFamily: "Poppins",
+                  letterSpacing: -0.35644,
                 }}
               >
-                {loginIdentity?.fullName}
+                Forgot Password?
               </Text>
+            )}
+
+            <View style={{ marginTop: 40 }}>
+              <CustomButton onPress={validate} valid={valid} title=" Login" />
             </View>
-          ) : (
-            <>
-              <CustomInput
-                error={errors.email}
-                onChangeText={(text) => handleOnChange(text.replace(/\s/g, ""), "email")}
-                onFocus={() => {
-                  handleError(null, "email");
-                }}
-                placeholder="Enter your email"
-                lable="Email"
-                iconName="email-outline"
-              />
 
-              <View>
-                <TouchableOpacity>
-                  <Text
-                    onPress={() => navigation.navigate("ForgotPassword")}
-                    style={{
-                      color: colors.greenColor,
-                      textAlign: "right",
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      marginTop: -7,
-                      fontFamily: "Poppins",
-                      letterSpacing: -0.35644,
-                    }}
-                  >
-                    Forgot Password?
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </>
-          )}
-
-          <CustomInput
-            error={errors.password}
-            onChangeText={(text) => handleOnChange(text.replace(/\s/g, ""), "password")}
-            placeholder="Enter your password"
-            lable="Password"
-            onFocus={() => {
-              handleError(null, "password");
-            }}
-            iconName="lock-outline"
-            password={true}
-          />
-          {loginIdentity && (
-            <Text
-              onPress={() => logoutUserIdentityForPassword()}
-              style={{
-                color: colors.greenColor,
-                textAlign: "center",
-                fontSize: 16,
-                fontWeight: "bold",
-                // marginTop: -7,
-                fontFamily: "Poppins",
-                letterSpacing: -0.35644,
-              }}
-            >
-              Forgot Password?
-            </Text>
-          )}
-
-          <View style={{ marginTop: 40 }}>
-            <CustomButton onPress={validate} valid={valid} title=" Login" />
-          </View>
-
-          {loginIdentity ? (
-            <>
+            {loginIdentity ? (
+              <>
+                <Text
+                  onPress={() => logoutUserIdentity()}
+                  style={{
+                    color: colors.greenDarkDarkColor,
+                    textAlign: "center",
+                    fontSize: 16,
+                    fontWeight: "600",
+                    marginTop: 20,
+                    fontFamily: "Poppins",
+                    letterSpacing: -0.35644,
+                  }}
+                >
+                  Not {loginIdentity.fullName.split(" ")[0]} ? Switch account
+                </Text>
+                {isBiometricsSupported && loggedInUserDetails && (
+                  <Icon
+                    onPress={() => handleBiometricAuth()}
+                    name={"fingerprint"}
+                    size={48}
+                    color="#666"
+                    style={{ marginTop: 22, textAlign: "center" }}
+                  />
+                )}
+              </>
+            ) : (
               <Text
-                onPress={() => logoutUserIdentity()}
+                onPress={() => navigation.navigate("Register")}
                 style={{
                   color: colors.greenDarkDarkColor,
                   textAlign: "center",
                   fontSize: 16,
-                  fontWeight: "bold",
+                  fontWeight: "600",
                   marginTop: 20,
                   fontFamily: "Poppins",
                   letterSpacing: -0.35644,
                 }}
               >
-                Not {loginIdentity.fullName.split(" ")[0]} ? Switch account
+                Don't have account? Register
               </Text>
-              {isBiometricsSupported && loggedInUserDetails && (
-                <Icon
-                  onPress={() => handleBiometricAuth()}
-                  name={"fingerprint"}
-                  size={48}
-                  color="#666"
-                  style={{ marginTop: 22, textAlign: "center" }}
-                />
-              )}
-            </>
-          ) : (
-            <Text
-              onPress={() => navigation.navigate("Register")}
-              style={{
-                color: colors.greenDarkDarkColor,
-                textAlign: "center",
-                fontSize: 16,
-                fontWeight: "bold",
-                marginTop: 20,
-                fontFamily: "Poppins",
-                letterSpacing: -0.35644,
-              }}
-            >
-              Don't have account? Register
-            </Text>
-          )}
+            )}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -36,6 +36,7 @@ import SavingDuration from "./pruchase/SavingDuration";
 import SavingSummary from "./pruchase/SavingSummary";
 import ScreenLoading from "../../loader/ScreenLoading";
 import { setSelectedSavingsType, setSelectedSavingsTypeDetails } from "../../../store/savings/savingsSlice";
+import SvgComponent from "../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -457,6 +458,7 @@ const PurchaseSavingsModal = () => {
       {/* <StatusBar translucent barStyle={statusbar} /> */}
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
+          <SvgComponent />
           <View style={[styles.modalHeader, { backgroundColor: "#FFF", marginTop: 30, paddingBottom: 0 }]}>
             <Icon
               name="arrow-left"

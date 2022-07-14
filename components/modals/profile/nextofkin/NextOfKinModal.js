@@ -5,6 +5,7 @@ import { setNextOfKinModal } from "../../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../../styles/colors";
 import NextOfKinForm from "./NextOfKinForm";
+import SvgComponent from "../../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 
@@ -23,6 +24,7 @@ const NextOfKinModal = () => {
   return (
     <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+        <SvgComponent />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"

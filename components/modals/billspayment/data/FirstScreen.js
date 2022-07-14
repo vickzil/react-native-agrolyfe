@@ -10,18 +10,14 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import CurrencyInput from "react-native-currency-input";
 import { globalStyles } from "../../../../styles/global";
-import colors from "../../../../styles/colors";
-import { setSelectBankModal, setSelectCardModal, setSelectedNetwork } from "../../../../store/alert/alertSlice";
+import { setSelectedNetwork } from "../../../../store/alert/alertSlice";
 import { useDispatch } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import SelectPackageModal from "../SelectPackageModal";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
-
-const userImage = require("../../../../assets/img/user.jpg");
 
 const MTNImage = require("../../../../assets/img/mtn.png");
 const GLOImage = require("../../../../assets/img/glo.png");

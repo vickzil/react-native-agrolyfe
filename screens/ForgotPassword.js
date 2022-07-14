@@ -11,6 +11,7 @@ import ConfirmationModalButtom from "../components/modals/ConfirmationModalButto
 import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import colors from "../styles/colors";
 import axios from "axios";
+import SvgComponent from "../components/customs/SvgComponent";
 
 const ForgotPassword = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -131,17 +132,29 @@ const ForgotPassword = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
+      <SvgComponent />
       <ConfirmationModalButtom
         bottomSheet={confirmationModal}
         closeModal={closeModal}
         message="A reset password link has been sent to your email address if you have an account with us. Kindly follow the link to complete the process."
       />
-      <ScrollView contentContainerStyle={{ paddingTop: 50, paddingHorizontal: 20 }}>
+      <ScrollView contentContainerStyle={{ paddingTop: 30, paddingHorizontal: 20 }}>
         <Logo />
-        <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins", paddingTop: 30 }}>
+        <Text
+          style={{
+            color: "black",
+            fontSize: 22,
+            fontWeight: "bold",
+            fontFamily: "Poppins",
+            paddingTop: 70,
+            textAlign: "center",
+          }}
+        >
           Forgot Password
         </Text>
-        <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Lets get you a new password</Text>
+        <Text style={{ color: "gray", fontSize: 16, marginVertical: 10, textAlign: "center" }}>
+          Lets get you a new password
+        </Text>
 
         <View style={{ marginVertical: 20 }}>
           <CustomInput
@@ -165,8 +178,9 @@ const ForgotPassword = ({ navigation }) => {
               color: colors.greenDarkDarkColor,
               textAlign: "center",
               fontSize: 16,
-              fontWeight: "bold",
+              fontWeight: "600",
               marginTop: 30,
+              fontFamily: "Poppins",
             }}
           >
             Go Back to Login

@@ -20,7 +20,7 @@ const CustomButton = ({ title, valid, onPress = () => {} }) => {
       ]}
     >
       {/* !valid && { backgroundColor: colors.greenLightDarkColor }, */}
-      <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 17 }}>{title}</Text>
+      <Text style={{ color: "#fff", fontWeight: "600", fontSize: 17, fontFamily: "Poppins" }}>{title}</Text>
     </TouchableOpacity>
   );
 };

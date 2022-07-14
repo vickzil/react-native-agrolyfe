@@ -3,16 +3,21 @@ import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { setFundwalletModal, setPayBillsModal, setTransferModal } from "../../store/alert/alertSlice";
+import {
+  setFundwalletModal,
+  setPayBillsModal,
+  setProductDetailsModal,
+  setTransferModal,
+} from "../../store/alert/alertSlice";
 import { useRef } from "react";
 import TransferModalButtom from "../modals/transfer/TransferModalButtom";
 import PayBillsModalButtom from "../modals/billspayment/PayBillsModalButtom";
 import FundWalletModalButtom from "../modals/fundwallet/FundWalletModalButtom";
 import { addComma } from "../helpers/globalFunction";
 
-const { width } = Dimensions.get("screen");
+const { width } = Dimensions.get("window");
 
-const HomeWalletItem = ({ item, index }) => {
+const HomeProductItem = ({ item, index }) => {
   const dispatch = useDispatch();
   const transferModal = useRef();
   const paybillsModal = useRef();
@@ -34,99 +39,97 @@ const HomeWalletItem = ({ item, index }) => {
     }
   };
 
-  const closeTransferModal = () => {
-    transferModal.current.close();
-  };
-
-  const closeFundwalletModal = () => {
-    fundWalletModal.current.close();
-  };
-
-  const closePaybillsModal = () => {
-    paybillsModal.current.close();
-  };
-
-  let mainWallet = userWalletBalance?.availableBalance || 0;
-
   return (
-    <>
-      <TransferModalButtom bottomSheet={transferModal} closeTransferModal={closeTransferModal} />
-      <PayBillsModalButtom bottomSheet={paybillsModal} closeModal={() => closePaybillsModal()} />
-      <FundWalletModalButtom bottomSheet={fundWalletModal} closeModal={() => closeFundwalletModal()} />
-      <View style={[styles.card, index === 0 && styles.addMarginLeft]}>
-        <Text style={styles.cardHeading}>{item.heading}</Text>
+    <TouchableOpacity
+      activeOpacity={0.6}
+      onPress={() =>
+        dispatch(
+          setProductDetailsModal({
+            status: true,
+            payload: item,
+          }),
+        )
+      }
+      style={[styles.card, index === 0 && styles.addMarginLeft]}
+    >
+      <View style={styles.productImage}>
+        <Image
+          source={{ uri: item.imageURL }}
+          style={{ width: "100%", height: 170, borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
+          resizeMode="cover"
+        />
+      </View>
+      <View style={{ paddingHorizontal: 10, paddingTop: 15, width: "100%" }}>
+        <Text style={styles.cardHeading}>{item.name}</Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={[styles.paragraph, { color: colors.greenColor }]}>
-            {/* {item?.paragraph} */}
-
-            {index === 0 ? "₦ " + addComma(mainWallet) : item?.paragraph}
-          </Text>
-          {index === 0 ? loading ? <ActivityIndicator size="small" color="#14961E" /> : null : null}
-        </View>
-
-        <TouchableOpacity style={{ marginTop: 30 }} onPress={() => handlePress(item)}>
-          <View
-            style={[
-              styles.button,
-              {
-                color: "#fff",
-                // borderColor: colors.greenNormalColor,
-                backgroundColor: colors.greenColor,
-              },
-            ]}
-          >
-            <Text style={[styles.buttonText, { color: "#fff" }]}>{item.buttonText}</Text>
-            <Icon name="chevron-right-circle-outline" size={13} style={[styles.cardButtonIcon, { color: "#fff" }]} />
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <Text style={[styles.paragraph, { color: "rgba(24, 133, 111, 0.54)" }]}>{item?.duration} Months</Text>
+            <Text style={[styles.paragraph, { color: "rgba(24, 133, 111, 0.54)" }]}>{item.newInterestRate}%</Text>
           </View>
-        </TouchableOpacity>
-        {/* <View style={styles.imagedrop}>
+        </View>
+      </View>
+
+      {/* <TouchableOpacity style={{ marginTop: 30 }} onPress={() => handlePress(item)}>
+        <View
+          style={[
+            styles.button,
+            {
+              color: "#fff",
+              // borderColor: colors.greenNormalColor,
+              backgroundColor: colors.greenColor,
+            },
+          ]}
+        >
+          <Text style={[styles.buttonText, { color: "#fff" }]}>{item.buttonText}</Text>
+          <Icon name="chevron-right-circle-outline" size={13} style={[styles.cardButtonIcon, { color: "#fff" }]} />
+        </View>
+      </TouchableOpacity> */}
+      {/* <View style={styles.imagedrop}>
         <Image source={imagedrop} style={styles.imagedropImage} />
       </View> */}
-      </View>
-    </>
+    </TouchableOpacity>
   );
 };
 
-export default HomeWalletItem;
+export default HomeProductItem;
 
 const styles = StyleSheet.create({
   card: {
     position: "relative",
-    width: width * 0.79,
+    width: width * 0.49,
     borderRadius: 15,
     marginRight: 15,
     backgroundColor: "#fff",
     borderWidth: 0.7,
-    borderColor: "#18856f",
-    borderStyle: "solid",
-    paddingHorizontal: 20,
-    paddingTop: 15,
-    paddingBottom: 30,
+    borderColor: "#dee2e6",
+    paddingHorizontal: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
     textAlign: "left",
   },
 
   addMarginLeft: {
-    marginLeft: 15,
+    marginLeft: 0,
   },
 
   cardHeading: {
     fontWeight: "500",
-    fontSize: 15,
+    fontSize: 13,
     textAlign: "center",
     letterSpacing: -0.35644,
     color: "rgba(24, 133, 111, 0.54)",
-    marginBottom: 7,
+    marginBottom: 0,
     textAlign: "left",
     fontFamily: "PoppinsBold",
   },
 
   paragraph: {
     fontWeight: "600",
-    fontSize: 22,
+    fontSize: 14,
     lineHeight: 30,
-    textAlign: "center",
+    textAlign: "left",
     letterSpacing: -0.35644,
-    marginBottom: 3,
+    marginBottom: 6,
     textAlign: "left",
   },
 

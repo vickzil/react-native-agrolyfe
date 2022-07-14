@@ -19,6 +19,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../styles/colors";
 import AllReferrals from "../../referrals/AllReferrals";
 import { copyLink } from "../../helpers/globalFunction";
+import SvgComponent2 from "../../customs/SvgComponent2";
+import SvgComponent from "../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 
@@ -58,6 +60,7 @@ const ReferralModal = () => {
       }}
     >
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+        <SvgComponent />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"

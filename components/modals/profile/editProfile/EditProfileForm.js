@@ -1,10 +1,7 @@
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import colors from "../../../../styles/colors";
-// import RadioGroup from "react-native-radio-buttons-group";
 import RadioForm from "react-native-simple-radio-button";
-// import SelectDropdown from "react-native-select-dropdown";
-// import { Dropdown } from "react-native-element-dropdown";
 import { globalStyles } from "../../../../styles/global";
 import { useDispatch, useSelector } from "react-redux";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
@@ -190,7 +187,7 @@ const EditProfileForm = ({ handleLoading }) => {
           animation={true}
           isSelected={!!radioButtonsData.find((item) => item === gender)}
           labelStyle={{
-            fontSize: 20,
+            fontSize: 16,
             fontFamily: "Poppins",
             letterSpacing: -0.35644,
             paddingTop: 5,
@@ -282,7 +279,7 @@ const styles = StyleSheet.create({
   },
   label: {
     marginVertical: 5,
-    fontSize: 16,
+    fontSize: 15,
     color: "#444",
     marginBottom: 10,
     fontFamily: "Poppins",
@@ -341,7 +338,7 @@ const styles = StyleSheet.create({
   },
   textItem: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "Poppins",
     letterSpacing: -0.35644,
   },

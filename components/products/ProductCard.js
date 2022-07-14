@@ -12,7 +12,7 @@ const ProductCard = ({ item }) => {
       <View style={styles.productImage}>
         <Image
           source={{ uri: item.imageURL }}
-          style={{ width: "100%", height: 110, borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
+          style={{ width: "100%", height: 250, borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
           resizeMode="cover"
         />
       </View>
@@ -23,7 +23,7 @@ const ProductCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: "600",
                 color: colors.greenLightDarkColor,
                 marginRight: 15,
@@ -34,7 +34,7 @@ const ProductCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -47,7 +47,7 @@ const ProductCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: "600",
                 color: colors.greenLightDarkColor,
                 marginRight: 15,
@@ -59,7 +59,7 @@ const ProductCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -78,7 +78,7 @@ const ProductCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: "600",
                 color: colors.greenColor,
                 marginRight: 15,
@@ -89,7 +89,7 @@ const ProductCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -102,7 +102,7 @@ const ProductCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: "600",
                 color: colors.greenLightDarkColor,
                 marginRight: 15,
@@ -114,7 +114,7 @@ const ProductCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -142,7 +142,7 @@ const ProductCard = ({ item }) => {
 
         <View style={{ marginTop: 20 }}>
           <TouchableOpacity
-            style={[styles.productButton, { backgroundColor: "#fff" }]}
+            style={[styles.productButton, { backgroundColor: colors.greenColor }]}
             activeOpacity={0.7}
             onPress={() =>
               dispatch(
@@ -153,7 +153,7 @@ const ProductCard = ({ item }) => {
               )
             }
           >
-            <Text style={styles.buttonText}>Farm land Descriptions</Text>
+            <Text style={styles.buttonText}>Purchase Land</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -181,13 +181,13 @@ const styles = StyleSheet.create({
 
   productCardContent: {
     paddingVertical: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 15,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
 
   productCardContentTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "800",
     textAlign: "center",
     marginBottom: 20,
@@ -198,20 +198,20 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "center",
     paddingVertical: 18,
-    paddingHorizontal: 70,
+    paddingHorizontal: 0,
     borderRadius: 8,
     marginBottom: 10,
-    borderWidth: 1,
-    borderColor: "#dee2e6",
+    // borderWidth: 1,
+    // borderColor: "#dee2e6",
     elevation: 0.5,
   },
 
   buttonText: {
     width: "100%",
-    fontSize: 16.5,
+    fontSize: 15.5,
     textAlign: "center",
-    color: "#222",
-    fontWeight: "bold",
+    color: "#fff",
+    fontWeight: "600",
     fontFamily: "Poppins",
   },
 });

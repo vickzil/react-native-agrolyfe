@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 
 const Welcome = ({ navigation }) => {
-  const logo = require("../assets/img/banner.jpg");
+  const logo = require("../assets/img/banner.png");
 
   useEffect(() => {
     setTimeout(() => {

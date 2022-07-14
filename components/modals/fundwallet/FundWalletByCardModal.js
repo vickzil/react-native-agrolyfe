@@ -26,6 +26,7 @@ import FConfirm from "./byCard/FConfirm";
 import FSummary from "./byCard/FSummary";
 import { getUserInfo } from "../../../store/auth/actions";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
+import SvgComponent from "../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -264,6 +265,7 @@ const FundWalletByCardModal = () => {
 
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
+          <SvgComponent />
           <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor, marginTop: 40 }]}>
             <Icon
               name="arrow-left"

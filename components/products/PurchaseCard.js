@@ -54,7 +54,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: "600",
                 color: colors.greenDarkColor,
                 marginRight: 15,
@@ -65,7 +65,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -78,7 +78,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: "600",
                 color: colors.greenDarkColor,
                 fontFamily: "Poppins",
@@ -89,7 +89,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -105,7 +105,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: "600",
                 color: colors.greenDarkColor,
                 marginRight: 15,
@@ -122,6 +122,7 @@ const PurchaseCard = ({ item }) => {
                   fontWeight: "800",
                   justifyContent: "flex-start",
                   fontFamily: "Montserrat",
+                  textTransform: "capitalize",
                 },
                 item.status === "running" ? styles.statusSuccess : null,
               ]}
@@ -132,7 +133,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: "600",
                 color: colors.greenDarkColor,
                 fontFamily: "Poppins",
@@ -143,7 +144,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -159,7 +160,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: "600",
                 color: colors.greenDarkColor,
                 marginRight: 15,
@@ -170,7 +171,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -183,7 +184,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: "600",
                 flexDirection: "row",
                 justifyContent: "flex-end",
@@ -196,7 +197,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 flexDirection: "row",
@@ -244,7 +245,7 @@ const styles = StyleSheet.create({
 
   productCardContent: {
     paddingVertical: 19,
-    paddingHorizontal: 16,
+    paddingHorizontal: 15,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
@@ -297,7 +298,8 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     color: "#fff",
-    fontWeight: "bold",
+    fontSize: 15.5,
+    fontWeight: "600",
     fontFamily: "Poppins",
   },
 });

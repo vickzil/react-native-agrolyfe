@@ -25,6 +25,7 @@ const initialState = {
   verificationInfo: null,
   dashboardMessage: null,
   adverts: null,
+  selectedMenu: "Home",
 };
 
 const authSlice = createSlice({
@@ -76,6 +77,9 @@ const authSlice = createSlice({
 
     setHasFeedBack: (state, { payload }) => {
       state.hasFeedBack = payload;
+    },
+    setSelectedMenu: (state, { payload }) => {
+      state.selectedMenu = payload;
     },
   },
   extraReducers: {
@@ -161,6 +165,7 @@ export const {
   setAdverts,
   SaveLoginIdentity,
   setHasFeedBack,
+  setSelectedMenu,
 } = authSlice.actions;
 
 export default authSlice.reducer;

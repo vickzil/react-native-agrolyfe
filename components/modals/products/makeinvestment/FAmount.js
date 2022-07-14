@@ -10,8 +10,6 @@ import POPUpModal from "../../POPUpModal";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const productImage = require("../../../../assets/img/productimage.jpeg");
-
 const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
   const dispatch = useDispatch();
   const [showDurationModal, setShowDurationModal] = useState(false);

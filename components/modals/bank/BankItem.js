@@ -1,11 +1,11 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { bankList } from "../../../constant/bankList";
+// import { bankList } from "../../../constant/bankList";
 // const bankImage = require("../../../assets/img/bank.png");
 
 const BankItem = ({ item }) => {
-  let bankImage =
-    bankList.find((imageBank) => imageBank.code == item.bankCode)?.flag || require("../../../assets/img/bank.png");
+  let bankImage = require("../../../assets/img/bank.png");
+  // bankList.find((imageBank) => imageBank.code == item.bankCode)?.flag || require("../../../assets/img/bank.png");
 
   return (
     <View style={styles.bankGridItem}>

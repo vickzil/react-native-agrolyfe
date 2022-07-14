@@ -159,8 +159,8 @@ const EditProfileHeaderImageTop = ({ handleLoading }) => {
           onPress={() => pickImage()}
         />
       </View>
-      <Text style={styles.accountUserFullName}>{user ? user.firstName + " " + user.lastName : "-----"}</Text>
-      <Text style={styles.accountTitle}>{user ? user.code : "-----"}</Text>
+      {/* <Text style={styles.accountUserFullName}>{user ? user.firstName + " " + user.lastName : "-----"}</Text>
+      <Text style={styles.accountTitle}>{user ? user.code : "-----"}</Text> */}
     </View>
   );
 };

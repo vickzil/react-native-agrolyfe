@@ -9,6 +9,7 @@ import Logo from "../components/logo/Logo";
 import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import colors from "../styles/colors";
 import axios from "axios";
+import SvgComponent from "../components/customs/SvgComponent";
 
 const Signin = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -142,10 +143,24 @@ const Signin = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
-      <ScrollView contentContainerStyle={{ paddingTop: 40, paddingHorizontal: 20, paddingBottom: 40 }}>
+      <SvgComponent />
+      <ScrollView contentContainerStyle={{ paddingTop: 30, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
-        <Text style={{ color: "black", fontSize: 30, fontWeight: "bold", fontFamily: "Poppins" }}>Register</Text>
-        <Text style={{ color: "gray", fontSize: 17, marginVertical: 10 }}>Create a secure account below</Text>
+        <Text
+          style={{
+            color: "black",
+            fontSize: 22,
+            fontWeight: "bold",
+            fontFamily: "Poppins",
+            textAlign: "center",
+            paddingTop: 50,
+          }}
+        >
+          Register
+        </Text>
+        <Text style={{ color: "gray", fontSize: 16, marginVertical: 10, textAlign: "center" }}>
+          Create a secure account below
+        </Text>
 
         <View style={{ marginVertical: 20, marginTop: 40 }}>
           <CustomInput
@@ -168,8 +183,9 @@ const Signin = ({ navigation }) => {
               color: colors.greenDarkDarkColor,
               textAlign: "center",
               fontSize: 16,
-              fontWeight: "bold",
+              fontWeight: "600",
               marginTop: 20,
+              fontFamily: "Poppins",
             }}
           >
             Already have account? Login

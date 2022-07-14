@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   accountUserFullName: {
     fontFamily: "Poppins",
     marginTop: 14,
-    fontSize: 18,
+    fontSize: 16,
     color: "#fff",
   },
 

@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "agrolyfe",
+    "name": "Agrolyfe",
     "slug": "agrolyfe",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/img/favicon.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/img/banner.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -15,16 +15,20 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "agrolyfe.farm.com",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/img/favicon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "agrolyfe.farm.com",
+      "versionCode": 1
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/img/favicon.png"
     },
     "userInterfaceStyle": "automatic",
     "plugins": [

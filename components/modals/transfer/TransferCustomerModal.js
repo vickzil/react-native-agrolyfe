@@ -34,6 +34,7 @@ import { addComma } from "../../helpers/globalFunction";
 import { getUserInfo } from "../../../store/auth/actions";
 import { getUserWalletBalance } from "../../../store/wallet/actions";
 import { getTransactionsInfo } from "../../../store/transactions/actions";
+import SvgComponent from "../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -366,6 +367,7 @@ const TransferCustomerModal = () => {
 
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
+          <SvgComponent />
           <View
             style={[
               {

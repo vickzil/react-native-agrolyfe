@@ -7,6 +7,7 @@ import colors from "../../../../styles/colors";
 import HeaderImageTop from "../../../extra/HeaderImageTop";
 import AntiPhizingForm from "./AntiPhizingForm";
 import ScreenLoading from "../../../loader/ScreenLoading";
+import SvgComponent2 from "../../../customs/SvgComponent2";
 
 const { width } = Dimensions.get("screen");
 
@@ -28,6 +29,7 @@ const AntiPhizingModal = () => {
     <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <ScreenLoading visibility={{ status: isLoading, message: "Please wait ..." }} />
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+        <SvgComponent2 />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"

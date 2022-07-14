@@ -19,6 +19,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import colors from "../../../styles/colors";
 import AllSavings from "../../savings/AllSavings";
 import { globalStyles } from "../../../styles/global";
+import SvgComponent2 from "../../customs/SvgComponent2";
 
 const { width } = Dimensions.get("screen");
 
@@ -43,6 +44,7 @@ const SavingsModal = () => {
         </View>
       )}
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+        <SvgComponent2 />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
@@ -58,7 +60,7 @@ const SavingsModal = () => {
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text style={[styles.modalHeaderTex, loading && { marginRight: 10 }]}>
                 {" "}
-                {user ? "NGN " + user?.totalSavingsBalance + ".00" : "NGN 0.00"}
+                {user?.totalSavingsBalance ? "NGN " + user?.totalSavingsBalance + ".00" : "NGN 0.00"}
               </Text>
               {loading ? <ActivityIndicator size="small" color="#14961E" /> : null}
             </View>

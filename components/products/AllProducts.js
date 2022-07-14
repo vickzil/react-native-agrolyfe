@@ -8,6 +8,7 @@ import LoadingComponents from "../loader/LoadingComponents";
 import { useSelector } from "react-redux";
 import NoItem from "../extra/NoItem";
 import { globalStyles } from "../../styles/global";
+import SvgComponent from "../customs/SvgComponent";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -25,7 +26,8 @@ const AllProducts = () => {
   }, [isFocused]);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
+    <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef} style={{ position: "relative" }}>
+      <SvgComponent />
       <View style={[styles.productContainer]}>
         <View style={[styles.modalSearchContainer]}>
           {/* <View style={[styles.modalSearch]}>
@@ -39,7 +41,7 @@ const AllProducts = () => {
               globalStyles.siteTitle,
               {
                 fontWeight: "600",
-                fontSize: 22,
+                fontSize: 18,
                 textTransform: "capitalize",
                 fontFamily: "PoppinsBold",
                 marginBottom: 30,

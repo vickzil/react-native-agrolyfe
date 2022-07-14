@@ -15,7 +15,16 @@ import AlertModal from "../components/modals/AlertModal";
 import { removeStorageItemValue } from "../components/helpers/globalFunction";
 import { setUserWalletBalance } from "../store/wallet/walletSlice";
 import { getTransactionsInfo } from "../store/transactions/actions";
-import { SaveLoginIdentity, setAdverts, setDashboardMessage, setVerificationInfo } from "../store/auth/authSlice";
+import {
+  SaveLoginIdentity,
+  saveUserInfo,
+  setAdverts,
+  setDashboardMessage,
+  setToken,
+  setVerificationInfo,
+} from "../store/auth/authSlice";
+import { useNavigation } from "@react-navigation/native";
+import { logoutAllAccount } from "../store/auth/actions";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
@@ -24,31 +33,25 @@ const AuthStack = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    logoutUserDueToInactivity();
+  }, []);
+
+  const logoutUserDueToInactivity = () => {
+    removeStorageItemValue("token");
+    removeStorageItemValue("appexrat");
+    removeStorageItemValue("user");
+    dispatch(setToken(""));
+    dispatch(saveUserInfo(null));
+    dispatch(logoutAllAccount());
+    dispatch(setUserWalletBalance(null));
     dispatch(setVerificationInfo(null));
     dispatch(setDashboardMessage(null));
     dispatch(setAdverts(null));
-  }, []);
-
-  // useEffect(() => {
-  //   authLogin();
-  // }, []);
-
-  // const authLogin = async () => {
-  //   try {
-  //     const hasLogin = await AsyncStorage.getItem("hasLoggedIn");
-  //     if (hasLogin) {
-  //       setInitialRouteName("Login");
-  //     } else {
-  //       setInitialRouteName("Welcome");
-  //     }
-  //   } catch (error) {
-  //     setInitialRouteName("Welcome");
-  //   }
-  // };
+  };
 
   return (
     <>
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={hasLogin ? "Login" : "Welcome"}>
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={hasLogin ? "Login" : "Login"}>
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />

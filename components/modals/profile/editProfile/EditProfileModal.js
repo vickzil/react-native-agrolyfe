@@ -8,6 +8,7 @@ import EditProfileHeaderImageTop from "./EditProfileHeaderImageTop";
 import EditProfileForm from "./EditProfileForm";
 import Modal from "react-native-modal";
 import ScreenLoading from "../../../loader/ScreenLoading";
+import SvgComponent from "../../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 let screenHeight = Dimensions.get("window").height;
@@ -46,10 +47,11 @@ const EditProfileModal = () => {
       onBackdropPress={() => closeModal()}
       onSwipeComplete={() => closeModal()}
       swipeDirection="right"
-      style={{ width: width, height: screenHeight, margin: 0, padding: 0 }}
+      style={{ width: width, height: screenHeight, margin: 0, padding: 0, backgroundColor: "#fff" }}
     >
+      <SvgComponent />
       <ScreenLoading visibility={screenLoading} />
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+      <View style={{ flex: 1 }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"

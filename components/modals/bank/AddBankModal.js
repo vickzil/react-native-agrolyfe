@@ -15,6 +15,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { setAddBankModal, setSelectedAllBank } from "../../../store/alert/alertSlice";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import AddBankForm from "./AddBankForm";
+import SvgComponent from "../../customs/SvgComponent";
 const { width } = Dimensions.get("screen");
 
 const AddBankModal = () => {
@@ -50,6 +51,7 @@ const AddBankModal = () => {
 
   return (
     <Modal visible={modal} animationType="fade" onRequestClose={() => closeModal()}>
+      <SvgComponent />
       <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
 
       <View style={{ marginTop: -40 }}>
