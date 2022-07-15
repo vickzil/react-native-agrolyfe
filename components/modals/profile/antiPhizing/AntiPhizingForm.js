@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
   label: {
     marginVertical: 5,
-    fontSize: 16,
+    fontSize: 15,
     color: "#444",
     marginBottom: 10,
     fontFamily: "Poppins",
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 15,
     borderWidth: 1,
-    borderColor: colors.greenColor,
+    borderColor: "#ced4ed",
     alignItems: "center",
     borderRadius: 8,
   },

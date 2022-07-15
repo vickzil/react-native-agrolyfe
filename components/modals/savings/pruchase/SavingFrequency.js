@@ -14,7 +14,7 @@ const SavingFrequency = ({ frequency, setFrequency, payload, item, allFrequencie
           style={[
             styles.productCardContentItemLeft,
             {
-              fontSize: 23,
+              fontSize: 19,
               marginBottom: 20,
               fontWeight: "600",
               fontFamily: "Montserrat",
@@ -33,7 +33,7 @@ const SavingFrequency = ({ frequency, setFrequency, payload, item, allFrequencie
             selectedButtonColor={colors.greenColor}
             animation={true}
             labelStyle={{
-              fontSize: 20,
+              fontSize: 17,
               fontFamily: "Poppins",
               letterSpacing: -0.35644,
               paddingTop: 10,

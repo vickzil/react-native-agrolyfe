@@ -14,6 +14,7 @@ import React, { useEffect } from "react";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import AnimatedViewComp from "../../customs/AnimatedViewComp";
 
 const { width } = Dimensions.get("screen");
 
@@ -41,18 +42,21 @@ const SelectProductModal = ({ data, closeModal, choosenProd, selectedProduct }) 
             {data && data?.data && data.data.length ? (
               <View>
                 {data?.data.map((item, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[
-                      styles.container,
-                      selectedProduct && selectedProduct.id == item.id ? styles.selectedItem : null,
-                    ]}
-                    onPress={() => choosenProd(item)}
-                  >
-                    <View style={styles.content} key={index}>
-                      <Text style={[styles.contentText, styles.contentText1]}>{item.name}</Text>
-                    </View>
-                  </TouchableOpacity>
+                  <AnimatedViewComp index={index} key={index}>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      key={index}
+                      style={[
+                        styles.container,
+                        selectedProduct && selectedProduct.id == item.id ? styles.selectedItem : null,
+                      ]}
+                      onPress={() => choosenProd(item)}
+                    >
+                      <View style={styles.content} key={index}>
+                        <Text style={[styles.contentText, styles.contentText1]}>{item.name}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </AnimatedViewComp>
                 ))}
               </View>
             ) : (

@@ -48,9 +48,9 @@ const AllSavings = () => {
             style={{
               marginTop: 0,
               textAlign: "center",
-              fontFamily: "Poppins",
-              fontSize: 19,
-              fontWeight: "700",
+              fontFamily: "PoppinsBold",
+              fontSize: 17,
+              fontWeight: "600",
               marginBottom: 40,
             }}
           >
@@ -115,9 +115,10 @@ const styles = StyleSheet.create({
   },
 
   contentText1: {
-    fontSize: 17,
-    fontWeight: "700",
+    fontSize: 15,
+    fontWeight: "600",
     marginBottom: 5,
+    fontFamily: "PoppinsBold",
   },
 
   contentText2: {

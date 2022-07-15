@@ -14,7 +14,7 @@ const SavingAmount = ({ amount, setAmount }) => {
           style={[
             styles.productCardContentItemLeft,
             {
-              fontSize: 23,
+              fontSize: 19,
               marginBottom: 20,
               fontWeight: "600",
               fontFamily: "Montserrat",
@@ -29,7 +29,7 @@ const SavingAmount = ({ amount, setAmount }) => {
           <Text
             style={[
               styles.productCardContentItemLeft,
-              { fontSize: 18, marginBottom: 20, fontWeight: "800", fontFamily: "Poppins", letterSpacing: -0.35644 },
+              { fontSize: 15, marginBottom: 20, fontWeight: "800", fontFamily: "Poppins", letterSpacing: -0.35644 },
             ]}
           >
             Amount

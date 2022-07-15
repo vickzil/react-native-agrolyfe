@@ -14,6 +14,7 @@ import React, { useEffect } from "react";
 import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import AnimatedViewComp from "../../customs/AnimatedViewComp";
 
 const { width } = Dimensions.get("screen");
 
@@ -41,18 +42,19 @@ const SelectPackageModal = ({ data, closeModal, choosenPage, selectedPackage }) 
             {data && data?.data && data.data.length ? (
               <View>
                 {data?.data.map((item, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[
-                      styles.container,
-                      selectedPackage && selectedPackage?.code == item.code ? styles.selectedItem : null,
-                    ]}
-                    onPress={() => choosenPage(item)}
-                  >
-                    <View style={styles.content} key={index}>
-                      <Text style={[styles.contentText, styles.contentText1]}>{item?.name}</Text>
-                    </View>
-                  </TouchableOpacity>
+                  <AnimatedViewComp index={index} key={index}>
+                    <TouchableOpacity
+                      style={[
+                        styles.container,
+                        selectedPackage && selectedPackage?.code == item.code ? styles.selectedItem : null,
+                      ]}
+                      onPress={() => choosenPage(item)}
+                    >
+                      <View style={styles.content}>
+                        <Text style={[styles.contentText, styles.contentText1]}>{item?.name}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </AnimatedViewComp>
                 ))}
               </View>
             ) : (
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 19,
+    fontSize: 18,
     lineHeight: 29,
     marginBottom: 0,
     fontFamily: "Montserrat",
@@ -128,8 +130,8 @@ const styles = StyleSheet.create({
   },
 
   contentText1: {
-    fontSize: 17,
-    fontWeight: "700",
+    fontSize: 15,
+    fontWeight: "600",
     marginBottom: 5,
   },
 

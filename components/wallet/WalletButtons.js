@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
 
   quickMenusItemText: {
     fontSize: 14,
-    fontWeight: "500",
+    fontWeight: "600",
     fontFamily: "Poppins",
   },
 });

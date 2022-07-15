@@ -20,7 +20,7 @@ const FSummary = ({ calculatedUser, amount }) => {
                 styles.productCardContentItemRight,
                 {
                   textAlign: "center",
-                  fontSize: 29,
+                  fontSize: 20,
                   marginBottom: 35,
                   fontWeight: "700",
                   color: colors.greenDarkDarkColor,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemLeft: {
-    fontSize: 16.5,
+    fontSize: 15,
     fontWeight: "600",
     color: colors.greenLightDarkColor,
     marginRight: 15,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemRight: {
-    fontSize: 17,
+    fontSize: 15,
     color: "#444",
     fontWeight: "600",
     justifyContent: "flex-end",

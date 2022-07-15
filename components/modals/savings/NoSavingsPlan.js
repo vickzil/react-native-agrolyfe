@@ -25,12 +25,16 @@ const NoSavingsPlan = () => {
         <View style={styles.productImage}>
           <Image
             source={noImage}
-            style={{ width: 200, height: 200, borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
+            style={{ width: 160, height: 160, borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
             resizeMode="cover"
           />
         </View>
-        <Text style={{ fontSize: 20, fontWeight: "800", marginTop: 40 }}>Your Rewarding Savings</Text>
-        <Text style={{ fontSize: 18, marginTop: 20, textAlign: "center" }}>
+        <Text style={{ fontSize: 18, fontWeight: "600", marginTop: 40, fontFamily: "PoppinsBold" }}>
+          Your Rewarding Savings
+        </Text>
+        <Text
+          style={{ fontSize: 16, marginTop: 20, textAlign: "center", fontFamily: "Poppins", paddingHorizontal: 20 }}
+        >
           Get started, choose the most suitable and convenient savings plan for you.
         </Text>
 
@@ -70,7 +74,7 @@ const styles = StyleSheet.create({
 
   buttonText: {
     fontStyle: "normal",
-    fontWeight: "700",
+    fontWeight: "600",
     fontSize: 17,
     lineHeight: 29,
     marginBottom: 0,

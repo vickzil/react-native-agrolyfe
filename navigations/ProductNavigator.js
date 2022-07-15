@@ -40,8 +40,26 @@ const ProductNavigator = () => {
         }}
         style={{ elevation: 2 }}
       >
-        <TopTab.Screen name="Products" component={AllProducts} />
-        <TopTab.Screen name="Purchased" component={MyProducts} />
+        <TopTab.Screen
+          name="Products"
+          component={AllProducts}
+          options={{
+            tabBarLabel: "Farm Lands",
+            tabBarActiveTintColor: colors.greenColor,
+            tabBarLabelStyle: { fontWeight: "800" },
+            tabBarInactiveTintColor: "#222",
+          }}
+        />
+        <TopTab.Screen
+          name="Purchased"
+          component={MyProducts}
+          options={{
+            tabBarLabel: "Purchased",
+            tabBarActiveTintColor: colors.greenColor,
+            tabBarLabelStyle: { fontWeight: "800" },
+            tabBarInactiveTintColor: "#222",
+          }}
+        />
       </TopTab.Navigator>
     </SafeAreaProvider>
   );

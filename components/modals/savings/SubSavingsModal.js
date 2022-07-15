@@ -65,9 +65,9 @@ const SubSavingsModal = () => {
               style={{
                 marginTop: 0,
                 textAlign: "center",
-                fontFamily: "Poppins",
-                fontSize: 19,
-                fontWeight: "700",
+                fontFamily: "PoppinsBold",
+                fontSize: 17,
+                fontWeight: "600",
                 marginBottom: 40,
               }}
             >

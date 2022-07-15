@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
 
   userCardText: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "600",
     fontFamily: "Montserrat",
     marginTop: 10,

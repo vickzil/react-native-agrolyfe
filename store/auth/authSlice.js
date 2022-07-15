@@ -115,7 +115,7 @@ const authSlice = createSlice({
     [resendUserTransactionPin.fulfilled]: (state, action) => {
       state.resendPinLoading = false;
       state.resendPinCompleted = true;
-      console.log(action.payload);
+      // console.log(action.payload);
     },
 
     [resendUserTransactionPin.rejected]: (state) => {

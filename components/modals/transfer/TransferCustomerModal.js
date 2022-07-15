@@ -35,6 +35,7 @@ import { getUserInfo } from "../../../store/auth/actions";
 import { getUserWalletBalance } from "../../../store/wallet/actions";
 import { getTransactionsInfo } from "../../../store/transactions/actions";
 import SvgComponent from "../../customs/SvgComponent";
+import { otherGlobalFunctions } from "../../../store/utilities/actions";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -297,6 +298,7 @@ const TransferCustomerModal = () => {
       })
       .then((response) => {
         // console.log(response?.data);
+        closeModal();
 
         if (response?.data?.success == true) {
           // console.log(response?.data?.data);
@@ -315,11 +317,8 @@ const TransferCustomerModal = () => {
             }),
           );
 
-          dispatch(getUserWalletBalance(user?.code));
           dispatch(getUserInfo(user?.code));
-          dispatch(getTransactionsInfo(user?.code));
-
-          closeModal();
+          dispatch(otherGlobalFunctions());
         } else {
           setEmptyFields(false);
           setScreenLoading({
@@ -443,7 +442,7 @@ const styles = StyleSheet.create({
     width,
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 15,
+    paddingVertical: 10,
     paddingHorizontal: 10,
   },
 

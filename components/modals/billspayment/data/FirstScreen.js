@@ -111,7 +111,7 @@ const FirstScreen = ({
       <View style={[styles.productContainer, { paddingBottom: 270 }]}>
         <View style={{ marginTop: 30, marginBottom: 0, width: "95%", paddingRight: 10 }}>
           <View style={{ marginBottom: 50 }}>
-            <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 20, fontWeight: "600" }]}>
+            <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 20, fontWeight: "600" }]}>
               Select network provider
             </Text>
             <FlatList
@@ -129,7 +129,7 @@ const FirstScreen = ({
               <>
                 <View style={{ marginTop: 0, marginBottom: 30, width: "100%", paddingRight: 0 }}>
                   <Text
-                    style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}
+                    style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}
                   >
                     Select Package
                   </Text>
@@ -147,7 +147,7 @@ const FirstScreen = ({
 
                 <View style={{ marginTop: 0, marginBottom: 10, width: "100%", paddingRight: 0 }}>
                   <Text
-                    style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}
+                    style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}
                   >
                     Mobile Number
                   </Text>
@@ -164,7 +164,7 @@ const FirstScreen = ({
 
                 <View style={{ marginTop: 20, marginBottom: 10, width: "100%", paddingRight: 0 }}>
                   <Text
-                    style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}
+                    style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}
                   >
                     Amount
                   </Text>

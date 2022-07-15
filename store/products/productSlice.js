@@ -52,7 +52,7 @@ const productSlice = createSlice({
     [getMyInvestments.fulfilled]: (state, action) => {
       let result = action.payload;
       if (result) {
-        console.log("Myproducts ", action.payload.data);
+        // console.log("Myproducts ", action.payload.data);
         state.myProducts = result.data;
       }
 

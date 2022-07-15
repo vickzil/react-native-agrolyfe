@@ -220,23 +220,7 @@ const AddBvnForm = ({
         <View style={[globalStyles.productContainer, { width: "100%" }]}>
           <View style={{ width: "90%" }}>
             <View style={{ marginTop: 20, marginBottom: 10 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}>
-                Bvn
-              </Text>
-              <View style={[globalStyles.inputContainer, { height: 57 }]}>
-                <TextInput
-                  keyboardType="numeric"
-                  value={bvn}
-                  onChangeText={(text) => setBvn(text)}
-                  autoCorrect={false}
-                  style={globalStyles.inputTextt}
-                />
-              </View>
-            </View>
-            <View style={{ marginTop: 20, marginBottom: 10 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}>
-                Select Bank
-              </Text>
+              <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5 }]}>Select Bank</Text>
               <TouchableOpacity
                 style={[globalStyles.inputContainer, { height: 50 }]}
                 onPress={() =>
@@ -254,9 +238,7 @@ const AddBvnForm = ({
             </View>
 
             <View style={{ marginTop: 20, marginBottom: 30 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}>
-                Account Number
-              </Text>
+              <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5 }]}>Account Number</Text>
               <View style={[globalStyles.inputContainer, { height: 57 }]}>
                 <TextInput
                   keyboardType="numeric"
@@ -272,16 +254,30 @@ const AddBvnForm = ({
               ) : null}
             </View>
             {accountName ? (
-              <View style={styles.productCardContent}>
-                <View style={[styles.productCardAccount]}>
-                  <Text style={[styles.productCardContentItemLeft, { textAlign: "center", color: "#fff" }]}>
+              <>
+                <View style={styles.productCardContent}>
+                  <View style={[styles.productCardAccount]}>
+                    {/* <Text style={[styles.productCardContentItemLeft, { textAlign: "center", color: colors.greenColor }]}>
                     Account name
-                  </Text>
-                  <Text style={[styles.productCardContentItemRight, { fontWeight: "700", color: "#fff" }]}>
-                    {accountName}
-                  </Text>
+                  </Text> */}
+                    <Text style={[styles.productCardContentItemRight, { fontWeight: "600", color: colors.greenColor }]}>
+                      {accountName}
+                    </Text>
+                  </View>
                 </View>
-              </View>
+                <View style={{ marginTop: 10, marginBottom: 10 }}>
+                  <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5 }]}>Bvn</Text>
+                  <View style={[globalStyles.inputContainer, { height: 57 }]}>
+                    <TextInput
+                      keyboardType="numeric"
+                      value={bvn}
+                      onChangeText={(text) => setBvn(text)}
+                      autoCorrect={false}
+                      style={globalStyles.inputTextt}
+                    />
+                  </View>
+                </View>
+              </>
             ) : null}
           </View>
 
@@ -333,15 +329,15 @@ const styles = StyleSheet.create({
 
   productCardAccount: {
     // flexDirection: "row",
-    backgroundColor: colors.greenDarkColor,
-    paddingVertical: 20,
+    backgroundColor: "#edf9ee",
+    paddingVertical: 10,
     paddingHorizontal: 13,
     marginBottom: 20,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 3,
-    borderColor: colors.greenLightColor,
-    borderRadius: 20,
+    borderColor: "#b6dbb9",
+    borderRadius: 10,
   },
 });
 export default AddBvnForm;

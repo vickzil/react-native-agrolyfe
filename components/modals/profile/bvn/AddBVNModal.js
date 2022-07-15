@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 17,
     paddingHorizontal: 10,
-    elevation: 3,
+    // elevation: 3,
   },
 
   modalHeaderIcon: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: 19,
+    fontSize: 18,
     lineHeight: 29,
     marginBottom: 0,
     fontFamily: "PoppinsBold",

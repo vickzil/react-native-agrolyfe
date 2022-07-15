@@ -49,7 +49,7 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
               </View>
 
               <Text style={globalStyles.accountUserFullName}>{payload?.name}</Text>
-              <Text style={[globalStyles.accountTitle, { fontWeight: "600", fontFamily: "PoppinsBold", fontSize: 22 }]}>
+              <Text style={[globalStyles.accountTitle, { fontWeight: "600", fontFamily: "PoppinsBold", fontSize: 18 }]}>
                 {payload?.newInterestRate}% Rental Fee
               </Text>
             </View>
@@ -59,7 +59,7 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
               style={[
                 styles.productCardContentItemLeft,
                 {
-                  fontSize: 20,
+                  fontSize: 18,
                   marginBottom: 20,
                   fontWeight: "800",
                   fontFamily: "Poppins",

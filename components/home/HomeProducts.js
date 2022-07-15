@@ -28,7 +28,7 @@ const HomeProducts = () => {
           horizontal
           data={products.slice(0, 3)}
           showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.code}
           renderItem={({ item, index }) => <HomeProductItem item={item} key={index} index={index} />}
         />
       </View>

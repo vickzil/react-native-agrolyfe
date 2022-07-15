@@ -54,7 +54,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: "600",
                 color: colors.greenDarkColor,
                 marginRight: 15,
@@ -65,7 +65,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -78,7 +78,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: "600",
                 color: colors.greenDarkColor,
                 fontFamily: "Poppins",
@@ -89,7 +89,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -105,7 +105,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: "600",
                 color: colors.greenDarkColor,
                 marginRight: 15,
@@ -133,7 +133,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: "600",
                 color: colors.greenDarkColor,
                 fontFamily: "Poppins",
@@ -144,7 +144,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -160,7 +160,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: "600",
                 color: colors.greenDarkColor,
                 marginRight: 15,
@@ -171,7 +171,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -184,7 +184,7 @@ const PurchaseCard = ({ item }) => {
           <View>
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: "600",
                 flexDirection: "row",
                 justifyContent: "flex-end",
@@ -197,7 +197,7 @@ const PurchaseCard = ({ item }) => {
             </Text>
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 color: "#444",
                 fontWeight: "600",
                 flexDirection: "row",
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContent: {
-    paddingVertical: 19,
+    paddingVertical: 6,
     paddingHorizontal: 15,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentSubTitle: {
-    fontSize: 17,
+    fontSize: 14,
     // fontWeight: "800",
     fontFamily: "MontserratBold",
   },

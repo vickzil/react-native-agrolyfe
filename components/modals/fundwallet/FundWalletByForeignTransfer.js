@@ -110,7 +110,7 @@ const FundWalletByForeignTransfer = () => {
             <Text
               style={[
                 globalStyles.label,
-                { fontSize: 22, textAlign: "left", marginBottom: 10, fontWeight: "600", fontFamily: "PoppinsBold" },
+                { fontSize: 18, textAlign: "left", marginBottom: 10, fontWeight: "600", fontFamily: "PoppinsBold" },
               ]}
             >
               Bank transfer (USD/EUR/GBP)
@@ -148,7 +148,7 @@ const FundWalletByForeignTransfer = () => {
                       //   textAlign: "left",
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontWeight: "600", fontSize: 19, color: colors.greenColor }]}>
+                    <Text style={[globalStyles.label, { fontWeight: "600", fontSize: 15, color: colors.greenColor }]}>
                       {item.currency}
                     </Text>
                     <View style={{ alignItems: "flex-end" }}>
@@ -168,12 +168,12 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Local Account number</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Local Account number</Text>
                     <TouchableOpacity
                       style={{ flexDirection: "row", alignItems: "center" }}
                       onPress={() => handleCopy(item.localAccountNumber)}
                     >
-                      <Text style={[globalStyles.label, { fontSize: 16, color: colors.greenDarkColor }]}>
+                      <Text style={[globalStyles.label, { fontSize: 14, color: colors.greenDarkColor }]}>
                         {item.localAccountNumber}
                       </Text>
                       <Ionicons
@@ -190,8 +190,8 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>local Bank Name</Text>
-                    <Text style={[globalStyles.label, { fontSize: 16, marginRight: 10 }]}>{item.localBankName}</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>local Bank Name</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, marginRight: 10 }]}>{item.localBankName}</Text>
                   </View>
 
                   <View
@@ -201,9 +201,9 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Local Account Name</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Local Account Name</Text>
                     <View style={{ width: "50%", alignItems: "flex-end", justifyContent: "flex-end" }}>
-                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 16, marginRight: 10 }]}>
+                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 14, marginRight: 10 }]}>
                         {item.localAccountName}
                       </Text>
                     </View>
@@ -215,8 +215,8 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Bank Swift Code</Text>
-                    <Text style={[globalStyles.label, { fontSize: 16, marginRight: 10 }]}>{item.bankSwiftCode}</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Bank Swift Code</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, marginRight: 10 }]}>{item.bankSwiftCode}</Text>
                   </View>
                   <View
                     style={{
@@ -225,9 +225,9 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Corresponding IBAN</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Corresponding IBAN</Text>
                     <View style={{ width: "50%", alignItems: "flex-end", justifyContent: "flex-end" }}>
-                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 16, marginRight: 10 }]}>
+                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 14, marginRight: 10 }]}>
                         {item.correspondingBankIBAN}
                       </Text>
                     </View>
@@ -239,9 +239,9 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Corresponding Bank Name</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Corresponding Bank Name</Text>
                     <View style={{ width: "40%", alignItems: "flex-end", justifyContent: "flex-end" }}>
-                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 16, marginRight: 10 }]}>
+                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 14, marginRight: 10 }]}>
                         {item.correspondingBankName}
                       </Text>
                     </View>
@@ -253,8 +253,8 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Corresponding Sort Code</Text>
-                    <Text style={[globalStyles.label, { fontSize: 16, marginRight: 10 }]}>
+                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Corresponding Sort Code</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, marginRight: 10 }]}>
                       {item.correspondingBankSortCode}
                     </Text>
                   </View>
@@ -265,9 +265,9 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Description</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Description</Text>
                     <View style={{ width: "60%", alignItems: "flex-end", justifyContent: "flex-end" }}>
-                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 16, marginRight: 10 }]}>
+                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 14, marginRight: 10 }]}>
                         {item.description}
                       </Text>
                     </View>

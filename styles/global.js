@@ -1,17 +1,6 @@
 import { StyleSheet } from "react-native";
 import colors from "./colors";
 export const globalStyles = StyleSheet.create({
-  h1Style: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  h2Style: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  pStyle: {
-    fontSize: 12,
-  },
   siteTitleWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -22,7 +11,7 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "Poppins",
     // letterSpacing: -0.35644,
     fontWeight: "600",
-    fontSize: 13,
+    fontSize: 14,
     color: "#555",
     marginBottom: 5,
     textTransform: "uppercase",
@@ -33,7 +22,7 @@ export const globalStyles = StyleSheet.create({
     fontSize: 15,
     color: "#444",
     marginBottom: 10,
-    fontFamily: "PoppinsBold",
+    fontFamily: "Poppins",
     letterSpacing: -0.35644,
   },
 
@@ -51,13 +40,13 @@ export const globalStyles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 15,
     borderWidth: 1,
-    borderColor: colors.greenColor,
+    borderColor: "#ced4ed",
     alignItems: "center",
     borderRadius: 8,
   },
 
   inputContainerDisabled: {
-    backgroundColor: "#e8e8e8",
+    backgroundColor: "#c8ccc7",
     color: "#888",
   },
 
@@ -160,6 +149,8 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "700",
     marginBottom: 5,
     textTransform: "capitalize",
+    fontFamily: "Poppins",
+    letterSpacing: -0.35644,
   },
 
   selectContentText2: {

@@ -24,6 +24,7 @@ import ScreenLoading from "../../loader/ScreenLoading";
 import FAmount from "./makeinvestment/FAmount";
 import FSummary from "./makeinvestment/FSummary";
 import FConfirm from "./makeinvestment/FConfirm";
+import { addComma } from "../../helpers/globalFunction";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -162,6 +163,7 @@ const MakeInvestmentModal = () => {
         setStep(3);
         scrollViewRef.current?.scrollTo({ x: width * 2, y: 0, animated: true });
         // closeModal();
+        setButtonText("Purchase");
       }
 
       if (step === 3) {
@@ -425,7 +427,7 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: 20,
+    fontSize: 17,
     lineHeight: 29,
     marginBottom: 0,
     fontFamily: "PoppinsBold",

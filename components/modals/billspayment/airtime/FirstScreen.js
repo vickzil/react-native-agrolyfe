@@ -68,7 +68,7 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
       <View style={[styles.productContainer]}>
         <View style={{ marginTop: 30, marginBottom: 10, width: "95%", paddingRight: 10 }}>
           <View style={{ marginBottom: 30 }}>
-            <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 20, fontWeight: "600" }]}>
+            <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 20, fontWeight: "600" }]}>
               Select network provider
             </Text>
             <FlatList
@@ -82,7 +82,7 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
             />
           </View>
           <View style={{ marginTop: 0, marginBottom: 10, width: "100%", paddingRight: 0 }}>
-            <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 2, fontWeight: "600" }]}>
+            <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 2, fontWeight: "600" }]}>
               Amount
             </Text>
 
@@ -107,7 +107,7 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
           </View>
           <View>
             <View style={{ marginTop: 20, marginBottom: 10, width: "100%", paddingRight: 0 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 2, fontWeight: "600" }]}>
+              <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 2, fontWeight: "600" }]}>
                 Mobile Number
               </Text>
               <View style={[globalStyles.inputContainer, { height: 57 }]}>

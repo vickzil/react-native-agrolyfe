@@ -26,6 +26,7 @@ import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import NoItem from "../../extra/NoItem";
 import { setSelectedSavingsType, setSelectedSavingsTypeDetails } from "../../../store/savings/savingsSlice";
 import { globalStyles } from "../../../styles/global";
+import AnimatedViewComp from "../../customs/AnimatedViewComp";
 
 const { width } = Dimensions.get("screen");
 
@@ -93,12 +94,14 @@ const SelectCardModal = () => {
             {cards && cards.length ? (
               <View>
                 {cards?.map((item, index) => (
-                  <TouchableOpacity key={index} style={styles.container} onPress={() => selectCard(item)}>
-                    <View style={styles.content} key={index}>
-                      <Text style={[styles.contentText, styles.contentText1]}>{item?.cardBankName}</Text>
-                      <Text style={[styles.contentText, styles.contentText2]}>{item?.cardLast4}</Text>
-                    </View>
-                  </TouchableOpacity>
+                  <AnimatedViewComp index={index} key={index}>
+                    <TouchableOpacity style={styles.container} onPress={() => selectCard(item)}>
+                      <View style={styles.content} key={index}>
+                        <Text style={[styles.contentText, styles.contentText1]}>{item?.cardBankName}</Text>
+                        <Text style={[styles.contentText, styles.contentText2]}>{item?.cardLast4}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </AnimatedViewComp>
                 ))}
 
                 <View style={{ marginTop: 90, alignItems: "center", textAlign: "center" }}>

@@ -36,6 +36,7 @@ import { getUserInfo } from "../../../store/auth/actions";
 import { getTransactionsInfo } from "../../../store/transactions/actions";
 import { addComma } from "../../helpers/globalFunction";
 import SvgComponent2 from "../../customs/SvgComponent2";
+import { otherGlobalFunctions } from "../../../store/utilities/actions";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -189,7 +190,7 @@ const BuyAirtimeModal = () => {
       message: "Initiating Request...",
     });
 
-    let newAmount = amount;
+    let newAmount = amount.replace(/[^a-zA-Z0-9]/g, "");
 
     let newPayload = {
       AppId: AppId,
@@ -197,10 +198,10 @@ const BuyAirtimeModal = () => {
       UserCode: user?.code,
       Amount: newAmount,
       PhoneNumber: mobileNumber,
-      NetworkID: selectedNetwork.code,
+      NetworkID: selectedNetwork?.code,
     };
 
-    // console.log(newPayload);
+    console.log(newPayload);
 
     axios
       .post(`${baseURL}/v1.0/UtilityPayment/buyAirtime`, newPayload, {
@@ -228,9 +229,8 @@ const BuyAirtimeModal = () => {
             }),
           );
 
-          dispatch(getUserWalletBalance(user?.code));
           dispatch(getUserInfo(user?.code));
-          dispatch(getTransactionsInfo(user?.code));
+          dispatch(otherGlobalFunctions());
 
           closeModal();
         } else {
@@ -249,6 +249,8 @@ const BuyAirtimeModal = () => {
               payload: null,
             }),
           );
+
+          closeModal();
         }
       })
       .catch(() => {

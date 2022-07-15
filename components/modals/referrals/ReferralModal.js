@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: 19,
+    fontSize: 15,
     lineHeight: 29,
     marginBottom: 0,
     fontFamily: "PoppinsBold",
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   modalHeaderTex: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 29,
+    fontSize: 25,
     // lineHeight: 29,
     // marginTop: 10,
     fontFamily: "Montserrat",
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   },
 
   searchInput: {
-    fontSize: 16,
+    fontSize: 15,
     color: "#444",
     width: "72%",
     textAlign: "left",

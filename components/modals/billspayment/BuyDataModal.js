@@ -36,6 +36,7 @@ import { getUserInfo } from "../../../store/auth/actions";
 import { getTransactionsInfo } from "../../../store/transactions/actions";
 import { addComma } from "../../helpers/globalFunction";
 import SvgComponent2 from "../../customs/SvgComponent2";
+import { otherGlobalFunctions } from "../../../store/utilities/actions";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -231,9 +232,8 @@ const BuyDataModal = () => {
             }),
           );
 
-          dispatch(getUserWalletBalance(user?.code));
           dispatch(getUserInfo(user?.code));
-          dispatch(getTransactionsInfo(user?.code));
+          dispatch(otherGlobalFunctions());
 
           closeModal();
         } else {
@@ -252,6 +252,8 @@ const BuyDataModal = () => {
               payload: null,
             }),
           );
+
+          closeModal();
         }
       })
       .catch(() => {

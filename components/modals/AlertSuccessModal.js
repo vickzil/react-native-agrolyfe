@@ -108,16 +108,18 @@ const styles = StyleSheet.create({
   },
 
   userCardText: {
-    fontSize: 17.8,
+    fontSize: 15,
     fontWeight: "600",
     fontFamily: "Montserrat",
     marginTop: 40,
+    paddingHorizontal: 20,
   },
 
   Icon: {
     fontSize: 38,
     backgroundColor: "#3d665d",
     padding: 25,
+    paddingLeft: 29,
     borderRadius: 100,
     color: "#fff",
     borderWidth: 2,
@@ -128,9 +130,10 @@ const styles = StyleSheet.create({
   amountInput: {
     fontSize: 30,
     color: "#79b2a6",
-    fontWeight: "700",
+    fontWeight: "600",
     textAlign: "center",
     marginTop: 30,
+    fontFamily: "PoppinsBold",
   },
 
   statuss: {

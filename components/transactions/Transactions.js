@@ -17,7 +17,7 @@ const Transactions = () => {
 
   useEffect(() => {
     if (transactions && transactions.transactions && transactions.transactions.length) {
-      let newFilter = transactions.transactions.slice(0, 6);
+      let newFilter = transactions.transactions.slice(0, 4);
       setAllTransactions(newFilter);
     }
   }, [transactions]);

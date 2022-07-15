@@ -44,10 +44,12 @@ const FName = ({ userName, setUserName, calculatedUser, setCalculatedUser, remov
 
               {calculatedUser ? (
                 <>
-                  <Text style={[styles.accountUserFullName, { fontSize: 20, marginBottom: 0, paddingBottom: 0 }]}>
+                  <Text style={[styles.accountUserFullName, { fontSize: 14, marginBottom: 0, paddingBottom: 0 }]}>
                     {calculatedUser?.firstName + " " + calculatedUser.lastName}
                   </Text>
-                  <Text style={[styles.accountUserFullName, { marginTop: 0, fontWeight: "900" }]}>
+                  <Text
+                    style={[styles.accountUserFullName, { marginTop: 0, fontWeight: "600", fontFamily: "PoppinsBold" }]}
+                  >
                     @{calculatedUser?.userName}
                   </Text>
 

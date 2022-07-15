@@ -24,7 +24,7 @@ const FConfirm = ({ isEnabled, setIsEnabled }) => {
         <Text
           style={[
             styles.productCardContentItemLeft,
-            { fontSize: 28, fontWeight: "600", marginBottom: 10, color: "#444", fontFamily: "PoppinsBold" },
+            { fontSize: 22, fontWeight: "600", marginBottom: 6, color: "#444", fontFamily: "PoppinsBold" },
           ]}
         >
           Confirm Purchase
@@ -34,7 +34,7 @@ const FConfirm = ({ isEnabled, setIsEnabled }) => {
           <Text
             style={[
               globalStyles.label,
-              { fontSize: 19, textAlign: "center", fontWeight: "600", fontFamily: "Poppins", marginBottom: 60 },
+              { fontSize: 15, textAlign: "center", fontWeight: "600", fontFamily: "Poppins", marginBottom: 60 },
             ]}
           >
             Are you sure you want to purchase this products

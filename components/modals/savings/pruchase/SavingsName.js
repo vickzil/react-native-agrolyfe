@@ -14,7 +14,7 @@ const SavingsName = ({ name, setName }) => {
           style={[
             styles.productCardContentItemLeft,
             {
-              fontSize: 23,
+              fontSize: 19,
               marginBottom: 20,
               fontWeight: "600",
               fontFamily: "Montserrat",
@@ -29,7 +29,7 @@ const SavingsName = ({ name, setName }) => {
           style={[
             styles.productCardContentItemLeft,
             {
-              fontSize: 16,
+              fontSize: 15,
               marginBottom: -1,
               marginTop: 40,
               fontWeight: "500",

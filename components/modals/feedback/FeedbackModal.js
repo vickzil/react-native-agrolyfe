@@ -30,6 +30,7 @@ import POPUpModal from "../POPUpModal";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
 import { getUserInfo } from "../../../store/auth/actions";
 import { setHasFeedBack } from "../../../store/auth/authSlice";
+import AnimatedViewComp from "../../customs/AnimatedViewComp";
 const { width, height } = Dimensions.get("window");
 let screenHeight = Dimensions.get("window").height;
 
@@ -209,21 +210,22 @@ const FeedbackModal = () => {
       >
         <View>
           {allFeedbackType?.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                globalStyles.selectContainer,
-                feedbackType?.value == item.value ? globalStyles.selectedItem : null,
-              ]}
-              onPress={() => {
-                setShowCModal(false);
-                setFeedbackType(item);
-              }}
-            >
-              <View style={globalStyles.selectContent} key={index}>
-                <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item?.name}</Text>
-              </View>
-            </TouchableOpacity>
+            <AnimatedViewComp index={index} key={index}>
+              <TouchableOpacity
+                style={[
+                  globalStyles.selectContainer,
+                  feedbackType?.value == item.value ? globalStyles.selectedItem : null,
+                ]}
+                onPress={() => {
+                  setShowCModal(false);
+                  setFeedbackType(item);
+                }}
+              >
+                <View style={globalStyles.selectContent} key={index}>
+                  <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item?.name}</Text>
+                </View>
+              </TouchableOpacity>
+            </AnimatedViewComp>
           ))}
         </View>
       </POPUpModal>
@@ -249,12 +251,12 @@ const FeedbackModal = () => {
           >
             <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
               <View style={[styles.productContainer]}>
-                <View style={{ marginTop: 10, marginBottom: 10, width: "95%", paddingRight: 10, paddingBottom: 180 }}>
+                <View style={{ marginTop: 30, marginBottom: 10, width: "95%", paddingRight: 10, paddingBottom: 180 }}>
                   <Text
                     style={[
                       {
-                        fontSize: 20,
-                        marginBottom: 20,
+                        fontSize: 17,
+                        marginBottom: 0,
                         fontWeight: "600",
                         fontFamily: "Montserrat",
                         letterSpacing: -0.35644,
@@ -269,7 +271,7 @@ const FeedbackModal = () => {
                     <Text
                       style={[
                         {
-                          fontSize: 17,
+                          fontSize: 15,
                           marginBottom: 20,
                           fontWeight: "600",
                           fontFamily: "PoppinsBold",
@@ -290,7 +292,7 @@ const FeedbackModal = () => {
                   <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
                     <EntypoIcon
                       name="star"
-                      size={40}
+                      size={30}
                       style={[
                         { marginHorizontal: 10 },
                         { color: ["1", "2", "3", "4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
@@ -299,7 +301,7 @@ const FeedbackModal = () => {
                     />
                     <EntypoIcon
                       name="star"
-                      size={40}
+                      size={30}
                       style={[
                         { marginHorizontal: 10 },
                         { color: ["2", "3", "4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
@@ -308,7 +310,7 @@ const FeedbackModal = () => {
                     />
                     <EntypoIcon
                       name="star"
-                      size={40}
+                      size={30}
                       style={[
                         { marginHorizontal: 10 },
                         { color: ["3", "4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
@@ -317,7 +319,7 @@ const FeedbackModal = () => {
                     />
                     <EntypoIcon
                       name="star"
-                      size={40}
+                      size={30}
                       style={[
                         { marginHorizontal: 10 },
                         { color: ["4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
@@ -326,7 +328,7 @@ const FeedbackModal = () => {
                     />
                     <EntypoIcon
                       name="star"
-                      size={40}
+                      size={30}
                       style={[{ marginHorizontal: 10 }, { color: ["5"].includes(String(rating)) ? "#ffa602" : "#777" }]}
                       onPress={() => setRating(5)}
                     />
@@ -336,7 +338,7 @@ const FeedbackModal = () => {
                     <Text
                       style={[
                         {
-                          fontSize: 19,
+                          fontSize: 17,
                           marginBottom: 20,
                           fontWeight: "600",
                           fontFamily: "Montserrat",
@@ -459,7 +461,7 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 29,
     marginBottom: 0,
     fontFamily: "PoppinsBold",

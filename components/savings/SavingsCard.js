@@ -69,7 +69,7 @@ const SavingsCard = ({ item, category }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: "600",
                 color: colors.greenColor,
                 marginRight: 15,
@@ -80,7 +80,7 @@ const SavingsCard = ({ item, category }) => {
             </Text>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -93,7 +93,7 @@ const SavingsCard = ({ item, category }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: "600",
                 color: colors.greenColor,
                 fontFamily: "Poppins",
@@ -104,7 +104,7 @@ const SavingsCard = ({ item, category }) => {
             </Text>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
@@ -121,7 +121,7 @@ const SavingsCard = ({ item, category }) => {
           <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: "600",
                 flexDirection: "row",
                 justifyContent: "flex-end",
@@ -134,7 +134,7 @@ const SavingsCard = ({ item, category }) => {
             </Text>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 15,
                 color: "#444",
                 fontWeight: "600",
                 flexDirection: "row",
@@ -191,14 +191,14 @@ const styles = StyleSheet.create({
   },
 
   productCardContentSubTitle: {
-    fontSize: 17,
+    fontSize: 14,
     // fontWeight: "800",
     fontFamily: "MontserratBold",
   },
 
   productCardContentTitle: {
-    fontSize: 18,
-    fontWeight: "700",
+    fontSize: 16,
+    fontWeight: "600",
     textAlign: "center",
     marginTop: 7,
     marginBottom: 20,

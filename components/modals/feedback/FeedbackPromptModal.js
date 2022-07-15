@@ -41,10 +41,14 @@ const FeedbackPromptModal = () => {
               ]}
             />
 
-            <Text style={[{ marginVertical: 10, fontSize: 22, textAlign: "center", marginLeft: -10 }]}>
+            <Text
+              style={[
+                { marginVertical: 10, fontSize: 20, textAlign: "center", marginLeft: -10, fontFamily: "PoppinsBold" },
+              ]}
+            >
               We'd welcome your feedback
             </Text>
-            <Text style={[{ marginVertical: 20, fontSize: 18, textAlign: "center" }]}>
+            <Text style={[{ marginVertical: 20, fontSize: 15, textAlign: "center", fontFamily: "Poppins" }]}>
               Thank you for making use of our platform. Would you like to participate in a brief customer satisfaction
               survey to let us know how we can improve your experience.
             </Text>

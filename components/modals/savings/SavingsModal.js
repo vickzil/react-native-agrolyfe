@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: 19,
+    fontSize: 18,
     lineHeight: 29,
     marginBottom: 0,
     fontFamily: "PoppinsBold",
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   modalHeaderTex: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 27,
+    fontSize: 25,
     // lineHeight: 29,
     // marginTop: 10,
     fontFamily: "Montserrat",
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
 
   modalHeaderText2: {
-    fontSize: 16,
+    fontSize: 15,
   },
 
   productContainer: {

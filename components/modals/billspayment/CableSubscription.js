@@ -35,6 +35,8 @@ import { getUserWalletBalance } from "../../../store/wallet/actions";
 import { getUserInfo } from "../../../store/auth/actions";
 import { getTransactionsInfo } from "../../../store/transactions/actions";
 import SvgComponent2 from "../../customs/SvgComponent2";
+import { otherGlobalFunctions } from "../../../store/utilities/actions";
+import { addComma } from "../../helpers/globalFunction";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -215,7 +217,7 @@ const CableSubscription = () => {
       })
       .then((response) => {
         // console.log(response?.data);
-
+        closeModal();
         if (response?.data?.success == true) {
           // console.log(response?.data?.data);
           setScreenLoading({
@@ -232,11 +234,8 @@ const CableSubscription = () => {
             }),
           );
 
-          dispatch(getUserWalletBalance(user?.code));
           dispatch(getUserInfo(user?.code));
-          dispatch(getTransactionsInfo(user?.code));
-
-          closeModal();
+          dispatch(otherGlobalFunctions());
         } else {
           setEmptyFields(false);
           setScreenLoading({

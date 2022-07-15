@@ -27,10 +27,12 @@ const FAmount = ({ amount, setAmount, calculatedUser }) => {
                 />
               </View>
 
-              <Text style={[globalStyles.accountUserFullName, { fontSize: 19 }]}>
+              <Text style={[globalStyles.accountUserFullName, { fontSize: 14 }]}>
                 {calculatedUser?.firstName + " " + calculatedUser?.lastName}
               </Text>
-              <Text style={[globalStyles.accountTitle, { fontSize: 26 }]}>{calculatedUser?.userName}</Text>
+              <Text style={[globalStyles.accountTitle, { fontSize: 16, fontFamily: "PoppinsBold" }]}>
+                {calculatedUser?.userName}
+              </Text>
             </View>
           </View>
         )}
@@ -41,7 +43,7 @@ const FAmount = ({ amount, setAmount, calculatedUser }) => {
               style={[
                 styles.productCardContentItemLeft,
                 {
-                  fontSize: 20,
+                  fontSize: 18,
                   marginBottom: 20,
                   fontWeight: "800",
                   fontFamily: "Poppins",

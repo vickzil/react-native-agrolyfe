@@ -96,7 +96,7 @@ export default HomeProductItem;
 const styles = StyleSheet.create({
   card: {
     position: "relative",
-    width: width * 0.49,
+    width: width * 0.58,
     borderRadius: 15,
     marginRight: 15,
     backgroundColor: "#fff",

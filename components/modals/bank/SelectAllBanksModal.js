@@ -23,6 +23,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IconSearch from "react-native-vector-icons/AntDesign";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import NoItem from "../../extra/NoItem";
+import AnimatedViewComp from "../../customs/AnimatedViewComp";
 
 const { width } = Dimensions.get("screen");
 
@@ -127,11 +128,18 @@ const SelectAllBanksModal = () => {
             {allFilterBanks && allFilterBanks.length ? (
               <View style={{ marginBottom: 70 }}>
                 {allFilterBanks?.map((item, index) => (
-                  <TouchableOpacity key={index} style={styles.container} onPress={() => selectBank(item)}>
-                    <View style={styles.content} key={index}>
-                      <Text style={[styles.contentText, styles.contentText1]}>{item?.name}</Text>
-                    </View>
-                  </TouchableOpacity>
+                  <AnimatedViewComp index={index} key={index}>
+                    <TouchableOpacity
+                      activeOpacity={0.9}
+                      key={index}
+                      style={styles.container}
+                      onPress={() => selectBank(item)}
+                    >
+                      <View style={styles.content} key={index}>
+                        <Text style={[styles.contentText, styles.contentText1]}>{item?.name}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </AnimatedViewComp>
                 ))}
               </View>
             ) : (

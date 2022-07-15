@@ -22,7 +22,7 @@ const SavingSummary = ({ summaryDetails, paymentType, paymentDetails }) => {
                 styles.productCardContentItemRight,
                 {
                   textAlign: "center",
-                  fontSize: 29,
+                  fontSize: 20,
                   marginBottom: 35,
                   fontWeight: "600",
                   color: colors.greenDarkDarkColor,
@@ -190,14 +190,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     marginTop: 10,
     marginBottom: 20,
   },
 
   productCardContent: {
     paddingVertical: 10,
-    paddingHorizontal: 6,
+    paddingHorizontal: 0,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemLeft: {
-    fontSize: 16.5,
+    fontSize: 15,
     fontWeight: "600",
     color: colors.greenLightDarkColor,
     marginRight: 15,
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemRight: {
-    fontSize: 17,
+    fontSize: 15,
     color: "#444",
     fontWeight: "600",
     justifyContent: "flex-end",

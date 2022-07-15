@@ -37,6 +37,9 @@ import SavingSummary from "./pruchase/SavingSummary";
 import ScreenLoading from "../../loader/ScreenLoading";
 import { setSelectedSavingsType, setSelectedSavingsTypeDetails } from "../../../store/savings/savingsSlice";
 import SvgComponent from "../../customs/SvgComponent";
+import { addComma } from "../../helpers/globalFunction";
+import { getUserInfo } from "../../../store/auth/actions";
+import { otherGlobalFunctions } from "../../../store/utilities/actions";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -375,7 +378,7 @@ const PurchaseSavingsModal = () => {
       })
       .then((response) => {
         // console.log(response?.data);
-
+        closeModal();
         if (response?.data?.success == true) {
           // console.log(response?.data?.data);
           setScreenLoading({
@@ -406,7 +409,8 @@ const PurchaseSavingsModal = () => {
           dispatch(setSavingsModal(false));
           dispatch(setMySavingsModal(false));
 
-          closeModal();
+          dispatch(getUserInfo(user?.code));
+          dispatch(otherGlobalFunctions());
         } else {
           setEmptyFields(false);
           setScreenLoading({

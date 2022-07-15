@@ -157,7 +157,7 @@ const ProductDetailsModal = () => {
         <View style={[globalStyles.buttonFloat, { marginTop: 50 }]}>
           <TouchableOpacity style={{}} onPress={() => showMakeInvestmentModal()}>
             <View style={[styles.productButton, { backgroundColor: colors.greenDarkColor, marginTop: 10 }]}>
-              <Text style={styles.buttonText}>purchase land </Text>
+              <Text style={styles.buttonText}>Purchase land </Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -234,8 +234,8 @@ const styles = StyleSheet.create({
 
   productCardContentItem: {
     flexDirection: "row",
-    paddingBottom: 25,
-    marginBottom: 20,
+    paddingBottom: 15,
+    marginBottom: 15,
     justifyContent: "space-between",
     borderBottomWidth: 1,
     borderColor: "#f0f0f0",

@@ -28,6 +28,7 @@ import FeatherIcons from "react-native-vector-icons/Feather";
 import axios from "axios";
 import { getUserInfo } from "../../../store/auth/actions";
 import SvgComponent from "../../customs/SvgComponent";
+import AnimatedViewComp from "../../customs/AnimatedViewComp";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -220,18 +221,20 @@ const UploadPaymentEvidence = () => {
       <POPUpModal visible={showCModal} setVisible={setShowCModal} modalTitle=" Currencies" lightBackground={true}>
         <View>
           {walletOptions?.currencies?.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[globalStyles.selectContainer, currency == item ? globalStyles.selectedItem : null]}
-              onPress={() => {
-                setShowCModal(false);
-                setCurrency(item);
-              }}
-            >
-              <View style={globalStyles.selectContent} key={index}>
-                <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item?.name}</Text>
-              </View>
-            </TouchableOpacity>
+            <AnimatedViewComp index={index} key={index}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={[globalStyles.selectContainer, currency == item ? globalStyles.selectedItem : null]}
+                onPress={() => {
+                  setShowCModal(false);
+                  setCurrency(item);
+                }}
+              >
+                <View animation={"fadeInLeft"} duration={1000} delay={index * 3} style={globalStyles.selectContent}>
+                  <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item?.name}</Text>
+                </View>
+              </TouchableOpacity>
+            </AnimatedViewComp>
           ))}
         </View>
       </POPUpModal>
@@ -266,7 +269,7 @@ const UploadPaymentEvidence = () => {
                 <View style={[globalStyles.productCardContent, { marginBottom: 0, width: "100%" }]}>
                   <View style={{ marginTop: 10, marginBottom: 20, width: "100%" }}>
                     <Text
-                      style={[styles.productCardContentItemLeft, { fontSize: 16, marginBottom: 5, fontWeight: "600" }]}
+                      style={[styles.productCardContentItemLeft, { fontSize: 14, marginBottom: 5, fontWeight: "600" }]}
                     >
                       Amount
                     </Text>
@@ -295,7 +298,7 @@ const UploadPaymentEvidence = () => {
                   </View>
                   <View style={{ marginTop: 10, marginBottom: 20 }}>
                     <Text
-                      style={[styles.productCardContentItemLeft, { fontSize: 16, marginBottom: 5, fontWeight: "600" }]}
+                      style={[styles.productCardContentItemLeft, { fontSize: 14, marginBottom: 5, fontWeight: "600" }]}
                     >
                       Currency
                     </Text>
@@ -333,7 +336,7 @@ const UploadPaymentEvidence = () => {
                   </View>
                   <View style={{ marginTop: 10, marginBottom: 20 }}>
                     <Text
-                      style={[styles.productCardContentItemLeft, { fontSize: 16, marginBottom: 5, fontWeight: "600" }]}
+                      style={[styles.productCardContentItemLeft, { fontSize: 14, marginBottom: 5, fontWeight: "600" }]}
                     >
                       Additional information
                     </Text>
@@ -348,7 +351,7 @@ const UploadPaymentEvidence = () => {
                   </View>
                   <View style={{ marginTop: 10, marginBottom: 80 }}>
                     <Text
-                      style={[styles.productCardContentItemLeft, { fontSize: 16, marginBottom: 5, fontWeight: "600" }]}
+                      style={[styles.productCardContentItemLeft, { fontSize: 14, marginBottom: 5, fontWeight: "600" }]}
                     >
                       Upload Evidience of Payment
                     </Text>

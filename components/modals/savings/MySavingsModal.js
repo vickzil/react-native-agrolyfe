@@ -53,7 +53,7 @@ const MySavingsModal = () => {
           <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
         </View>
       )}
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginTop: -10 }}>
         <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
           <Icon
             name="arrow-left"
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   modalHeaderText: {
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: 19,
+    fontSize: 18,
     lineHeight: 29,
     marginBottom: 0,
     fontFamily: "PoppinsBold",

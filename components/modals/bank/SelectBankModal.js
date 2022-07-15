@@ -26,6 +26,7 @@ import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import NoItem from "../../extra/NoItem";
 import LoadingComponents from "../../loader/LoadingComponents";
 import { globalStyles } from "../../../styles/global";
+import AnimatedViewComp from "../../customs/AnimatedViewComp";
 
 const { width } = Dimensions.get("screen");
 
@@ -106,20 +107,21 @@ const SelectBankModal = () => {
             ) : allBanks && allBanks.length ? (
               <View style={{ marginBottom: 20 }}>
                 {allBanks?.map((item, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[
-                      styles.container,
-                      index === allBanks.length - 1 && styles.removeElevation,
-                      selectedBank?.code === item.code && styles.selectedItem,
-                    ]}
-                    onPress={() => selectBank(item)}
-                  >
-                    <View style={[styles.content]} key={index}>
-                      <Text style={[styles.contentText, styles.contentText1]}>{item.bankName}</Text>
-                      <Text style={[styles.contentText, styles.contentText2]}>{item.accountNumber}</Text>
-                    </View>
-                  </TouchableOpacity>
+                  <AnimatedViewComp index={index} key={index}>
+                    <TouchableOpacity
+                      style={[
+                        styles.container,
+                        index === allBanks.length - 1 && styles.removeElevation,
+                        selectedBank?.code === item.code && styles.selectedItem,
+                      ]}
+                      onPress={() => selectBank(item)}
+                    >
+                      <View style={[styles.content]}>
+                        <Text style={[styles.contentText, styles.contentText1]}>{item.bankName}</Text>
+                        <Text style={[styles.contentText, styles.contentText2]}>{item.accountNumber}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </AnimatedViewComp>
                 ))}
 
                 <View style={{ marginTop: 90, alignItems: "center", textAlign: "center" }}>

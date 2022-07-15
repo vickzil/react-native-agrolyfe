@@ -41,7 +41,7 @@ const AllProducts = () => {
               globalStyles.siteTitle,
               {
                 fontWeight: "600",
-                fontSize: 18,
+                fontSize: 17,
                 textTransform: "capitalize",
                 fontFamily: "PoppinsBold",
                 marginBottom: 30,

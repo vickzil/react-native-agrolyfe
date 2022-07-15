@@ -38,10 +38,23 @@ const AlertModal = () => {
               <AntDesignIcon name="closecircle" size={90} style={[styles.Icon, { marginTop: 30, color: "red" }]} />
             )}
 
-            <Text style={[{ marginVertical: 10, fontSize: 22, textAlign: "center", marginLeft: -10 }]}>
+            <Text
+              style={[
+                {
+                  marginVertical: 10,
+                  fontSize: 19,
+                  textAlign: "center",
+                  marginLeft: -10,
+                  fontFamily: "PoppinsBold",
+                  fontWeight: "600",
+                },
+              ]}
+            >
               {modal?.title}
             </Text>
-            <Text style={[{ marginVertical: 20, fontSize: 18, textAlign: "center" }]}>{modal?.des}</Text>
+            <Text style={[{ marginVertical: 20, fontSize: 15, textAlign: "center", fontFamily: "Poppins" }]}>
+              {modal?.des}
+            </Text>
 
             <TouchableOpacity
               activeOpacity={0.5}

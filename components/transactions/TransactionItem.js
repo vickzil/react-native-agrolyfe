@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 15,
-    paddingHorizontal: 28,
+    paddingHorizontal: 20,
     borderRadius: 20,
     marginBottom: 10,
   },
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
 
   transactionItemLeftP: {
     marginBottom: 10,
-    fontWeight: "400",
+    fontWeight: "600",
     fontSize: 13,
     textAlign: "left",
     letterSpacing: -0.35644,

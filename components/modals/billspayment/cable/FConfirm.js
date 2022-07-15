@@ -24,7 +24,14 @@ const FConfirm = ({ isEnabled, setIsEnabled }) => {
         <Text
           style={[
             styles.productCardContentItemLeft,
-            { fontSize: 28, fontWeight: "900", marginBottom: 10, color: colors.greenLightDarkColor },
+            {
+              fontSize: 20,
+              fontWeight: "600",
+              marginBottom: 0,
+              color: colors.greenLightDarkColor,
+              fontFamily: "PoppinsBold",
+              letterSpacing: -0.35644,
+            },
           ]}
         >
           Confirm purchase

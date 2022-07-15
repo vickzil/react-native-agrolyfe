@@ -18,7 +18,7 @@ const FSummary = ({ summaryDetails }) => {
                 styles.productCardContentItemRight,
                 {
                   textAlign: "center",
-                  fontSize: 24,
+                  fontSize: 20,
                   marginBottom: 35,
                   fontWeight: "600",
                   color: colors.greenDarkDarkColor,
@@ -36,7 +36,7 @@ const FSummary = ({ summaryDetails }) => {
                   fontWeight: "700",
                   textAlign: "center",
                   marginBottom: 7,
-                  fontSize: 18,
+                  fontSize: 16,
                   fontFamily: "Poppins",
                 },
               ]}
@@ -47,7 +47,7 @@ const FSummary = ({ summaryDetails }) => {
               style={[
                 {
                   textAlign: "center",
-                  fontSize: 16,
+                  fontSize: 15,
                   marginBottom: 30,
                   fontWeight: "600",
                   color: "#555",
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemLeft: {
-    fontSize: 16.5,
+    fontSize: 15,
     fontWeight: "600",
     color: colors.greenLightDarkColor,
     marginRight: 15,
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemRight: {
-    fontSize: 17,
+    fontSize: 15,
     color: "#444",
     fontWeight: "600",
     justifyContent: "flex-end",

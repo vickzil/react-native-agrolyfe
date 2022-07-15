@@ -54,7 +54,7 @@ const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <BottomSheet hasDraggableIcon ref={bottomSheet} onRequestClose={() => closeModal()} height={550}>
+      <BottomSheet hasDraggableIcon ref={bottomSheet} onRequestClose={() => closeModal()} height={500}>
         <View style={styles.accountTabs}>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showFundWalletByCardModal()}>
             <View>
@@ -132,9 +132,9 @@ const styles = StyleSheet.create({
   },
 
   accountTabsTitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#d3b7b7",
-    paddingBottom: 8,
+    paddingBottom: 2,
     fontWeight: "600",
     fontFamily: "PoppinsBold",
     // letterSpacing: -0.35644,

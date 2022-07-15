@@ -109,7 +109,7 @@ const FirstScreen = ({
         <View style={{ marginTop: 30, marginBottom: 0, width: "95%", paddingRight: 10 }}>
           <View>
             <View style={{ marginTop: 0, marginBottom: 30, width: "100%", paddingRight: 0 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
+              <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}>
                 Select Package
               </Text>
               <TouchableOpacity style={[globalStyles.inputContainer, { height: 57 }]} onPress={() => choosePackage()}>
@@ -122,7 +122,7 @@ const FirstScreen = ({
             </View>
             {selectedPackage ? (
               <View style={{ marginTop: 0, marginBottom: 30, width: "100%", paddingRight: 0 }}>
-                <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
+                <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}>
                   Select Product
                 </Text>
                 <TouchableOpacity style={[globalStyles.inputContainer, { height: 57 }]} onPress={() => chooseProduct()}>
@@ -136,7 +136,7 @@ const FirstScreen = ({
             ) : null}
             {selectedProduct ? (
               <View style={{ marginTop: 0, marginBottom: 10, width: "100%", paddingRight: 0 }}>
-                <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
+                <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}>
                   Smart Card Number
                 </Text>
                 <View style={[globalStyles.inputContainer, { height: 57 }]}>

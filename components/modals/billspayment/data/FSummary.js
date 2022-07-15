@@ -18,11 +18,11 @@ const FSummary = ({ amount, mobileNumber, selectedNetwork, selectedPackage }) =>
                 styles.productCardContentItemRight,
                 {
                   textAlign: "center",
-                  fontSize: 29,
+                  fontSize: 20,
                   marginBottom: 35,
-                  fontWeight: "700",
+                  fontWeight: "600",
                   color: colors.greenDarkDarkColor,
-                  fontFamily: "Poppins",
+                  fontFamily: "PoppinsBold",
                   letterSpacing: -0.35644,
                 },
               ]}
@@ -34,7 +34,7 @@ const FSummary = ({ amount, mobileNumber, selectedNetwork, selectedPackage }) =>
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}> Amount</Text>
-                  <Text style={styles.productCardContentItemRight}>₦ {amount ? addComma(amount) + ".00" : 0}</Text>
+                  <Text style={styles.productCardContentItemRight}>₦{amount ? addComma(amount) + ".00" : 0}</Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Mobile Number</Text>
@@ -42,7 +42,9 @@ const FSummary = ({ amount, mobileNumber, selectedNetwork, selectedPackage }) =>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Biller</Text>
-                  <Text style={styles.productCardContentItemRight}>{selectedNetwork?.name}</Text>
+                  <Text style={[styles.productCardContentItemRight, { textTransform: "capitalize" }]}>
+                    {selectedNetwork?.name}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Package</Text>
@@ -60,7 +62,7 @@ const FSummary = ({ amount, mobileNumber, selectedNetwork, selectedPackage }) =>
                       { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 22 },
                     ]}
                   >
-                    ₦ {amount ? addComma(amount) + ".00" : 0}
+                    ₦{amount ? addComma(amount) + ".00" : 0}
                   </Text>
                 </View>
               </View>
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     marginTop: 10,
     marginBottom: 20,
   },
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemLeft: {
-    fontSize: 16.5,
+    fontSize: 15,
     fontWeight: "600",
     color: colors.greenLightDarkColor,
     marginRight: 15,
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
   },
 
   productCardContentItemRight: {
-    fontSize: 17,
+    fontSize: 15,
     color: "#444",
     fontWeight: "600",
     justifyContent: "flex-end",

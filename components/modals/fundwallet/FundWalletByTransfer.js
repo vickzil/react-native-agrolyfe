@@ -111,12 +111,12 @@ const FundWalletByTransfer = () => {
             <Text
               style={[
                 globalStyles.label,
-                { fontSize: 22, textAlign: "left", marginBottom: 10, fontWeight: "600", fontFamily: "PoppinsBold" },
+                { fontSize: 18, textAlign: "left", marginBottom: 10, fontWeight: "600", fontFamily: "PoppinsBold" },
               ]}
             >
               Bank Transfer (NGN)
             </Text>
-            <Text style={[globalStyles.label, { fontSize: 15, textAlign: "left", marginBottom: 0, fontWeight: "600" }]}>
+            <Text style={[globalStyles.label, { fontSize: 14, textAlign: "left", marginBottom: 0, fontWeight: "500" }]}>
               {localTransfer ? localTransfer?.message : ""}
             </Text>
           </View>
@@ -144,7 +144,7 @@ const FundWalletByTransfer = () => {
                       //   textAlign: "left",
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontWeight: "600", fontSize: 19, color: colors.greenColor }]}>
+                    <Text style={[globalStyles.label, { fontWeight: "600", fontSize: 15, color: colors.greenColor }]}>
                       {item.accountBank}
                     </Text>
                     <View style={{ alignItems: "flex-end" }}>
@@ -164,12 +164,12 @@ const FundWalletByTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Account number</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Account number</Text>
                     <TouchableOpacity
                       style={{ flexDirection: "row", alignItems: "center" }}
                       onPress={() => handleCopy(item.accountNumber)}
                     >
-                      <Text style={[globalStyles.label, { fontSize: 16, color: colors.greenDarkColor }]}>
+                      <Text style={[globalStyles.label, { fontSize: 14, color: colors.greenDarkColor }]}>
                         {item.accountNumber}
                       </Text>
                       <Ionicons
@@ -186,8 +186,8 @@ const FundWalletByTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>currency</Text>
-                    <Text style={[globalStyles.label, { fontSize: 16, marginRight: 10 }]}>{item.currency}</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>currency</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, marginRight: 10 }]}>{item.currency}</Text>
                   </View>
                   <View
                     style={{
@@ -196,9 +196,9 @@ const FundWalletByTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Account Name</Text>
+                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Account Name</Text>
                     <View style={{ width: "50%", alignItems: "flex-end", justifyContent: "flex-end" }}>
-                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 16, marginRight: 10 }]}>
+                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 14, marginRight: 10 }]}>
                         {item.accountName}
                       </Text>
                     </View>
@@ -210,12 +210,12 @@ const FundWalletByTransfer = () => {
                     }}
                   >
                     <View style={{ width: "100%" }}>
-                      <Text style={[globalStyles.label, { fontSize: 16, color: "#777" }]}>Message</Text>
-                      {/* <Text style={[globalStyles.label, { textAlign: "left", fontSize: 16, marginRight: 10 }]}>
+                      <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Message</Text>
+                      {/* <Text style={[globalStyles.label, { textAlign: "left", fontSize: 14, marginRight: 10 }]}>
                         {item.message}
                       </Text> */}
                       <RenderHtml
-                        style={[globalStyles.label, { textAlign: "left", fontSize: 16, marginRight: 10 }]}
+                        style={[globalStyles.label, { textAlign: "left", fontSize: 14, marginRight: 10 }]}
                         contentWidth={width}
                         source={{ html: item.message }}
                       />
