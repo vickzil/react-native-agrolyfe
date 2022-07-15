@@ -8,13 +8,16 @@ const { width } = Dimensions.get("screen");
 // const imagedrop = require("../../assets/img/imagedrop.png");
 
 const WalletItem = ({ item, index }) => {
+  const showBalances = useSelector((state) => state.oauth.showBalances);
   const loading = useSelector((state) => state.wallet.loading);
 
   return (
     <View style={[styles.card, index === 0 && styles.addMarginLeft]}>
       <Text style={styles.cardHeading}>{item.heading}</Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Text style={[styles.paragraph, { color: colors.greenColor }]}>{item.paragraph}</Text>
+        <Text style={[styles.paragraph, { color: colors.greenColor }]}>
+          {showBalances ? item.paragraph : "*******"}
+        </Text>
         {loading ? <ActivityIndicator size="small" color="#14961E" /> : null}
       </View>
       {/* <TouchableOpacity style={{ marginTop: 30 }}>

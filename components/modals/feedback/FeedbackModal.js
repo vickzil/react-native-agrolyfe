@@ -292,7 +292,7 @@ const FeedbackModal = () => {
                   <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
                     <EntypoIcon
                       name="star"
-                      size={30}
+                      size={40}
                       style={[
                         { marginHorizontal: 10 },
                         { color: ["1", "2", "3", "4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
@@ -301,7 +301,7 @@ const FeedbackModal = () => {
                     />
                     <EntypoIcon
                       name="star"
-                      size={30}
+                      size={40}
                       style={[
                         { marginHorizontal: 10 },
                         { color: ["2", "3", "4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
@@ -310,7 +310,7 @@ const FeedbackModal = () => {
                     />
                     <EntypoIcon
                       name="star"
-                      size={30}
+                      size={40}
                       style={[
                         { marginHorizontal: 10 },
                         { color: ["3", "4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
@@ -319,7 +319,7 @@ const FeedbackModal = () => {
                     />
                     <EntypoIcon
                       name="star"
-                      size={30}
+                      size={40}
                       style={[
                         { marginHorizontal: 10 },
                         { color: ["4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
@@ -328,7 +328,7 @@ const FeedbackModal = () => {
                     />
                     <EntypoIcon
                       name="star"
-                      size={30}
+                      size={40}
                       style={[{ marginHorizontal: 10 }, { color: ["5"].includes(String(rating)) ? "#ffa602" : "#777" }]}
                       onPress={() => setRating(5)}
                     />

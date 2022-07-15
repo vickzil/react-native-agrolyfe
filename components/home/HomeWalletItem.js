@@ -17,6 +17,7 @@ const HomeWalletItem = ({ item, index }) => {
   const transferModal = useRef();
   const paybillsModal = useRef();
   const fundWalletModal = useRef();
+  const showBalances = useSelector((state) => state.oauth.showBalances);
   const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
   const loading = useSelector((state) => state.wallet.loading);
 
@@ -59,7 +60,7 @@ const HomeWalletItem = ({ item, index }) => {
           <Text style={[styles.paragraph, { color: colors.greenColor }]}>
             {/* {item?.paragraph} */}
 
-            {index === 0 ? "₦ " + addComma(mainWallet) : item?.paragraph}
+            {index === 0 ? (showBalances ? "₦ " + addComma(mainWallet) : "*******") : item?.paragraph}
           </Text>
           {index === 0 ? loading ? <ActivityIndicator size="small" color="#14961E" /> : null : null}
         </View>

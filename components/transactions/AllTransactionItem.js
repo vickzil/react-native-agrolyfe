@@ -58,8 +58,9 @@ export default AllTransactionItem;
 const styles = StyleSheet.create({
   transactionMainItem: {
     // elevation: 3,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
   },
+
   transactionItem: {
     width: "100%",
     backgroundColor: "#fff",
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     borderRadius: 20,
     marginBottom: 10,
-    elevation: 1,
+    elevation: 0.6,
   },
 
   transactionItemLeft: {

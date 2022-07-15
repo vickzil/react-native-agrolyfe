@@ -133,7 +133,7 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 2,
     marginTop: 3,
-    elevation: 2,
+    // elevation: 2,
   },
 
   selectContent: {

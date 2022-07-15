@@ -10,6 +10,7 @@ import CustomLoadingButton from "../../../customs/CustomLoadingButton";
 import axios from "axios";
 import { setAlertModal } from "../../../../store/alert/alertSlice";
 import { getUserInfo } from "../../../../store/auth/actions";
+import AnimatedViewComp from "../../../customs/AnimatedViewComp";
 
 const EditProfileForm = ({ isLoading, setIsLoading }) => {
   const user = useSelector((state) => state.oauth.user);
@@ -145,18 +146,21 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
       <POPUpModal visible={showRelationshipModal} setVisible={setShowRelationshipModal} modalTitle=" Relationship">
         <View>
           {Relationships?.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[globalStyles.selectContainer, relationship == item ? globalStyles.selectedItem : null]}
-              onPress={() => {
-                setShowRelationshipModal(false);
-                setRelationship(item);
-              }}
-            >
-              <View style={globalStyles.selectContent} key={index}>
-                <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item}</Text>
-              </View>
-            </TouchableOpacity>
+            <AnimatedViewComp index={index} key={index}>
+              <TouchableOpacity
+                key={index}
+                activeOpacity={0.9}
+                style={[globalStyles.selectContainer, relationship == item ? globalStyles.selectedItem : null]}
+                onPress={() => {
+                  setShowRelationshipModal(false);
+                  setRelationship(item);
+                }}
+              >
+                <View style={globalStyles.selectContent} key={index}>
+                  <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item}</Text>
+                </View>
+              </TouchableOpacity>
+            </AnimatedViewComp>
           ))}
         </View>
       </POPUpModal>

@@ -21,7 +21,7 @@ const BvnForm = () => {
             styles.label,
             {
               fontWeight: "600",
-              fontSize: 22,
+              fontSize: 18,
               textAlign: "center",
               color: colors.greenColor,
               fontFamily: "PoppinsBold",
@@ -48,7 +48,7 @@ const BvnForm = () => {
             style={[
               styles.label,
               {
-                fontSize: 17,
+                fontSize: 15,
                 textAlign: "center",
                 marginBottom: 0,
                 paddingBottom: 0,
@@ -61,9 +61,9 @@ const BvnForm = () => {
             style={[
               styles.label,
               {
-                fontSize: 17,
+                fontSize: 16,
                 textAlign: "center",
-                marginTop: -10,
+                marginTop: 10,
                 paddingTop: 0,
                 fontWeight: "700",
               },

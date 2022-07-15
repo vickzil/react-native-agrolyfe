@@ -283,7 +283,7 @@ const PurchaseSavingsModal = () => {
       EndDate: duration instanceof Date ? duration : "",
     };
 
-    console.log(newPayload);
+    // console.log(newPayload);
 
     axios
       .post(`${baseURL}/v1.0/UserSavings/getUserSavingsSummary`, newPayload, {

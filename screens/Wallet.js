@@ -7,13 +7,12 @@ import WalletHeader from "../components/wallet/WalletHeader";
 import WalletButtons from "../components/wallet/WalletButtons";
 import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { saveUserTransactions } from "../store/transactions/transactionSlice";
-import { fetchAllInvestment, getMyInvestments } from "../store/products/actions";
-import { otherFunctions, otherGlobalFunctions } from "../store/utilities/actions";
+import { otherGlobalFunctions } from "../store/utilities/actions";
 import { getUserInfo } from "../store/auth/actions";
 import SvgComponent from "../components/customs/SvgComponent";
 import { setSelectedMenu } from "../store/auth/authSlice";
+
+import * as Animatable from "react-native-animatable";
 
 const Wallet = ({ navigation }) => {
   const user = useSelector((state) => state.oauth.user);
@@ -46,10 +45,20 @@ const Wallet = ({ navigation }) => {
     }, 3500);
   };
 
+  const fadeIn = {
+    from: {
+      opacity: 0,
+    },
+    to: {
+      opacity: 1,
+    },
+  };
+
   return (
     <SafeAreaView>
       <SvgComponent />
       <FocusAwareStatusBar backgroundColor="#25453b" barStyle="light-content" />
+
       <ScrollView
         ref={scrollViewRef}
         showsVerticalScrollIndicator={false}

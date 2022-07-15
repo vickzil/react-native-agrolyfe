@@ -1,21 +1,7 @@
-import {
-  Dimensions,
-  FlatList,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions, KeyboardAvoidingView, Modal, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setAlertModal, setAlertModalSuccess, setMakeInvestmentModal } from "../../../store/alert/alertSlice";
-import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import axios from "axios";
 import { globalStyles } from "../../../styles/global";
@@ -25,6 +11,7 @@ import FAmount from "./makeinvestment/FAmount";
 import FSummary from "./makeinvestment/FSummary";
 import FConfirm from "./makeinvestment/FConfirm";
 import { addComma } from "../../helpers/globalFunction";
+import SvgComponent2 from "../../customs/SvgComponent2";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -356,6 +343,7 @@ const MakeInvestmentModal = () => {
 
       <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
+          <SvgComponent2 />
           <View style={[styles.modalHeader, { backgroundColor: "#fff", marginTop: 30, paddingBottom: 0 }]}>
             <Icon
               name="arrow-left"

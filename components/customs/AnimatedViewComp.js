@@ -4,9 +4,13 @@ import * as Animatable from "react-native-animatable";
 import { globalStyles } from "../../styles/global";
 
 const AnimatedViewComp = ({ index, children }) => {
+  const animations = ["fadeInLeft", "fadeInDown", "fadeInDownBig", "fadeInLeftBig", "fadeInRight", "fadeInRightBig"];
+
+  const animationIndex = Math.floor(Math.random() * animations.length);
+
   return (
     <Animatable.View
-      animation={"fadeInLeft"}
+      animation={animations[animationIndex]}
       duration={100}
       delay={index * 100}
       //   style={globalStyles.selectContent}

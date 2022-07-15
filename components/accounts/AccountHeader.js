@@ -3,6 +3,7 @@ import { Dimensions, Image, StyleSheet, Switch, Text, TouchableOpacity, View } f
 import Icon from "react-native-vector-icons/AntDesign";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   setAccountManagerModal,
   setAlertModal,
@@ -19,11 +20,13 @@ import AccountImageFullName from "./AccountImageFullName";
 import axios from "axios";
 import { getUserInfo } from "../../store/auth/actions";
 import Logo from "../logo/Logo";
+import { setShowBalances } from "../../store/auth/authSlice";
 
 const { width } = Dimensions.get("screen");
 
 const AccountHeader = () => {
   const user = useSelector((state) => state.oauth.user);
+  const showBalances = useSelector((state) => state.oauth.showBalances);
   const APPVERSION = useSelector((state) => state.oauth.APPVERSION);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -43,6 +46,12 @@ const AccountHeader = () => {
       }
     }
   }, [user]);
+
+  const toggleBalance = () => {
+    let newShowBalance = !showBalances;
+    dispatch(setShowBalances(newShowBalance));
+    AsyncStorage.setItem("showBalances", JSON.stringify(newShowBalance));
+  };
 
   const toggleSwitch = () => {
     setIsLoading(true);
@@ -160,6 +169,11 @@ const AccountHeader = () => {
             <Text style={styles.accountTabsLinkText}>Change Password</Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
+
+          <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setAntiPhizingModal(true))}>
+            <Text style={styles.accountTabsLinkText}>Anti-phishing </Text>
+            <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.accountTabsLinks}>
             <Text style={styles.accountTabsLinkText}>Two-Factor Authentication </Text>
             <View>
@@ -173,9 +187,18 @@ const AccountHeader = () => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setAntiPhizingModal(true))}>
-            <Text style={styles.accountTabsLinkText}>Anti-phishing </Text>
-            <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
+          <TouchableOpacity style={styles.accountTabsLinks}>
+            <Text style={styles.accountTabsLinkText}>Show Balances </Text>
+            <View>
+              <Switch
+                trackColor={{ false: "#767577", true: colors.greenLightColor }}
+                thumbColor={showBalances ? colors.greenColor : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleBalance}
+                value={showBalances}
+                style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
+              />
+            </View>
           </TouchableOpacity>
         </View>
         {/* <View style={styles.accountTabs}>

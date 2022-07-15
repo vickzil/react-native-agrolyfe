@@ -1,4 +1,4 @@
-import { Dimensions, Image, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setAccountManagerModal } from "../../../../store/alert/alertSlice";
@@ -6,8 +6,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../../styles/colors";
 import NoItem from "../../../extra/NoItem";
 import LoadingComponents from "../../../loader/LoadingComponents";
+import Modal from "react-native-modal";
 
-const { width } = Dimensions.get("screen");
+const { width, height } = Dimensions.get("screen");
 
 const AccountManagerModal = () => {
   const modal = useSelector((state) => state.alert.accountManagerModal);
@@ -17,13 +18,21 @@ const AccountManagerModal = () => {
   const dispatch = useDispatch();
   const [hasAccountManager] = useState(true);
 
+  const closeModal = () => {
+    dispatch(setAccountManagerModal(false));
+  };
+
   return (
     <Modal
-      visible={modal}
-      animationType="slide"
-      onRequestClose={() => {
-        dispatch(setAccountManagerModal(false));
-      }}
+      isVisible={modal}
+      animationIn="slideInRight"
+      animationOut="slideOutRight"
+      animationInTiming={100}
+      onBackButtonPress={() => closeModal()}
+      onBackdropPress={() => closeModal()}
+      onSwipeComplete={() => closeModal()}
+      swipeDirection="right"
+      style={{ width: width, height: height, margin: 0, padding: 0, backgroundColor: "#fff" }}
     >
       <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
@@ -31,7 +40,7 @@ const AccountManagerModal = () => {
             name="arrow-left"
             size={33}
             style={[styles.modalHeaderIcon, { color: "#fff" }]}
-            onPress={() => dispatch(setAccountManagerModal(false))}
+            onPress={() => closeModal()}
           />
           <Text style={styles.modalHeaderText}>Account Manager</Text>
           <Text></Text>

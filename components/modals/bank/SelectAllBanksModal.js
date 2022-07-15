@@ -220,13 +220,13 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     justifyContent: "center",
-    backgroundColor: "#fff",
+    // backgroundColor: "transparent",
     padding: 20,
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 15,
     marginBottom: 2,
-    elevation: 2,
+    elevation: 0,
   },
 
   content: {

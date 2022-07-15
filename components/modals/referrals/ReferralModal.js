@@ -26,6 +26,7 @@ const { width } = Dimensions.get("screen");
 
 const ReferralModal = () => {
   const modal = useSelector((state) => state.alert.referralModal);
+  const showBalances = useSelector((state) => state.oauth.showBalances);
   const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
   const walletLoading = useSelector((state) => state.wallet.loading);
   const referrals = useSelector((state) => state.referrals.referrals);
@@ -77,7 +78,11 @@ const ReferralModal = () => {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Text style={[styles.modalHeaderTex, walletLoading && { marginRight: 10 }]}>
                   {" "}
-                  {userWalletBalance ? "NGN " + userWalletBalance?.commissionAvailableBalance + ".00" : "NGN 0.00"}
+                  {userWalletBalance
+                    ? showBalances
+                      ? "NGN " + userWalletBalance?.commissionAvailableBalance + ".00"
+                      : "*******"
+                    : "NGN 0.00"}
                 </Text>
                 {walletLoading ? <ActivityIndicator size="small" color="#14961E" /> : null}
               </View>

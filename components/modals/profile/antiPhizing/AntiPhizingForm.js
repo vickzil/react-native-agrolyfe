@@ -125,7 +125,7 @@ const AntiPhizingForm = ({ phrase, setPhrase, emptyFields, setEmptyFields, setIs
         <Text
           style={[
             styles.label,
-            { fontWeight: "600", fontSize: 22, color: colors.greenColor, fontFamily: "PoppinsBold" },
+            { fontWeight: "600", fontSize: 18, color: colors.greenColor, fontFamily: "PoppinsBold" },
           ]}
         >
           Why Anti-phishing?

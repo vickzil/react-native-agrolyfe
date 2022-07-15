@@ -5,6 +5,7 @@ import { addComma } from "../helpers/globalFunction";
 
 const { width } = Dimensions.get("screen");
 const HeaderBalance = () => {
+  const showBalances = useSelector((state) => state.oauth.showBalances);
   const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
   const walletLoading = useSelector((state) => state.wallet.loading);
 
@@ -13,7 +14,11 @@ const HeaderBalance = () => {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Text style={[styles.modalHeaderTex, walletLoading && { marginRight: 10 }]}>
           {" "}
-          {userWalletBalance ? "NGN " + addComma(userWalletBalance?.availableBalance) + ".00" : "NGN 0.00"}
+          {userWalletBalance
+            ? showBalances
+              ? "NGN " + addComma(userWalletBalance?.availableBalance) + ".00"
+              : "******"
+            : "NGN 0.00"}
         </Text>
         {walletLoading ? <ActivityIndicator size="small" color="#14961E" /> : null}
       </View>

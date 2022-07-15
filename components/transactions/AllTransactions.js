@@ -35,7 +35,7 @@ const AllTransactions = () => {
         <View
           style={{
             marginTop: 40,
-            backgroundColor: "#fff",
+            backgroundColor: "#f5f5f5",
             padding: 30,
             alignItems: "center",
             paddingTop: 50,

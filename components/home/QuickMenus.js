@@ -24,33 +24,33 @@ const QuickMenus = ({ navigation }) => {
       <View style={styles.quickMenus}>
         <View style={{ padding: 5, width: "50%" }}>
           <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setReferralModal(true))}>
-            <AntIcon name="addusergroup" size={30} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
+            <AntIcon name="addusergroup" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
             <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Referral</Text>
           </TouchableOpacity>
         </View>
         <View style={{ padding: 5, width: "50%" }}>
           <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setMySavingsModal(true))}>
-            <Icon name="wallet-outline" size={30} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
+            <Icon name="wallet-outline" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
             <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Savings</Text>
           </TouchableOpacity>
         </View>
         {/* <View style={{ padding: 5, width: "50%" }}>
           <TouchableOpacity style={styles.quickMenusItem} onPress={() => navigation.navigate("ProductNavigator")}>
-            <AntIcon name="isv" size={30} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
+            <AntIcon name="isv" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
             <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Products</Text>
           </TouchableOpacity>
         </View> */}
 
         <View style={{ padding: 5, width: "50%" }}>
           <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setBankModal(true))}>
-            <Icon name="bank-outline" size={30} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
+            <Icon name="bank-outline" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
             <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Bank</Text>
           </TouchableOpacity>
         </View>
 
         {/* <View style={{ padding: 5, width: "50%" }}>
           <TouchableOpacity style={styles.quickMenusItem} onPress={() => navigation.navigate("Account")}>
-            <Icon name="human-child" size={30} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
+            <Icon name="human-child" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
             <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Account</Text>
           </TouchableOpacity>
         </View> */}
@@ -58,7 +58,7 @@ const QuickMenus = ({ navigation }) => {
           <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setCardModal(true))}>
             <Icon
               name="credit-card-multiple-outline"
-              size={30}
+              size={25}
               style={[styles.quickMenusItemIcon, { color: colors.greenColor }]}
             />
             <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Cards</Text>
@@ -68,7 +68,7 @@ const QuickMenus = ({ navigation }) => {
           <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setTransactionModal(true))}>
             <Icon
               name="card-bulleted-outline"
-              size={30}
+              size={25}
               style={[styles.quickMenusItemIcon, { color: colors.greenColor }]}
             />
             <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Transactions</Text>
@@ -76,7 +76,7 @@ const QuickMenus = ({ navigation }) => {
         </View>
         <View style={{ padding: 5, width: "50%" }}>
           <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setChangePinModal(true))}>
-            <Feathericons name="key" size={30} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
+            <Feathericons name="key" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
             <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Change pin</Text>
           </TouchableOpacity>
         </View>
@@ -84,7 +84,7 @@ const QuickMenus = ({ navigation }) => {
           <TouchableOpacity style={styles.quickMenusItem}>
             <Ionicons
               name="shield-checkmark"
-              size={30}
+              size={25}
               style={[styles.quickMenusItemIcon, { color: colors.greenColor }]}
             />
             <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Support</Text>
@@ -109,20 +109,19 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     paddingVertical: 19,
-    paddingHorizontal: 0,
-    backgroundColor: "#edf9ee",
+    // paddingHorizontal: 25,
+    backgroundColor: "#fff",
     borderRadius: 7,
     paddingBottom: 10,
     borderWidth: 1,
-    borderColor: "#b6dbb9",
-
+    borderColor: "#dee2e6",
     // margin: 3,
   },
 
   quickMenusItemIcon: {
     marginBottom: 10,
     fontWeight: "900",
-    marginRight: 10,
+    marginRight: 15,
     marginLeft: 20,
   },
 

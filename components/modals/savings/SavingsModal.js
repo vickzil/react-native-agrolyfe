@@ -27,6 +27,7 @@ const SavingsModal = () => {
   const modal = useSelector((state) => state.alert.savingsModal);
   const user = useSelector((state) => state.oauth.user);
   const loading = useSelector((state) => state.oauth.loading);
+  const showBalances = useSelector((state) => state.oauth.showBalances);
 
   const dispatch = useDispatch();
 
@@ -60,7 +61,11 @@ const SavingsModal = () => {
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text style={[styles.modalHeaderTex, loading && { marginRight: 10 }]}>
                 {" "}
-                {user?.totalSavingsBalance ? "NGN " + user?.totalSavingsBalance + ".00" : "NGN 0.00"}
+                {showBalances
+                  ? user?.totalSavingsBalance
+                    ? "NGN " + user?.totalSavingsBalance + ".00"
+                    : "NGN 0.00"
+                  : "******"}
               </Text>
               {loading ? <ActivityIndicator size="small" color="#14961E" /> : null}
             </View>

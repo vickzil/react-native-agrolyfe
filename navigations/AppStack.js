@@ -26,6 +26,7 @@ import {
   setHasFeedBack,
   setPaystackRef,
   setResendPinCompleted,
+  setShowBalances,
   setToken,
   setVerificationInfo,
 } from "../store/auth/authSlice";
@@ -83,6 +84,22 @@ const AppStack = () => {
       const hasFeedBack = await AsyncStorage.getItem("hasFeedBack");
       let responseM = hasFeedBack ? true : false;
       dispatch(setHasFeedBack(responseM));
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const showBalances = await AsyncStorage.getItem("showBalances");
+      if (showBalances) {
+        let newS = JSON.parse(showBalances);
+        dispatch(setShowBalances(newS === true ? true : false));
+        console.log(newS);
+        // console.log(typeof newS);
+      }
+
+      // console.log(showBalances);
+      // let responseM = showBalances ? true : false;
+      // dispatch(setHasFeedBack(responseM));
     })();
   }, []);
 

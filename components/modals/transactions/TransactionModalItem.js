@@ -2,11 +2,13 @@ import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } f
 import React from "react";
 import colors from "../../../styles/colors";
 import { formateDateAndTimeByName, removeUnderscoreFromString } from "../../helpers/globalFunction";
+import SvgComponent2 from "../../customs/SvgComponent2";
 
 const TransactionModalItem = ({ item }) => {
   return (
     <ScrollView>
       <View style={styles.productCard}>
+        <SvgComponent2 />
         <View style={styles.productCardContent}>
           <View style={styles.productCardContentItem}>
             <Text style={styles.productCardContentItemLeft}>Amount</Text>
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     // borderWidth: 1,
     // borderColor: "#f0f0f0",
     marginTop: 50,
