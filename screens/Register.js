@@ -10,6 +10,7 @@ import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import colors from "../styles/colors";
 import axios from "axios";
 import SvgComponent from "../components/customs/SvgComponent";
+import AnimatedView from "../components/customs/AnimatedView";
 
 const Signin = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -162,7 +163,7 @@ const Signin = ({ navigation }) => {
           Create a secure account below
         </Text>
 
-        <View style={{ marginVertical: 20, marginTop: 40 }}>
+        <AnimatedView animation={"zoomInUp"} style={{ marginVertical: 20, marginTop: 40 }}>
           <CustomInput
             error={errors.email}
             onChangeText={(text) => handleOnChange(text, "email")}
@@ -190,7 +191,7 @@ const Signin = ({ navigation }) => {
           >
             Already have account? Login
           </Text>
-        </View>
+        </AnimatedView>
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
+import AnimatedView from "../customs/AnimatedView";
 import { addComma } from "../helpers/globalFunction";
 import HomeWalletItem from "./HomeWalletItem";
 
@@ -30,7 +31,7 @@ const HomeWalletOverview = () => {
   ]);
 
   return (
-    <View style={{ horizontalPadding: 25, marginTop: -110, marginBottom: 30 }}>
+    <AnimatedView animation={"fadeInRightBig"} style={{ horizontalPadding: 25, marginTop: -110, marginBottom: 30 }}>
       <FlatList
         horizontal
         data={overview}
@@ -38,7 +39,7 @@ const HomeWalletOverview = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => <HomeWalletItem item={item} index={index} />}
       />
-    </View>
+    </AnimatedView>
   );
 };
 

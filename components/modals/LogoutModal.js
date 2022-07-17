@@ -59,7 +59,7 @@ const LogoutModal = () => {
     dispatch(
       setLoading({
         status: true,
-        message: "please wait...",
+        message: "Logging out, please wait...",
       }),
     );
 

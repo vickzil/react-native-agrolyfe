@@ -379,6 +379,18 @@ const PurchaseSavingsModal = () => {
       .then((response) => {
         // console.log(response?.data);
         closeModal();
+        dispatch(
+          setSubCategorySavingsModal({
+            status: false,
+            payload: null,
+          }),
+        );
+
+        dispatch(setSavingsModal(false));
+        dispatch(setMySavingsModal(false));
+
+        dispatch(getUserInfo(user?.code));
+        dispatch(otherGlobalFunctions());
         if (response?.data?.success == true) {
           // console.log(response?.data?.data);
           setScreenLoading({
@@ -399,18 +411,6 @@ const PurchaseSavingsModal = () => {
               },
             }),
           );
-          dispatch(
-            setSubCategorySavingsModal({
-              status: false,
-              payload: null,
-            }),
-          );
-
-          dispatch(setSavingsModal(false));
-          dispatch(setMySavingsModal(false));
-
-          dispatch(getUserInfo(user?.code));
-          dispatch(otherGlobalFunctions());
         } else {
           setEmptyFields(false);
           setScreenLoading({

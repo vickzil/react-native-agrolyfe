@@ -120,7 +120,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 15,
     marginBottom: 2,
-    elevation: 2,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e9e6e6",
+    // elevation: 2,
   },
 
   content: {

@@ -10,27 +10,30 @@ const PageLoading = () => {
   return (
     loading?.status && (
       <View style={[styles.container, { height, width }]}>
-        <View style={[styles.loader]}>
-          <ActivityIndicator size="large" color="#14961E" />
-          {loading?.message ? (
-            <View>
-              <Text
-                style={[
-                  globalStyles.label,
-                  {
-                    marginBottom: -5,
-                    fontSize: 16,
-                    marginTop: 19,
-                    fontWeight: "600",
-                    color: "#4d4b4b",
-                    fontFamily: "Poppins",
-                  },
-                ]}
-              >
-                {loading.message}
-              </Text>
-            </View>
-          ) : null}
+        <View style={{ flex: 1, position: "relative", width: "100%", alignItems: "center" }}>
+          <View style={[styles.loader]}>
+            <ActivityIndicator size="large" color="#14961E" />
+            {loading?.message ? (
+              <View>
+                <Text
+                  style={[
+                    globalStyles.label,
+                    {
+                      // marginBottom: -1,
+                      marginLeft: 40,
+                      fontSize: 17,
+                      // marginTop: 8,
+                      fontWeight: "700",
+                      color: "#4d4b4b",
+                      fontFamily: "Poppins",
+                    },
+                  ]}
+                >
+                  {loading.message}
+                </Text>
+              </View>
+            ) : null}
+          </View>
         </View>
       </View>
     )
@@ -53,14 +56,20 @@ const styles = StyleSheet.create({
 
   loader: {
     // height: 70,
-    width: "auto",
+    position: "absolute",
+    bottom: 50,
+    flexDirection: "row",
+    // justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
     backgroundColor: "#fff",
     // marginHorizontal: 70,
-    borderRadius: 5,
+    borderRadius: 10,
     // flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingVertical: 29,
     elevation: 1,
+    textAlign: "center",
   },
 });

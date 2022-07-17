@@ -9,12 +9,20 @@ import CustomInput from "../components/customs/CustomInput";
 import { validEmail } from "../components/helpers/globalFunction";
 import Logo from "../components/logo/Logo";
 import { setAlertModal, setLoading, setToastModal } from "../store/alert/alertSlice";
-import { SaveLoginIdentity, saveUserInfo, setHasLogin, setToken, setVerificationInfo } from "../store/auth/authSlice";
+import {
+  SaveLoginIdentity,
+  saveUserInfo,
+  setHasLogin,
+  setShowBalances,
+  setToken,
+  setVerificationInfo,
+} from "../store/auth/authSlice";
 import colors from "../styles/colors";
 import axios from "axios";
 import { getTransactionsInfo } from "../store/transactions/actions";
 import * as LocalAuthentication from "expo-local-authentication";
 import SvgComponent from "../components/customs/SvgComponent";
+import AnimatedView from "../components/customs/AnimatedView";
 
 const Login = ({ navigation }) => {
   const userImage = require("../assets/img/user-default.png");
@@ -66,15 +74,6 @@ const Login = ({ navigation }) => {
       setLoggedInUserDetails(user);
     })();
   }, []);
-
-  const AlertComponent = (title, message, btnTxt, btnFunc) => {
-    return Alert.alert(title, message, [
-      {
-        text: btnTxt,
-        onPress: btnFunc,
-      },
-    ]);
-  };
 
   const handleBiometricAuth = async () => {
     // check biomertic types avaliable
@@ -280,7 +279,7 @@ const Login = ({ navigation }) => {
                 email: inputs.email,
               });
             } else {
-              console.log(data);
+              // console.log(data);
               AsyncStorage.setItem("loggedInUserDetails", JSON.stringify(data));
               setLoggedInUserDetails(data);
               getVerificationInfo(data.code);
@@ -425,6 +424,8 @@ const Login = ({ navigation }) => {
     dispatch(SaveLoginIdentity(null));
     handleOnChange("", "email");
     handleOnChange("", "password");
+    dispatch(setShowBalances(false));
+    AsyncStorage.removeItem("showBalances");
   };
 
   return (
@@ -435,7 +436,8 @@ const Login = ({ navigation }) => {
 
       <ScrollView contentContainerStyle={[{ paddingHorizontal: 20, paddingTop: 0 }]}>
         <Logo />
-        <View
+        <AnimatedView
+          animation={"zoomInUp"}
           style={[
             loginIdentity ? { paddingTop: 0 } : { paddingTop: 50 },
             { flex: 1, width: "100%", justifyContent: "flex-end" },
@@ -597,7 +599,7 @@ const Login = ({ navigation }) => {
               </Text>
             )}
           </View>
-        </View>
+        </AnimatedView>
       </ScrollView>
     </SafeAreaView>
   );

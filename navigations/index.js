@@ -8,12 +8,11 @@ import { SaveLoginIdentity, saveUserInfo, setBearerToken, setHasLogin, setToken 
 import axiosInstance from "../components/helpers/axiosInstance";
 import axios from "axios";
 
-export default function MainApp() {
+export default function MainApp({ bearerToken, hasLoggedIn }) {
   const dispatch = useDispatch();
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const token = useSelector((state) => state.oauth.token);
   const baseURL = useSelector((state) => state.oauth.baseURL);
-  const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
   const secretKey = useSelector((state) => state.oauth.secretKey);
 
@@ -21,19 +20,33 @@ export default function MainApp() {
     authUser();
   }, [token]);
 
-  useLayoutEffect(() => {
-    authLogin();
-  }, []);
+  // useLayoutEffect(() => {
+  //   authLogin();
+  // }, []);
 
-  useEffect(() => {
-    (async () => {
-      const appToken = await AsyncStorage.getItem("bearerToken");
-      dispatch(setBearerToken(appToken));
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const appToken = await AsyncStorage.getItem("bearerToken");
+  //     dispatch(setBearerToken(appToken));
+  //   })();
+  // }, []);
+  useLayoutEffect(() => {
+    if (bearerToken) {
+      dispatch(setBearerToken(bearerToken));
+    } else {
+      getAppAuthentication();
+    }
+  }, [bearerToken]);
 
   useLayoutEffect(() => {
-    getAppAuthentication();
+    if (hasLoggedIn) {
+      dispatch(setHasLogin(true));
+    } else {
+      dispatch(setHasLogin(false));
+    }
+  }, [hasLoggedIn]);
+
+  useLayoutEffect(() => {
     getLoginIdentity();
   }, []);
 
@@ -76,18 +89,18 @@ export default function MainApp() {
     }
   };
 
-  const authLogin = async () => {
-    try {
-      const hasLogin = await AsyncStorage.getItem("hasLoggedIn");
-      if (hasLogin) {
-        dispatch(setHasLogin(true));
-      } else {
-        dispatch(setHasLogin(false));
-      }
-    } catch (error) {
-      dispatch(setHasLogin(false));
-    }
-  };
+  // const authLogin = async () => {
+  //   try {
+  //     const hasLogin = await AsyncStorage.getItem("hasLoggedIn");
+  //     if (hasLogin) {
+  //       dispatch(setHasLogin(true));
+  //     } else {
+  //       dispatch(setHasLogin(false));
+  //     }
+  //   } catch (error) {
+  //     dispatch(setHasLogin(false));
+  //   }
+  // };
 
   const getLoginIdentity = async () => {
     const storedLoginIdentity = await AsyncStorage.getItem("loginIdentity");

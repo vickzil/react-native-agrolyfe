@@ -1,13 +1,14 @@
 {
   "expo": {
     "name": "Agrolyfe",
+    "description": "Agrolyfe is leveraging on technology and real estate to connect farmers with easy access to arable and secure purpose-built farm lands for rental period of a year with opportunities to renew their land rental duration, partake in Farmers Co-operative society membership for access to both financial and technical needs.",
     "slug": "agrolyfe",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/img/favicon.png",
     "splash": {
-      "image": "./assets/img/banner.png",
-      "resizeMode": "cover",
+      "image": "./assets/img/favicon.png",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {

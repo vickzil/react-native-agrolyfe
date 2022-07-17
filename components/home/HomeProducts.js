@@ -15,7 +15,7 @@ const HomeProducts = () => {
     products?.length && (
       <View style={{ horizontalPadding: 25, marginTop: 10, marginBottom: 30 }}>
         <View style={globalStyles.siteTitleWrapper}>
-          <Text style={[globalStyles.siteTitle, { marginBottom: 0 }]}>Products</Text>
+          <Text style={[globalStyles.siteTitle, { marginBottom: 0 }]}>Farm Lands</Text>
           <TouchableOpacity
             style={{ flexDirection: "row", alignItems: "center" }}
             onPress={() => navigate.navigate("ProductNavigator")}

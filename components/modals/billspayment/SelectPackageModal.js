@@ -118,7 +118,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 15,
     marginBottom: 2,
-    elevation: 2,
+    // elevation: 2,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e9e6e6",
   },
 
   content: {
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
 
   contentText1: {
     fontSize: 15,
-    fontWeight: "600",
+    fontWeight: "700",
     marginBottom: 5,
   },
 

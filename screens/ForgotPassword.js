@@ -12,6 +12,7 @@ import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import colors from "../styles/colors";
 import axios from "axios";
 import SvgComponent from "../components/customs/SvgComponent";
+import AnimatedView from "../components/customs/AnimatedView";
 
 const ForgotPassword = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -156,7 +157,7 @@ const ForgotPassword = ({ navigation }) => {
           Lets get you a new password
         </Text>
 
-        <View style={{ marginVertical: 20 }}>
+        <AnimatedView animation={"zoomInUp"} style={{ marginVertical: 20 }}>
           <CustomInput
             error={errors.email}
             onChangeText={(text) => handleOnChange(text, "email")}
@@ -185,7 +186,7 @@ const ForgotPassword = ({ navigation }) => {
           >
             Go Back to Login
           </Text>
-        </View>
+        </AnimatedView>
       </ScrollView>
     </SafeAreaView>
   );
