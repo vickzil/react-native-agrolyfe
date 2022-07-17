@@ -4,9 +4,17 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
-import { SaveLoginIdentity, saveUserInfo, setBearerToken, setHasLogin, setToken } from "../store/auth/authSlice";
+import {
+  SaveLoginIdentity,
+  saveUserInfo,
+  setBearerToken,
+  setDarkMode,
+  setHasLogin,
+  setToken,
+} from "../store/auth/authSlice";
 import axiosInstance from "../components/helpers/axiosInstance";
 import axios from "axios";
+import PageLoading from "../components/loader/PageLoading";
 
 export default function MainApp({ bearerToken, hasLoggedIn }) {
   const dispatch = useDispatch();
@@ -110,10 +118,23 @@ export default function MainApp({ bearerToken, hasLoggedIn }) {
     }, 700);
   };
 
+  useEffect(() => {
+    (async () => {
+      const darkMode = await AsyncStorage.getItem("darkMode");
+      if (darkMode) {
+        let newS = JSON.parse(darkMode);
+        dispatch(setDarkMode(newS === true ? true : false));
+      }
+    })();
+  }, []);
+
   return (
-    <NavigationContainer>
-      {token ? <AppStack /> : <AuthStack />}
-      {/* <AppStack /> */}
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        {token ? <AppStack /> : <AuthStack />}
+        {/* <AppStack /> */}
+      </NavigationContainer>
+      <PageLoading />
+    </>
   );
 }

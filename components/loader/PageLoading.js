@@ -20,7 +20,7 @@ const PageLoading = () => {
                     globalStyles.label,
                     {
                       // marginBottom: -1,
-                      marginLeft: 40,
+                      marginLeft: 20,
                       fontSize: 17,
                       // marginTop: 8,
                       fontWeight: "700",
@@ -44,6 +44,7 @@ export default PageLoading;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     position: "absolute",
     bottom: 0,
     zIndex: 10,
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     // justifyContent: "center",
     alignItems: "center",
-    width: "90%",
+    width: "95%",
     backgroundColor: "#fff",
     // marginHorizontal: 70,
     borderRadius: 10,
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 29,
+    paddingBottom: 22,
     elevation: 1,
     textAlign: "center",
   },

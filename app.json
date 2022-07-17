@@ -5,9 +5,9 @@
     "slug": "agrolyfe",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/img/favicon.png",
+    "icon": "./assets/img/favicon2.png",
     "splash": {
-      "image": "./assets/img/favicon.png",
+      "image": "./assets/img/favicon2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,14 +22,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/img/favicon.png",
+        "foregroundImage": "./assets/img/favicon2.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "agrolyfe.farm.com",
       "versionCode": 1
     },
     "web": {
-      "favicon": "./assets/img/favicon.png"
+      "favicon": "./assets/img/favicon2.png"
     },
     "userInterfaceStyle": "automatic",
     "plugins": [

@@ -5,10 +5,8 @@ import Home from "../screens/Home";
 import Wallet from "../screens/Wallet";
 import Account from "../screens/Account";
 import TabBar from "./TabBar";
-import Referrals from "../screens/Referrals";
 import ProductNavigator from "./ProductNavigator";
 import AllModals from "../components/modals/AllModals";
-import PageLoading from "../components/loader/PageLoading";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAdverts,
@@ -93,7 +91,7 @@ const AppStack = () => {
       if (showBalances) {
         let newS = JSON.parse(showBalances);
         dispatch(setShowBalances(newS === true ? true : false));
-        console.log(newS);
+
         // console.log(typeof newS);
       }
 

@@ -8,7 +8,6 @@ import Register from "../screens/Register";
 import ForgotPassword from "../screens/ForgotPassword";
 import InputCode from "../screens/InputCode";
 import CompleteRegister from "../screens/CompleteRegister";
-import PageLoading from "../components/loader/PageLoading";
 import { useDispatch, useSelector } from "react-redux";
 import TwoFactor from "../screens/TwoFactor";
 import AlertModal from "../components/modals/AlertModal";
@@ -61,7 +60,6 @@ const AuthStack = () => {
         <Stack.Screen name="CompleteRegister" component={CompleteRegister} />
       </Stack.Navigator>
 
-      <PageLoading />
       <AlertModal />
     </>
   );

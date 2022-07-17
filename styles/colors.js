@@ -6,6 +6,8 @@ const colors = {
   greenLightDarkColor: "#9db29e",
   greenNormalColor: "#14961E",
   greenProductColor: "#58801D",
+  darkBody: "#091412",
+  darkCard: "#172723",
 };
 
 export default colors;

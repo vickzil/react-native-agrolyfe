@@ -28,6 +28,7 @@ const Login = ({ navigation }) => {
   const userImage = require("../assets/img/user-default.png");
 
   const dispatch = useDispatch();
+
   const loginIdentity = useSelector((state) => state.oauth.loginIdentity);
   const hasLogin = useSelector((state) => state.oauth.hasLogin);
   const baseURL = useSelector((state) => state.oauth.baseURL);
@@ -227,7 +228,7 @@ const Login = ({ navigation }) => {
     dispatch(
       setLoading({
         status: true,
-        message: "please wait...",
+        message: "Processing login, please wait...",
       }),
     );
 

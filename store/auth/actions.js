@@ -6,6 +6,35 @@ import { setMySavings } from "../savings/savingsSlice";
 import { saveUserTransactions } from "../transactions/transactionSlice";
 import { setUserWalletBalance } from "../wallet/walletSlice";
 
+export const getAuthentication = createAsyncThunk(
+  "oauth/getAuthentication",
+  async (payload, { getState, dispatch }) => {
+    const baseURL = getState().oauth.baseURL;
+    const AppId = getState().oauth.AppId;
+    const secretKey = getState().oauth.secretKey;
+
+    let newPayload = {
+      AppId,
+      Secret: secretKey,
+    };
+
+    const response = await fetch(`${baseURL}/v1.0/Authenticate/authenticateEndpoints`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(newPayload),
+    }).then((res) => {
+      return res.json();
+    });
+
+    return response;
+  },
+);
+
 export const getUserInfo = createAsyncThunk("oauth/getUserInfo", async (payload, { getState, dispatch }) => {
   const user = getState().oauth.user;
   const baseURL = getState().oauth.baseURL;

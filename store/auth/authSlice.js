@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserInfo, getCountryInfo, resendUserTransactionPin, getDashBoardNotification, getAdverts } from "./actions";
+import {
+  getUserInfo,
+  getCountryInfo,
+  resendUserTransactionPin,
+  getDashBoardNotification,
+  getAdverts,
+  getAuthentication,
+} from "./actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
@@ -15,6 +22,7 @@ const initialState = {
   countryInfo: null,
   token: null,
   hasLogin: false,
+  darkMode: false,
   hasFeedBack: false,
   error: false,
   loading: false,
@@ -44,8 +52,13 @@ const authSlice = createSlice({
     setToken: (state, { payload }) => {
       state.token = payload;
     },
+
     setHasLogin: (state, { payload }) => {
       state.hasLogin = payload;
+    },
+
+    setDarkMode: (state, { payload }) => {
+      state.darkMode = payload;
     },
 
     setBearerToken: (state, { payload }) => {
@@ -89,6 +102,15 @@ const authSlice = createSlice({
     },
   },
   extraReducers: {
+    [getAuthentication.fulfilled]: (state, action) => {
+      let result = action.payload;
+      // console.log("user", action.payload);
+      if (result) {
+        let appToken = result?.value?.token;
+        state.bearerToken = appToken;
+      }
+    },
+
     [getUserInfo.pending]: (state, action) => {
       state.loading = true;
       state.error = false;
@@ -162,6 +184,7 @@ export const {
   saveUserInfo,
   setToken,
   setHasLogin,
+  setDarkMode,
   setBearerToken,
   setGreetings,
   setResendPinCompleted,

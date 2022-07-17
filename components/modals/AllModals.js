@@ -43,7 +43,7 @@ import LogoutModal from "./LogoutModal";
 import PurchaseSavingsModal from "./savings/PurchaseSavingsModal";
 import MySavingsModal from "./savings/MySavingsModal";
 import MSavingsDetailsModal from "./savings/MSavingsDetailsModal";
-import PageLoading from "../loader/PageLoading";
+// import PageLoading from "../loader/PageLoading";
 import AddBVNModal from "./profile/bvn/AddBVNModal";
 import SelectAllBanksModal from "./bank/SelectAllBanksModal";
 import SelectWalletModal from "./fundwallet/SelectWalletModal";
@@ -57,7 +57,7 @@ import FeedbackPromptModal from "./feedback/FeedbackPromptModal";
 const AllModals = () => {
   return (
     <>
-      <PageLoading />
+      {/* <PageLoading /> */}
       <AlertModal />
       <AlertSuccessModal />
       <ProductsModal />

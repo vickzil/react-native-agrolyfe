@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const AccountImageFullName = () => {
   const user = useSelector((state) => state.oauth.user);
-
+  const darkMode = useSelector((state) => state.oauth.darkMode);
   const userImage = require("../../assets/img/user-default.png");
 
   useEffect(() => {}, [user]);
@@ -26,9 +26,11 @@ const AccountImageFullName = () => {
           />
         )}
       </View>
-      <Text style={styles.accountUserFullName}>{user ? user.firstName + " " + user.lastName : "-----"}</Text>
-      <Text style={styles.accountLabel}>Username</Text>
-      <Text style={styles.accountTitle}>@{user ? user.userName : "-----"}</Text>
+      <Text style={[styles.accountUserFullName, { color: darkMode && "#fff" }]}>
+        {user ? user.firstName + " " + user.lastName : "-----"}
+      </Text>
+      <Text style={[styles.accountLabel, { color: darkMode && "#fff" }]}>Username</Text>
+      <Text style={[styles.accountTitle, { color: darkMode && "#fff" }]}>@{user ? user.userName : "-----"}</Text>
     </View>
   );
 };

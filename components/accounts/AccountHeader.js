@@ -20,13 +20,14 @@ import AccountImageFullName from "./AccountImageFullName";
 import axios from "axios";
 import { getUserInfo } from "../../store/auth/actions";
 import Logo from "../logo/Logo";
-import { setShowBalances } from "../../store/auth/authSlice";
+import { setDarkMode, setShowBalances } from "../../store/auth/authSlice";
 
 const { width } = Dimensions.get("screen");
 
 const AccountHeader = () => {
   const user = useSelector((state) => state.oauth.user);
   const showBalances = useSelector((state) => state.oauth.showBalances);
+  const darkMode = useSelector((state) => state.oauth.darkMode);
   const APPVERSION = useSelector((state) => state.oauth.APPVERSION);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -51,6 +52,12 @@ const AccountHeader = () => {
     let newShowBalance = !showBalances;
     dispatch(setShowBalances(newShowBalance));
     AsyncStorage.setItem("showBalances", JSON.stringify(newShowBalance));
+  };
+
+  const toggleDarkMode = () => {
+    let newMode = !darkMode;
+    dispatch(setDarkMode(newMode));
+    AsyncStorage.setItem("darkMode", JSON.stringify(newMode));
   };
 
   const toggleSwitch = () => {
@@ -125,11 +132,11 @@ const AccountHeader = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: darkMode && colors.darkBody }]}>
       <ScreenLoading visibility={{ status: isLoading, message: "Please wait ..." }} />
 
       <View style={[styles.headerBg, { backgroundColor: colors.greenDarkColor }]}></View>
-      <View style={styles.headerImageContainer}>
+      <View style={[styles.headerImageContainer, { backgroundColor: darkMode && colors.darkBody }]}>
         <View style={styles.accountContainer}>
           <AccountImageFullName />
         </View>
@@ -137,15 +144,15 @@ const AccountHeader = () => {
         <View style={styles.accountTabs}>
           <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Account</Text>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setEditProfileModal(true))}>
-            <Text style={styles.accountTabsLinkText}>Update Profile</Text>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Update Profile</Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setNextOfKinModal(true))}>
-            <Text style={styles.accountTabsLinkText}>Next of kin</Text>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Next of kin</Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setAccountManagerModal(true))}>
-            <Text style={styles.accountTabsLinkText}>Account Manager</Text>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Account Manager</Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
         </View>
@@ -153,7 +160,7 @@ const AccountHeader = () => {
           <View style={styles.accountTabs}>
             <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Verification</Text>
             <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setBvnModal(true))}>
-              <Text style={styles.accountTabsLinkText}>Bvn</Text>
+              <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Bvn</Text>
               <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
             </TouchableOpacity>
           </View>
@@ -162,20 +169,20 @@ const AccountHeader = () => {
         <View style={styles.accountTabs}>
           <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Security</Text>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setChangePinModal(true))}>
-            <Text style={styles.accountTabsLinkText}>Change Pin</Text>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Change Pin</Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setChangePasswordModal(true))}>
-            <Text style={styles.accountTabsLinkText}>Change Password</Text>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Change Password</Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setAntiPhizingModal(true))}>
-            <Text style={styles.accountTabsLinkText}>Anti-phishing </Text>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Anti-phishing </Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.accountTabsLinks}>
-            <Text style={styles.accountTabsLinkText}>Two-Factor Authentication </Text>
+          <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Two-Factor Authentication </Text>
             <View>
               <Switch
                 trackColor={{ false: "#767577", true: colors.greenLightColor }}
@@ -187,8 +194,8 @@ const AccountHeader = () => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.accountTabsLinks}>
-            <Text style={styles.accountTabsLinkText}>Show Balances </Text>
+          <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Show Balances </Text>
             <View>
               <Switch
                 trackColor={{ false: "#767577", true: colors.greenLightColor }}
@@ -200,11 +207,25 @@ const AccountHeader = () => {
               />
             </View>
           </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Dark mode </Text>
+            <View>
+              <Switch
+                trackColor={{ false: "#767577", true: colors.greenLightColor }}
+                thumbColor={darkMode ? colors.greenColor : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleDarkMode}
+                value={darkMode}
+                style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
         {/* <View style={styles.accountTabs}>
           <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Help & Support</Text>
           <TouchableOpacity style={[styles.accountTabsLinks]}>
-            <Text style={styles.accountTabsLinkText}>FAQs</Text>
+            <Text style={[styles.accountTabsLinkText, {color: darkMode && "#fff"}]}>FAQs</Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
         </View> */}
