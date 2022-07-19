@@ -51,6 +51,9 @@ import AddPinModal from "./profile/changePin/AddPinModal";
 import TopUpSavingsModal from "./savings/TopUpSavingsModal";
 import FeedbackModal from "./feedback/FeedbackModal";
 import FeedbackPromptModal from "./feedback/FeedbackPromptModal";
+import TermsAndConditionModal from "./terms/TermsAndConditionModal";
+import FAQModal from "./faq/FAQ";
+import AboutModal from "./about/AboutModal";
 // import FundWalletModalButtom from "./fundwallet/FundWalletModalButtom";
 // import TransferModalButtom from "./transfer/TransferModalButtom";
 
@@ -105,9 +108,11 @@ const AllModals = () => {
       <ToastModal />
       <LogoutModal />
       <SelectWalletModal />
+      <AboutModal />
       <FeedbackModal />
       <FeedbackPromptModal />
-      {/* <MyPurchasesModal /> */}
+      <TermsAndConditionModal />
+      <FAQModal />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { Dimensions, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useEffect, useRef } from "react";
 import IconSearch from "react-native-vector-icons/AntDesign";
 import ProductCard from "./ProductCard";

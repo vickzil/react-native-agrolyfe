@@ -17,6 +17,7 @@ import { getUserInfo } from "../store/auth/actions";
 import SvgComponent from "../components/customs/SvgComponent";
 import HomeProducts from "../components/home/HomeProducts";
 import { setSelectedMenu } from "../store/auth/authSlice";
+import HomeAdverts from "../components/home/HomeAdverts";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -39,12 +40,6 @@ const Home = ({ navigation }) => {
     dispatch(setSelectedMenu("Home"));
   }, [selectedMenu]);
 
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
-  //   }
-  // }, [isFocused]);
-
   useEffect(() => {
     getUserDetails();
   }, []);
@@ -55,56 +50,7 @@ const Home = ({ navigation }) => {
     }
   };
 
-  // const getUserInfos = async () => {
-  //   return await fetch(`${baseURL}/v1.0/Dashboard/getUserInfo`, {
-  //     method: "POST",
-  //     // mode: "cors",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + bearerToken,
-  //     },
-
-  //     body: JSON.stringify({
-  //       AppId: AppId,
-  //       RequestId: RequestId,
-  //       UserCode: user?.code,
-  //     }),
-  //   }).then((res) => {
-  //     return res.json();
-  //   });
-  // };
-
-  // const getAllTransactions = async () => {
-  //   const response = await fetch(`${baseURL}/v1.0/Wallet/getUserTransactionInfo`, {
-  //     method: "POST",
-  //     mode: "cors",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + bearerToken,
-  //     },
-
-  //     body: JSON.stringify({
-  //       AppId: AppId,
-  //       RequestId: RequestId,
-  //       UserCode: user?.code,
-  //       TransactionType: "",
-  //       PageSize: 20,
-  //     }),
-  //   }).then((res) => {
-  //     return res.json();
-  //   });
-
-  //   return response;
-  // };
-
   useEffect(() => {}, [userWalletBalance, user]);
-
-  // const logout = () => {
-  //   AsyncStorage.setItem("user", JSON.stringify({ ...userDetails, loggedIn: false }));
-  //   navigation.navigate("Login");
-  // };
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -161,15 +107,15 @@ const Home = ({ navigation }) => {
 
           <QuickMenus navigation={navigation} />
 
-          <Transactions />
+          <HomeAdverts />
 
-          <View style={[{ marginTop: -20, alignItems: "center" }]}>
+          {/* <View style={[{ marginTop: -20, alignItems: "center" }]}>
             <Image
               source={require("../assets/img/logo.png")}
               style={{ width: 160, height: 160 }}
               resizeMode="contain"
             />
-          </View>
+          </View> */}
         </View>
       </ScrollView>
 

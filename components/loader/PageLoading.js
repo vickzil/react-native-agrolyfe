@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { ActivityIndicator, Modal, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import React from "react";
 import { useSelector } from "react-redux";
 import { globalStyles } from "../../styles/global";
@@ -8,7 +8,7 @@ const PageLoading = () => {
   const loading = useSelector((state) => state.alert.loading);
 
   return (
-    loading?.status && (
+    <Modal transparent visible={loading?.status} animationType="fade">
       <View style={[styles.container, { height, width }]}>
         <View style={{ flex: 1, position: "relative", width: "100%", alignItems: "center" }}>
           <View style={[styles.loader]}>
@@ -36,7 +36,7 @@ const PageLoading = () => {
           </View>
         </View>
       </View>
-    )
+    </Modal>
   );
 };
 
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   loader: {
     // height: 70,
     position: "absolute",
-    bottom: 50,
+    bottom: 30,
     flexDirection: "row",
     // justifyContent: "center",
     alignItems: "center",

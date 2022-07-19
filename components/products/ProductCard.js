@@ -187,9 +187,9 @@ const styles = StyleSheet.create({
   },
 
   productCardContentTitle: {
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: "800",
-    textAlign: "center",
+    textAlign: "left",
     marginBottom: 20,
     fontFamily: "Poppins",
   },

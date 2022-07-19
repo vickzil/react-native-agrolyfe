@@ -13,7 +13,7 @@ const initialState = {
   baseURL: "https://oxfordvestapi.azurewebsites.net/api",
   walletURL: "https://oxfordwalletapi.azurewebsites.net/api",
   AppId: "agrolyfe",
-  APPVERSION: "1.1.3",
+  APPVERSION: "1.1.0",
   RequestId: "001web001web" + Math.floor(Math.random() * 10),
   secretKey: "helloworld",
   bearerToken: "",
@@ -34,7 +34,8 @@ const initialState = {
   dashboardMessage: null,
   adverts: null,
   selectedMenu: "Home",
-  showBalances: false,
+  showBalances: true,
+  agreeTerms: false,
 };
 
 const authSlice = createSlice({
@@ -99,6 +100,10 @@ const authSlice = createSlice({
 
     setShowBalances: (state, { payload }) => {
       state.showBalances = payload;
+    },
+
+    setAgreeTerms: (state, { payload }) => {
+      state.agreeTerms = payload;
     },
   },
   extraReducers: {
@@ -196,6 +201,7 @@ export const {
   setHasFeedBack,
   setSelectedMenu,
   setShowBalances,
+  setAgreeTerms,
 } = authSlice.actions;
 
 export default authSlice.reducer;

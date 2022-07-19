@@ -65,10 +65,11 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
                   fontFamily: "Poppins",
                   letterSpacing: -0.35644,
                   color: colors.greenDarkDarkColor,
+                  textAlign: "center",
                 },
               ]}
             >
-              Amount
+              How much farm lands do you want to purchase
             </Text>
 
             <TextInputMask

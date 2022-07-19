@@ -2,12 +2,17 @@ import { Dimensions, StyleSheet, Switch, Text, TextInput, View } from "react-nat
 import React from "react";
 import { globalStyles } from "../../../../styles/global";
 import colors from "../../../../styles/colors";
+import { setTermsAndCModal } from "../../../../store/alert/alertSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
 const FConfirm = ({ isEnabled, setIsEnabled }) => {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const agreeTerms = useSelector((state) => state.oauth.agreeTerms);
+
+  const dispatch = useDispatch();
 
   return (
     <View style={[styles.productContainer]}>
@@ -34,14 +39,39 @@ const FConfirm = ({ isEnabled, setIsEnabled }) => {
           <Text
             style={[
               globalStyles.label,
-              { fontSize: 15, textAlign: "center", fontWeight: "600", fontFamily: "Poppins", marginBottom: 60 },
+              {
+                fontSize: 15,
+                textAlign: "center",
+                fontWeight: "600",
+                fontFamily: "Poppins",
+                marginBottom: 6,
+              },
             ]}
           >
             Are you sure you want to purchase this products
           </Text>
-          {/* <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center", color: colors.greenColor }]}>
-            I certify that I have read, understand and accept Terms & Conditions
-          </Text> */}
+
+          <Text
+            style={[
+              globalStyles.label,
+              {
+                fontSize: 15,
+                textAlign: "center",
+                fontWeight: "600",
+                fontFamily: "Poppins",
+                marginBottom: 60,
+              },
+            ]}
+          >
+            I certify that I have read, understand and accept{" "}
+            <Text
+              style={{ color: colors.greenColor, fontFamily: "PoppinsBold" }}
+              onPress={() => dispatch(setTermsAndCModal(true))}
+            >
+              {" "}
+              Terms & Conditions
+            </Text>
+          </Text>
         </View>
         <View style={{ marginTop: 60 }}>
           <Switch

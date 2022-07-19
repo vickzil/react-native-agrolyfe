@@ -166,7 +166,7 @@ const Signin = ({ navigation }) => {
         <AnimatedView animation={"zoomInUp"} style={{ marginVertical: 20, marginTop: 40 }}>
           <CustomInput
             error={errors.email}
-            onChangeText={(text) => handleOnChange(text, "email")}
+            onChangeText={(text) => handleOnChange(text.replace(/\s/g, ""), "email")}
             onFocus={() => {
               handleError(null, "email");
             }}

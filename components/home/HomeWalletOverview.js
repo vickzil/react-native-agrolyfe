@@ -9,7 +9,7 @@ const HomeWalletOverview = () => {
   const [overview] = useState([
     {
       id: 1,
-      heading: "Main wallet Balance",
+      heading: "Main Balance",
       paragraph: "₦ 0",
       buttonText: "Fund Wallet",
       type: "Fund",
@@ -17,7 +17,7 @@ const HomeWalletOverview = () => {
     {
       id: 2,
       heading: "Transfer Fund",
-      paragraph: "transfer",
+      paragraph: "Transfer",
       buttonText: "Transfer fund",
       type: "Transfer",
     },
@@ -31,7 +31,7 @@ const HomeWalletOverview = () => {
   ]);
 
   return (
-    <AnimatedView animation={"fadeInRightBig"} style={{ horizontalPadding: 25, marginTop: -110, marginBottom: 30 }}>
+    <View style={{ horizontalPadding: 25, marginTop: -110, marginBottom: 30 }}>
       <FlatList
         horizontal
         data={overview}
@@ -39,7 +39,7 @@ const HomeWalletOverview = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => <HomeWalletItem item={item} index={index} />}
       />
-    </AnimatedView>
+    </View>
   );
 };
 

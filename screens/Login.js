@@ -435,7 +435,12 @@ const Login = ({ navigation }) => {
     >
       <SvgComponent />
 
-      <ScrollView contentContainerStyle={[{ paddingHorizontal: 20, paddingTop: 0 }]}>
+      <ScrollView
+        contentContainerStyle={[
+          { paddingHorizontal: 20, paddingTop: 0 },
+          loginIdentity ? { paddingTop: 0 } : { paddingTop: 30 },
+        ]}
+      >
         <Logo />
         <AnimatedView
           animation={"zoomInUp"}
@@ -448,7 +453,7 @@ const Login = ({ navigation }) => {
             style={{
               color: "black",
               fontSize: 22,
-              fontWeight: "bold",
+              fontWeight: "700",
               fontFamily: "Poppins",
               paddingTop: 0,
               letterSpacing: -0.35644,
@@ -482,7 +487,7 @@ const Login = ({ navigation }) => {
                 </View>
                 <Text
                   style={{
-                    fontFamily: "PoppinsBold",
+                    fontFamily: "Poppins",
                     marginTop: 14,
                     fontSize: 16,
                     color: "#222",

@@ -3,11 +3,11 @@
     "name": "Agrolyfe",
     "description": "Agrolyfe is leveraging on technology and real estate to connect farmers with easy access to arable and secure purpose-built farm lands for rental period of a year with opportunities to renew their land rental duration, partake in Farmers Co-operative society membership for access to both financial and technical needs.",
     "slug": "agrolyfe",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
-    "icon": "./assets/img/favicon2.png",
+    "icon": "./assets/img/agrolyfe.png",
     "splash": {
-      "image": "./assets/img/favicon2.png",
+      "image": "./assets/img/cover.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,18 +18,18 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "agrolyfe.farm.com",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.1.0"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/img/favicon2.png",
+        "foregroundImage": "./assets/img/agrolyfe.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "agrolyfe.farm.com",
       "versionCode": 1
     },
     "web": {
-      "favicon": "./assets/img/favicon2.png"
+      "favicon": "./assets/img/agrolyfe.png"
     },
     "userInterfaceStyle": "automatic",
     "plugins": [

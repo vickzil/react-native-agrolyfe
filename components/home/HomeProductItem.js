@@ -63,8 +63,8 @@ const HomeProductItem = ({ item, index }) => {
         <Text style={styles.cardHeading}>{item.name}</Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-            <Text style={[styles.paragraph, { color: "rgba(24, 133, 111, 0.54)" }]}>{item?.duration} Months</Text>
-            <Text style={[styles.paragraph, { color: "rgba(24, 133, 111, 0.54)" }]}>{item.newInterestRate}%</Text>
+            <Text style={[styles.paragraph, { color: "rgba(24, 133, 111, 0.84)" }]}>{item?.duration} Months</Text>
+            <Text style={[styles.paragraph, { color: "rgba(24, 133, 111, 0.84)" }]}>{item.newInterestRate}%</Text>
           </View>
         </View>
       </View>
@@ -96,7 +96,7 @@ export default HomeProductItem;
 const styles = StyleSheet.create({
   card: {
     position: "relative",
-    width: width * 0.58,
+    width: width * 0.59,
     borderRadius: 15,
     marginRight: 15,
     backgroundColor: "#fff",
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     textAlign: "center",
     letterSpacing: -0.35644,
-    color: "rgba(24, 133, 111, 0.54)",
+    color: "rgba(24, 133, 111, 0.94)",
     marginBottom: 0,
     textAlign: "left",
     fontFamily: "PoppinsBold",

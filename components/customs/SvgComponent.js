@@ -25,7 +25,7 @@ const SvgComponent = (props) => {
         style={{ position: "absolute", top: 170, left: -190, width: 380, zIndex: 0, opacity: 0.55 }}
       >
         <Path
-          fill="#b6dbb9"
+          fill="#a6b782"
           d="M48,-10.8C56.2,9.7,52.8,38.8,37.8,49C22.8,59.2,-3.8,50.5,-24.2,35.2C-44.7,19.9,-59,-2,-53.9,-18.2C-48.9,-34.4,-24.4,-45,-2.3,-44.2C19.9,-43.5,39.7,-31.4,48,-10.8Z"
           transform="translate(100 100)"
         ></Path>
@@ -38,7 +38,7 @@ const SvgComponent = (props) => {
         style={{ position: "absolute", bottom: -50, right: -34, width: 100, zIndex: 0, opacity: 0.55 }}
       >
         <Path
-          fill="#b6dbb9"
+          fill="#E7B99F"
           d="M54.1,-26.7C58.3,-4.9,41.5,14.6,23.8,25.8C6.1,37,-12.6,40,-27.3,30.9C-42.1,21.8,-52.9,0.5,-47.7,-22.7C-42.5,-46,-21.2,-71.2,1.9,-71.8C25,-72.4,50,-48.4,54.1,-26.7Z"
           transform="translate(100 100)"
         ></Path>

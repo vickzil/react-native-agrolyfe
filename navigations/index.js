@@ -7,6 +7,7 @@ import AuthStack from "./AuthStack";
 import {
   SaveLoginIdentity,
   saveUserInfo,
+  setAgreeTerms,
   setBearerToken,
   setDarkMode,
   setHasLogin,
@@ -124,6 +125,16 @@ export default function MainApp({ bearerToken, hasLoggedIn }) {
       if (darkMode) {
         let newS = JSON.parse(darkMode);
         dispatch(setDarkMode(newS === true ? true : false));
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const agreeTerms = await AsyncStorage.getItem("agreeTerms");
+      if (agreeTerms) {
+        let termss = JSON.parse(agreeTerms);
+        dispatch(setAgreeTerms(termss === true ? true : false));
       }
     })();
   }, []);

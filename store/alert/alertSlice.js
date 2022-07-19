@@ -139,8 +139,11 @@ const initialState = {
     user: null,
   },
 
+  aboutModal: false,
   feedbackModal: false,
   feedbackPromptModal: false,
+  termsAndCModal: false,
+  faqModal: false,
 };
 
 const alertSlice = createSlice({
@@ -439,12 +442,24 @@ const alertSlice = createSlice({
       };
     },
 
+    setAboutModal: (state, { payload }) => {
+      state.aboutModal = payload;
+    },
+
     setFeedbackModal: (state, { payload }) => {
       state.feedbackModal = payload;
     },
 
     setFeedbackPromptModal: (state, { payload }) => {
       state.feedbackPromptModal = payload;
+    },
+
+    setTermsAndCModal: (state, { payload }) => {
+      state.termsAndCModal = payload;
+    },
+
+    setFaqModal: (state, { payload }) => {
+      state.faqModal = payload;
     },
   },
 
@@ -518,8 +533,11 @@ export const {
   setSelectedUser,
   setSelectedNetwork,
   setTransferToCustomerModal,
+  setAboutModal,
   setFeedbackModal,
   setFeedbackPromptModal,
+  setTermsAndCModal,
+  setFaqModal,
 } = alertSlice.actions;
 
 export default alertSlice.reducer;

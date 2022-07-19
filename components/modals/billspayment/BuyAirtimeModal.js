@@ -122,7 +122,7 @@ const BuyAirtimeModal = () => {
 
       setEmptyFields(false);
     }
-  }, [step, amount, mobileNumber, isEnabled, modal]);
+  }, [step, amount, mobileNumber, isEnabled, modal, selectedNetwork]);
 
   const previousStep = () => {
     // setScreenLoading({

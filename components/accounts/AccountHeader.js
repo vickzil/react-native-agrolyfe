@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
+  setAboutModal,
   setAccountManagerModal,
   setAlertModal,
   setAntiPhizingModal,
@@ -12,7 +13,9 @@ import {
   setChangePasswordModal,
   setChangePinModal,
   setEditProfileModal,
+  setFaqModal,
   setNextOfKinModal,
+  setTermsAndCModal,
 } from "../../store/alert/alertSlice";
 import colors from "../../styles/colors";
 import ScreenLoading from "../loader/ScreenLoading";
@@ -47,6 +50,14 @@ const AccountHeader = () => {
       }
     }
   }, [user]);
+
+  useEffect(() => {
+    if (darkMode) {
+      dispatch(setDarkMode(true));
+    } else {
+      dispatch(setDarkMode(false));
+    }
+  }, [darkMode]);
 
   const toggleBalance = () => {
     let newShowBalance = !showBalances;
@@ -208,7 +219,7 @@ const AccountHeader = () => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
+          {/* <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
             <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Dark mode </Text>
             <View>
               <Switch
@@ -220,15 +231,23 @@ const AccountHeader = () => {
                 style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
               />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
-        {/* <View style={styles.accountTabs}>
-          <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Help & Support</Text>
-          <TouchableOpacity style={[styles.accountTabsLinks]}>
-            <Text style={[styles.accountTabsLinkText, {color: darkMode && "#fff"}]}>FAQs</Text>
+        <View style={styles.accountTabs}>
+          <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>About Agrolyfe</Text>
+          <TouchableOpacity style={[styles.accountTabsLinks]} onPress={() => dispatch(setAboutModal(true))}>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>About</Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
-        </View> */}
+          <TouchableOpacity style={[styles.accountTabsLinks]} onPress={() => dispatch(setFaqModal(true))}>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>FAQs</Text>
+            <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.accountTabsLinks]} onPress={() => dispatch(setTermsAndCModal(true))}>
+            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Terms & Conditions</Text>
+            <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
+          </TouchableOpacity>
+        </View>
         <View style={[styles.accountTabs, { marginTop: 20 }]}>
           <Text style={{ color: "#999", textTransform: "uppercase", fontSize: 15 }}>
             AGROLYFE APP VERSION {APPVERSION}

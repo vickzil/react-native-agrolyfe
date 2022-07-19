@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     lineHeight: 30,
     textAlign: "center",
+    fontFamily: "PoppinsBold",
     letterSpacing: -0.35644,
     marginBottom: 3,
     textAlign: "left",
