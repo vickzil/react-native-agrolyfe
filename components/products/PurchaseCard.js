@@ -1,13 +1,15 @@
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import colors from "../../styles/colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import IconSearch from "react-native-vector-icons/AntDesign";
 import { setPurchaseDetailsModal } from "../../store/alert/alertSlice";
 import { addComma, formateDateAndTimeByName, formateDateByName } from "../helpers/globalFunction";
+import { globalStyles } from "../../styles/global";
 
 const PurchaseCard = ({ item }) => {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.oauth.theme);
 
   const showDetails = () => {
     dispatch(
@@ -19,10 +21,12 @@ const PurchaseCard = ({ item }) => {
   };
 
   return (
-    <View style={styles.productCard}>
+    <View style={[styles.productCard, theme === "dark" && globalStyles.cardDark]}>
       <View style={styles.productCardContent}>
         <View style={styles.productCardContentSub}>
-          <Text style={styles.productCardContentSubTitle}>Purchased</Text>
+          <Text style={[styles.productCardContentSubTitle, theme === "dark" && globalStyles.textLightLight]}>
+            Purchased
+          </Text>
 
           <IconSearch
             name="lock"
@@ -36,19 +40,25 @@ const PurchaseCard = ({ item }) => {
                 textAlign: "center",
                 fontFamily: "MontserratBold",
               },
+              theme === "dark" && globalStyles.textLightLight,
             ]}
           />
         </View>
 
-        <Text style={styles.productCardContentTitle}>{item?.availableInvestmentName}</Text>
+        <Text style={[styles.productCardContentTitle, theme === "dark" && globalStyles.textLight]}>
+          {item?.availableInvestmentName}
+        </Text>
         <View
-          style={{
-            width: "100%",
-            backgroundColor: "rgba(24, 133, 111, 0.05)",
-            height: 3,
-            paddingHorizontal: 40,
-            marginBottom: 30,
-          }}
+          style={[
+            {
+              width: "100%",
+              backgroundColor: "rgba(24, 133, 111, 0.05)",
+              height: 3,
+              paddingHorizontal: 40,
+              marginBottom: 30,
+            },
+            theme === "dark" && { backgroundColor: colors.greenDarkColor },
+          ]}
         ></View>
         <View style={{ flexDirection: "row", marginBottom: 32, justifyContent: "space-between" }}>
           <View>
@@ -56,7 +66,7 @@ const PurchaseCard = ({ item }) => {
               style={{
                 fontSize: 14,
                 fontWeight: "600",
-                color: colors.greenDarkColor,
+                color: colors.greenLightDarkColor,
                 marginRight: 15,
                 fontFamily: "Poppins",
               }}
@@ -64,13 +74,16 @@ const PurchaseCard = ({ item }) => {
               Rental Fee (%)
             </Text>
             <Text
-              style={{
-                fontSize: 14,
-                color: "#444",
-                fontWeight: "600",
-                justifyContent: "flex-end",
-                fontFamily: "Montserrat",
-              }}
+              style={[
+                {
+                  fontSize: 14,
+                  color: "#444",
+                  fontWeight: "600",
+                  justifyContent: "flex-end",
+                  fontFamily: "Montserrat",
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             >
               {item?.newInterestRate}%
             </Text>
@@ -80,7 +93,7 @@ const PurchaseCard = ({ item }) => {
               style={{
                 fontSize: 14,
                 fontWeight: "600",
-                color: colors.greenDarkColor,
+                color: colors.greenLightDarkColor,
                 fontFamily: "Poppins",
                 textAlign: "right",
               }}
@@ -88,14 +101,17 @@ const PurchaseCard = ({ item }) => {
               Frequency
             </Text>
             <Text
-              style={{
-                fontSize: 14,
-                color: "#444",
-                fontWeight: "600",
-                justifyContent: "flex-end",
-                fontFamily: "Montserrat",
-                textAlign: "right",
-              }}
+              style={[
+                {
+                  fontSize: 14,
+                  color: "#444",
+                  fontWeight: "600",
+                  justifyContent: "flex-end",
+                  fontFamily: "Montserrat",
+                  textAlign: "right",
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             >
               Monthly
             </Text>
@@ -107,7 +123,7 @@ const PurchaseCard = ({ item }) => {
               style={{
                 fontSize: 14,
                 fontWeight: "600",
-                color: colors.greenDarkColor,
+                color: colors.greenLightDarkColor,
                 marginRight: 15,
                 fontFamily: "Poppins",
               }}
@@ -135,7 +151,7 @@ const PurchaseCard = ({ item }) => {
               style={{
                 fontSize: 14,
                 fontWeight: "600",
-                color: colors.greenDarkColor,
+                color: colors.greenLightDarkColor,
                 fontFamily: "Poppins",
                 textAlign: "right",
               }}
@@ -143,14 +159,17 @@ const PurchaseCard = ({ item }) => {
               Maturity Date
             </Text>
             <Text
-              style={{
-                fontSize: 14,
-                color: "#444",
-                fontWeight: "600",
-                justifyContent: "flex-end",
-                fontFamily: "Montserrat",
-                textAlign: "right",
-              }}
+              style={[
+                {
+                  fontSize: 14,
+                  color: "#444",
+                  fontWeight: "600",
+                  justifyContent: "flex-end",
+                  fontFamily: "Montserrat",
+                  textAlign: "right",
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             >
               {formateDateByName(item.maturityDate)}
             </Text>
@@ -162,7 +181,7 @@ const PurchaseCard = ({ item }) => {
               style={{
                 fontSize: 14,
                 fontWeight: "600",
-                color: colors.greenDarkColor,
+                color: colors.greenLightDarkColor,
                 marginRight: 15,
                 fontFamily: "Poppins",
               }}
@@ -170,13 +189,16 @@ const PurchaseCard = ({ item }) => {
               Duration
             </Text>
             <Text
-              style={{
-                fontSize: 14,
-                color: "#444",
-                fontWeight: "600",
-                justifyContent: "flex-end",
-                fontFamily: "Montserrat",
-              }}
+              style={[
+                {
+                  fontSize: 14,
+                  color: "#444",
+                  fontWeight: "600",
+                  justifyContent: "flex-end",
+                  fontFamily: "Montserrat",
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             >
               {item?.duration} Months
             </Text>
@@ -188,7 +210,7 @@ const PurchaseCard = ({ item }) => {
                 fontWeight: "600",
                 flexDirection: "row",
                 justifyContent: "flex-end",
-                color: colors.greenDarkColor,
+                color: colors.greenLightDarkColor,
                 fontFamily: "Poppins",
                 textAlign: "right",
               }}
@@ -196,15 +218,18 @@ const PurchaseCard = ({ item }) => {
               Amount Purchased
             </Text>
             <Text
-              style={{
-                fontSize: 14,
-                color: "#444",
-                fontWeight: "600",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                fontFamily: "Montserrat",
-                textAlign: "right",
-              }}
+              style={[
+                {
+                  fontSize: 14,
+                  color: "#444",
+                  fontWeight: "600",
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  fontFamily: "Montserrat",
+                  textAlign: "right",
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             >
               ₦{addComma(item?.amountInvested)}
             </Text>

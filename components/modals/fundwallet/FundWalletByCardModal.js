@@ -27,6 +27,7 @@ import FSummary from "./byCard/FSummary";
 import { getUserInfo } from "../../../store/auth/actions";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
 import SvgComponent from "../../customs/SvgComponent";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -39,6 +40,7 @@ const FundWalletByCardModal = () => {
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
+  const theme = useSelector((state) => state.oauth.theme);
 
   const dispatch = useDispatch();
 
@@ -259,14 +261,36 @@ const FundWalletByCardModal = () => {
       visible={modal?.status}
       animationType="fade"
       onRequestClose={() => previousStep()}
-      style={{ flex: 1, backgroundColor: "#fff" }}
+      style={[{ flex: 1 }, theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight]}
     >
       <ScreenLoading visibility={screenLoading} />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="dark-content" />
+      )}
 
-      <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-        <View style={{ height: screenHeight }}>
+      <KeyboardAvoidingView
+        style={[
+          { marginTop: -40, flex: 1 },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <View
+          style={[
+            { height: screenHeight },
+            theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+          ]}
+        >
           <SvgComponent />
-          <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor, marginTop: 40 }]}>
+          <View
+            style={[
+              styles.modalHeader,
+              { backgroundColor: colors.greenDarkColor, marginTop: 0 },
+              theme === "dark" ? globalStyles.containerDark : { backgroundColor: colors.greenDarkColor },
+            ]}
+          >
             <Icon
               name="arrow-left"
               size={40}
@@ -283,9 +307,15 @@ const FundWalletByCardModal = () => {
             style={{ padding: 10 }}
             showsHorizontalScrollIndicator={false}
           >
-            <FAmount amount={amount} setAmount={setAmount} card={modal?.card} />
-            <FSummary amount={amount} card={modal?.card} summaryDetails={summaryDetails} />
-            <FConfirm amount={amount} card={modal?.card} isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
+            <FAmount amount={amount} setAmount={setAmount} card={modal?.card} theme={theme} />
+            <FSummary amount={amount} card={modal?.card} summaryDetails={summaryDetails} theme={theme} />
+            <FConfirm
+              amount={amount}
+              card={modal?.card}
+              isEnabled={isEnabled}
+              setIsEnabled={setIsEnabled}
+              theme={theme}
+            />
           </ScrollView>
 
           <View
@@ -294,7 +324,7 @@ const FundWalletByCardModal = () => {
               {
                 width: "100%",
                 justifyContent: "flex-end",
-                marginBottom: -40,
+                // marginBottom: -40,
                 marginLeft: 0,
                 padding: 0,
                 marginRight: 0,

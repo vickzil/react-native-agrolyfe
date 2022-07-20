@@ -13,10 +13,12 @@ import SvgComponent from "../components/customs/SvgComponent";
 import { setSelectedMenu } from "../store/auth/authSlice";
 
 import * as Animatable from "react-native-animatable";
+import { globalStyles } from "../styles/global";
 
 const Wallet = ({ navigation }) => {
   const user = useSelector((state) => state.oauth.user);
   const selectedMenu = useSelector((state) => state.oauth.selectedMenu);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const [refreshing, setRefreshing] = useState(false);
@@ -55,7 +57,7 @@ const Wallet = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={[{ flex: 1 }, theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight]}>
       <SvgComponent />
       <FocusAwareStatusBar backgroundColor="#25453b" barStyle="light-content" />
 

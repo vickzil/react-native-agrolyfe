@@ -7,7 +7,7 @@ import { addComma } from "../../../helpers/globalFunction";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FConfirm = ({ isEnabled, setIsEnabled, amount, card }) => {
+const FConfirm = ({ isEnabled, setIsEnabled, amount, card, theme }) => {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   return (
@@ -32,7 +32,13 @@ const FConfirm = ({ isEnabled, setIsEnabled, amount, card }) => {
         </Text>
 
         <View style={{ alignItems: "center" }}>
-          <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center", paddingHorizontal: 10 }]}>
+          <Text
+            style={[
+              globalStyles.label,
+              { fontSize: 15, textAlign: "center", paddingHorizontal: 10 },
+              theme === "dark" && globalStyles.textLight,
+            ]}
+          >
             I agree to be debited {amount ? addComma(amount) : 0} immediately from my {card?.cardBankName} card
           </Text>
         </View>

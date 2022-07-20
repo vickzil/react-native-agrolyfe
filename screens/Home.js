@@ -18,6 +18,7 @@ import SvgComponent from "../components/customs/SvgComponent";
 import HomeProducts from "../components/home/HomeProducts";
 import { setSelectedMenu } from "../store/auth/authSlice";
 import HomeAdverts from "../components/home/HomeAdverts";
+import { globalStyles } from "../styles/global";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ const Home = ({ navigation }) => {
   const user = useSelector((state) => state.oauth.user);
   const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
   const selectedMenu = useSelector((state) => state.oauth.selectedMenu);
+  const theme = useSelector((state) => state.oauth.theme);
+
   // const ref = useRef(null);
   const scrollViewRef = useRef();
   const isFocused = useIsFocused();
@@ -90,7 +93,7 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={[{ flex: 1 }, theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight]}>
       <SvgComponent />
       <FocusAwareStatusBar backgroundColor="#25453b" barStyle="light-content" />
       <ScrollView

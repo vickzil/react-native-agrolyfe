@@ -14,12 +14,14 @@ import SvgComponent from "../components/customs/SvgComponent";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedMenu } from "../store/auth/authSlice";
+import { globalStyles } from "../styles/global";
 
 // const Stack = createNativeStackNavigator();
 const TopTab = createMaterialTopTabNavigator();
 const ProductNavigator = () => {
   const dispatch = useDispatch();
   const selectedMenu = useSelector((state) => state.oauth.selectedMenu);
+  const theme = useSelector((state) => state.oauth.theme);
 
   useEffect(() => {
     dispatch(setSelectedMenu("ProductNavigator"));
@@ -27,16 +29,22 @@ const ProductNavigator = () => {
   return (
     <SafeAreaProvider>
       <SvgComponent />
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
+
       <TopTab.Navigator
         tabBarScrollEnabled={false}
         // tabBar={(props) => <TopBarTab {...props} />}
         screenOptions={{
           // tabBarLabel: (props) => <Text style={{ color: props.color }}></Text>,
-          tabBarLabelStyle: { color: colors.greenDarkColor },
-          tabBarIndicatorStyle: { backgroundColor: colors.greenColor },
+          tabBarLabelStyle: theme === "dark" ? globalStyles.textLight : { color: colors.greenDarkColor },
+          tabBarIndicatorStyle: theme === "dark" ? globalStyles.containerLight : { backgroundColor: colors.greenColor },
           tabBarStyle: { height: 55 },
-          tabBarActiveTintColor: "green",
+          tabBarActiveTintColor: theme === "dark" ? "white" : "green",
+          tabBarStyle: theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
         }}
         style={{ elevation: 2 }}
       >
@@ -45,9 +53,9 @@ const ProductNavigator = () => {
           component={AllProducts}
           options={{
             tabBarLabel: "Farm Lands",
-            tabBarActiveTintColor: colors.greenColor,
+            tabBarActiveTintColor: theme === "dark" ? "white" : colors.greenColor,
             tabBarLabelStyle: { fontWeight: "800" },
-            tabBarInactiveTintColor: "#222",
+            tabBarInactiveTintColor: theme === "dark" ? "#aaa" : "#222",
           }}
         />
         <TopTab.Screen
@@ -55,9 +63,9 @@ const ProductNavigator = () => {
           component={MyProducts}
           options={{
             tabBarLabel: "Purchased",
-            tabBarActiveTintColor: colors.greenColor,
+            tabBarActiveTintColor: theme === "dark" ? "white" : colors.greenColor,
             tabBarLabelStyle: { fontWeight: "800" },
-            tabBarInactiveTintColor: "#222",
+            tabBarInactiveTintColor: theme === "dark" ? "#aaa" : "#222",
           }}
         />
       </TopTab.Navigator>

@@ -11,6 +11,7 @@ import NoItem from "../extra/NoItem";
 const Transactions = () => {
   const transactions = useSelector((state) => state.transactions.transactions);
   const loading = useSelector((state) => state.transactions.loading);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const [allTransactions, setAllTransactions] = useState([]);
@@ -25,31 +26,44 @@ const Transactions = () => {
   return (
     <View>
       <View style={globalStyles.siteTitleWrapper}>
-        <Text style={[globalStyles.siteTitle, { marginBottom: 0 }]}>Recent Transactions</Text>
+        <Text style={[globalStyles.siteTitle, { marginBottom: 0 }, theme === "dark" && globalStyles.textLight]}>
+          Recent Transactions
+        </Text>
         <TouchableOpacity
           style={{ flexDirection: "row", alignItems: "center" }}
           onPress={() => dispatch(setTransactionModal(true))}
         >
-          <Text style={[globalStyles.siteTitle, { marginBottom: 0 }]}>See All</Text>
-          <Icon name="arrow-right" size={19} style={[{ color: "#111", marginLeft: 4 }]} />
+          <Text style={[globalStyles.siteTitle, { marginBottom: 0 }, theme === "dark" && globalStyles.textLight]}>
+            See All
+          </Text>
+          <Icon
+            name="arrow-right"
+            size={19}
+            style={[{ color: "#111", marginLeft: 4 }, theme === "dark" && globalStyles.textLight]}
+          />
         </TouchableOpacity>
       </View>
 
       <View style={{ marginTop: 5, marginBottom: 40 }}>
         {loading ? (
           <View
-            style={{
-              marginTop: 40,
-              backgroundColor: "#fff",
-              padding: 30,
-              alignItems: "center",
-              paddingTop: 50,
-              height: 150,
-              width: "100%",
-            }}
+            style={[
+              {
+                marginTop: 40,
+                backgroundColor: "#fff",
+                padding: 30,
+                alignItems: "center",
+                paddingTop: 50,
+                height: 150,
+                width: "100%",
+              },
+              theme === "dark" && globalStyles.cardDark,
+            ]}
           >
             <LoadingComponents />
-            <Text style={globalStyles.label}>Loading transactions...</Text>
+            <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>
+              Loading transactions...
+            </Text>
           </View>
         ) : allTransactions && allTransactions.length ? (
           allTransactions?.map((item, index) => <TransactionItem item={item} key={index} index={index} />)

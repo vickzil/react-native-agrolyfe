@@ -18,6 +18,7 @@ const AllProducts = () => {
 
   const products = useSelector((state) => state.products.products);
   const loading = useSelector((state) => state.products.loading);
+  const theme = useSelector((state) => state.oauth.theme);
 
   useEffect(() => {
     return () => {
@@ -26,7 +27,11 @@ const AllProducts = () => {
   }, [isFocused]);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef} style={{ position: "relative" }}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      ref={scrollViewRef}
+      style={[{ position: "relative" }, theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight]}
+    >
       <SvgComponent />
       <View style={[styles.productContainer]}>
         <View style={[styles.modalSearchContainer]}>
@@ -48,6 +53,7 @@ const AllProducts = () => {
                 textAlign: "center",
                 width: "100%",
               },
+              theme === "dark" && globalStyles.textLight,
             ]}
           >
             Available Farm Lands
@@ -56,30 +62,36 @@ const AllProducts = () => {
 
         {loading ? (
           <View
-            style={{
-              marginTop: 40,
-              backgroundColor: "#fff",
-              padding: 30,
-              alignItems: "center",
-              paddingTop: 50,
-              height: "100%",
-              width: "100%",
-            }}
+            style={[
+              {
+                marginTop: 40,
+                backgroundColor: "#fff",
+                padding: 30,
+                alignItems: "center",
+                paddingTop: 50,
+                height: "100%",
+                width: "100%",
+              },
+              theme === "dark" && globalStyles.cardDark,
+            ]}
           >
             <LoadingComponents />
-            <Text style={globalStyles.label}>Loading farm lands...</Text>
+            <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>Loading farm lands...</Text>
           </View>
         ) : products && products.length ? (
           products?.map((item, index) => <ProductCard key={index} item={item} index={index} />)
         ) : (
           <View
-            style={{
-              width,
-              height,
-              // justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#fff",
-            }}
+            style={[
+              {
+                width,
+                height,
+                // justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#fff",
+              },
+              theme === "dark" && globalStyles.cardDark,
+            ]}
           >
             <NoItem item={{ type: "PRODUCTS", buttonText: "", message: "There are currently no available product" }} />
           </View>

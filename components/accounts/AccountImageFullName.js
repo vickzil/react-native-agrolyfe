@@ -1,10 +1,12 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { globalStyles } from "../../styles/global";
 
 const AccountImageFullName = () => {
   const user = useSelector((state) => state.oauth.user);
   const darkMode = useSelector((state) => state.oauth.darkMode);
+  const theme = useSelector((state) => state.oauth.theme);
   const userImage = require("../../assets/img/user-default.png");
 
   useEffect(() => {}, [user]);
@@ -26,11 +28,15 @@ const AccountImageFullName = () => {
           />
         )}
       </View>
-      <Text style={[styles.accountUserFullName, { color: darkMode && "#fff" }]}>
+      <Text style={[styles.accountUserFullName, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}>
         {user ? user.firstName + " " + user.lastName : "-----"}
       </Text>
-      <Text style={[styles.accountLabel, { color: darkMode && "#fff" }]}>Username</Text>
-      <Text style={[styles.accountTitle, { color: darkMode && "#fff" }]}>@{user ? user.userName : "-----"}</Text>
+      <Text style={[styles.accountLabel, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}>
+        Username
+      </Text>
+      <Text style={[styles.accountTitle, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}>
+        @{user ? user.userName : "-----"}
+      </Text>
     </View>
   );
 };

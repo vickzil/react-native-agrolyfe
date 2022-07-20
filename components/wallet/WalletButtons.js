@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     // fontFamily: "Poppins",
-    fontFamily: "PoppinsBold",
+    fontFamily: "Poppins",
     letterSpacing: -0.35644,
   },
 });

@@ -23,13 +23,15 @@ import AccountImageFullName from "./AccountImageFullName";
 import axios from "axios";
 import { getUserInfo } from "../../store/auth/actions";
 import Logo from "../logo/Logo";
-import { setDarkMode, setShowBalances } from "../../store/auth/authSlice";
+import { setDarkMode, setShowBalances, setTheme } from "../../store/auth/authSlice";
+import { globalStyles } from "../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
 const AccountHeader = () => {
   const user = useSelector((state) => state.oauth.user);
   const showBalances = useSelector((state) => state.oauth.showBalances);
+  const theme = useSelector((state) => state.oauth.theme);
   const darkMode = useSelector((state) => state.oauth.darkMode);
   const APPVERSION = useSelector((state) => state.oauth.APPVERSION);
   const baseURL = useSelector((state) => state.oauth.baseURL);
@@ -52,11 +54,11 @@ const AccountHeader = () => {
   }, [user]);
 
   useEffect(() => {
-    if (darkMode) {
-      dispatch(setDarkMode(true));
-    } else {
-      dispatch(setDarkMode(false));
-    }
+    // if (darkMode) {
+    //   dispatch(setDarkMode(true));
+    // } else {
+    //   dispatch(setDarkMode(false));
+    // }
   }, [darkMode]);
 
   const toggleBalance = () => {
@@ -69,6 +71,15 @@ const AccountHeader = () => {
     let newMode = !darkMode;
     dispatch(setDarkMode(newMode));
     AsyncStorage.setItem("darkMode", JSON.stringify(newMode));
+
+    console.log(darkMode);
+  };
+
+  const handleThemeChange = () => {
+    dispatch(setTheme(theme === "light" ? "dark" : "light"));
+    setTimeout(() => {
+      AsyncStorage.setItem("theme", theme === "light" ? "dark" : "light");
+    }, 500);
   };
 
   const toggleSwitch = () => {
@@ -142,12 +153,21 @@ const AccountHeader = () => {
       });
   };
 
+  // useEffect(() => {
+  //   setTheme(theme);
+  // }, [theme]);
+
   return (
-    <View style={[styles.container, { backgroundColor: darkMode && colors.darkBody }]}>
+    <View style={[styles.container, theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight]}>
       <ScreenLoading visibility={{ status: isLoading, message: "Please wait ..." }} />
 
       <View style={[styles.headerBg, { backgroundColor: colors.greenDarkColor }]}></View>
-      <View style={[styles.headerImageContainer, { backgroundColor: darkMode && colors.darkBody }]}>
+      <View
+        style={[
+          styles.headerImageContainer,
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
+      >
         <View style={styles.accountContainer}>
           <AccountImageFullName />
         </View>
@@ -155,15 +175,27 @@ const AccountHeader = () => {
         <View style={styles.accountTabs}>
           <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Account</Text>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setEditProfileModal(true))}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Update Profile</Text>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Update Profile
+            </Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setNextOfKinModal(true))}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Next of kin</Text>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Next of kin
+            </Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setAccountManagerModal(true))}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Account Manager</Text>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Account Manager
+            </Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
         </View>
@@ -171,7 +203,11 @@ const AccountHeader = () => {
           <View style={styles.accountTabs}>
             <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Verification</Text>
             <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setBvnModal(true))}>
-              <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Bvn</Text>
+              <Text
+                style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+              >
+                Bvn
+              </Text>
               <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
             </TouchableOpacity>
           </View>
@@ -180,20 +216,36 @@ const AccountHeader = () => {
         <View style={styles.accountTabs}>
           <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>Security</Text>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setChangePinModal(true))}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Change Pin</Text>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Change Pin
+            </Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setChangePasswordModal(true))}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Change Password</Text>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Change Password
+            </Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => dispatch(setAntiPhizingModal(true))}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Anti-phishing </Text>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Anti-phishing{" "}
+            </Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
           <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Two-Factor Authentication </Text>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Two-Factor Authentication{" "}
+            </Text>
             <View>
               <Switch
                 trackColor={{ false: "#767577", true: colors.greenLightColor }}
@@ -206,7 +258,11 @@ const AccountHeader = () => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Show Balances </Text>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Show Balances{" "}
+            </Text>
             <View>
               <Switch
                 trackColor={{ false: "#767577", true: colors.greenLightColor }}
@@ -219,32 +275,48 @@ const AccountHeader = () => {
             </View>
           </TouchableOpacity>
 
-          {/* <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Dark mode </Text>
+          <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Dark mode{" "}
+            </Text>
             <View>
               <Switch
                 trackColor={{ false: "#767577", true: colors.greenLightColor }}
-                thumbColor={darkMode ? colors.greenColor : "#f4f3f4"}
+                thumbColor={theme === "dark" ? colors.greenColor : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleDarkMode}
-                value={darkMode}
+                onValueChange={handleThemeChange}
+                value={theme === "dark" ? true : false}
                 style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
               />
             </View>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
         <View style={styles.accountTabs}>
           <Text style={[styles.accountTabsTitle, { color: colors.greenLightDarkColor }]}>About Agrolyfe</Text>
           <TouchableOpacity style={[styles.accountTabsLinks]} onPress={() => dispatch(setAboutModal(true))}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>About</Text>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              About
+            </Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
           <TouchableOpacity style={[styles.accountTabsLinks]} onPress={() => dispatch(setFaqModal(true))}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>FAQs</Text>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              FAQs
+            </Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
           <TouchableOpacity style={[styles.accountTabsLinks]} onPress={() => dispatch(setTermsAndCModal(true))}>
-            <Text style={[styles.accountTabsLinkText, { color: darkMode && "#fff" }]}>Terms & Conditions</Text>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Terms & Conditions
+            </Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
         </View>

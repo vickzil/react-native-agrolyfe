@@ -12,6 +12,7 @@ const products = [];
 const MyProducts = () => {
   const products = useSelector((state) => state.products.myProducts);
   const loading = useSelector((state) => state.products.myLoading);
+  const theme = useSelector((state) => state.oauth.theme);
   const [myProducts, setMyProducts] = useState([]);
 
   useEffect(() => {
@@ -28,22 +29,30 @@ const MyProducts = () => {
   }, [products]);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={[{ position: "relative" }, theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight]}
+    >
       <View style={[styles.productContainer]}>
         {loading ? (
           <View
-            style={{
-              marginTop: 40,
-              backgroundColor: "#fff",
-              padding: 30,
-              alignItems: "center",
-              paddingTop: 50,
-              height: "100%",
-              width: "100%",
-            }}
+            style={[
+              {
+                marginTop: 40,
+                backgroundColor: "#fff",
+                padding: 30,
+                alignItems: "center",
+                paddingTop: 50,
+                height: "100%",
+                width: "100%",
+              },
+              theme === "dark" && globalStyles.textLight,
+            ]}
           >
             <LoadingComponents />
-            <Text style={globalStyles.label}>Loading my purchases...</Text>
+            <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>
+              Loading my purchases...
+            </Text>
           </View>
         ) : myProducts && myProducts.length ? (
           <View style={{ marginTop: 60, width: "100%", paddingBottom: 100 }}>
@@ -59,6 +68,7 @@ const MyProducts = () => {
                     textAlign: "center",
                     width: "100%",
                   },
+                  theme === "dark" && globalStyles.textLight,
                 ]}
               >
                 Purchased Farm Lands

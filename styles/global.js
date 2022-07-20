@@ -1,6 +1,30 @@
 import { StyleSheet } from "react-native";
 import colors from "./colors";
 export const globalStyles = StyleSheet.create({
+  containerDark: {
+    backgroundColor: colors.darkBody,
+  },
+
+  containerLight: {
+    backgroundColor: "#fff",
+  },
+
+  cardDark: {
+    backgroundColor: colors.darkCard,
+  },
+
+  textDark: {
+    color: "#111",
+  },
+
+  textLight: {
+    color: "#fff",
+  },
+
+  textLightLight: {
+    color: "#aaa",
+  },
+
   siteTitleWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",

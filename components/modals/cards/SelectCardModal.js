@@ -34,6 +34,7 @@ const SelectCardModal = () => {
   const modal = useSelector((state) => state.alert.selectCardModal);
   const walletOptions = useSelector((state) => state.wallet.walletOptions);
   const selectedCard = useSelector((state) => state.alert.selectedCard);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const [cards, setCards] = useState([]);
@@ -75,18 +76,32 @@ const SelectCardModal = () => {
   };
 
   return (
-    <Modal visible={modal?.status} animationType="fade" onRequestClose={() => closeModal()}>
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+    <Modal
+      visible={modal?.status}
+      animationType="fade"
+      onRequestClose={() => closeModal()}
+      style={theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight}
+    >
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
 
-      <View style={{ marginTop: -40 }}>
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      <View
+        style={[
+          { marginTop: -40, flex: 1 },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
+      >
+        <View style={[styles.modalHeader, theme === "dark" ? globalStyles.containerDark : { backgroundColor: "#fff" }]}>
           <Icon
             name="arrow-left"
             size={25}
-            style={[styles.modalHeaderIcon, { color: "#222" }]}
+            style={[styles.modalHeaderIcon, theme === "dark" ? globalStyles.textLight : { color: "#222" }]}
             onPress={() => closeModal()}
           />
-          <Text style={styles.modalHeaderText}>Select Card</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Select Card</Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -95,9 +110,16 @@ const SelectCardModal = () => {
               <View>
                 {cards?.map((item, index) => (
                   <AnimatedViewComp index={index} key={index}>
-                    <TouchableOpacity style={styles.container} onPress={() => selectCard(item)}>
+                    <TouchableOpacity
+                      style={[styles.container, theme === "dark" && globalStyles.cardDark]}
+                      onPress={() => selectCard(item)}
+                    >
                       <View style={styles.content} key={index}>
-                        <Text style={[styles.contentText, styles.contentText1]}>{item?.cardBankName}</Text>
+                        <Text
+                          style={[styles.contentText, styles.contentText1, theme === "dark" && globalStyles.textLight]}
+                        >
+                          {item?.cardBankName}
+                        </Text>
                         <Text style={[styles.contentText, styles.contentText2]}>{item?.cardLast4}</Text>
                       </View>
                     </TouchableOpacity>
@@ -114,6 +136,8 @@ const SelectCardModal = () => {
                         styles.contentText,
                         styles.contentText1,
                         { backgroundColor: "#fff", padding: 5, marginTop: -5 },
+                        theme === "dark" && globalStyles.containerDark,
+                        theme === "dark" && globalStyles.textLight,
                       ]}
                     >
                       OR
@@ -197,7 +221,7 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    width: "100%",
+    width: "96%",
     justifyContent: "center",
     backgroundColor: "#fff",
     padding: 20,
@@ -206,6 +230,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 2,
     elevation: 2,
+    marginLeft: 9,
   },
 
   content: {

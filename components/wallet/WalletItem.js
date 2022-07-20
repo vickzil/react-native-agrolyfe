@@ -3,6 +3,7 @@ import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../styles/colors";
 import { useSelector } from "react-redux";
+import { globalStyles } from "../../styles/global";
 
 const { width } = Dimensions.get("screen");
 // const imagedrop = require("../../assets/img/imagedrop.png");
@@ -10,12 +11,26 @@ const { width } = Dimensions.get("screen");
 const WalletItem = ({ item, index }) => {
   const showBalances = useSelector((state) => state.oauth.showBalances);
   const loading = useSelector((state) => state.wallet.loading);
+  const theme = useSelector((state) => state.oauth.theme);
 
   return (
-    <View style={[styles.card, index === 0 && styles.addMarginLeft]}>
-      <Text style={styles.cardHeading}>{item.heading}</Text>
+    <View
+      style={[
+        styles.card,
+        index === 0 && styles.addMarginLeft,
+        theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight,
+      ]}
+    >
+      <Text
+        style={[
+          styles.cardHeading,
+          theme === "dark" ? globalStyles.textLightLight : { color: "rgba(24, 133, 111, 0.54)" },
+        ]}
+      >
+        {item.heading}
+      </Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Text style={[styles.paragraph, { color: colors.greenColor }]}>
+        <Text style={[styles.paragraph, theme === "dark" ? globalStyles.textLight : { color: colors.greenColor }]}>
           {showBalances ? item.paragraph : "*******"}
         </Text>
         {loading ? <ActivityIndicator size="small" color="#14961E" /> : null}

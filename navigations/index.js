@@ -11,6 +11,7 @@ import {
   setBearerToken,
   setDarkMode,
   setHasLogin,
+  setTheme,
   setToken,
 } from "../store/auth/authSlice";
 import axiosInstance from "../components/helpers/axiosInstance";
@@ -121,10 +122,12 @@ export default function MainApp({ bearerToken, hasLoggedIn }) {
 
   useEffect(() => {
     (async () => {
-      const darkMode = await AsyncStorage.getItem("darkMode");
-      if (darkMode) {
-        let newS = JSON.parse(darkMode);
-        dispatch(setDarkMode(newS === true ? true : false));
+      const theme = await AsyncStorage.getItem("theme");
+      if (theme) {
+        // let themeS = JSON.parse(theme);
+        dispatch(setTheme(theme));
+
+        console.log(theme);
       }
     })();
   }, []);

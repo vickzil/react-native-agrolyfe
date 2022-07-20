@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FAmount = ({ amount, setAmount, card }) => {
+const FAmount = ({ amount, setAmount, card, theme }) => {
   const dispatch = useDispatch();
 
   return (
@@ -29,6 +29,7 @@ const FAmount = ({ amount, setAmount, card }) => {
                   letterSpacing: -0.35644,
                   color: colors.greenDarkDarkColor,
                 },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               How much would you like to fund? (Amount)
@@ -45,12 +46,14 @@ const FAmount = ({ amount, setAmount, card }) => {
                 suffixUnit: "",
               }}
               placeholder="0"
+              placeholderTextColor={theme === "dark" ? "#fff" : "444"}
               value={amount}
               onChangeText={(text) => {
                 setAmount(text);
               }}
               style={[
                 { borderBottomWidth: 1, borderColor: colors.greenColor, height: 50, fontSize: 33, fontWeight: "700" },
+                theme === "dark" && globalStyles.textLight,
               ]}
             />
           </View>
@@ -63,7 +66,7 @@ const FAmount = ({ amount, setAmount, card }) => {
                 fontSize: 16,
                 marginBottom: 15,
                 fontWeight: "600",
-                color: colors.greenDarkDarkColor,
+                color: theme === "dark" ? colors.greenLightDarkColor : colors.greenDarkDarkColor,
                 fontFamily: "Montserrat",
                 letterSpacing: -0.35644,
               },
@@ -74,7 +77,7 @@ const FAmount = ({ amount, setAmount, card }) => {
           <View
             style={[styles.productCardContentItem, { borderBottomWidth: 1, borderColor: "#f0f0f0", marginBottom: 30 }]}
           >
-            <Text style={styles.productCardContentItemLeft}> Card</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLight]}> Card</Text>
             <TouchableOpacity
               style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
               activeOpacity={0.7}

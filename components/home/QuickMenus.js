@@ -6,7 +6,7 @@ import AntIcon from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Feathericons from "react-native-vector-icons/Feather";
 import colors from "../../styles/colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setBankModal,
   setCardModal,
@@ -17,77 +17,184 @@ import {
 } from "../../store/alert/alertSlice";
 const QuickMenus = ({ navigation }) => {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.oauth.theme);
 
   return (
     <View style={{ width: "100%", marginTop: 0, marginBottom: 30 }}>
-      <Text style={[globalStyles.siteTitle]}>Quick Menus</Text>
+      <Text style={[globalStyles.siteTitle, theme === "dark" && globalStyles.textLight]}>Quick Menus</Text>
       <View style={styles.quickMenus}>
         <View style={{ padding: 5, width: "50%" }}>
-          <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setReferralModal(true))}>
-            <AntIcon name="addusergroup" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
-            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Referral</Text>
+          <TouchableOpacity
+            style={[styles.quickMenusItem, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight]}
+            onPress={() => dispatch(setReferralModal(true))}
+          >
+            <AntIcon
+              name="addusergroup"
+              size={25}
+              style={[
+                styles.quickMenusItemIcon,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            />
+            <Text
+              style={[
+                styles.quickMenusItemText,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
+              Referral
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={{ padding: 5, width: "50%" }}>
-          <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setMySavingsModal(true))}>
-            <Icon name="wallet-outline" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
-            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Savings</Text>
+          <TouchableOpacity
+            style={[styles.quickMenusItem, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight]}
+            onPress={() => dispatch(setMySavingsModal(true))}
+          >
+            <Icon
+              name="wallet-outline"
+              size={25}
+              style={[
+                styles.quickMenusItemIcon,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            />
+            <Text
+              style={[
+                styles.quickMenusItemText,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
+              Savings
+            </Text>
           </TouchableOpacity>
         </View>
         {/* <View style={{ padding: 5, width: "50%" }}>
-          <TouchableOpacity style={styles.quickMenusItem} onPress={() => navigation.navigate("ProductNavigator")}>
-            <AntIcon name="isv" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
-            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Products</Text>
+          <TouchableOpacity style={[styles.quickMenusItem, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight,]} onPress={() => navigation.navigate("ProductNavigator")}>
+            <AntIcon name="isv" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }, theme === "dark" && globalStyles.textLight,]} />
+            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }, theme === "dark" && globalStyles.textLight,]}>Products</Text>
           </TouchableOpacity>
         </View> */}
 
         <View style={{ padding: 5, width: "50%" }}>
-          <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setBankModal(true))}>
-            <Icon name="bank-outline" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
-            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Bank</Text>
+          <TouchableOpacity
+            style={[styles.quickMenusItem, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight]}
+            onPress={() => dispatch(setBankModal(true))}
+          >
+            <Icon
+              name="bank-outline"
+              size={25}
+              style={[
+                styles.quickMenusItemIcon,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            />
+            <Text
+              style={[
+                styles.quickMenusItemText,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
+              Bank
+            </Text>
           </TouchableOpacity>
         </View>
 
         {/* <View style={{ padding: 5, width: "50%" }}>
-          <TouchableOpacity style={styles.quickMenusItem} onPress={() => navigation.navigate("Account")}>
-            <Icon name="human-child" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
-            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Account</Text>
+          <TouchableOpacity style={[styles.quickMenusItem, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight,]} onPress={() => navigation.navigate("Account")}>
+            <Icon name="human-child" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }, theme === "dark" && globalStyles.textLight,]} />
+            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }, theme === "dark" && globalStyles.textLight,]}>Account</Text>
           </TouchableOpacity>
         </View> */}
         <View style={{ padding: 5, width: "50%" }}>
-          <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setCardModal(true))}>
+          <TouchableOpacity
+            style={[styles.quickMenusItem, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight]}
+            onPress={() => dispatch(setCardModal(true))}
+          >
             <Icon
               name="credit-card-multiple-outline"
               size={25}
-              style={[styles.quickMenusItemIcon, { color: colors.greenColor }]}
+              style={[
+                styles.quickMenusItemIcon,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             />
-            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Cards</Text>
+            <Text
+              style={[
+                styles.quickMenusItemText,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
+              Cards
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={{ padding: 5, width: "50%" }}>
-          <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setTransactionModal(true))}>
+          <TouchableOpacity
+            style={[styles.quickMenusItem, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight]}
+            onPress={() => dispatch(setTransactionModal(true))}
+          >
             <Icon
               name="card-bulleted-outline"
               size={25}
-              style={[styles.quickMenusItemIcon, { color: colors.greenColor }]}
+              style={[
+                styles.quickMenusItemIcon,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             />
-            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Transactions</Text>
+            <Text
+              style={[
+                styles.quickMenusItemText,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
+              Transactions
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={{ padding: 5, width: "50%" }}>
-          <TouchableOpacity style={styles.quickMenusItem} onPress={() => dispatch(setChangePinModal(true))}>
-            <Feathericons name="key" size={25} style={[styles.quickMenusItemIcon, { color: colors.greenColor }]} />
-            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Change pin</Text>
+          <TouchableOpacity
+            style={[styles.quickMenusItem, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight]}
+            onPress={() => dispatch(setChangePinModal(true))}
+          >
+            <Feathericons
+              name="key"
+              size={25}
+              style={[
+                styles.quickMenusItemIcon,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            />
+            <Text
+              style={[
+                styles.quickMenusItemText,
+                { color: colors.greenColor },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
+              Change pin
+            </Text>
           </TouchableOpacity>
         </View>
         {/* <View style={{ padding: 5, width: "50%" }}>
-          <TouchableOpacity style={styles.quickMenusItem}>
+          <TouchableOpacity style={[styles.quickMenusItem, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight,]}>
             <Ionicons
               name="shield-checkmark"
               size={25}
-              style={[styles.quickMenusItemIcon, { color: colors.greenColor }]}
+              style={[styles.quickMenusItemIcon, { color: colors.greenColor }, theme === "dark" && globalStyles.textLight,]}
             />
-            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }]}>Support</Text>
+            <Text style={[styles.quickMenusItemText, { color: colors.greenColor }, theme === "dark" && globalStyles.textLight,]}>Support</Text>
           </TouchableOpacity>
         </View> */}
       </View>

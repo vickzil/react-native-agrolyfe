@@ -1,14 +1,16 @@
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import colors from "../../styles/colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setProductDetailsModal } from "../../store/alert/alertSlice";
+import { globalStyles } from "../../styles/global";
 
 const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.oauth.theme);
 
   return (
-    <View style={styles.productCard}>
+    <View style={[styles.productCard, theme === "dark" && globalStyles.cardDark]}>
       <View style={styles.productImage}>
         <Image
           source={{ uri: item.imageURL }}
@@ -17,57 +19,67 @@ const ProductCard = ({ item }) => {
         />
       </View>
       <View style={styles.productCardContent}>
-        <Text style={styles.productCardContentTitle}>{item.name}</Text>
+        <Text style={[styles.productCardContentTitle, theme === "dark" && globalStyles.textLight]}>{item.name}</Text>
 
         <View style={{ flexDirection: "row", marginBottom: 10, justifyContent: "space-between" }}>
           <View>
             <Text
-              style={{
-                fontSize: 15,
-                fontWeight: "600",
-                color: colors.greenLightDarkColor,
-                marginRight: 15,
-                fontFamily: "Poppins",
-              }}
+              style={[
+                {
+                  fontSize: 15,
+                  fontWeight: "600",
+                  color: colors.greenLightDarkColor,
+                  marginRight: 15,
+                  fontFamily: "Poppins",
+                },
+              ]}
             >
               Duration
             </Text>
             <Text
-              style={{
-                fontSize: 15,
-                color: "#444",
-                fontWeight: "600",
-                justifyContent: "flex-end",
-                fontFamily: "Montserrat",
-              }}
+              style={[
+                {
+                  fontSize: 15,
+                  color: "#444",
+                  fontWeight: "600",
+                  justifyContent: "flex-end",
+                  fontFamily: "Montserrat",
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             >
               {item.duration} Months
             </Text>
           </View>
           <View>
             <Text
-              style={{
-                fontSize: 15,
-                fontWeight: "600",
-                color: colors.greenLightDarkColor,
-                marginRight: 15,
-                fontFamily: "Poppins",
-                textAlign: "right",
-              }}
+              style={[
+                {
+                  fontSize: 15,
+                  fontWeight: "600",
+                  color: colors.greenLightDarkColor,
+                  marginRight: 15,
+                  fontFamily: "Poppins",
+                  textAlign: "right",
+                },
+              ]}
             >
               Rental fee (%)
             </Text>
             <Text
-              style={{
-                fontSize: 15,
-                color: "#444",
-                fontWeight: "600",
-                justifyContent: "flex-end",
-                alignItems: "flex-end",
-                textAlign: "right",
-                marginRight: 15,
-                fontFamily: "Montserrat",
-              }}
+              style={[
+                {
+                  fontSize: 15,
+                  color: "#444",
+                  fontWeight: "600",
+                  justifyContent: "flex-end",
+                  alignItems: "flex-end",
+                  textAlign: "right",
+                  marginRight: 15,
+                  fontFamily: "Montserrat",
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             >
               {item.newInterestRate}%
             </Text>
@@ -77,52 +89,62 @@ const ProductCard = ({ item }) => {
         <View style={{ flexDirection: "row", marginBottom: 10, justifyContent: "space-between", marginTop: 20 }}>
           <View>
             <Text
-              style={{
-                fontSize: 15,
-                fontWeight: "600",
-                color: colors.greenColor,
-                marginRight: 15,
-                fontFamily: "Poppins",
-              }}
+              style={[
+                {
+                  fontSize: 15,
+                  fontWeight: "600",
+                  color: colors.greenLightDarkColor,
+                  marginRight: 15,
+                  fontFamily: "Poppins",
+                },
+              ]}
             >
               State
             </Text>
             <Text
-              style={{
-                fontSize: 15,
-                color: "#444",
-                fontWeight: "600",
-                justifyContent: "flex-end",
-                fontFamily: "Poppins",
-              }}
+              style={[
+                {
+                  fontSize: 15,
+                  color: "#444",
+                  fontWeight: "600",
+                  justifyContent: "flex-end",
+                  fontFamily: "Poppins",
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             >
               {item.state}
             </Text>
           </View>
           <View>
             <Text
-              style={{
-                fontSize: 15,
-                fontWeight: "600",
-                color: colors.greenLightDarkColor,
-                marginRight: 15,
-                fontFamily: "Poppins",
-                textAlign: "right",
-              }}
+              style={[
+                {
+                  fontSize: 15,
+                  fontWeight: "600",
+                  color: colors.greenLightDarkColor,
+                  marginRight: 15,
+                  fontFamily: "Poppins",
+                  textAlign: "right",
+                },
+              ]}
             >
               Price per acre
             </Text>
             <Text
-              style={{
-                fontSize: 15,
-                color: "#444",
-                fontWeight: "600",
-                justifyContent: "flex-end",
-                alignItems: "flex-end",
-                textAlign: "right",
-                marginRight: 15,
-                fontFamily: "Montserrat",
-              }}
+              style={[
+                {
+                  fontSize: 15,
+                  color: "#444",
+                  fontWeight: "600",
+                  justifyContent: "flex-end",
+                  alignItems: "flex-end",
+                  textAlign: "right",
+                  marginRight: 15,
+                  fontFamily: "Montserrat",
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             >
               {item.pricePerUnit} {item.unitOfMeasurement}
             </Text>

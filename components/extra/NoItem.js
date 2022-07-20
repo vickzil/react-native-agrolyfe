@@ -4,9 +4,11 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import colors from "../../styles/colors";
 import { setAddBankModal, setAddCardModal } from "../../store/alert/alertSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { globalStyles } from "../../styles/global";
 const NoItem = ({ item: { type, buttonText, message } }) => {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.oauth.theme);
 
   const handleAction = () => {
     if (type === "CARD") {
@@ -20,19 +22,51 @@ const NoItem = ({ item: { type, buttonText, message } }) => {
   return (
     <View style={styles.noItem}>
       <View>
-        {type === "BANK" && <Icon name="bank" size={60} style={[{ color: colors.greenNormalColor }]} />}
+        {type === "BANK" && (
+          <Icon
+            name="bank"
+            size={60}
+            style={[{ color: colors.greenNormalColor }, theme === "dark" && globalStyles.textLight]}
+          />
+        )}
         {type === "CARD" && (
-          <Icon name="credit-card-multiple-outline" size={60} style={[{ color: colors.greenNormalColor }]} />
+          <Icon
+            name="credit-card-multiple-outline"
+            size={60}
+            style={[{ color: colors.greenNormalColor }, theme === "dark" && globalStyles.textLight]}
+          />
         )}
         {type === "TRANSACTIONS" && (
-          <Icon name="card-bulleted-outline" size={60} style={[{ color: colors.greenNormalColor }]} />
+          <Icon
+            name="card-bulleted-outline"
+            size={60}
+            style={[{ color: colors.greenNormalColor }, theme === "dark" && globalStyles.textLight]}
+          />
         )}
-        {type === "SAVINGS" && <Icon name="leaf-maple" size={60} style={[{ color: colors.greenNormalColor }]} />}
-        {type === "PRODUCTS" && <Icon name="leaf-maple" size={60} style={[{ color: colors.greenNormalColor }]} />}
-        {type === "REFERRALS" && <EntypoIcon name="users" size={60} style={[{ color: colors.greenNormalColor }]} />}
+        {type === "SAVINGS" && (
+          <Icon
+            name="leaf-maple"
+            size={60}
+            style={[{ color: colors.greenNormalColor }, theme === "dark" && globalStyles.textLight]}
+          />
+        )}
+        {type === "PRODUCTS" && (
+          <Icon
+            name="leaf-maple"
+            size={60}
+            style={[{ color: colors.greenNormalColor }, theme === "dark" && globalStyles.textLight]}
+          />
+        )}
+        {type === "REFERRALS" && (
+          <EntypoIcon
+            name="users"
+            size={60}
+            style={[{ color: colors.greenNormalColor }, theme === "dark" && globalStyles.textLight]}
+          />
+        )}
       </View>
       <View style={{ paddingHorizontal: 19 }}>
-        <Text style={[styles.noItemText]}>{message}</Text>
+        <Text style={[styles.noItemText, theme === "dark" && globalStyles.textLight]}>{message}</Text>
       </View>
 
       {buttonText !== "" && (

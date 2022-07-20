@@ -1,9 +1,12 @@
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { useSelector } from "react-redux";
+import { globalStyles } from "../../styles/global";
 
 const LoadingComponents = () => {
+  const theme = useSelector((state) => state.oauth.theme);
   return (
-    <View style={styles.loadingItem}>
+    <View style={[styles.loadingItem, theme === "dark" && globalStyles.cardDark]}>
       <ActivityIndicator size="large" color="#14961E" />
     </View>
   );

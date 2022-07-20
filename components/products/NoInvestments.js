@@ -2,6 +2,8 @@ import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "rea
 import React from "react";
 import colors from "../../styles/colors";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { globalStyles } from "../../styles/global";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
@@ -9,9 +11,10 @@ const noImage = require("../../assets/img/investments.png");
 
 const NoInvestments = () => {
   const navigation = useNavigation();
+  const theme = useSelector((state) => state.oauth.theme);
 
   return (
-    <View style={[styles.productContainer]}>
+    <View style={[styles.productContainer, theme === "dark" && globalStyles.containerDark]}>
       <View style={{ alignItems: "center", marginTop: -50 }}>
         <View style={styles.productImage}>
           <Image
@@ -20,8 +23,12 @@ const NoInvestments = () => {
             resizeMode="cover"
           />
         </View>
-        <Text style={{ fontSize: 20, fontWeight: "800", marginTop: 40 }}>Your Rewarding Purchases</Text>
-        <Text style={{ fontSize: 18, marginTop: 20, textAlign: "center" }}>
+        <Text style={[{ fontSize: 20, fontWeight: "800", marginTop: 40 }, theme === "dark" && globalStyles.textLight]}>
+          Your Rewarding Purchases
+        </Text>
+        <Text
+          style={[{ fontSize: 18, marginTop: 20, textAlign: "center" }, theme === "dark" && globalStyles.textLight]}
+        >
           Get started, choose the most suitable and convenient plan for you.
         </Text>
 

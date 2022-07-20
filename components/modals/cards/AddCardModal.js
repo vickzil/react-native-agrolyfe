@@ -34,6 +34,8 @@ const AddCardModal = () => {
   const dispatch = useDispatch();
   const scaleValue = useRef(new Animated.Value(0)).current;
 
+  const theme = useSelector((state) => state.oauth.theme);
+
   const paystackWebViewRef = useRef();
 
   useEffect(() => {
@@ -116,14 +118,25 @@ const AddCardModal = () => {
     <Modal transparent visible={modal} animationType="fade" onRequestClose={() => closeModal()}>
       <PayStackPackage amount={100} paystackWebViewRef={paystackWebViewRef} onSuccess={onSuccess} onError={onError} />
       <View style={[styles.modalBackground, { flex: 1 }]}>
-        <Animated.View style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
+        <Animated.View
+          style={[
+            styles.modalContainer,
+            { transform: [{ scale: scaleValue }] },
+            theme === "dark" && globalStyles.containerDark,
+          ]}
+        >
           <View style={{ alignItems: "center" }}>
             {/* <View style={styles.header}>
               <AntDesignIcon name="close" size={20} />
             </View> */}
-            <Text style={styles.modalHeaderText}>Add Card</Text>
+            <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Add Card</Text>
 
-            <Text style={[{ marginVertical: 30, fontSize: 18, textAlign: "center" }]}>
+            <Text
+              style={[
+                { marginVertical: 30, fontSize: 18, textAlign: "center" },
+                theme === "dark" && globalStyles.textLightLight,
+              ]}
+            >
               To add and verify your card ₦ 100 will be charged.
             </Text>
 

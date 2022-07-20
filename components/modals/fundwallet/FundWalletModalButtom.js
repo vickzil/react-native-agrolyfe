@@ -13,9 +13,11 @@ import {
   setFundwalletModal,
   setPaymentEvidenceModal,
 } from "../../../store/alert/alertSlice";
+import { globalStyles } from "../../../styles/global";
 
 const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.oauth.theme);
   // const bottomSheet = useRef(null);
   // const modal = useSelector((state) => state.alert.fundwalletModal);
 
@@ -54,16 +56,34 @@ const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <BottomSheet hasDraggableIcon ref={bottomSheet} onRequestClose={() => closeModal()} height={500}>
+      <BottomSheet
+        hasDraggableIcon
+        ref={bottomSheet}
+        onRequestClose={() => closeModal()}
+        height={500}
+        sheetBackgroundColor={theme === "dark" ? colors.darkCard : "#fff"}
+      >
         <View style={styles.accountTabs}>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showFundWalletByCardModal()}>
             <View>
-              <AntDesignIcon name="creditcard" size={30} style={[{ paddingRight: 19, color: colors.greenColor }]} />
+              <AntDesignIcon
+                name="creditcard"
+                size={30}
+                style={[{ paddingRight: 19 }, theme === "dark" ? globalStyles.textLight : { color: colors.greenColor }]}
+              />
             </View>
 
             <View style={{ width: "100%", marginLeft: 30 }}>
-              <Text style={[styles.accountTabsTitle, { color: colors.greenDarkColor }]}>Fund with Card</Text>
-              <Text style={[styles.accountTabsLinkText]}>
+              <Text
+                style={[
+                  styles.accountTabsTitle,
+                  { color: colors.greenDarkColor },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
+                Fund with Card
+              </Text>
+              <Text style={[styles.accountTabsLinkText, theme === "dark" && globalStyles.textLightLight]}>
                 verve, Visa, Mastercard, discover and Amex cards are all accepted
               </Text>
             </View>
@@ -71,14 +91,24 @@ const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showFundWalletModal()}>
             <View>
-              <Icon name="bank" size={30} style={[{ paddingRight: 19, color: colors.greenColor }]} />
+              <Icon
+                name="bank"
+                size={30}
+                style={[{ paddingRight: 19 }, theme === "dark" ? globalStyles.textLight : { color: colors.greenColor }]}
+              />
             </View>
 
             <View style={{ width: "100%", marginLeft: 30 }}>
-              <Text style={[styles.accountTabsTitle, { color: colors.greenDarkColor }]}>
+              <Text
+                style={[
+                  styles.accountTabsTitle,
+                  { color: colors.greenDarkColor },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
                 Fund with Local Bank Transfer(NGN)
               </Text>
-              <Text style={[styles.accountTabsLinkText]}>
+              <Text style={[styles.accountTabsLinkText, theme === "dark" && globalStyles.textLightLight]}>
                 Make a transfer directly from your bank account to complete a transaction
               </Text>
             </View>
@@ -86,14 +116,24 @@ const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showFundWalletTransferModal()}>
             <View>
-              <Icon name="bank-transfer" size={40} style={[{ paddingRight: 19, color: colors.greenColor }]} />
+              <Icon
+                name="bank-transfer"
+                size={40}
+                style={[{ paddingRight: 19 }, theme === "dark" ? globalStyles.textLight : { color: colors.greenColor }]}
+              />
             </View>
 
             <View style={{ width: "100%", marginLeft: 30 }}>
-              <Text style={[styles.accountTabsTitle, { color: colors.greenDarkColor }]}>
+              <Text
+                style={[
+                  styles.accountTabsTitle,
+                  { color: colors.greenDarkColor },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
                 Fund with Foreign Bank Transfer(USD, GBP, EUR)
               </Text>
-              <Text style={[styles.accountTabsLinkText]}>
+              <Text style={[styles.accountTabsLinkText, theme === "dark" && globalStyles.textLightLight]}>
                 Make a transfer from a foreign bank account to complete a transaction{" "}
               </Text>
             </View>
@@ -101,14 +141,24 @@ const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showPaymentEvidentModal()}>
             <View>
-              <Fontisto name="money-symbol" size={30} style={[{ paddingRight: 19, color: colors.greenColor }]} />
+              <Fontisto
+                name="money-symbol"
+                size={30}
+                style={[{ paddingRight: 19 }, theme === "dark" ? globalStyles.textLight : { color: colors.greenColor }]}
+              />
             </View>
 
             <View style={{ width: "100%", marginLeft: 30 }}>
-              <Text style={[styles.accountTabsTitle, { color: colors.greenDarkColor }]}>
+              <Text
+                style={[
+                  styles.accountTabsTitle,
+                  { color: colors.greenDarkColor },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
                 Upload evidence of payment
               </Text>
-              <Text style={[styles.accountTabsLinkText]}>
+              <Text style={[styles.accountTabsLinkText, theme === "dark" && globalStyles.textLightLight]}>
                 Have you already made payment by transfer, kindly upload payment evidence.{" "}
               </Text>
             </View>

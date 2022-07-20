@@ -1,12 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setTransactionDetailsModal } from "../../store/alert/alertSlice";
 import { formateDateAndTimeByName } from "../helpers/globalFunction";
 import colors from "../../styles/colors";
+import { globalStyles } from "../../styles/global";
 
 const TransactionItem = ({ item }) => {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.oauth.theme);
 
   return (
     <TouchableOpacity
@@ -20,12 +22,20 @@ const TransactionItem = ({ item }) => {
         )
       }
     >
-      <View style={styles.transactionItem}>
+      <View style={[styles.transactionItem, theme === "dark" && globalStyles.cardDark]}>
         <View style={styles.transactionItemLeft}>
-          <Text style={[styles.transactionItemLeftP, styles.transactionItemLeftP1]}>
+          <Text
+            style={[
+              styles.transactionItemLeftP,
+              styles.transactionItemLeftP1,
+              theme === "dark" && globalStyles.textLight,
+            ]}
+          >
             {formateDateAndTimeByName(item.createdOn)}
           </Text>
-          <Text style={[styles.transactionItemLeftP, { fontFamily: "Poppins" }]}>
+          <Text
+            style={[styles.transactionItemLeftP, { fontFamily: "Poppins" }, theme === "dark" && globalStyles.textLight]}
+          >
             {item.description}
             {/* {removeUnderscoreFromString(item.type)} */}
           </Text>
@@ -36,6 +46,7 @@ const TransactionItem = ({ item }) => {
               styles.transactionItemLeftP,
               styles.transactionItemLeftP3,
               item.drCr === "CR" ? styles.addedCash : styles.removeCash,
+              theme === "dark" && globalStyles.textLight,
             ]}
           >
             {item.drCr === "CR" ? "+" : "-"} {item.currency} {item.amount}

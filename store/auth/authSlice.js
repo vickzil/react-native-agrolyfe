@@ -36,6 +36,7 @@ const initialState = {
   selectedMenu: "Home",
   showBalances: true,
   agreeTerms: false,
+  theme: "light",
 };
 
 const authSlice = createSlice({
@@ -104,6 +105,10 @@ const authSlice = createSlice({
 
     setAgreeTerms: (state, { payload }) => {
       state.agreeTerms = payload;
+    },
+
+    setTheme: (state, { payload }) => {
+      state.theme = payload;
     },
   },
   extraReducers: {
@@ -202,6 +207,7 @@ export const {
   setSelectedMenu,
   setShowBalances,
   setAgreeTerms,
+  setTheme,
 } = authSlice.actions;
 
 export default authSlice.reducer;

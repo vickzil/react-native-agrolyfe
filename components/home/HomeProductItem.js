@@ -1,43 +1,15 @@
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import React from "react";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import colors from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setFundwalletModal,
-  setPayBillsModal,
-  setProductDetailsModal,
-  setTransferModal,
-} from "../../store/alert/alertSlice";
+import { setProductDetailsModal } from "../../store/alert/alertSlice";
 import { useRef } from "react";
-import TransferModalButtom from "../modals/transfer/TransferModalButtom";
-import PayBillsModalButtom from "../modals/billspayment/PayBillsModalButtom";
-import FundWalletModalButtom from "../modals/fundwallet/FundWalletModalButtom";
-import { addComma } from "../helpers/globalFunction";
+import { globalStyles } from "../../styles/global";
 
 const { width } = Dimensions.get("window");
 
 const HomeProductItem = ({ item, index }) => {
   const dispatch = useDispatch();
-  const transferModal = useRef();
-  const paybillsModal = useRef();
-  const fundWalletModal = useRef();
-  const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
-  const loading = useSelector((state) => state.wallet.loading);
-
-  const handlePress = (data) => {
-    if (data.type === "Fund") {
-      fundWalletModal.current.show();
-    }
-    if (data.type === "Paybills") {
-      // dispatch(setPayBillsModal(true));
-      paybillsModal.current.show();
-    }
-    if (data.type === "Transfer") {
-      // dispatch(setTransferModal(true));
-      transferModal.current.show();
-    }
-  };
+  const theme = useSelector((state) => state.oauth.theme);
 
   return (
     <TouchableOpacity
@@ -50,7 +22,11 @@ const HomeProductItem = ({ item, index }) => {
           }),
         )
       }
-      style={[styles.card, index === 0 && styles.addMarginLeft]}
+      style={[
+        styles.card,
+        index === 0 && styles.addMarginLeft,
+        theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight,
+      ]}
     >
       <View style={styles.productImage}>
         <Image
@@ -60,11 +36,27 @@ const HomeProductItem = ({ item, index }) => {
         />
       </View>
       <View style={{ paddingHorizontal: 10, paddingTop: 15, width: "100%" }}>
-        <Text style={styles.cardHeading}>{item.name}</Text>
+        <Text style={[styles.cardHeading, theme === "dark" && globalStyles.textLight]}>{item.name}</Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-            <Text style={[styles.paragraph, { color: "rgba(24, 133, 111, 0.84)" }]}>{item?.duration} Months</Text>
-            <Text style={[styles.paragraph, { color: "rgba(24, 133, 111, 0.84)" }]}>{item.newInterestRate}%</Text>
+            <Text
+              style={[
+                styles.paragraph,
+                { color: "rgba(24, 133, 111, 0.84)" },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
+              {item?.duration} Months
+            </Text>
+            <Text
+              style={[
+                styles.paragraph,
+                { color: "rgba(24, 133, 111, 0.84)" },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
+              {item.newInterestRate}%
+            </Text>
           </View>
         </View>
       </View>

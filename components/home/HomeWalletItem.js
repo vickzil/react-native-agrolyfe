@@ -9,6 +9,7 @@ import TransferModalButtom from "../modals/transfer/TransferModalButtom";
 import PayBillsModalButtom from "../modals/billspayment/PayBillsModalButtom";
 import FundWalletModalButtom from "../modals/fundwallet/FundWalletModalButtom";
 import { addComma } from "../helpers/globalFunction";
+import { globalStyles } from "../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
@@ -20,6 +21,7 @@ const HomeWalletItem = ({ item, index }) => {
   const showBalances = useSelector((state) => state.oauth.showBalances);
   const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
   const loading = useSelector((state) => state.wallet.loading);
+  const theme = useSelector((state) => state.oauth.theme);
 
   const handlePress = (data) => {
     if (data.type === "Fund") {
@@ -54,10 +56,23 @@ const HomeWalletItem = ({ item, index }) => {
       <TransferModalButtom bottomSheet={transferModal} closeTransferModal={closeTransferModal} />
       <PayBillsModalButtom bottomSheet={paybillsModal} closeModal={() => closePaybillsModal()} />
       <FundWalletModalButtom bottomSheet={fundWalletModal} closeModal={() => closeFundwalletModal()} />
-      <View style={[styles.card, index === 0 && styles.addMarginLeft]}>
-        <Text style={styles.cardHeading}>{item.heading}</Text>
+      <View
+        style={[
+          styles.card,
+          index === 0 && styles.addMarginLeft,
+          theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight,
+        ]}
+      >
+        <Text
+          style={[
+            styles.cardHeading,
+            theme === "dark" ? globalStyles.textLightLight : { color: "rgba(24, 133, 111, 0.54)" },
+          ]}
+        >
+          {item.heading}
+        </Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={[styles.paragraph, { color: colors.greenColor }]}>
+          <Text style={[styles.paragraph, theme === "dark" ? globalStyles.textLight : { color: colors.greenColor }]}>
             {/* {item?.paragraph} */}
 
             {index === 0 ? (showBalances ? "₦ " + addComma(mainWallet) : "*******") : item?.paragraph}

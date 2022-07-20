@@ -3,11 +3,12 @@ import React from "react";
 import colors from "../../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { addComma } from "../../../helpers/globalFunction";
+import { globalStyles } from "../../../../styles/global";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FSummary = ({ amount, card }) => {
+const FSummary = ({ amount, card, theme }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer, { marginBottom: 50 }]}>
@@ -21,7 +22,7 @@ const FSummary = ({ amount, card }) => {
                   fontSize: 29,
                   marginBottom: 35,
                   fontWeight: "700",
-                  color: colors.greenDarkDarkColor,
+                  color: theme === "dark" ? colors.greenLightDarkColor : colors.greenDarkDarkColor,
                   fontFamily: "Poppins",
                   letterSpacing: -0.35644,
                 },
@@ -34,18 +35,29 @@ const FSummary = ({ amount, card }) => {
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}> Amount</Text>
-                  <Text style={styles.productCardContentItemRight}> {amount ? addComma(amount) + ".00" : 0}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {" "}
+                    {amount ? addComma(amount) + ".00" : 0}
+                  </Text>
                 </View>
 
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Card</Text>
-                  <Text style={[styles.productCardContentItemRight, { fontSize: 14.5 }]}>
+                  <Text
+                    style={[
+                      styles.productCardContentItemRight,
+                      { fontSize: 14.5 },
+                      theme === "dark" && globalStyles.textLight,
+                    ]}
+                  >
                     {card?.cardBankName} {" - "} {card?.cardLast4}
                   </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Charges</Text>
-                  <Text style={styles.productCardContentItemRight}>₦ 0.00</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    ₦ 0.00
+                  </Text>
                 </View>
                 <View style={[styles.productCardContentItem]}>
                   <Text style={[styles.productCardContentItemLeft, { fontWeight: "900", fontSize: 22 }]}>Total</Text>
@@ -53,6 +65,7 @@ const FSummary = ({ amount, card }) => {
                     style={[
                       styles.productCardContentItemRight,
                       { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 22 },
+                      theme === "dark" && globalStyles.textLight,
                     ]}
                   >
                     {amount ? addComma(amount) + ".00" : 0}
@@ -83,7 +96,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     marginTop: 10,
     marginBottom: 20,
   },
