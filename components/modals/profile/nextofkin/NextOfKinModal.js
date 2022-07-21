@@ -11,6 +11,7 @@ const { width } = Dimensions.get("screen");
 
 const NextOfKinModal = () => {
   const modal = useSelector((state) => state.alert.nextOfKinModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,7 +24,7 @@ const NextOfKinModal = () => {
 
   return (
     <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#f8f8f8" }}>
         <SvgComponent />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
@@ -37,7 +38,7 @@ const NextOfKinModal = () => {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
-            <NextOfKinForm isLoading={isLoading} setIsLoading={setIsLoading} />
+            <NextOfKinForm theme={theme} isLoading={isLoading} setIsLoading={setIsLoading} />
           </View>
         </ScrollView>
       </View>

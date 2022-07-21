@@ -16,10 +16,13 @@ import { setAddBankModal, setSelectedAllBank } from "../../../store/alert/alertS
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import AddBankForm from "./AddBankForm";
 import SvgComponent from "../../customs/SvgComponent";
+import colors from "../../../styles/colors";
+import { globalStyles } from "../../../styles/global";
 const { width } = Dimensions.get("screen");
 
 const AddBankModal = () => {
   const modal = useSelector((state) => state.alert.addBankModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const [accountNumber, setAccountNumber] = useState("");
@@ -52,17 +55,26 @@ const AddBankModal = () => {
   return (
     <Modal visible={modal} animationType="fade" onRequestClose={() => closeModal()}>
       <SvgComponent />
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
 
-      <View style={{ marginTop: -40 }}>
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      <View
+        style={[
+          { flex: 1, marginTop: -40 },
+          theme === "dark" ? globalStyles.containerDark : { backgroundColor: "#fff" },
+        ]}
+      >
+        <View style={[styles.modalHeader, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
           <Icon
             name="arrow-left"
             size={33}
-            style={[styles.modalHeaderIcon, { color: "#222" }]}
+            style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222" }]}
             onPress={() => closeModal()}
           />
-          <Text style={styles.modalHeaderText}>Add Bank Accounts</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Add Bank Accounts</Text>
           <Text></Text>
         </View>
         <AddBankForm
@@ -79,6 +91,7 @@ const AddBankModal = () => {
           setAccountName={setAccountName}
           accountNameError={accountNameError}
           setAccountNameError={setAccountNameError}
+          theme={theme}
         />
       </View>
     </Modal>

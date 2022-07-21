@@ -16,11 +16,13 @@ import colors from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { setCountryModal, setSelectedCountry } from "../../store/alert/alertSlice";
 import { SvgUri } from "react-native-svg";
+import { globalStyles } from "../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
 const CountryPopUp = () => {
   const modal = useSelector((state) => state.alert.countryModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const allCountries = [
     {
       name: "Ghana",
@@ -89,7 +91,7 @@ const CountryPopUp = () => {
       }}
       style={{ marginBottom: 0 }}
     >
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8", marginBottom: 0 }}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#f8f8f8", marginBottom: 0 }}>
         <View style={{ backgroundColor: colors.greenDarkColor }}>
           <View style={[styles.modalHeader]}>
             <Icon
@@ -135,8 +137,10 @@ const CountryPopUp = () => {
                     <SvgUri width="100%" height="100%" uri={item.flag} />
                   </View>
                   <View style={{ marginLeft: 20 }}>
-                    <Text style={{ fontSize: 16 }}>{item.name}</Text>
-                    <Text style={{ fontWeight: "800", fontSize: 11 }}>{item.dialCode}</Text>
+                    <Text style={[{ fontSize: 16 }, theme === "dark" && globalStyles.textLight]}>{item.name}</Text>
+                    <Text style={[{ fontWeight: "800", fontSize: 11 }, theme === "dark" && globalStyles.textLight]}>
+                      {item.dialCode}
+                    </Text>
                   </View>
                 </TouchableOpacity>
               ))}

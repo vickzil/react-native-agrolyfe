@@ -17,12 +17,14 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Banks from "./Banks";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
-import SvgComponent from "../../customs/SvgComponent";
+import { globalStyles } from "../../../styles/global";
+import SvgComponent2 from "../../customs/SvgComponent2";
 
 const { width } = Dimensions.get("screen");
 
 const BankModal = () => {
   const modal = useSelector((state) => state.alert.bankModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -37,18 +39,27 @@ const BankModal = () => {
         dispatch(setBankModal(false));
       }}
     >
-      <SvgComponent />
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
 
-      <View style={{ marginTop: -40 }}>
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      <View
+        style={[
+          { flex: 1, marginTop: -40 },
+          theme === "dark" ? globalStyles.containerDark : { backgroundColor: "#fff" },
+        ]}
+      >
+        <SvgComponent2 />
+        <View style={[styles.modalHeader, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
           <Icon
             name="arrow-left"
             size={33}
-            style={[styles.modalHeaderIcon, { color: "#222" }]}
+            style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222" }]}
             onPress={() => dispatch(setBankModal(false))}
           />
-          <Text style={styles.modalHeaderText}>Bank Accounts</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Bank Accounts</Text>
           <Text></Text>
         </View>
         <Banks />

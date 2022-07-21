@@ -9,9 +9,8 @@ import { setAlertModal } from "../../../../store/alert/alertSlice";
 import { getUserInfo } from "../../../../store/auth/actions";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import ScreenLoading from "../../../loader/ScreenLoading";
 
-const ChangePinForm = ({ isLoading, setIsLoading, closeModal }) => {
+const ChangePinForm = ({ isLoading, setIsLoading, closeModal, theme }) => {
   const user = useSelector((state) => state.oauth.user);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -142,13 +141,14 @@ const ChangePinForm = ({ isLoading, setIsLoading, closeModal }) => {
   return (
     <View style={styles.form}>
       <View style={{ marginBottom: 25, width: "100%", alignItems: "center" }}>
-        <Text style={[styles.label, { textAlign: "center" }]}>Old Pin</Text>
+        <Text style={[styles.label, { textAlign: "center" }, theme === "dark" && globalStyles.textLight]}>Old Pin</Text>
         <KeycodeInput
           style={{ fontFamily: "Poppins", letterSpacing: -0.35644 }}
           alphaNumeric={false}
           autoFocus={true}
           numeric={true}
           tintColor={colors.greenColor}
+          textColor={theme === "dark" ? "white" : "black"}
           keyboardType="numeric"
           onChange={(value) => {
             setOldPin(value);
@@ -159,12 +159,13 @@ const ChangePinForm = ({ isLoading, setIsLoading, closeModal }) => {
         />
       </View>
       <View style={{ marginTop: 25, width: "100%", alignItems: "center" }}>
-        <Text style={[styles.label, { textAlign: "center" }]}>New Pin</Text>
+        <Text style={[styles.label, { textAlign: "center" }, theme === "dark" && globalStyles.textLight]}>New Pin</Text>
         <KeycodeInput
-          style={[{ fontFamily: "Poppins", letterSpacing: -0.35644 }]}
+          style={[{ fontFamily: "Poppins", letterSpacing: -0.35644, color: theme === "dark" ? "#fff" : "444" }]}
           alphaNumeric={false}
           autoFocus={false}
           numeric={true}
+          textColor={theme === "dark" ? "white" : "black"}
           tintColor={colors.greenColor}
           keyboardType="numeric"
           onChange={(value) => {

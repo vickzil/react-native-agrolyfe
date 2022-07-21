@@ -22,6 +22,7 @@ import LoadingComponents from "../../loader/LoadingComponents";
 import { globalStyles } from "../../../styles/global";
 import NoItem from "../../extra/NoItem";
 import NoSavingsPlan from "./NoSavingsPlan";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 
 const { width } = Dimensions.get("screen");
 
@@ -29,6 +30,7 @@ const MySavingsModal = () => {
   const modal = useSelector((state) => state.alert.mySavingsModal);
   const savings = useSelector((state) => state.savings.mySavings);
   const loading = useSelector((state) => state.savings.myLoading);
+  const theme = useSelector((state) => state.oauth.theme);
   const [mySavings, setMySavings] = useState([]);
   const dispatch = useDispatch();
 
@@ -48,20 +50,25 @@ const MySavingsModal = () => {
 
   return (
     <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
-      {modal && (
-        <View>
-          <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
-        </View>
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
       )}
-      <View style={{ flex: 1, marginTop: -10 }}>
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      <View
+        style={[
+          { flex: 1, marginTop: -40 },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
+      >
+        <View style={[styles.modalHeader, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
           <Icon
             name="arrow-left"
             size={33}
-            style={[styles.modalHeaderIcon, { color: "#222" }]}
+            style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222" }]}
             onPress={() => closeModal()}
           />
-          <Text style={styles.modalHeaderText}>My Savings</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>My Savings</Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -76,7 +83,7 @@ const MySavingsModal = () => {
               <View
                 style={{
                   marginTop: 40,
-                  backgroundColor: "#fff",
+                  backgroundColor: theme === "dark" ? colors.darkBody : "#fff",
                   padding: 30,
                   alignItems: "center",
                   paddingTop: 50,
@@ -85,7 +92,9 @@ const MySavingsModal = () => {
                 }}
               >
                 <LoadingComponents />
-                <Text style={globalStyles.label}>Loading my savings...</Text>
+                <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>
+                  Loading my savings...
+                </Text>
               </View>
             ) : mySavings && mySavings.length ? (
               mySavings?.map((item, index) => <MySavingsCard key={index} item={item} index={index} />)
@@ -192,6 +201,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexWrap: "wrap",
     paddingBottom: 90,
+    marginTop: 30,
   },
 
   buttonFloat: {

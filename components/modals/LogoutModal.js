@@ -31,6 +31,7 @@ const { width } = Dimensions.get("screen");
 
 const LogoutModal = () => {
   const modal = useSelector((state) => state.alert.logoutModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
   const scaleValue = useRef(new Animated.Value(0)).current;
 
@@ -87,23 +88,39 @@ const LogoutModal = () => {
   return (
     <Modal transparent visible={modal} animationType="fade" onRequestClose={() => closeModal()}>
       <View style={[styles.modalBackground, { flex: 1 }]}>
-        <Animated.View style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
+        <Animated.View
+          style={[
+            styles.modalContainer,
+            { transform: [{ scale: scaleValue }] },
+            theme === "dark" && globalStyles.cardDark,
+          ]}
+        >
           <View style={{ alignItems: "center" }}>
             {/* <View style={styles.header}>
               <AntDesignIcon name="close" size={20} />
             </View> */}
-            <Text style={styles.modalHeaderText}>Logout</Text>
+            <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Logout</Text>
 
-            <Text style={[{ marginVertical: 30, fontSize: 18, textAlign: "center" }]}>Do you want to Logout?</Text>
+            <Text
+              style={[
+                { marginVertical: 30, fontSize: 18, textAlign: "center" },
+                theme === "dark" && globalStyles.textLightLight,
+              ]}
+            >
+              Do you want to Logout?
+            </Text>
 
             <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-around",
-                width: "100%",
-                marginTop: 30,
-              }}
+              style={[
+                {
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-around",
+                  width: "100%",
+                  marginTop: 30,
+                },
+                ,
+              ]}
             >
               <TouchableOpacity
                 activeOpacity={0.5}

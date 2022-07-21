@@ -10,6 +10,8 @@ import { saveUserInfo, setHasLogin, setToken } from "../store/auth/authSlice";
 import axios from "axios";
 import { getTransactionsInfo } from "../store/transactions/actions";
 import SvgComponent from "../components/customs/SvgComponent";
+import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
+import { globalStyles } from "../styles/global";
 
 const TwoFactor = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -17,7 +19,7 @@ const TwoFactor = ({ navigation, route }) => {
   const { email } = route.params;
 
   const [pin, setPin] = useState(null);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
@@ -123,9 +125,18 @@ const TwoFactor = ({ navigation, route }) => {
   }, []);
   //   const navigate = useNavigation();
 
+  const customColor = theme === "dark" ? "#fff" : "#333";
+
   return (
-    <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
+    <SafeAreaView
+      style={{ backgroundColor: theme === "dark" ? colors.darkBody : "#fff", flex: 1, fontFamily: "Poppins" }}
+    >
       <SvgComponent />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
       <ScrollView contentContainerStyle={{ paddingTop: 20, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
         <View style={[styles.productContainer]}>
@@ -134,6 +145,7 @@ const TwoFactor = ({ navigation, route }) => {
               style={[
                 styles.productCardContentItemLeft,
                 { fontSize: 22, fontWeight: "900", marginBottom: 4, fontFamily: "Poppins" },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               Two-Factor Verification
@@ -149,6 +161,7 @@ const TwoFactor = ({ navigation, route }) => {
                     fontWeight: "600",
                     paddingHorizontal: 40,
                   },
+                  theme === "dark" && globalStyles.textLightLight,
                 ]}
               >
                 Enter your 4-digit CODE sent to your email to continue
@@ -160,7 +173,10 @@ const TwoFactor = ({ navigation, route }) => {
                 letterSpacing: -0.35644,
                 borderColor: colors.greenColor,
                 marginTop: 30,
+                backgroundColor: theme === "dark" && "#aaa",
+                borderRadius: theme === "dark" && 6,
               }}
+              textColor={customColor}
               tintColor={colors.greenColor}
               alphaNumeric={false}
               numeric={true}
@@ -179,7 +195,7 @@ const TwoFactor = ({ navigation, route }) => {
               <Text
                 onPress={() => navigation.navigate("Login")}
                 style={{
-                  color: colors.greenDarkDarkColor,
+                  color: colors.greenColor,
                   textAlign: "center",
                   fontSize: 16,
                   fontWeight: "600",

@@ -6,11 +6,13 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../../styles/colors";
 import ScreenLoading from "../../../loader/ScreenLoading";
 import AddPinForm from "./AddPinForm";
+import { globalStyles } from "../../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
 const AddPinModal = () => {
   const modal = useSelector((state) => state.alert.createPinModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,15 +24,15 @@ const AddPinModal = () => {
     <Modal visible={modal} animationType="slide">
       <ScreenLoading visibility={{ status: isLoading, message: "Please wait ..." }} />
 
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#f8f8f8" }}>
+        <View style={[styles.modalHeader, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
           <Text></Text>
-          <Text style={styles.modalHeaderText}>Create pin</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Create pin</Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
-            <AddPinForm isLoading={isLoading} setIsLoading={setIsLoading} closeModal={closeModal} />
+            <AddPinForm theme={theme} isLoading={isLoading} setIsLoading={setIsLoading} closeModal={closeModal} />
           </View>
         </ScrollView>
       </View>

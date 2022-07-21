@@ -22,6 +22,7 @@ const { width } = Dimensions.get("screen");
 
 const ProductDetailsModal = () => {
   const modal = useSelector((state) => state.alert.productDetailsModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -48,7 +49,7 @@ const ProductDetailsModal = () => {
 
   return (
     <Modal visible={modal?.status} animationType="slide" onRequestClose={() => closeModal()}>
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#fff" }}>
         <View style={[styles.modalHeader]}>
           <Icon
             name="arrow-left"
@@ -78,7 +79,7 @@ const ProductDetailsModal = () => {
             ]}
             height={300}
             timer={5000}
-            // onPress={(item) => console.log("")}
+            onPress={(item) => console.log("")}
             contentContainerStyle={{ paddingHorizontal: 0 }}
             indicatorContainerStyle={{ position: "absolute", bottom: 65 }}
             indicatorActiveColor={"#8e44ad"}

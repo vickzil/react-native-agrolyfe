@@ -2,16 +2,18 @@ import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from "react-n
 import React from "react";
 import colors from "../../styles/colors";
 import IconSearch from "react-native-vector-icons/AntDesign";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setMySavingsDetailsModal } from "../../store/alert/alertSlice";
 import { addComma } from "../helpers/globalFunction";
+import { globalStyles } from "../../styles/global";
 
 const MySavingsCard = ({ item }) => {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.oauth.theme);
 
   return (
     <TouchableOpacity
-      style={styles.productCard}
+      style={[styles.productCard, theme === "dark" && globalStyles.cardDark]}
       activeOpacity={0.7}
       onPress={() =>
         dispatch(
@@ -24,7 +26,9 @@ const MySavingsCard = ({ item }) => {
     >
       <View style={styles.productCardContent}>
         <View style={styles.productCardContentSub}>
-          <Text style={styles.productCardContentSubTitle}>{item?.savingsMainCategoryCode}</Text>
+          <Text style={[styles.productCardContentSubTitle, theme === "dark" && globalStyles.textLightLight]}>
+            {item?.savingsMainCategoryCode}
+          </Text>
 
           <IconSearch
             name="lock"
@@ -38,13 +42,17 @@ const MySavingsCard = ({ item }) => {
                 textAlign: "center",
                 fontFamily: "MontserratBold",
               },
+              theme === "dark" && globalStyles.textLightLight,
             ]}
           />
         </View>
 
-        <Text style={styles.productCardContentTitle}>{item?.allias}</Text>
+        <Text style={[styles.productCardContentTitle, theme === "dark" && globalStyles.textLight]}>{item?.allias}</Text>
         <View
-          style={{ width: "100%", backgroundColor: "#fff", height: 3, paddingHorizontal: 40, marginBottom: 30 }}
+          style={[
+            { width: "100%", backgroundColor: "#fff", height: 3, paddingHorizontal: 40, marginBottom: 30 },
+            theme === "dark" && { backgroundColor: colors.greenDarkColor },
+          ]}
         ></View>
         <View style={{ flexDirection: "row", marginBottom: 22, justifyContent: "space-between" }}>
           <View>
@@ -52,7 +60,7 @@ const MySavingsCard = ({ item }) => {
               style={{
                 fontSize: 16,
                 fontWeight: "600",
-                color: colors.greenDarkColor,
+                color: colors.greenLightDarkColor,
                 marginRight: 15,
                 fontFamily: "Poppins",
               }}
@@ -62,7 +70,7 @@ const MySavingsCard = ({ item }) => {
             <Text
               style={{
                 fontSize: 18,
-                color: "#444",
+                color: theme === "dark" ? "#fff" : "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
                 fontFamily: "Montserrat",
@@ -76,7 +84,7 @@ const MySavingsCard = ({ item }) => {
               style={{
                 fontSize: 16,
                 fontWeight: "600",
-                color: colors.greenDarkColor,
+                color: colors.greenLightDarkColor,
                 fontFamily: "Poppins",
                 textAlign: "right",
               }}
@@ -89,7 +97,7 @@ const MySavingsCard = ({ item }) => {
                 styles.productCardContentItemRightStatus,
                 {
                   fontSize: 18,
-                  color: "#444",
+                  color: theme === "dark" ? "#fff" : "#444",
                   fontWeight: "600",
                   justifyContent: "flex-end",
                   fontFamily: "Montserrat",
@@ -109,7 +117,7 @@ const MySavingsCard = ({ item }) => {
               style={{
                 fontSize: 16,
                 fontWeight: "600",
-                color: colors.greenDarkColor,
+                color: colors.greenLightDarkColor,
                 marginRight: 15,
                 fontFamily: "Poppins",
               }}
@@ -119,7 +127,7 @@ const MySavingsCard = ({ item }) => {
             <Text
               style={{
                 fontSize: 18,
-                color: "#444",
+                color: theme === "dark" ? "#fff" : "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
                 fontFamily: "Montserrat",
@@ -135,7 +143,7 @@ const MySavingsCard = ({ item }) => {
                 fontWeight: "600",
                 flexDirection: "row",
                 justifyContent: "flex-end",
-                color: colors.greenDarkColor,
+                color: colors.greenLightDarkColor,
                 fontFamily: "Poppins",
                 textAlign: "right",
               }}
@@ -145,7 +153,7 @@ const MySavingsCard = ({ item }) => {
             <Text
               style={{
                 fontSize: 18,
-                color: "#444",
+                color: theme === "dark" ? "#fff" : "#444",
                 fontWeight: "600",
                 flexDirection: "row",
                 justifyContent: "flex-end",

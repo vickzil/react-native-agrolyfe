@@ -5,10 +5,12 @@ import NoItem from "../extra/NoItem";
 import { useSelector } from "react-redux";
 import LoadingComponents from "../loader/LoadingComponents";
 import { globalStyles } from "../../styles/global";
+import colors from "../../styles/colors";
 
 const AllReferrals = () => {
   const referrals = useSelector((state) => state.referrals.referrals);
   const loading = useSelector((state) => state.referrals.loading);
+  const theme = useSelector((state) => state.oauth.theme);
 
   const [allReferrals, setAllReferrals] = useState([]);
 
@@ -25,7 +27,7 @@ const AllReferrals = () => {
           <View
             style={{
               marginTop: 40,
-              backgroundColor: "#fff",
+              backgroundColor: theme === "dark" ? colors.darkCard : "#fff",
               padding: 30,
               alignItems: "center",
               paddingTop: 50,
@@ -33,7 +35,7 @@ const AllReferrals = () => {
             }}
           >
             <LoadingComponents />
-            <Text style={globalStyles.label}>Loading referrals...</Text>
+            <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>Loading referrals...</Text>
           </View>
         ) : allReferrals && allReferrals.length ? (
           <View style={styles.referralContainer}>

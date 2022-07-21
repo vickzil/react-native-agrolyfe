@@ -15,6 +15,7 @@ const imageBanner = require("../../../assets/img/ad5.jpg");
 
 const AboutModal = () => {
   const modal = useSelector((state) => state.alert.aboutModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -24,7 +25,7 @@ const AboutModal = () => {
   return (
     <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <StatusBar hidden={true} />
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#f8f8f8" }}>
         <View
           style={[
             {
@@ -90,20 +91,32 @@ const AboutModal = () => {
                 {
                   fontWeight: "600",
                   fontSize: 19,
-                  color: colors.greenDarkColor,
+                  color: theme === "dark" ? "#fff" : colors.greenDarkColor,
                   fontFamily: "PoppinsBold",
                 },
               ]}
             >
               We equip growing farmers affordable arable lands.
             </Text>
-            <Text style={[globalStyles.label, { fontSize: 15, marginRight: 10, lineHeight: 29 }]}>
+            <Text
+              style={[
+                globalStyles.label,
+                { fontSize: 15, marginRight: 10, lineHeight: 29 },
+                theme === "dark" && globalStyles.textLightLight,
+              ]}
+            >
               AgroLyfe is a social entrepreneurial organization driven as a catalyst for change, enabling disadvantaged
               farmers, young Agricultural Professionals and enthusiasts to thrive in farming by providing arable, secure
               and purpose-built farmlands for possibility of achieving sustainable food security in Nigeria first, and
               the rest of Africa.
             </Text>
-            <Text style={[globalStyles.label, { fontSize: 15, marginRight: 10, lineHeight: 29 }]}>
+            <Text
+              style={[
+                globalStyles.label,
+                { fontSize: 15, marginRight: 10, lineHeight: 29 },
+                theme === "dark" && globalStyles.textLightLight,
+              ]}
+            >
               We leverage on technology and real estate to connect farmers with easy access to arable and secure
               purpose-built farm lands for rental period of a year with opportunities to renew their land rental
               duration, partake in Farmers Co-operative society membership for access to both financial and technical
@@ -120,7 +133,7 @@ const AboutModal = () => {
                 {
                   fontWeight: "600",
                   fontSize: 18,
-                  color: colors.greenDarkColor,
+                  color: theme === "dark" ? "#fff" : colors.greenDarkColor,
                   fontFamily: "PoppinsBold",
                   marginTop: 40,
                   paddingHorizontal: 5,
@@ -130,7 +143,13 @@ const AboutModal = () => {
             >
               Vision
             </Text>
-            <Text style={[globalStyles.label, { fontSize: 15, marginRight: 10, marginBottom: 0 }]}>
+            <Text
+              style={[
+                globalStyles.label,
+                { fontSize: 15, marginRight: 10, marginBottom: 0 },
+                theme === "dark" && globalStyles.textLightLight,
+              ]}
+            >
               Equip Farmers of all ages, enable thriving Agriculture.
             </Text>
 
@@ -140,7 +159,7 @@ const AboutModal = () => {
                 {
                   fontWeight: "600",
                   fontSize: 18,
-                  color: colors.greenDarkColor,
+                  color: theme === "dark" ? "#fff" : colors.greenDarkColor,
                   fontFamily: "PoppinsBold",
                   marginTop: 30,
                   paddingHorizontal: 5,
@@ -150,7 +169,13 @@ const AboutModal = () => {
             >
               Mission
             </Text>
-            <Text style={[globalStyles.label, { fontSize: 15, marginRight: 10, marginBottom: 0 }]}>
+            <Text
+              style={[
+                globalStyles.label,
+                { fontSize: 15, marginRight: 10, marginBottom: 0 },
+                theme === "dark" && globalStyles.textLightLight,
+              ]}
+            >
               To make Farmers own farmlands anywhere in the world.
             </Text>
 
@@ -160,7 +185,7 @@ const AboutModal = () => {
                 {
                   fontWeight: "600",
                   fontSize: 18,
-                  color: colors.greenDarkColor,
+                  color: theme === "dark" ? "#fff" : colors.greenDarkColor,
                   fontFamily: "PoppinsBold",
                   marginTop: 30,
                   paddingHorizontal: 5,
@@ -170,7 +195,13 @@ const AboutModal = () => {
             >
               Goals
             </Text>
-            <Text style={[globalStyles.label, { fontSize: 15, marginRight: 10, lineHeight: 29 }]}>
+            <Text
+              style={[
+                globalStyles.label,
+                { fontSize: 15, marginRight: 10, lineHeight: 29 },
+                theme === "dark" && globalStyles.textLightLight,
+              ]}
+            >
               We champion the mission, Simplify farmland rental, Inspire agripreneurship, and Encourage Agro-education.
             </Text>
 
@@ -182,7 +213,7 @@ const AboutModal = () => {
                 {
                   fontWeight: "600",
                   fontSize: 18,
-                  color: colors.greenDarkColor,
+                  color: theme === "dark" ? "#fff" : colors.greenDarkColor,
                   fontFamily: "PoppinsBold",
                   marginTop: 10,
                   paddingHorizontal: 5,
@@ -191,7 +222,13 @@ const AboutModal = () => {
             >
               We alleviate poverty, create jobs, and connect Farmers to global opportunities
             </Text>
-            <Text style={[globalStyles.label, { fontSize: 15, marginRight: 10, lineHeight: 29 }]}>
+            <Text
+              style={[
+                globalStyles.label,
+                { fontSize: 15, marginRight: 10, lineHeight: 29 },
+                theme === "dark" && globalStyles.textLightLight,
+              ]}
+            >
               Our collective responsibility here, ranges from poverty alleviation and job creation to food security and
               connection Farmers to global opportunities which could take the form of grants, whilst raising a community
               of proxy farmers who might never have to visit any of our farmland for the lack of time and practical

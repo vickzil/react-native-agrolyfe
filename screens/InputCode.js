@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAlertModal, setLoading } from "../store/alert/alertSlice";
 import axios from "axios";
 import SvgComponent from "../components/customs/SvgComponent";
+import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
 
 const InputCode = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const InputCode = ({ navigation, route }) => {
 
   const [pin, setPin] = useState(null);
   //   const navigate = useNavigation();
-
+  const theme = useSelector((state) => state.oauth.theme);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
@@ -108,9 +109,18 @@ const InputCode = ({ navigation, route }) => {
       });
   };
 
+  const customColor = theme === "dark" ? "#fff" : "#333";
+
   return (
-    <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
+    <SafeAreaView
+      style={{ backgroundColor: theme === "dark" ? colors.darkBody : "#fff", flex: 1, fontFamily: "Poppins" }}
+    >
       <SvgComponent />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
       <ScrollView contentContainerStyle={{ paddingTop: 40, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
         <View style={[styles.productContainer]}>
@@ -119,6 +129,7 @@ const InputCode = ({ navigation, route }) => {
               style={[
                 styles.productCardContentItemLeft,
                 { fontSize: 22, fontWeight: "900", marginBottom: 4, fontFamily: "Poppins" },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               Confirm Verification
@@ -128,6 +139,7 @@ const InputCode = ({ navigation, route }) => {
                 style={[
                   globalStyles.label,
                   { fontSize: 16, textAlign: "center", fontFamily: "Poppins", fontWeight: "600" },
+                  theme === "dark" && globalStyles.textLightLight,
                 ]}
               >
                 Enter your 4-digit CODE sent to your email to continue
@@ -139,8 +151,13 @@ const InputCode = ({ navigation, route }) => {
                 letterSpacing: -0.35644,
                 borderColor: colors.greenColor,
                 marginTop: 30,
+
+                backgroundColor: theme === "dark" && "#aaa",
+                borderRadius: theme === "dark" && 6,
               }}
+              textColor={customColor}
               tintColor={colors.greenColor}
+              autoFocus={true}
               alphaNumeric={false}
               numeric={true}
               keyboardType="numeric"
@@ -157,7 +174,7 @@ const InputCode = ({ navigation, route }) => {
               <Text
                 onPress={() => navigation.navigate("Login")}
                 style={{
-                  color: colors.greenDarkDarkColor,
+                  color: colors.greenColor,
                   textAlign: "center",
                   fontSize: 16,
                   fontWeight: "600",

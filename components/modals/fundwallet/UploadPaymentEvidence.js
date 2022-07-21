@@ -29,6 +29,8 @@ import axios from "axios";
 import { getUserInfo } from "../../../store/auth/actions";
 import SvgComponent from "../../customs/SvgComponent";
 import AnimatedViewComp from "../../customs/AnimatedViewComp";
+import colors from "../../../styles/colors";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -38,7 +40,7 @@ const UploadPaymentEvidence = () => {
 
   const modal = useSelector((state) => state.alert.paymentEvidenceModal);
   const walletOptions = useSelector((state) => state.wallet.walletOptions);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const user = useSelector((state) => state.oauth.user);
   const baseURL = useSelector((state) => state.oauth.walletURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -206,16 +208,11 @@ const UploadPaymentEvidence = () => {
   };
 
   return (
-    <Modal
-      visible={modal}
-      animationType="fade"
-      onRequestClose={() => previousStep()}
-      style={{ flex: 1, backgroundColor: "#fff" }}
-    >
-      {modal && (
-        <View>
-          <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
-        </View>
+    <Modal visible={modal} animationType="fade" onRequestClose={() => previousStep()} style={{ flex: 1 }}>
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
       )}
       <ScreenLoading visibility={screenLoading} />
       <POPUpModal visible={showCModal} setVisible={setShowCModal} modalTitle=" Currencies" lightBackground={true}>
@@ -224,14 +221,26 @@ const UploadPaymentEvidence = () => {
             <AnimatedViewComp index={index} key={index}>
               <TouchableOpacity
                 activeOpacity={0.8}
-                style={[globalStyles.selectContainer, currency == item ? globalStyles.selectedItem : null]}
+                style={[
+                  globalStyles.selectContainer,
+                  currency == item ? globalStyles.selectedItem : null,
+                  theme === "dark" && globalStyles.cardDark,
+                ]}
                 onPress={() => {
                   setShowCModal(false);
                   setCurrency(item);
                 }}
               >
                 <View animation={"fadeInLeft"} duration={1000} delay={index * 3} style={globalStyles.selectContent}>
-                  <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item?.name}</Text>
+                  <Text
+                    style={[
+                      globalStyles.selectContentText,
+                      globalStyles.selectContentText1,
+                      theme === "dark" && globalStyles.textLight,
+                    ]}
+                  >
+                    {item?.name}
+                  </Text>
                 </View>
               </TouchableOpacity>
             </AnimatedViewComp>
@@ -239,17 +248,26 @@ const UploadPaymentEvidence = () => {
         </View>
       </POPUpModal>
 
-      <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <KeyboardAvoidingView
+        style={{ marginTop: -40, flex: 1, backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <View style={{ height: screenHeight }}>
           <SvgComponent />
-          <View style={[styles.modalHeader, { backgroundColor: "#fff", marginTop: 30 }]}>
+          <View style={[styles.modalHeader, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
             <Icon
               name="arrow-left"
               size={40}
-              style={[styles.modalHeaderIcon, { color: "#111" }]}
+              style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222" }]}
               onPress={() => previousStep()}
             />
-            <Text style={[styles.modalHeaderText, { fontWeight: "600", fontFamily: "PoppinsBold" }]}>
+            <Text
+              style={[
+                styles.modalHeaderText,
+                { fontWeight: "600", fontFamily: "PoppinsBold" },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
               Upload payment Evidence
             </Text>
           </View>
@@ -269,7 +287,11 @@ const UploadPaymentEvidence = () => {
                 <View style={[globalStyles.productCardContent, { marginBottom: 0, width: "100%" }]}>
                   <View style={{ marginTop: 10, marginBottom: 20, width: "100%" }}>
                     <Text
-                      style={[styles.productCardContentItemLeft, { fontSize: 14, marginBottom: 5, fontWeight: "600" }]}
+                      style={[
+                        styles.productCardContentItemLeft,
+                        { fontSize: 14, marginBottom: 5, fontWeight: "600" },
+                        theme === "dark" && globalStyles.textLight,
+                      ]}
                     >
                       Amount
                     </Text>
@@ -285,6 +307,7 @@ const UploadPaymentEvidence = () => {
                         suffixUnit: "",
                       }}
                       placeholder="0"
+                      placeholderTextColor={theme === "dark" ? "#fff" : "444"}
                       value={amount}
                       onChangeText={(text) => {
                         setAmount(text);
@@ -293,18 +316,27 @@ const UploadPaymentEvidence = () => {
                         globalStyles.inputTextt,
                         globalStyles.inputContainer,
                         { fontSize: 33, fontWeight: "800" },
+                        theme === "dark" && globalStyles.textLight,
                       ]}
                     />
                   </View>
                   <View style={{ marginTop: 10, marginBottom: 20 }}>
                     <Text
-                      style={[styles.productCardContentItemLeft, { fontSize: 14, marginBottom: 5, fontWeight: "600" }]}
+                      style={[
+                        styles.productCardContentItemLeft,
+                        { fontSize: 14, marginBottom: 5, fontWeight: "600" },
+                        theme === "dark" && globalStyles.textLight,
+                      ]}
                     >
                       Currency
                     </Text>
 
                     <TouchableOpacity style={[globalStyles.inputContainer]} onPress={() => setShowCModal(true)}>
-                      <TextInput value={currency?.name} editable={false} style={globalStyles.inputTextt} />
+                      <TextInput
+                        value={currency?.name}
+                        editable={false}
+                        style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
+                      />
                       <FontAwesome5Icon name="chevron-circle-down" size={16} color="#666" style={{ marginRight: 10 }} />
                     </TouchableOpacity>
 
@@ -336,7 +368,11 @@ const UploadPaymentEvidence = () => {
                   </View>
                   <View style={{ marginTop: 10, marginBottom: 20 }}>
                     <Text
-                      style={[styles.productCardContentItemLeft, { fontSize: 14, marginBottom: 5, fontWeight: "600" }]}
+                      style={[
+                        styles.productCardContentItemLeft,
+                        { fontSize: 14, marginBottom: 5, fontWeight: "600" },
+                        theme === "dark" && globalStyles.textLight,
+                      ]}
                     >
                       Additional information
                     </Text>
@@ -345,13 +381,17 @@ const UploadPaymentEvidence = () => {
                         value={additionalInfo}
                         onChangeText={(text) => setAdditionalInfo(text)}
                         autoCorrect={false}
-                        style={globalStyles.inputTextt}
+                        style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
                       />
                     </View>
                   </View>
                   <View style={{ marginTop: 10, marginBottom: 80 }}>
                     <Text
-                      style={[styles.productCardContentItemLeft, { fontSize: 14, marginBottom: 5, fontWeight: "600" }]}
+                      style={[
+                        styles.productCardContentItemLeft,
+                        { fontSize: 14, marginBottom: 5, fontWeight: "600" },
+                        theme === "dark" && globalStyles.textLight,
+                      ]}
                     >
                       Upload Evidience of Payment
                     </Text>
@@ -368,12 +408,23 @@ const UploadPaymentEvidence = () => {
                           justifyContent: "center",
                           marginTop: 15,
                         },
+                        theme === "dark" && globalStyles.cardDark,
+                        theme === "dark" && { borderWidth: 2, borderColor: colors.greenLightDarkColor },
                       ]}
                     >
                       {uploadedImage ? (
                         <>
-                          <FeatherIcons name="image" size={31} style={[{ color: "#444", padding: 2 }]} />
-                          <Text style={{ fontSize: 15, fontWeight: "700", marginTop: 10, color: "#555" }}>
+                          <FeatherIcons
+                            name="image"
+                            size={31}
+                            style={[{ color: theme === "dark" ? "#aaa" : "#444", padding: 2 }]}
+                          />
+                          <Text
+                            style={[
+                              { fontSize: 15, fontWeight: "700", marginTop: 10, color: "#555" },
+                              theme === "dark" && globalStyles.textLight,
+                            ]}
+                          >
                             {uploadedImage?.uri.substring(
                               uploadedImage?.uri.length,
                               uploadedImage?.uri.lastIndexOf("/"),
@@ -382,7 +433,11 @@ const UploadPaymentEvidence = () => {
                         </>
                       ) : (
                         <>
-                          <FeatherIcons name="upload-cloud" size={31} style={[{ color: "#444", padding: 2 }]} />
+                          <FeatherIcons
+                            name="upload-cloud"
+                            size={31}
+                            style={[{ color: theme === "dark" ? "#aaa" : "#444", padding: 2 }]}
+                          />
                           <Text style={{ fontSize: 19, fontWeight: "700", marginTop: 10, color: "#555" }}>
                             Upload photo
                           </Text>
@@ -401,7 +456,7 @@ const UploadPaymentEvidence = () => {
               {
                 width: "100%",
                 justifyContent: "flex-end",
-                marginBottom: -40,
+                marginBottom: 0,
                 marginLeft: 0,
                 padding: 0,
                 marginRight: 0,

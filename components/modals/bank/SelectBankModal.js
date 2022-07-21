@@ -35,6 +35,7 @@ const SelectBankModal = () => {
   const selectedBank = useSelector((state) => state.alert.selectedBank);
   const banks = useSelector((state) => state.bank.userBankAccount);
   const loading = useSelector((state) => state.bank.loading);
+  const theme = useSelector((state) => state.oauth.theme);
 
   const dispatch = useDispatch();
 
@@ -74,17 +75,26 @@ const SelectBankModal = () => {
 
   return (
     <Modal visible={modal?.status} animationType="fade" onRequestClose={() => closeModal()}>
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
 
-      <View style={{ marginTop: -40 }}>
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      <View
+        style={[
+          { flex: 1, marginTop: -40 },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
+      >
+        <View style={[styles.modalHeader, theme === "dark" ? globalStyles.containerDark : { backgroundColor: "#fff" }]}>
           <Icon
             name="arrow-left"
             size={33}
-            style={[styles.modalHeaderIcon, { color: "#222" }]}
+            style={[styles.modalHeaderIcon, theme === "dark" ? globalStyles.textLight : { color: "#222" }]}
             onPress={() => closeModal()}
           />
-          <Text style={styles.modalHeaderText}>Select Bank Accounts</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Select Bank Accounts</Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -93,7 +103,7 @@ const SelectBankModal = () => {
               <View
                 style={{
                   marginTop: 40,
-                  backgroundColor: "#fff",
+                  backgroundColor: theme === "dark" ? colors.darkCard : "#fff",
                   padding: 30,
                   alignItems: "center",
                   paddingTop: 50,
@@ -102,10 +112,12 @@ const SelectBankModal = () => {
                 }}
               >
                 <LoadingComponents />
-                <Text style={globalStyles.label}>Loading saved banks...</Text>
+                <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>
+                  Loading saved banks...
+                </Text>
               </View>
             ) : allBanks && allBanks.length ? (
-              <View style={{ marginBottom: 20 }}>
+              <View style={{ marginBottom: 20, paddingHorizontal: 10 }}>
                 {allBanks?.map((item, index) => (
                   <AnimatedViewComp index={index} key={index}>
                     <TouchableOpacity
@@ -113,11 +125,16 @@ const SelectBankModal = () => {
                         styles.container,
                         index === allBanks.length - 1 && styles.removeElevation,
                         selectedBank?.code === item.code && styles.selectedItem,
+                        theme === "dark" && globalStyles.cardDark,
                       ]}
                       onPress={() => selectBank(item)}
                     >
                       <View style={[styles.content]}>
-                        <Text style={[styles.contentText, styles.contentText1]}>{item.bankName}</Text>
+                        <Text
+                          style={[styles.contentText, styles.contentText1, theme === "dark" && globalStyles.textLight]}
+                        >
+                          {item.bankName}
+                        </Text>
                         <Text style={[styles.contentText, styles.contentText2]}>{item.accountNumber}</Text>
                       </View>
                     </TouchableOpacity>
@@ -134,6 +151,8 @@ const SelectBankModal = () => {
                         styles.contentText,
                         styles.contentText1,
                         { backgroundColor: "#fff", padding: 5, marginTop: -5 },
+                        theme === "dark" && globalStyles.containerDark,
+                        theme === "dark" && globalStyles.textLight,
                       ]}
                     >
                       OR

@@ -14,11 +14,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { setPurchaseDetailsModal } from "../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PurchasedModalItem from "./PurchasedModalItem";
+import colors from "../../../styles/colors";
+import { globalStyles } from "../../../styles/global";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 
 const { width } = Dimensions.get("screen");
 
 const PurchaseDetailsModal = () => {
   const modal = useSelector((state) => state.alert.purchaseDetailsModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -43,12 +47,22 @@ const PurchaseDetailsModal = () => {
         );
       }}
     >
-      <View>
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
+      <View
+        style={[
+          { flex: 1, marginTop: -40 },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
+      >
+        <View style={[styles.modalHeader, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
           <Icon
             name="arrow-left"
             size={25}
-            style={[styles.modalHeaderIcon, { color: "#222" }]}
+            style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222" }]}
             onPress={() =>
               dispatch(
                 setPurchaseDetailsModal({
@@ -58,7 +72,7 @@ const PurchaseDetailsModal = () => {
               )
             }
           />
-          <Text style={styles.modalHeaderText}> Product Details</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}> Purchase Details</Text>
           <Text></Text>
         </View>
 

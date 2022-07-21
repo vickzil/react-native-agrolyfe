@@ -36,6 +36,8 @@ import { getUserWalletBalance } from "../../../store/wallet/actions";
 import { getTransactionsInfo } from "../../../store/transactions/actions";
 import SvgComponent from "../../customs/SvgComponent";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import colors from "../../../styles/colors";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -47,7 +49,7 @@ const TransferCustomerModal = () => {
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
@@ -363,14 +365,22 @@ const TransferCustomerModal = () => {
       style={{ flex: 1, backgroundColor: "#fff" }}
     >
       <ScreenLoading visibility={screenLoading} />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
 
-      <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <KeyboardAvoidingView
+        style={[{ marginTop: -60, flex: 1 }, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight]}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <View style={{ height: screenHeight }}>
           <SvgComponent />
           <View
             style={[
               {
-                backgroundColor: "#fff",
+                // backgroundColor: "#fff",
                 marginTop: 30,
                 borderBottomLeftRadius: 5,
                 borderBottomRightRadius: 5,
@@ -381,10 +391,15 @@ const TransferCustomerModal = () => {
               <Icon
                 name="arrow-left"
                 size={40}
-                style={[styles.modalHeaderIcon, { color: "#111" }]}
+                style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : colors.greenColor }]}
                 onPress={() => previousStep()}
               />
-              <Text style={[styles.modalHeaderText, { color: "#222", fontWeight: "600", fontFamily: "PoppinsBold" }]}>
+              <Text
+                style={[
+                  styles.modalHeaderText,
+                  { color: theme === "dark" ? "#fff" : "#222", fontWeight: "600", fontFamily: "PoppinsBold" },
+                ]}
+              >
                 Transfer to {modal?.user?.firstName || "Customer"}
               </Text>
             </View>
@@ -405,10 +420,11 @@ const TransferCustomerModal = () => {
               calculatedUser={calculatedUser}
               setCalculatedUser={setCalculatedUser}
               removeUser={removeUser}
+              theme={theme}
             />
-            <FAmount amount={amount} setAmount={setAmount} calculatedUser={calculatedUser} />
-            <FSummary amount={amount} calculatedUser={calculatedUser} />
-            <FConfirm pin={pin} setPin={setPin} step={step} calculatedUser={calculatedUser} />
+            <FAmount amount={amount} setAmount={setAmount} calculatedUser={calculatedUser} theme={theme} />
+            <FSummary amount={amount} calculatedUser={calculatedUser} theme={theme} />
+            <FConfirm pin={pin} setPin={setPin} step={step} calculatedUser={calculatedUser} theme={theme} />
           </ScrollView>
 
           <View
@@ -417,7 +433,7 @@ const TransferCustomerModal = () => {
               {
                 width: "100%",
                 justifyContent: "flex-end",
-                marginBottom: -40,
+                marginBottom: 0,
                 marginLeft: 0,
                 padding: 0,
                 marginRight: 0,

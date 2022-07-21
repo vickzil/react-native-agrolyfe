@@ -8,9 +8,11 @@ import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { setSelectBankModal, setTransferToCustomerModal } from "../../../store/alert/alertSlice";
 import CustomerModalButtom from "./CustomerModalButtom";
+import { globalStyles } from "../../../styles/global";
 
 const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.oauth.theme);
   const searchCustomerModal = useRef();
   //   const modal = useSelector((state) => state.alert.transferModal);
 
@@ -42,7 +44,13 @@ const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
   return (
     <SafeAreaView style={styles.container}>
       {/* <CustomerModalButtom bottomSheet={searchCustomerModal} closeModal={closeCustomerModal} /> */}
-      <BottomSheet hasDraggableIcon ref={bottomSheet} height={300} onRequestClose={() => closeTransferModal()}>
+      <BottomSheet
+        hasDraggableIcon
+        ref={bottomSheet}
+        height={300}
+        onRequestClose={() => closeTransferModal()}
+        sheetBackgroundColor={theme === "dark" ? colors.darkCard : "#fff"}
+      >
         <View style={styles.accountTabs}>
           <TouchableOpacity
             style={styles.accountTabsLinks}
@@ -61,13 +69,23 @@ const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
               <Icon
                 name="bank-transfer"
                 size={45}
-                style={[{ paddingRight: 19, color: colors.greenColor, marginLeft: 15 }]}
+                style={[{ paddingRight: 19, color: theme === "dark" ? "#fff" : colors.greenColor, marginLeft: 15 }]}
               />
             </View>
 
             <View style={{ width: "100%", marginLeft: 30 }}>
-              <Text style={[styles.accountTabsTitle, { color: colors.greenDarkColor }]}>Send to bank</Text>
-              <Text style={[styles.accountTabsLinkText]}>Send fund to any bank account</Text>
+              <Text
+                style={[
+                  styles.accountTabsTitle,
+                  { color: colors.greenDarkColor },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
+                Send to bank
+              </Text>
+              <Text style={[styles.accountTabsLinkText, theme === "dark" && globalStyles.textLightLight]}>
+                Send fund to any bank account
+              </Text>
             </View>
             <AntDesignIcon name="right" size={19} style={[styles.accountTabsRightAngel, { marginRight: 30 }]} />
           </TouchableOpacity>
@@ -79,13 +97,23 @@ const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
               <FontAwesomeIcon
                 name="exchange"
                 size={30}
-                style={[{ paddingRight: 28, color: colors.greenColor, marginLeft: 15 }]}
+                style={[{ paddingRight: 28, color: theme === "dark" ? "#fff" : colors.greenColor, marginLeft: 15 }]}
               />
             </View>
 
             <View style={{ width: "100%", marginLeft: 30 }}>
-              <Text style={[styles.accountTabsTitle, { color: colors.greenDarkColor }]}>Wallet Share</Text>
-              <Text style={[styles.accountTabsLinkText]}>Send funds to an agrolyfe user </Text>
+              <Text
+                style={[
+                  styles.accountTabsTitle,
+                  { color: colors.greenDarkColor },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
+                Wallet Share
+              </Text>
+              <Text style={[styles.accountTabsLinkText, theme === "dark" && globalStyles.textLightLight]}>
+                Send funds to an agrolyfe user{" "}
+              </Text>
             </View>
             <AntDesignIcon name="right" size={19} style={[styles.accountTabsRightAngel, { marginRight: 30 }]} />
           </TouchableOpacity>

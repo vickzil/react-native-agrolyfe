@@ -12,6 +12,7 @@ const { width } = Dimensions.get("screen");
 
 const ChangePinModal = () => {
   const modal = useSelector((state) => state.alert.changePinModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,7 +24,7 @@ const ChangePinModal = () => {
     <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <ScreenLoading visibility={{ status: isLoading, message: "Please wait ..." }} />
       <SvgComponent />
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#f8f8f8" }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
@@ -37,7 +38,7 @@ const ChangePinModal = () => {
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer]}>
-            <ChangePinForm isLoading={isLoading} setIsLoading={setIsLoading} closeModal={closeModal} />
+            <ChangePinForm isLoading={isLoading} theme={theme} setIsLoading={setIsLoading} closeModal={closeModal} />
           </View>
         </ScrollView>
       </View>

@@ -30,7 +30,7 @@ const ReferralDetailsModal = () => {
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const [referralInvesment, setReferralInvesment] = useState([]);
@@ -129,7 +129,7 @@ const ReferralDetailsModal = () => {
 
   return (
     <Modal visible={modal?.status} animationType="slide" onRequestClose={() => closeModal()}>
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#f8f8f8" }}>
         <SvgComponent />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon

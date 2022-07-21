@@ -13,10 +13,13 @@ import colors from "../styles/colors";
 import axios from "axios";
 import SvgComponent from "../components/customs/SvgComponent";
 import AnimatedView from "../components/customs/AnimatedView";
+import { globalStyles } from "../styles/global";
+import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
 
 const ForgotPassword = ({ navigation }) => {
   const dispatch = useDispatch();
   const confirmationModal = useRef();
+  const theme = useSelector((state) => state.oauth.theme);
 
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -132,8 +135,19 @@ const ForgotPassword = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
+    <SafeAreaView
+      style={[
+        { backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" },
+        theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+      ]}
+    >
       <SvgComponent />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
+
       <ConfirmationModalButtom
         bottomSheet={confirmationModal}
         closeModal={closeModal}
@@ -142,18 +156,23 @@ const ForgotPassword = ({ navigation }) => {
       <ScrollView contentContainerStyle={{ paddingTop: 30, paddingHorizontal: 20 }}>
         <Logo />
         <Text
-          style={{
-            color: "black",
-            fontSize: 22,
-            fontWeight: "bold",
-            fontFamily: "Poppins",
-            paddingTop: 70,
-            textAlign: "center",
-          }}
+          style={[
+            {
+              color: "black",
+              fontSize: 22,
+              fontWeight: "bold",
+              fontFamily: "Poppins",
+              paddingTop: 70,
+              textAlign: "center",
+            },
+            theme === "dark" && globalStyles.textLight,
+          ]}
         >
           Forgot Password
         </Text>
-        <Text style={{ color: "gray", fontSize: 16, marginVertical: 10, textAlign: "center" }}>
+        <Text
+          style={{ color: theme === "dark" ? "#aaa" : "gray", fontSize: 16, marginVertical: 10, textAlign: "center" }}
+        >
           Lets get you a new password
         </Text>
 
@@ -176,7 +195,7 @@ const ForgotPassword = ({ navigation }) => {
             onPress={() => navigation.navigate("Login")}
             // onPress={() => confirmationModal.current.show()}
             style={{
-              color: colors.greenDarkDarkColor,
+              color: colors.greenColor,
               textAlign: "center",
               fontSize: 16,
               fontWeight: "600",

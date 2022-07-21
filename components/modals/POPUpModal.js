@@ -15,11 +15,15 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../styles/colors";
 
 import { SvgUri } from "react-native-svg";
+import { useSelector } from "react-redux";
+import { globalStyles } from "../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
 const POPUpModal = ({ visible, setVisible, children, modalTitle = "Select option", lightBackground }) => {
   const [showModal, setShowModal] = useState(false);
+  const theme = useSelector((state) => state.oauth.theme);
+
   const closeModal = () => {
     setVisible(false);
   };
@@ -44,16 +48,33 @@ const POPUpModal = ({ visible, setVisible, children, modalTitle = "Select option
       }}
       style={{ marginBottom: 0 }}
     >
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8", marginBottom: 0 }}>
-        <View style={[lightBackground ? { backgroundColor: "#fff" } : { backgroundColor: colors.greenDarkColor }]}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#f8f8f8", marginBottom: 0 }}>
+        <View
+          style={[
+            lightBackground ? { backgroundColor: "#fff" } : { backgroundColor: colors.greenDarkColor },
+            theme === "dark" && globalStyles.cardDark,
+          ]}
+        >
           <View style={[styles.modalHeader]}>
             <Icon
               name="arrow-left"
               size={40}
-              style={[styles.modalHeaderIcon, lightBackground ? { color: "#111" } : { color: "#fff" }]}
+              style={[
+                styles.modalHeaderIcon,
+                lightBackground ? { color: "#111" } : { color: "#fff" },
+                theme === "dark" && globalStyles.textLight,
+              ]}
               onPress={() => closeModal()}
             />
-            <Text style={[styles.modalHeaderText, lightBackground && { color: "#111" }]}>{modalTitle}</Text>
+            <Text
+              style={[
+                styles.modalHeaderText,
+                lightBackground && { color: "#111" },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
+              {modalTitle}
+            </Text>
             <Text></Text>
           </View>
         </View>

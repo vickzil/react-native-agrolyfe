@@ -3,11 +3,12 @@ import React from "react";
 import colors from "../../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { addComma } from "../../../helpers/globalFunction";
+import { globalStyles } from "../../../../styles/global";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FSummary = ({ amount, selectedBank, selectedWallet }) => {
+const FSummary = ({ amount, selectedBank, selectedWallet, theme }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer, { marginBottom: 50 }]}>
@@ -21,7 +22,7 @@ const FSummary = ({ amount, selectedBank, selectedWallet }) => {
                   fontSize: 29,
                   marginBottom: 35,
                   fontWeight: "700",
-                  color: colors.greenDarkDarkColor,
+                  color: theme === "dark" ? colors.greenLightDarkColor : colors.greenDarkDarkColor,
                   fontFamily: "Poppins",
                   letterSpacing: -0.35644,
                 },
@@ -34,19 +35,28 @@ const FSummary = ({ amount, selectedBank, selectedWallet }) => {
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}> Amount</Text>
-                  <Text style={styles.productCardContentItemRight}> {amount ? addComma(amount) + ".00" : 0}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {" "}
+                    {amount ? addComma(amount) + ".00" : 0}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Bank</Text>
-                  <Text style={styles.productCardContentItemRight}>{selectedBank?.bankName}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {selectedBank?.bankName}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Debit from</Text>
-                  <Text style={styles.productCardContentItemRight}>{selectedWallet?.name}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {selectedWallet?.name}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Charges</Text>
-                  <Text style={styles.productCardContentItemRight}>₦ 0.00</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    ₦ 0.00
+                  </Text>
                 </View>
                 <View style={[styles.productCardContentItem]}>
                   <Text style={[styles.productCardContentItemLeft, { fontWeight: "900", fontSize: 22 }]}>Total</Text>
@@ -54,6 +64,7 @@ const FSummary = ({ amount, selectedBank, selectedWallet }) => {
                     style={[
                       styles.productCardContentItemRight,
                       { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 22 },
+                      theme === "dark" && globalStyles.textLight,
                     ]}
                   >
                     {amount ? addComma(amount) + ".00" : 0}
@@ -84,7 +95,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     marginTop: 10,
     marginBottom: 20,
   },

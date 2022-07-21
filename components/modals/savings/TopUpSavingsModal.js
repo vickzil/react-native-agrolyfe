@@ -32,6 +32,7 @@ import CustomLoadingButton from "../../customs/CustomLoadingButton";
 import { addComma } from "../../helpers/globalFunction";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
 import { getUserInfo } from "../../../store/auth/actions";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 const { width, height } = Dimensions.get("window");
 let screenHeight = Dimensions.get("window").height;
 
@@ -43,7 +44,7 @@ const TopUpSavingsModal = () => {
   const modal = useSelector((state) => state.alert.topUpSavingsModal);
   const selectedCard = useSelector((state) => state.alert.selectedCard);
   const walletOptions = useSelector((state) => state.wallet.walletOptions);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const user = useSelector((state) => state.oauth.user);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -218,9 +219,17 @@ const TopUpSavingsModal = () => {
       onBackdropPress={() => closeModal()}
       onSwipeComplete={() => closeModal()}
       // swipeDirection="right"
-      style={{ width: width, height: screenHeight, margin: 0, padding: 0, backgroundColor: "#fff" }}
+      style={[
+        { flex: 1, width: width, height: screenHeight, margin: 0, padding: 0, backgroundColor: "#fff" },
+        theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight,
+      ]}
     >
       <ScreenLoading visibility={screenLoading} />
+      {/* {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )} */}
 
       <KeyboardAvoidingView style={{ marginTop: 0, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
@@ -228,10 +237,10 @@ const TopUpSavingsModal = () => {
             <Icon
               name="arrow-left"
               size={33}
-              style={[styles.modalHeaderIcon, { color: "#111" }]}
+              style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222" }]}
               onPress={() => closeModal()}
             />
-            <Text style={styles.modalHeaderText}>Top up Savings</Text>
+            <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Top up Savings</Text>
             <Text></Text>
           </View>
           <ScrollView
@@ -256,6 +265,7 @@ const TopUpSavingsModal = () => {
                           letterSpacing: -0.35644,
                           color: colors.greenDarkDarkColor,
                         },
+                        theme === "dark" && globalStyles.textLight,
                       ]}
                     >
                       Amount
@@ -272,6 +282,7 @@ const TopUpSavingsModal = () => {
                         suffixUnit: "",
                       }}
                       placeholder="0"
+                      placeholderTextColor={theme === "dark" ? "#fff" : "444"}
                       editable={false}
                       value={amount}
                       onChangeText={(text) => {
@@ -292,6 +303,7 @@ const TopUpSavingsModal = () => {
                           fontWeight: "700",
                           textAlign: "center",
                         },
+                        theme === "dark" && globalStyles.textLight,
                       ]}
                     />
                   </View>
@@ -304,7 +316,7 @@ const TopUpSavingsModal = () => {
                         fontSize: 16,
                         marginBottom: 15,
                         fontWeight: "600",
-                        color: colors.greenDarkDarkColor,
+                        color: theme === "dark" ? colors.greenLightDarkColor : colors.greenDarkDarkColor,
                         fontFamily: "Montserrat",
                         letterSpacing: -0.35644,
                       },
@@ -318,7 +330,10 @@ const TopUpSavingsModal = () => {
                       { borderBottomWidth: 1, borderColor: "#f0f0f0", marginBottom: 30 },
                     ]}
                   >
-                    <Text style={styles.productCardContentItemLeft}> Card</Text>
+                    <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLight]}>
+                      {" "}
+                      Card
+                    </Text>
                     <TouchableOpacity
                       style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
                       activeOpacity={0.7}
@@ -385,6 +400,7 @@ const TopUpSavingsModal = () => {
                     style={[
                       { fontSize: 15, textAlign: "left", paddingHorizontal: 10, color: "#aaa" },
                       isEnabled && { color: "#222" },
+                      theme === "dark" && { color: "#fff" },
                     ]}
                   >
                     I agree to be debited ₦{amount ? addComma(amount) : 0} immediately from my{" "}

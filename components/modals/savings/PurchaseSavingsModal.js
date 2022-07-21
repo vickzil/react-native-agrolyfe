@@ -51,6 +51,7 @@ const PurchaseSavingsModal = () => {
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
+  const theme = useSelector((state) => state.oauth.theme);
 
   const paymentType = useSelector((state) => state.savings.selectedSavingsType);
   const paymentDetails = useSelector((state) => state.savings.selectedSavingsTypeDetails);
@@ -448,26 +449,26 @@ const PurchaseSavingsModal = () => {
   };
 
   return (
-    <Modal
-      visible={modal?.status}
-      animationType="fade"
-      onRequestClose={() => previousStep()}
-      style={{ flex: 1, backgroundColor: "#fff" }}
-    >
-      <View>
-        <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
-      </View>
+    <Modal visible={modal?.status} animationType="fade" onRequestClose={() => previousStep()} style={{ flex: 1 }}>
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
       <ScreenLoading visibility={screenLoading} />
       {/* <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" /> */}
       {/* <StatusBar translucent barStyle={statusbar} /> */}
-      <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <KeyboardAvoidingView
+        style={[{ marginTop: -40, flex: 1 }, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight]}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <View style={{ height: screenHeight }}>
           <SvgComponent />
-          <View style={[styles.modalHeader, { backgroundColor: "#FFF", marginTop: 30, paddingBottom: 0 }]}>
+          <View style={[styles.modalHeader, { marginTop: 0, paddingBottom: 0 }]}>
             <Icon
               name="arrow-left"
               size={40}
-              style={[styles.modalHeaderIcon, { color: "#111" }]}
+              style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222" }]}
               onPress={() => previousStep()}
             />
             <Text style={styles.modalHeaderText}></Text>
@@ -484,12 +485,14 @@ const PurchaseSavingsModal = () => {
               item={modal?.payload?.subCat}
               name={name}
               setName={setName}
+              theme={theme}
             />
             <SavingAmount
               payload={modal?.payload?.category}
               item={modal?.payload?.subCat}
               amount={amount}
               setAmount={setAmount}
+              theme={theme}
             />
             <SavingFrequency
               payload={modal?.payload?.category}
@@ -497,6 +500,7 @@ const PurchaseSavingsModal = () => {
               frequency={frequency}
               setFrequency={setFrequency}
               allFrequencies={allFrequencies}
+              theme={theme}
             />
             <SavingDuration
               payload={modal?.payload?.category}
@@ -504,6 +508,7 @@ const PurchaseSavingsModal = () => {
               duration={duration}
               setDuration={setDuration}
               allDurations={allDurations}
+              theme={theme}
             />
             <SavingSummary
               payload={modal?.payload?.category}
@@ -511,6 +516,7 @@ const PurchaseSavingsModal = () => {
               paymentDetails={paymentDetails}
               paymentType={paymentType}
               summaryDetails={summaryDetails}
+              theme={theme}
             />
           </ScrollView>
 
@@ -520,7 +526,7 @@ const PurchaseSavingsModal = () => {
               {
                 width: "100%",
                 justifyContent: "flex-end",
-                marginBottom: -30,
+                marginBottom: -10,
                 marginLeft: 0,
                 padding: 0,
                 marginRight: 0,

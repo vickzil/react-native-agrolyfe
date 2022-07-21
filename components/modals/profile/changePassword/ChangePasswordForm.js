@@ -22,6 +22,7 @@ const ChangePasswordForm = ({
   newPassword,
   setPassword,
   password,
+  theme,
 }) => {
   const user = useSelector((state) => state.oauth.user);
   const baseURL = useSelector((state) => state.oauth.baseURL);
@@ -136,37 +137,47 @@ const ChangePasswordForm = ({
   return (
     <View style={styles.form}>
       <View style={{ marginBottom: 25, width: "100%" }}>
-        <Text style={[styles.label, { marginBottom: 0, fontWeight: "600" }]}>Old password</Text>
-        <View style={[styles.inputContainer]}>
+        <Text
+          style={[styles.label, { marginBottom: 0, fontWeight: "600" }, theme === "dark" && globalStyles.textLight]}
+        >
+          Old password
+        </Text>
+        <View style={[styles.inputContainer, theme === "dark" && globalStyles.cardDark]}>
           <TextInput
             secureTextEntry={hidePassword}
             value={password}
             onChangeText={(text) => setPassword(text)}
             autoCorrect={false}
             placeholder="Enter old password"
-            style={[globalStyles.inputTextt, { fontSize: 18 }]}
+            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            style={[globalStyles.inputTextt, { fontSize: 18 }, theme === "dark" && globalStyles.textLight]}
           />
           <Icon
             onPress={() => setHidePassword(!hidePassword)}
-            style={{ fontSize: 30, color: "#666" }}
+            style={{ fontSize: 30, color: theme === "dark" ? "#888" : "#666" }}
             name={hidePassword ? "eye-outline" : "eye-off-outline"}
           />
         </View>
       </View>
       <View style={{ marginBottom: 20, width: "100%" }}>
-        <Text style={[styles.label, { marginBottom: 0, fontWeight: "600" }]}>New password</Text>
-        <View style={[styles.inputContainer]}>
+        <Text
+          style={[styles.label, { marginBottom: 0, fontWeight: "600" }, theme === "dark" && globalStyles.textLight]}
+        >
+          New password
+        </Text>
+        <View style={[styles.inputContainer, theme === "dark" && globalStyles.cardDark]}>
           <TextInput
             secureTextEntry={hideNewPassword}
             value={newPassword}
             onChangeText={(text) => setNewPassword(text)}
             autoCorrect={false}
             placeholder="Enter new password"
-            style={[globalStyles.inputTextt, { fontSize: 18 }]}
+            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            style={[globalStyles.inputTextt, { fontSize: 18 }, theme === "dark" && globalStyles.textLight]}
           />
           <Icon
             onPress={() => setHideNewPassword(!hideNewPassword)}
-            style={{ fontSize: 30, color: "#666" }}
+            style={{ fontSize: 30, color: theme === "dark" ? "#888" : "#666" }}
             name={hideNewPassword ? "eye-outline" : "eye-off-outline"}
           />
         </View>

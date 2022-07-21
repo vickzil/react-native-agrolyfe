@@ -14,9 +14,9 @@ const AccountManagerModal = () => {
   const modal = useSelector((state) => state.alert.accountManagerModal);
   const accountManager = useSelector((state) => state.accountManager.accountManager);
   const loading = useSelector((state) => state.accountManager.loading);
+  const theme = useSelector((state) => state.oauth.theme);
 
   const dispatch = useDispatch();
-  const [hasAccountManager] = useState(true);
 
   const closeModal = () => {
     dispatch(setAccountManagerModal(false));
@@ -32,9 +32,15 @@ const AccountManagerModal = () => {
       onBackdropPress={() => closeModal()}
       onSwipeComplete={() => closeModal()}
       swipeDirection="right"
-      style={{ width: width, height: height, margin: 0, padding: 0, backgroundColor: "#fff" }}
+      style={{
+        width: width,
+        height: height,
+        margin: 0,
+        padding: 0,
+        backgroundColor: theme === "dark" ? colors.darkBody : "#fff",
+      }}
     >
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+      <View style={{ flex: 1 }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"

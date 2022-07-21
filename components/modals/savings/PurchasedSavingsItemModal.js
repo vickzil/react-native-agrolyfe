@@ -2,11 +2,14 @@ import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } f
 import React from "react";
 import colors from "../../../styles/colors";
 import { addComma, formateDateByName } from "../../helpers/globalFunction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setTopUpSavingsModal } from "../../../store/alert/alertSlice";
+import { globalStyles } from "../../../styles/global";
 
 const PurchasedSavingsItemModal = ({ currentSavings }) => {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.oauth.theme);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.productCard}>
@@ -19,7 +22,7 @@ const PurchasedSavingsItemModal = ({ currentSavings }) => {
                 fontSize: 29,
                 marginBottom: 35,
                 fontWeight: "700",
-                color: colors.greenDarkDarkColor,
+                color: theme === "dark" ? "#fff" : colors.greenDarkDarkColor,
                 fontFamily: "Poppins",
                 letterSpacing: -0.35644,
               },
@@ -34,7 +37,7 @@ const PurchasedSavingsItemModal = ({ currentSavings }) => {
                 fontSize: 16,
                 marginBottom: 30,
                 fontWeight: "600",
-                color: "#555",
+                color: theme === "dark" ? "#aaa" : "#555",
                 fontFamily: "Poppins",
               },
             ]}
@@ -44,33 +47,58 @@ const PurchasedSavingsItemModal = ({ currentSavings }) => {
         </View>
         <View style={styles.productCardContent}>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Plan Type</Text>
-            <Text style={styles.productCardContentItemRight}>{currentSavings.savingsMainCategoryCode} Plan</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Plan Type
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {currentSavings.savingsMainCategoryCode} Plan
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Code</Text>
-            <Text style={styles.productCardContentItemRight}>{currentSavings.code}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Code
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {currentSavings.code}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Periodic Amount</Text>
-            <Text style={styles.productCardContentItemRight}>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Periodic Amount
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
               ₦ {currentSavings ? addComma(currentSavings?.paymentAmountPerFrequency) : 0}
             </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Duration</Text>
-            <Text style={styles.productCardContentItemRight}>{currentSavings.duration} Months</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Duration
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {currentSavings.duration} Months
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Frequency</Text>
-            <Text style={styles.productCardContentItemRight}>{currentSavings.frequency}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Frequency
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {currentSavings.frequency}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Next Due Date</Text>
-            <Text style={styles.productCardContentItemRight}>{formateDateByName(currentSavings.nextDueDate)}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Next Due Date
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {formateDateByName(currentSavings.nextDueDate)}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}> Status</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              {" "}
+              Status
+            </Text>
 
             <Text
               style={[
@@ -84,38 +112,68 @@ const PurchasedSavingsItemModal = ({ currentSavings }) => {
             </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Number of Payments</Text>
-            <Text style={styles.productCardContentItemRight}>{currentSavings?.totalNumberOfPayments}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Number of Payments
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {currentSavings?.totalNumberOfPayments}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Current Installment</Text>
-            <Text style={styles.productCardContentItemRight}>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Current Installment
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
               ₦ {currentSavings ? addComma(currentSavings?.currentInstallment) : 0}
             </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Vat Rate</Text>
-            <Text style={styles.productCardContentItemRight}>{currentSavings?.vatRate}%</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Vat Rate
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {currentSavings?.vatRate}%
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>First Payment On</Text>
-            <Text style={styles.productCardContentItemRight}>{formateDateByName(currentSavings.firstPaymentOn)}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              First Payment On
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {formateDateByName(currentSavings.firstPaymentOn)}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Last Debit On</Text>
-            <Text style={styles.productCardContentItemRight}>{formateDateByName(currentSavings.lastDebitOn)}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Last Debit On
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {formateDateByName(currentSavings.lastDebitOn)}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Start Date</Text>
-            <Text style={styles.productCardContentItemRight}>{formateDateByName(currentSavings.startDate)}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Start Date
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {formateDateByName(currentSavings.startDate)}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>End Date</Text>
-            <Text style={styles.productCardContentItemRight}>{formateDateByName(currentSavings.endDate)}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              End Date
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {formateDateByName(currentSavings.endDate)}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Payment Method</Text>
-            <Text style={styles.productCardContentItemRight}>{currentSavings.paymentMethod}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Payment Method
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {currentSavings.paymentMethod}
+            </Text>
           </View>
           <View style={[styles.productCardContentItem, { flexDirection: "column" }]}>
             <Text style={[styles.productCardContentItemLeft, { fontWeight: "900" }]}>Total Payout</Text>
@@ -123,6 +181,7 @@ const PurchasedSavingsItemModal = ({ currentSavings }) => {
               style={[
                 styles.productCardContentItemRight,
                 { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 23 },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               ₦ {currentSavings ? addComma(currentSavings?.totalPayoutAmount) : 0}
@@ -162,7 +221,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     // borderWidth: 1,
     // borderColor: "#f0f0f0",
     marginTop: 50,

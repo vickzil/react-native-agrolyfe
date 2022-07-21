@@ -13,6 +13,8 @@ const AllSavings = () => {
   const savingsCategories = useSelector((state) => state.savings.SavingsCategories);
   const loading = useSelector((state) => state.savings.catLoading);
 
+  const theme = useSelector((state) => state.oauth.theme);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -31,7 +33,7 @@ const AllSavings = () => {
         <View
           style={{
             marginTop: 40,
-            backgroundColor: "#fff",
+            backgroundColor: theme === "dark" ? colors.darkCard : "#fff",
             padding: 30,
             alignItems: "center",
             paddingTop: 50,
@@ -40,29 +42,44 @@ const AllSavings = () => {
           }}
         >
           <LoadingComponents />
-          <Text style={globalStyles.label}>Loading categories...</Text>
+          <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>Loading categories...</Text>
         </View>
       ) : savingsCategories && savingsCategories.length ? (
         <>
           <Text
-            style={{
-              marginTop: 0,
-              textAlign: "center",
-              fontFamily: "PoppinsBold",
-              fontSize: 17,
-              fontWeight: "600",
-              marginBottom: 40,
-            }}
+            style={[
+              {
+                marginTop: 0,
+                textAlign: "center",
+                fontFamily: "PoppinsBold",
+                fontSize: 17,
+                fontWeight: "600",
+                marginBottom: 40,
+              },
+              theme === "dark" && globalStyles.textLight,
+            ]}
           >
             Choose a plan
           </Text>
 
           {savingsCategories?.map((item, index) => (
-            <TouchableOpacity style={styles.container} key={index} onPress={() => goToSubCategory(item)}>
-              <Icon name="leaf-maple" size={20} style={[styles.Icon, { color: colors.greenColor }]} />
+            <TouchableOpacity
+              style={[styles.container, theme === "dark" && globalStyles.cardDark]}
+              key={index}
+              onPress={() => goToSubCategory(item)}
+            >
+              <Icon
+                name="leaf-maple"
+                size={20}
+                style={[styles.Icon, { color: theme === "dark" ? "#fff" : colors.greenColor }]}
+              />
               <View style={styles.content}>
-                <Text style={[styles.contentText, styles.contentText1]}>{item?.name}</Text>
-                <Text style={[styles.contentText, styles.contentText2]}>
+                <Text style={[styles.contentText, styles.contentText1, theme === "dark" && globalStyles.textLight]}>
+                  {item?.name}
+                </Text>
+                <Text
+                  style={[styles.contentText, styles.contentText2, theme === "dark" && globalStyles.textLightLight]}
+                >
                   {item?.savingsCategories?.length} Available plan
                 </Text>
               </View>

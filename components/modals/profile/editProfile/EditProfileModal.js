@@ -1,4 +1,4 @@
-import { Dimensions, Keyboard, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Keyboard, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setEditProfileModal } from "../../../../store/alert/alertSlice";
@@ -6,15 +6,16 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../../styles/colors";
 import EditProfileHeaderImageTop from "./EditProfileHeaderImageTop";
 import EditProfileForm from "./EditProfileForm";
-import Modal from "react-native-modal";
 import ScreenLoading from "../../../loader/ScreenLoading";
 import SvgComponent from "../../../customs/SvgComponent";
+import { globalStyles } from "../../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 let screenHeight = Dimensions.get("window").height;
 
 const EditProfileModal = () => {
   const modal = useSelector((state) => state.alert.editProfileModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [screenLoading, setScreenLoading] = useState({
@@ -38,20 +39,10 @@ const EditProfileModal = () => {
   };
 
   return (
-    <Modal
-      isVisible={modal}
-      animationIn="slideInRight"
-      animationOut="slideOutRight"
-      animationInTiming={100}
-      onBackButtonPress={() => closeModal()}
-      onBackdropPress={() => closeModal()}
-      onSwipeComplete={() => closeModal()}
-      swipeDirection="right"
-      style={{ width: width, height: screenHeight, margin: 0, padding: 0, backgroundColor: "#fff" }}
-    >
+    <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <SvgComponent />
       <ScreenLoading visibility={screenLoading} />
-      <View style={{ flex: 1 }}>
+      <View style={[{ flex: 1 }, theme === "dark" ? globalStyles.containerDark : { backgroundColor: "#fff" }]}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
@@ -68,12 +59,11 @@ const EditProfileModal = () => {
           </View>
 
           <View style={[styles.productContainer]}>
-            <EditProfileForm handleLoading={handleLoading} />
+            <EditProfileForm handleLoading={handleLoading} theme={theme} />
           </View>
         </ScrollView>
       </View>
     </Modal>
-    // </GestureRecognizer>
   );
 };
 

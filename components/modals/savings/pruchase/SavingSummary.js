@@ -5,11 +5,12 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { setSelectCardModal } from "../../../../store/alert/alertSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { addComma, formateDateByName } from "../../../helpers/globalFunction";
+import { globalStyles } from "../../../../styles/global";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const SavingSummary = ({ summaryDetails, paymentType, paymentDetails }) => {
+const SavingSummary = ({ summaryDetails, paymentType, paymentDetails, theme }) => {
   const dispatch = useDispatch();
 
   return (
@@ -29,6 +30,7 @@ const SavingSummary = ({ summaryDetails, paymentType, paymentDetails }) => {
                   fontFamily: "PoppinsBold",
                   letterSpacing: -0.35644,
                 },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               Summary
@@ -38,41 +40,53 @@ const SavingSummary = ({ summaryDetails, paymentType, paymentDetails }) => {
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Interest</Text>
-                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.interestRate}%</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {summaryDetails?.interestRate}%
+                  </Text>
                 </View>
 
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Duration</Text>
-                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.durationnMonths} months</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {summaryDetails?.durationnMonths} months
+                  </Text>
                 </View>
 
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Frequency</Text>
-                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.frequency}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {summaryDetails?.frequency}
+                  </Text>
                 </View>
 
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Vat Rate</Text>
-                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.vatRate}%</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {summaryDetails?.vatRate}%
+                  </Text>
                 </View>
 
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>End Date</Text>
-                  <Text style={styles.productCardContentItemRight}>{formateDateByName(summaryDetails?.endDate)}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {formateDateByName(summaryDetails?.endDate)}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Periodic Amount</Text>
-                  <Text style={styles.productCardContentItemRight}>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
                     ₦ {summaryDetails ? addComma(summaryDetails?.paymentAmountPerFrequency) : 0}
                   </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Number of Payments</Text>
-                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.totalNumberOfPayments}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {summaryDetails?.totalNumberOfPayments}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Target Amount</Text>
-                  <Text style={styles.productCardContentItemRight}>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
                     ₦ {summaryDetails ? addComma(summaryDetails?.targetAmount) : 0}
                   </Text>
                 </View>

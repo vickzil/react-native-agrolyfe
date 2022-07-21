@@ -2,11 +2,12 @@ import { Dimensions, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { TextInputMask } from "react-native-masked-text";
 import colors from "../../../../styles/colors";
+import { globalStyles } from "../../../../styles/global";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const SavingAmount = ({ amount, setAmount }) => {
+const SavingAmount = ({ amount, setAmount, theme }) => {
   return (
     <View style={[styles.productContainer]}>
       <View style={{ marginTop: 60, marginBottom: 10, width: "95%", paddingRight: 10 }}>
@@ -21,6 +22,7 @@ const SavingAmount = ({ amount, setAmount }) => {
               letterSpacing: -0.35644,
               color: colors.greenDarkDarkColor,
             },
+            theme === "dark" && globalStyles.textLight,
           ]}
         >
           How much would you like to save?
@@ -30,6 +32,7 @@ const SavingAmount = ({ amount, setAmount }) => {
             style={[
               styles.productCardContentItemLeft,
               { fontSize: 15, marginBottom: 20, fontWeight: "800", fontFamily: "Poppins", letterSpacing: -0.35644 },
+              theme === "dark" && globalStyles.textLightLight,
             ]}
           >
             Amount
@@ -57,12 +60,14 @@ const SavingAmount = ({ amount, setAmount }) => {
               suffixUnit: "",
             }}
             placeholder="0"
+            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
             value={amount}
             onChangeText={(text) => {
               setAmount(text);
             }}
             style={[
               { borderBottomWidth: 1, borderColor: colors.greenColor, height: 50, fontSize: 33, fontWeight: "700" },
+              theme === "dark" && globalStyles.textLight,
             ]}
           />
         </View>

@@ -5,10 +5,13 @@ import ReferralInvestmentItem from "./ReferralInvestmentItem";
 import LoadingComponents from "../../loader/LoadingComponents";
 import NoItem from "../../extra/NoItem";
 import PurchaseCard from "../../products/PurchaseCard";
+import { useSelector } from "react-redux";
 
 const { height } = Dimensions.get("screen");
 
 const ReferralInvestment = ({ item, investments, loading }) => {
+  const theme = useSelector((state) => state.oauth.theme);
+
   return (
     <View style={styles.referralInvestmentContainer}>
       <Text
@@ -22,6 +25,7 @@ const ReferralInvestment = ({ item, investments, loading }) => {
             textTransform: "capitalize",
             fontFamily: "MontserratBold",
           },
+          theme === "dark" && globalStyles.textLight,
         ]}
       >
         {item ? item?.firstName + "'s " : "Referral"} Investment
@@ -29,18 +33,21 @@ const ReferralInvestment = ({ item, investments, loading }) => {
       <View style={{ width: "100%" }}>
         {loading ? (
           <View
-            style={{
-              marginTop: 40,
-              backgroundColor: "#fff",
-              padding: 30,
-              alignItems: "center",
-              paddingTop: 50,
-              height: "100%",
-              width: "100%",
-            }}
+            style={[
+              {
+                marginTop: 40,
+                backgroundColor: "#fff",
+                padding: 30,
+                alignItems: "center",
+                paddingTop: 50,
+                height: "100%",
+                width: "100%",
+              },
+              theme === "dark" && globalStyles.cardDark,
+            ]}
           >
             <LoadingComponents />
-            <Text style={globalStyles.label}>Loading products...</Text>
+            <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>Loading products...</Text>
           </View>
         ) : investments && investments.length ? (
           <View style={{ width: "100%", justifyContent: "center", alignItems: "center", marginTop: 30, padding: 0 }}>

@@ -2,10 +2,12 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import colors from "../../styles/colors";
 import { setReferralDetailsModal } from "../../store/alert/alertSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { globalStyles } from "../../styles/global";
 
 const UserCard = ({ item }) => {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.oauth.theme);
 
   return (
     <TouchableOpacity
@@ -19,7 +21,7 @@ const UserCard = ({ item }) => {
         )
       }
     >
-      <View style={styles.userCard}>
+      <View style={[styles.userCard, theme === "dark" && globalStyles.cardDark]}>
         <View style={{ width: 80, height: 80, borderRadius: 100, padding: 4, backgroundColor: "#fff" }}>
           <Image
             source={{ uri: item.photo }}
@@ -30,7 +32,11 @@ const UserCard = ({ item }) => {
         <Text style={[styles.userCardText, { color: colors.greenColor }]}>
           {item ? item.firstName + " " + item.lastName : "-----"}
         </Text>
-        <Text style={[styles.userCardText, { color: "#888", marginTop: 3, fontSize: 12 }]}>{item.code}</Text>
+        <Text
+          style={[styles.userCardText, { color: theme === "dark" ? "#f1f1f1" : "#888", marginTop: 3, fontSize: 12 }]}
+        >
+          {item.code}
+        </Text>
       </View>
     </TouchableOpacity>
   );

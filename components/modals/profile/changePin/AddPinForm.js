@@ -10,7 +10,7 @@ import { getUserInfo } from "../../../../store/auth/actions";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
-const AddPinForm = ({ isLoading, setIsLoading, closeModal }) => {
+const AddPinForm = ({ isLoading, setIsLoading, closeModal, theme }) => {
   const user = useSelector((state) => state.oauth.user);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -135,11 +135,25 @@ const AddPinForm = ({ isLoading, setIsLoading, closeModal }) => {
   return (
     <View style={styles.form}>
       <View style={{ marginTop: 25, width: "100%", alignItems: "center" }}>
-        <Text style={[styles.productCardContentItemLeft, { fontSize: 25, fontWeight: "900", marginBottom: 4 }]}>
+        <Text
+          style={[
+            styles.productCardContentItemLeft,
+            { fontSize: 25, fontWeight: "900", marginBottom: 4 },
+            theme === "dark" && globalStyles.textLight,
+          ]}
+        >
           Create Transaction Pin
         </Text>
         <View style={{ alignItems: "center", marginBottom: 60 }}>
-          <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center" }]}>Enter 4-digit PIN</Text>
+          <Text
+            style={[
+              globalStyles.label,
+              { fontSize: 15, textAlign: "center" },
+              theme === "dark" && globalStyles.textLightLight,
+            ]}
+          >
+            Enter 4-digit PIN
+          </Text>
         </View>
         <KeycodeInput
           style={[{ fontFamily: "Poppins", letterSpacing: -0.35644 }]}
@@ -147,6 +161,7 @@ const AddPinForm = ({ isLoading, setIsLoading, closeModal }) => {
           autoFocus={false}
           numeric={true}
           tintColor={colors.greenColor}
+          textColor={theme === "dark" ? "white" : "black"}
           keyboardType="numeric"
           onChange={(value) => {
             setNewPin(value);

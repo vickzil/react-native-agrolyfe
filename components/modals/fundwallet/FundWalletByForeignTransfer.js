@@ -23,6 +23,7 @@ import LoadingComponents from "../../loader/LoadingComponents";
 import NoItem from "../../extra/NoItem";
 import RenderHtml from "react-native-render-html";
 import SvgComponent from "../../customs/SvgComponent";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 
 const { height, width } = Dimensions.get("window");
 const FundWalletByForeignTransfer = () => {
@@ -30,6 +31,7 @@ const FundWalletByForeignTransfer = () => {
   const modal = useSelector((state) => state.alert.fundwalletByForeignTransferModal);
   const walletOptions = useSelector((state) => state.wallet.walletOptions);
   const loading = useSelector((state) => state.wallet.optionLoading);
+  const theme = useSelector((state) => state.oauth.theme);
   const [foreignTransfer, setForeignTransfer] = useState(null);
   // ref
   const bottomSheetRef = useRef(null);
@@ -79,11 +81,11 @@ const FundWalletByForeignTransfer = () => {
 
   //   draggable={false}
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: "#fff" }]}>
-      {modal && (
-        <View>
-          <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
-        </View>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
       )}
       <BottomSheet
         ref={bottomSheetRef}
@@ -91,7 +93,7 @@ const FundWalletByForeignTransfer = () => {
         onClose={() => closeFundModal()}
         onRequestClose={() => closeFundModal()}
         height={height}
-        sheetBackgroundColor="#fff"
+        sheetBackgroundColor={theme === "dark" ? colors.darkCard : "#fff"}
         radius={1}
       >
         <SvgComponent />
@@ -99,10 +101,10 @@ const FundWalletByForeignTransfer = () => {
           <Icon
             name="chevron-left"
             size={40}
-            style={[styles.modalHeaderIcon, { color: "#222", marginLeft: -10 }]}
+            style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222", marginLeft: -10 }]}
             onPress={() => closeFundModal()}
           />
-          <Text style={styles.modalHeaderText}></Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}></Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 12 }}>
@@ -111,6 +113,7 @@ const FundWalletByForeignTransfer = () => {
               style={[
                 globalStyles.label,
                 { fontSize: 18, textAlign: "left", marginBottom: 10, fontWeight: "600", fontFamily: "PoppinsBold" },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               Bank transfer (USD/EUR/GBP)
@@ -119,7 +122,15 @@ const FundWalletByForeignTransfer = () => {
               {foreignTransfer ? foreignTransfer?.message : ""}
             </Text> */}
             {foreignTransfer && foreignTransfer?.message ? (
-              <RenderHtml contentWidth={width} source={{ html: foreignTransfer?.message }} />
+              <RenderHtml
+                contentWidth={width}
+                source={{ html: foreignTransfer?.message }}
+                tagsStyles={{
+                  p: { color: theme === "dark" && "white" },
+                  a: { color: theme === "dark" && "white" },
+                  span: { color: theme === "dark" && "white" },
+                }}
+              />
             ) : (
               ""
             )}
@@ -133,7 +144,12 @@ const FundWalletByForeignTransfer = () => {
             foreignTransfer?.items?.map((item, index) => (
               <Collapse
                 key={index}
-                style={{ marginBottom: 20, borderBottomWidth: 2, borderColor: "#e8e8e8", paddingBottom: 0 }}
+                style={{
+                  marginBottom: 20,
+                  borderBottomWidth: 2,
+                  borderColor: theme === "dark" ? colors.greenLightDarkColor : "#e8e8e8",
+                  paddingBottom: 0,
+                }}
               >
                 <CollapseHeader
                   style={{ flexDirection: "row", alignItems: "flex-start", padding: 0, marginBottom: 12 }}
@@ -148,14 +164,19 @@ const FundWalletByForeignTransfer = () => {
                       //   textAlign: "left",
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontWeight: "600", fontSize: 15, color: colors.greenColor }]}>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontWeight: "600", fontSize: 15, color: theme === "dark" ? "white" : colors.greenColor },
+                      ]}
+                    >
                       {item.currency}
                     </Text>
                     <View style={{ alignItems: "flex-end" }}>
                       <Icon
                         name="chevron-down"
                         size={33}
-                        style={[styles.modalHeaderIcon, { color: "#111", padding: 2 }]}
+                        style={[styles.modalHeaderIcon, { color: theme === "dark" ? "white" : "#111", padding: 2 }]}
                       />
                     </View>
                   </View>
@@ -168,18 +189,33 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Local Account number</Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                      ]}
+                    >
+                      Local Account number
+                    </Text>
                     <TouchableOpacity
                       style={{ flexDirection: "row", alignItems: "center" }}
                       onPress={() => handleCopy(item.localAccountNumber)}
                     >
-                      <Text style={[globalStyles.label, { fontSize: 14, color: colors.greenDarkColor }]}>
+                      <Text
+                        style={[
+                          globalStyles.label,
+                          { fontSize: 14, color: theme === "dark" ? "#aaa" : colors.greenDarkColor },
+                        ]}
+                      >
                         {item.localAccountNumber}
                       </Text>
                       <Ionicons
                         name="copy-outline"
                         size={19}
-                        style={[styles.modalHeaderIcon, { color: "#111", padding: 0, marginLeft: 6, marginTop: -7 }]}
+                        style={[
+                          styles.modalHeaderIcon,
+                          { color: theme === "dark" ? "#aaa" : "#111", padding: 0, marginLeft: 6, marginTop: -7 },
+                        ]}
                       />
                     </TouchableOpacity>
                   </View>
@@ -190,8 +226,23 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>local Bank Name</Text>
-                    <Text style={[globalStyles.label, { fontSize: 14, marginRight: 10 }]}>{item.localBankName}</Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                      ]}
+                    >
+                      local Bank Name
+                    </Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, marginRight: 10 },
+                        theme === "dark" && { color: "#aaa" },
+                      ]}
+                    >
+                      {item.localBankName}
+                    </Text>
                   </View>
 
                   <View
@@ -201,9 +252,22 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Local Account Name</Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                      ]}
+                    >
+                      Local Account Name
+                    </Text>
                     <View style={{ width: "50%", alignItems: "flex-end", justifyContent: "flex-end" }}>
-                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 14, marginRight: 10 }]}>
+                      <Text
+                        style={[
+                          globalStyles.label,
+                          { textAlign: "right", fontSize: 14, marginRight: 10 },
+                          theme === "dark" && { color: "#aaa" },
+                        ]}
+                      >
                         {item.localAccountName}
                       </Text>
                     </View>
@@ -215,7 +279,14 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Bank Swift Code</Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                      ]}
+                    >
+                      Bank Swift Code
+                    </Text>
                     <Text style={[globalStyles.label, { fontSize: 14, marginRight: 10 }]}>{item.bankSwiftCode}</Text>
                   </View>
                   <View
@@ -225,9 +296,22 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Corresponding IBAN</Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                      ]}
+                    >
+                      Corresponding IBAN
+                    </Text>
                     <View style={{ width: "50%", alignItems: "flex-end", justifyContent: "flex-end" }}>
-                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 14, marginRight: 10 }]}>
+                      <Text
+                        style={[
+                          globalStyles.label,
+                          { textAlign: "right", fontSize: 14, marginRight: 10 },
+                          theme === "dark" && { color: "#aaa" },
+                        ]}
+                      >
                         {item.correspondingBankIBAN}
                       </Text>
                     </View>
@@ -239,9 +323,22 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Corresponding Bank Name</Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                      ]}
+                    >
+                      Corresponding Bank Name
+                    </Text>
                     <View style={{ width: "40%", alignItems: "flex-end", justifyContent: "flex-end" }}>
-                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 14, marginRight: 10 }]}>
+                      <Text
+                        style={[
+                          globalStyles.label,
+                          { textAlign: "right", fontSize: 14, marginRight: 10 },
+                          theme === "dark" && { color: "#aaa" },
+                        ]}
+                      >
                         {item.correspondingBankName}
                       </Text>
                     </View>
@@ -253,7 +350,14 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Corresponding Sort Code</Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                      ]}
+                    >
+                      Corresponding Sort Code
+                    </Text>
                     <Text style={[globalStyles.label, { fontSize: 14, marginRight: 10 }]}>
                       {item.correspondingBankSortCode}
                     </Text>
@@ -265,9 +369,22 @@ const FundWalletByForeignTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Description</Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                      ]}
+                    >
+                      Description
+                    </Text>
                     <View style={{ width: "60%", alignItems: "flex-end", justifyContent: "flex-end" }}>
-                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 14, marginRight: 10 }]}>
+                      <Text
+                        style={[
+                          globalStyles.label,
+                          { textAlign: "right", fontSize: 14, marginRight: 10 },
+                          theme === "dark" && { color: "#aaa" },
+                        ]}
+                      >
                         {item.description}
                       </Text>
                     </View>

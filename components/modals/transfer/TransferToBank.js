@@ -34,6 +34,7 @@ import HeaderBalance from "../../extra/HeaderBalance";
 import { getUserWalletBalance } from "../../../store/wallet/actions";
 import { getUserInfo } from "../../../store/auth/actions";
 import { getTransactionsInfo } from "../../../store/transactions/actions";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -42,7 +43,7 @@ const TransferToBankModal = () => {
   const modal = useSelector((state) => state.alert.transferToBankModal);
   const selectedBank = useSelector((state) => state.alert.selectedBank);
   const selectedWallet = useSelector((state) => state.alert.selectedWallet);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const user = useSelector((state) => state.oauth.user);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -278,16 +279,24 @@ const TransferToBankModal = () => {
   return (
     <Modal visible={modal?.status} animationType="fade" onRequestClose={() => previousStep()}>
       <ScreenLoading visibility={screenLoading} />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
 
       <KeyboardAvoidingView
-        style={{
-          marginTop: -50,
-          flex: 1,
-        }}
+        style={[
+          {
+            marginTop: -50,
+            flex: 1,
+          },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={{ height: screenHeight }}>
-          <View style={[{ backgroundColor: colors.greenDarkColor, marginTop: 40 }]}>
+          <View style={[{ backgroundColor: colors.greenDarkColor, marginTop: 10 }]}>
             <View style={[styles.modalHeader]}>
               <Icon
                 name="arrow-left"
@@ -310,14 +319,21 @@ const TransferToBankModal = () => {
             style={{ padding: 10 }}
             showsHorizontalScrollIndicator={false}
           >
-            <FAmount amount={amount} setAmount={setAmount} bank={selectedBank} selectedWallet={selectedWallet} />
+            <FAmount
+              theme={theme}
+              amount={amount}
+              setAmount={setAmount}
+              bank={selectedBank}
+              selectedWallet={selectedWallet}
+            />
             <FSummary
               amount={amount}
               selectedBank={selectedBank}
               selectedWallet={selectedWallet}
               summaryDetails={summaryDetails}
+              theme={theme}
             />
-            <FConfirm pin={pin} setPin={setPin} step={step} />
+            <FConfirm pin={pin} setPin={setPin} step={step} theme={theme} />
           </ScrollView>
 
           <View
@@ -326,7 +342,7 @@ const TransferToBankModal = () => {
               {
                 width: "100%",
                 justifyContent: "flex-end",
-                marginBottom: -40,
+                marginBottom: -10,
                 marginLeft: 0,
                 padding: 0,
                 marginRight: 0,

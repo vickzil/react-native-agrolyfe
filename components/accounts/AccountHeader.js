@@ -253,42 +253,7 @@ const AccountHeader = () => {
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}
                 value={isEnabled}
-                style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
-            <Text
-              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
-            >
-              Show Balances{" "}
-            </Text>
-            <View>
-              <Switch
-                trackColor={{ false: "#767577", true: colors.greenLightColor }}
-                thumbColor={showBalances ? colors.greenColor : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleBalance}
-                value={showBalances}
-                style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
-              />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
-            <Text
-              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
-            >
-              Dark mode{" "}
-            </Text>
-            <View>
-              <Switch
-                trackColor={{ false: "#767577", true: colors.greenLightColor }}
-                thumbColor={theme === "dark" ? colors.greenColor : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={handleThemeChange}
-                value={theme === "dark" ? true : false}
-                style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
+                style={{ transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }] }}
               />
             </View>
           </TouchableOpacity>
@@ -319,7 +284,43 @@ const AccountHeader = () => {
             </Text>
             <Icon name="right" size={13} style={[styles.accountTabsRightAngel]} />
           </TouchableOpacity>
+          <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7, marginTop: 0, paddingTop: 0 }]}>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Show Balances{" "}
+            </Text>
+            <View>
+              <Switch
+                trackColor={{ false: "#767577", true: colors.greenLightColor }}
+                thumbColor={showBalances ? colors.greenColor : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleBalance}
+                value={showBalances}
+                style={{ transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }] }}
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.accountTabsLinks, { paddingVertical: 7 }]}>
+            <Text
+              style={[styles.accountTabsLinkText, theme === "dark" ? globalStyles.textLight : globalStyles.textDark]}
+            >
+              Dark mode{" "}
+            </Text>
+            <View>
+              <Switch
+                trackColor={{ false: "#767577", true: colors.greenLightColor }}
+                thumbColor={theme === "dark" ? colors.greenColor : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={handleThemeChange}
+                value={theme === "dark" ? true : false}
+                style={{ transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }] }}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
+
         <View style={[styles.accountTabs, { marginTop: 20 }]}>
           <Text style={{ color: "#999", textTransform: "uppercase", fontSize: 15 }}>
             AGROLYFE APP VERSION {APPVERSION}

@@ -2,10 +2,13 @@ import React, { useEffect, useRef } from "react";
 import { SafeAreaView, TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
+import { useSelector } from "react-redux";
 import colors from "../../styles/colors";
 import { globalStyles } from "../../styles/global";
 
 const ConfirmationModalButtom = ({ bottomSheet, closeModal, message }) => {
+  const theme = useSelector((state) => state.oauth.theme);
+
   return (
     <SafeAreaView style={styles.container}>
       <BottomSheet
@@ -14,6 +17,7 @@ const ConfirmationModalButtom = ({ bottomSheet, closeModal, message }) => {
         height={450}
         onRequestClose={() => closeModal()}
         style={{ position: "relative" }}
+        sheetBackgroundColor={theme === "dark" ? colors.darkCard : "#fff"}
       >
         <View
           style={{
@@ -36,6 +40,7 @@ const ConfirmationModalButtom = ({ bottomSheet, closeModal, message }) => {
                 fontFamily: "Poppins",
                 letterSpacing: -0.35644,
               },
+              theme === "dark" && globalStyles.textLight,
             ]}
           >
             SuccessFul
@@ -43,6 +48,7 @@ const ConfirmationModalButtom = ({ bottomSheet, closeModal, message }) => {
           <Text
             style={[
               { marginVertical: 20, fontSize: 16, textAlign: "center", fontFamily: "Poppins", letterSpacing: -0.35644 },
+              theme === "dark" && globalStyles.textLightLight,
             ]}
           >
             {message}

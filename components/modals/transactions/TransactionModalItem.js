@@ -3,15 +3,21 @@ import React from "react";
 import colors from "../../../styles/colors";
 import { formateDateAndTimeByName, removeUnderscoreFromString } from "../../helpers/globalFunction";
 import SvgComponent2 from "../../customs/SvgComponent2";
+import { useSelector } from "react-redux";
+import { globalStyles } from "../../../styles/global";
 
 const TransactionModalItem = ({ item }) => {
+  const theme = useSelector((state) => state.oauth.theme);
+
   return (
     <ScrollView>
-      <View style={styles.productCard}>
+      <View style={[styles.productCard]}>
         <SvgComponent2 />
         <View style={styles.productCardContent}>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Amount</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Amount
+            </Text>
             <Text
               style={[styles.productCardContentItemRight, item.drCr === "CR" ? styles.addedCash : styles.removeCash]}
             >
@@ -19,15 +25,26 @@ const TransactionModalItem = ({ item }) => {
             </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Date</Text>
-            <Text style={styles.productCardContentItemRight}>{formateDateAndTimeByName(item.createdOn)}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Date
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {formateDateAndTimeByName(item.createdOn)}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Type</Text>
-            <Text style={styles.productCardContentItemRight}>{removeUnderscoreFromString(item.type)}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Type
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {removeUnderscoreFromString(item.type)}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}> Status</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              {" "}
+              Status
+            </Text>
 
             <Text
               style={[
@@ -40,9 +57,19 @@ const TransactionModalItem = ({ item }) => {
             </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Description</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Description
+            </Text>
             <View style={{ width: "70%", alignItems: "flex-end", justifyContent: "flex-end" }}>
-              <Text style={[styles.productCardContentItemRight, { textAlign: "right" }]}>{item.description}</Text>
+              <Text
+                style={[
+                  styles.productCardContentItemRight,
+                  { textAlign: "right" },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
+                {item.description}
+              </Text>
             </View>
           </View>
         </View>

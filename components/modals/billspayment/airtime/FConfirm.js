@@ -6,7 +6,7 @@ import colors from "../../../../styles/colors";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FConfirm = ({ isEnabled, setIsEnabled }) => {
+const FConfirm = ({ isEnabled, setIsEnabled, theme }) => {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   return (
@@ -32,13 +32,20 @@ const FConfirm = ({ isEnabled, setIsEnabled }) => {
               fontFamily: "PoppinsBold",
               letterSpacing: -0.35644,
             },
+            theme === "dark" && globalStyles.textLight,
           ]}
         >
           Confirm purchase
         </Text>
 
         <View style={{ alignItems: "center" }}>
-          <Text style={[globalStyles.label, { fontSize: 15, textAlign: "center" }]}>
+          <Text
+            style={[
+              globalStyles.label,
+              { fontSize: 15, textAlign: "center" },
+              theme === "dark" && globalStyles.textLightLight,
+            ]}
+          >
             Are you sure you want to proceed
           </Text>
         </View>

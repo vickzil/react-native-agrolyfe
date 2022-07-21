@@ -35,7 +35,7 @@ const SelectWalletModal = () => {
   const selectedWallet = useSelector((state) => state.alert.selectedWallet);
   const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
   const loading = useSelector((state) => state.wallet.loading);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const [allWalletBalance, setAllWalletBalance] = useState([]);
@@ -83,17 +83,25 @@ const SelectWalletModal = () => {
 
   return (
     <Modal visible={modal?.status} animationType="fade" onRequestClose={() => closeModal()}>
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
-
-      <View style={{ marginTop: -40 }}>
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
+      <View
+        style={[
+          { flex: 1, marginTop: -40 },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
+      >
+        <View style={[styles.modalHeader, theme === "dark" ? globalStyles.containerDark : { backgroundColor: "#fff" }]}>
           <Icon
             name="arrow-left"
             size={33}
-            style={[styles.modalHeaderIcon, { color: "#222" }]}
+            style={[styles.modalHeaderIcon, theme === "dark" ? globalStyles.textLight : { color: "#222" }]}
             onPress={() => closeModal()}
           />
-          <Text style={styles.modalHeaderText}>Select Wallet</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Select Wallet</Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -102,7 +110,7 @@ const SelectWalletModal = () => {
               <View
                 style={{
                   marginTop: 40,
-                  backgroundColor: "#fff",
+                  backgroundColor: theme === "dark" ? colors.darkCard : "#fff",
                   padding: 30,
                   alignItems: "center",
                   paddingTop: 50,
@@ -111,10 +119,10 @@ const SelectWalletModal = () => {
                 }}
               >
                 <LoadingComponents />
-                <Text style={globalStyles.label}>Loading wallets...</Text>
+                <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>Loading wallets...</Text>
               </View>
             ) : allWalletBalance && allWalletBalance.length ? (
-              <View style={{ marginBottom: 20 }}>
+              <View style={{ marginBottom: 20, paddingHorizontal: 10 }}>
                 {allWalletBalance?.map((item, index) => (
                   <TouchableOpacity
                     key={index}
@@ -122,11 +130,17 @@ const SelectWalletModal = () => {
                       styles.container,
                       index === allWalletBalance.length - 1 && styles.removeElevation,
                       selectedWallet?.value === item.value && styles.selectedItem,
+                      theme === "dark" && globalStyles.cardDark,
+                      theme === "dark" && { marginBottom: 5 },
                     ]}
                     onPress={() => selectWallet(item)}
                   >
                     <View style={[styles.content]} key={index}>
-                      <Text style={[styles.contentText, styles.contentText1]}>{item.name}</Text>
+                      <Text
+                        style={[styles.contentText, styles.contentText1, theme === "dark" && globalStyles.textLight]}
+                      >
+                        {item.name}
+                      </Text>
                       <Text style={[styles.contentText, styles.contentText2, { fontSize: 20 }]}>
                         {item ? "₦ " + addComma(item?.amount) : "0.00"}
                       </Text>

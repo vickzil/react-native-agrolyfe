@@ -11,7 +11,7 @@ import { addComma } from "../../../helpers/globalFunction";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
+const FAmount = ({ amount, setAmount, bank, selectedWallet, theme }) => {
   const dispatch = useDispatch();
 
   return (
@@ -31,6 +31,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                     letterSpacing: -0.35644,
                     color: colors.greenDarkDarkColor,
                   },
+                  theme === "dark" && globalStyles.textLight,
                 ]}
               >
                 How much would you like to transfer? (Amount)
@@ -47,12 +48,14 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                   suffixUnit: "",
                 }}
                 placeholder="0"
+                placeholderTextColor={theme === "dark" ? "#fff" : "444"}
                 value={amount}
                 onChangeText={(text) => {
                   setAmount(text);
                 }}
                 style={[
                   { borderBottomWidth: 1, borderColor: colors.greenColor, height: 50, fontSize: 33, fontWeight: "700" },
+                  theme === "dark" && globalStyles.textLight,
                 ]}
               />
             </View>
@@ -65,7 +68,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                   fontSize: 16,
                   marginBottom: 15,
                   fontWeight: "600",
-                  color: colors.greenDarkDarkColor,
+                  color: theme === "dark" ? colors.greenLightDarkColor : colors.greenDarkDarkColor,
                   fontFamily: "Montserrat",
                   letterSpacing: -0.35644,
                 },
@@ -79,7 +82,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                 { borderBottomWidth: 1, borderColor: "#f0f0f0", marginBottom: 30 },
               ]}
             >
-              <Text style={styles.productCardContentItemLeft}> Bank</Text>
+              <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLight]}> Bank</Text>
               <TouchableOpacity
                 style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
                 activeOpacity={0.7}
@@ -136,7 +139,7 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
                   fontSize: 16,
                   marginBottom: 15,
                   fontWeight: "600",
-                  color: colors.greenDarkDarkColor,
+                  color: theme === "dark" ? colors.greenLightDarkColor : colors.greenDarkDarkColor,
                   fontFamily: "Montserrat",
                   letterSpacing: -0.35644,
                 },
@@ -147,10 +150,13 @@ const FAmount = ({ amount, setAmount, bank, selectedWallet }) => {
             <View
               style={[
                 styles.productCardContentItem,
-                { borderBottomWidth: 1, borderColor: "#f0f0f0", marginBottom: 30 },
+                { borderBottomWidth: 0, borderColor: "#f0f0f0", marginBottom: 30 },
               ]}
             >
-              <Text style={styles.productCardContentItemLeft}> Wallet</Text>
+              <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLight]}>
+                {" "}
+                Wallet
+              </Text>
               <TouchableOpacity
                 style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
                 activeOpacity={0.7}

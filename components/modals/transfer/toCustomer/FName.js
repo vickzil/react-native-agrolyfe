@@ -10,7 +10,7 @@ let screenHeight = Dimensions.get("window").height;
 
 const userImage = require("../../../../assets/img/user-default.png");
 
-const FName = ({ userName, setUserName, calculatedUser, setCalculatedUser, removeUser }) => {
+const FName = ({ userName, setUserName, calculatedUser, setCalculatedUser, removeUser, theme }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ width: screenWidth, paddingBottom: 0 }}>
       <View style={[styles.productContainer, { paddingBottom: 0 }]}>
@@ -78,12 +78,20 @@ const FName = ({ userName, setUserName, calculatedUser, setCalculatedUser, remov
                   style={[
                     globalStyles.label,
                     { fontSize: 15, textAlign: "center", marginBottom: 40, fontWeight: "600" },
+                    theme === "dark" && globalStyles.textLightLight,
                   ]}
                 >
                   Enter customer username
                 </Text>
                 <View style={[styles.inputContainer]}>
-                  <Text style={{ fontWeight: "900", fontSize: 20, marginRight: 4 }}>@</Text>
+                  <Text
+                    style={[
+                      { fontWeight: "900", fontSize: 20, marginRight: 4 },
+                      theme === "dark" && globalStyles.textLightLight,
+                    ]}
+                  >
+                    @
+                  </Text>
                   <TextInput
                     value={userName}
                     autoFocus={true}
@@ -91,10 +99,12 @@ const FName = ({ userName, setUserName, calculatedUser, setCalculatedUser, remov
                     selectionColor="#f8f8f8"
                     onChangeText={(text) => setUserName(text.replace(/\s/g, ""))}
                     autoCorrect={false}
+                    placeholderTextColor={theme === "dark" ? "#fff" : "444"}
                     style={[
                       globalStyles.inputTextt,
                       styles.inputField,
                       { width: "100%", paddingBottom: 0, fontSize: 20, fontWeight: "700" },
+                      theme === "dark" && globalStyles.textLightLight,
                     ]}
                   />
                 </View>

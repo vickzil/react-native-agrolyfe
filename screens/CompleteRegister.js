@@ -11,7 +11,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomButton from "../components/customs/CustomButton";
 import CustomInput from "../components/customs/CustomInput";
 import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
@@ -31,7 +31,7 @@ const CompleteRegister = ({ navigation, route }) => {
 
   const dispatch = useDispatch();
   const confirmationModal = useRef();
-
+  const theme = useSelector((state) => state.oauth.theme);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
@@ -211,9 +211,16 @@ const CompleteRegister = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins" }}>
+    <SafeAreaView
+      style={{ backgroundColor: theme === "dark" ? colors.darkBody : "#fff", flex: 1, fontFamily: "Poppins" }}
+    >
       <SvgComponent />
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
       <ConfirmationModalButtom
         bottomSheet={confirmationModal}
         closeModal={closeModal}
@@ -221,10 +228,20 @@ const CompleteRegister = ({ navigation, route }) => {
       />
       <ScrollView contentContainerStyle={{ paddingTop: 10, paddingHorizontal: 20, paddingBottom: 40 }}>
         <Logo />
-        <Text style={{ color: "black", fontSize: 22, fontWeight: "bold", fontFamily: "Poppins", textAlign: "center" }}>
+        <Text
+          style={{
+            color: theme === "dark" ? "#fff" : "black",
+            fontSize: 22,
+            fontWeight: "bold",
+            fontFamily: "Poppins",
+            textAlign: "center",
+          }}
+        >
           Nice Work!
         </Text>
-        <Text style={{ color: "gray", fontSize: 16, marginVertical: 10, textAlign: "center" }}>
+        <Text
+          style={{ color: theme === "dark" ? "#aaa" : "gray", fontSize: 16, marginVertical: 10, textAlign: "center" }}
+        >
           Please complete your registration
         </Text>
 
@@ -279,11 +296,19 @@ const CompleteRegister = ({ navigation, route }) => {
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
             />
-            <Text style={globalStyles.label}>Date of birth</Text>
-            <TouchableOpacity style={[styles.inputContainer, { height: 60 }]} onPress={showDatePicker}>
-              <Icon name="calendar-today" size={22} color="#888" style={{ marginRight: 10 }} />
+            <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>Date of birth</Text>
+            <TouchableOpacity
+              style={[styles.inputContainer, { height: 60 }, theme === "dark" && globalStyles.cardDark]}
+              onPress={showDatePicker}
+            >
+              <Icon
+                name="calendar-today"
+                size={22}
+                color={theme === "dark" ? "#aaa" : "#888"}
+                style={{ marginRight: 10 }}
+              />
               <View style={globalStyles.inputTextt}>
-                <Text>{removeFormatDate(date)}</Text>
+                <Text style={theme === "dark" && globalStyles.textLight}>{removeFormatDate(date)}</Text>
               </View>
             </TouchableOpacity>
             {errors?.dob && <Text style={{ color: "red", fontSize: 13, marginTop: 7 }}>{errors?.dob}</Text>}

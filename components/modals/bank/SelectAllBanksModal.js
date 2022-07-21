@@ -24,6 +24,7 @@ import IconSearch from "react-native-vector-icons/AntDesign";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import NoItem from "../../extra/NoItem";
 import AnimatedViewComp from "../../customs/AnimatedViewComp";
+import { globalStyles } from "../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
@@ -31,6 +32,7 @@ const SelectAllBanksModal = () => {
   const modal = useSelector((state) => state.alert.selectAllBankModal);
   const selectedBank = useSelector((state) => state.alert.selectedAllBank);
   const countryInfo = useSelector((state) => state.oauth.countryInfo);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
   const [allBanks, setAllBanks] = useState([]);
   const [searchBText, setSearchBText] = useState("");
@@ -96,47 +98,65 @@ const SelectAllBanksModal = () => {
 
   return (
     <Modal visible={modal?.status} animationType="fade" onRequestClose={() => closeModal()}>
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
 
-      <View style={{ marginTop: -40 }}>
-        <View style={[{ backgroundColor: "#fff", width }]}>
+      <View
+        style={[
+          { flex: 1, marginTop: -40 },
+          theme === "dark" ? globalStyles.containerDark : { backgroundColor: "#fff" },
+        ]}
+      >
+        <View style={[{ backgroundColor: theme === "dark" ? colors.darkCard : "#fff", width }]}>
           <View style={[styles.modalHeader]}>
             <Icon
               name="arrow-left"
               size={33}
-              style={[styles.modalHeaderIcon, { color: "#222" }]}
+              style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222" }]}
               onPress={() => closeModal()}
             />
-            <Text style={styles.modalHeaderText}>Select Bank</Text>
+            <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Select Bank</Text>
             <Text></Text>
           </View>
           <View style={[styles.modalSearchContainer]}>
-            <View style={[styles.modalSearch]}>
-              <IconSearch name="search1" size={20} style={[styles.searchIcon, { color: colors.greenColor }]} />
+            <View style={[styles.modalSearch, theme === "dark" && globalStyles.containerDark]}>
+              <IconSearch
+                name="search1"
+                size={20}
+                style={[styles.searchIcon, { color: theme === "dark" ? "#fff" : colors.greenColor }]}
+              />
               <TextInput
                 value={searchBText}
                 onChangeText={(text) => setSearchBText(text)}
-                style={styles.searchInput}
+                style={[styles.searchInput, theme === "dark" && globalStyles.textLight]}
+                placeholderTextColor={theme === "dark" ? "#fff" : "#333"}
                 placeholder="Search bank..."
               />
             </View>
           </View>
         </View>
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 160 }}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 60 }}>
           <View style={[styles.productContainer, { height: "100%" }]}>
             {allFilterBanks && allFilterBanks.length ? (
-              <View style={{ marginBottom: 70 }}>
+              <View style={{ marginBottom: 30 }}>
                 {allFilterBanks?.map((item, index) => (
                   <AnimatedViewComp index={index} key={index}>
                     <TouchableOpacity
                       activeOpacity={0.9}
                       key={index}
-                      style={styles.container}
+                      style={[styles.container]}
                       onPress={() => selectBank(item)}
                     >
                       <View style={styles.content} key={index}>
-                        <Text style={[styles.contentText, styles.contentText1]}>{item?.name}</Text>
+                        <Text
+                          style={[styles.contentText, styles.contentText1, theme === "dark" && globalStyles.textLight]}
+                        >
+                          {item?.name}
+                        </Text>
                       </View>
                     </TouchableOpacity>
                   </AnimatedViewComp>

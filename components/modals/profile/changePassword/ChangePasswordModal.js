@@ -12,6 +12,7 @@ const { width } = Dimensions.get("screen");
 
 const ChangePasswordModal = () => {
   const modal = useSelector((state) => state.alert.changePasswordModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +36,7 @@ const ChangePasswordModal = () => {
   return (
     <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <ScreenLoading visibility={{ status: isLoading, message: "Please wait ..." }} />
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#f8f8f8" }}>
         <SvgComponent />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
@@ -63,6 +64,7 @@ const ChangePasswordModal = () => {
               setHidePassword={setHidePassword}
               hideNewPassword={hideNewPassword}
               setHideNewPassword={setHideNewPassword}
+              theme={theme}
             />
           </View>
         </ScrollView>

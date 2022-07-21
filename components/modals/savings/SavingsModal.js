@@ -29,6 +29,8 @@ const SavingsModal = () => {
   const loading = useSelector((state) => state.oauth.loading);
   const showBalances = useSelector((state) => state.oauth.showBalances);
 
+  const theme = useSelector((state) => state.oauth.theme);
+
   const dispatch = useDispatch();
 
   return (
@@ -44,7 +46,7 @@ const SavingsModal = () => {
           <StatusBar backgroundColor={colors.greenDarkColor} barStyle={"light-content"} />
         </View>
       )}
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+      <View style={[{ flex: 1 }, theme === "dark" ? globalStyles.containerDark : { backgroundColor: "#f8f8f8" }]}>
         <SvgComponent2 />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon

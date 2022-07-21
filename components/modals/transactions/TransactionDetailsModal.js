@@ -15,11 +15,14 @@ import { setTransactionDetailsModal } from "../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import TransactionModalItem from "./TransactionModalItem";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import colors from "../../../styles/colors";
+import { globalStyles } from "../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
 const TransactionDetailsModal = () => {
   const modal = useSelector((state) => state.alert.transactionDetailsModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -33,20 +36,30 @@ const TransactionDetailsModal = () => {
 
   return (
     <Modal visible={modal?.status} animationType="slide" onRequestClose={() => closeModal()}>
-      <View style={{ marginTop: -40 }}>
-        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      <View
+        style={[
+          { flex: 1, marginTop: -40 },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
+      >
+        {theme === "dark" ? (
+          <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+        ) : (
+          <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+        )}
+
+        <View style={[styles.modalHeader, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
           <Icon
             name="arrow-left"
             size={33}
-            style={[styles.modalHeaderIcon, { color: "#222" }]}
+            style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222" }]}
             onPress={() => closeModal()}
           />
-          <Text style={styles.modalHeaderText}>Transaction</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Transaction</Text>
           <Text></Text>
         </View>
 
-        <TransactionModalItem item={modal?.payload} />
+        <TransactionModalItem item={modal?.payload} theme={theme} />
 
         {/* <Banks /> */}
       </View>

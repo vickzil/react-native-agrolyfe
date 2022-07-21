@@ -12,7 +12,7 @@ import { setAlertModal } from "../../../../store/alert/alertSlice";
 import { getUserInfo } from "../../../../store/auth/actions";
 import AnimatedViewComp from "../../../customs/AnimatedViewComp";
 
-const EditProfileForm = ({ isLoading, setIsLoading }) => {
+const EditProfileForm = ({ isLoading, setIsLoading, theme }) => {
   const user = useSelector((state) => state.oauth.user);
   const dispatch = useDispatch();
   const [fullName, setFullName] = useState("");
@@ -150,14 +150,26 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
               <TouchableOpacity
                 key={index}
                 activeOpacity={0.9}
-                style={[globalStyles.selectContainer, relationship == item ? globalStyles.selectedItem : null]}
+                style={[
+                  globalStyles.selectContainer,
+                  relationship == item ? globalStyles.selectedItem : null,
+                  theme === "dark" && globalStyles.cardDark,
+                ]}
                 onPress={() => {
                   setShowRelationshipModal(false);
                   setRelationship(item);
                 }}
               >
                 <View style={globalStyles.selectContent} key={index}>
-                  <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item}</Text>
+                  <Text
+                    style={[
+                      globalStyles.selectContentText,
+                      globalStyles.selectContentText1,
+                      theme === "dark" && globalStyles.textLight,
+                    ]}
+                  >
+                    {item}
+                  </Text>
                 </View>
               </TouchableOpacity>
             </AnimatedViewComp>
@@ -165,44 +177,47 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
         </View>
       </POPUpModal>
       <View style={{ marginBottom: 20, width: "100%" }}>
-        <Text style={styles.label}>Full name</Text>
-        <View style={[styles.inputContainer]}>
+        <Text style={[styles.label, theme === "dark" && globalStyles.textLight]}>Full name</Text>
+        <View style={[styles.inputContainer, theme === "dark" && globalStyles.cardDark]}>
           <TextInput
             value={fullName}
             onChangeText={(text) => setFullName(text)}
             autoCorrect={false}
             placeholder="Enter full name"
-            style={globalStyles.inputTextt}
+            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
           />
         </View>
       </View>
       <View style={{ marginBottom: 20, width: "100%" }}>
-        <Text style={styles.label}>Email</Text>
-        <View style={[styles.inputContainer]}>
+        <Text style={[styles.label, theme === "dark" && globalStyles.textLight]}>Email</Text>
+        <View style={[styles.inputContainer, theme === "dark" && globalStyles.cardDark]}>
           <TextInput
             value={email}
             onChangeText={(text) => setEmail(text)}
             autoCorrect={false}
             placeholder="Enter email"
-            style={globalStyles.inputTextt}
+            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
           />
         </View>
       </View>
       <View style={{ marginBottom: 20, width: "100%" }}>
-        <Text style={styles.label}>Phone</Text>
-        <View style={[styles.inputContainer]}>
+        <Text style={[styles.label, theme === "dark" && globalStyles.textLight]}>Phone</Text>
+        <View style={[styles.inputContainer, theme === "dark" && globalStyles.cardDark]}>
           <TextInput
             value={phone}
             onChangeText={(text) => setPhone(text)}
             autoCorrect={false}
             keyboardType="numeric"
             placeholder="Enter phone"
-            style={globalStyles.inputTextt}
+            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
           />
         </View>
       </View>
       <View style={{ marginBottom: 20, width: "100%" }}>
-        <Text style={styles.label}>Select Gender</Text>
+        <Text style={[styles.label, theme === "dark" && globalStyles.textLight]}>Select Gender</Text>
         {/* <RadioGroup
           value={gender}
           containerStyle={{ flexDirection: "row", fontFamily: "Poppins", letterSpacing: -0.35644 }}
@@ -213,8 +228,8 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
         <RadioForm
           radio_props={radioButtonsData}
           // initial={0}
-          buttonColor={colors.greenColor}
-          selectedButtonColor={colors.greenColor}
+          buttonColor={theme === "dark" ? "#fff" : colors.greenColor}
+          selectedButtonColor={theme === "dark" ? "#fff" : colors.greenColor}
           formHorizontal={true}
           animation={true}
           isSelected={!!radioButtonsData.find((item) => item === gender)}
@@ -224,6 +239,7 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
             letterSpacing: -0.35644,
             marginTop: 5,
             marginRight: 20,
+            color: theme === "dark" && "#fff",
           }}
           onPress={(value) => {
             setGender(value);
@@ -231,22 +247,27 @@ const EditProfileForm = ({ isLoading, setIsLoading }) => {
         />
       </View>
       <View style={{ marginBottom: 20, width: "100%" }}>
-        <Text style={styles.label}>Select Relationship</Text>
+        <Text style={[styles.label, theme === "dark" && globalStyles.textLight]}>Select Relationship</Text>
         <TouchableOpacity
-          style={[styles.inputContainer, { height: 50 }]}
+          style={[styles.inputContainer, { height: 50 }, theme === "dark" && globalStyles.cardDark]}
           onPress={() => setShowRelationshipModal(true)}
         >
-          <TextInput value={relationship} editable={false} style={globalStyles.inputTextt} />
+          <TextInput
+            value={relationship}
+            editable={false}
+            style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
+          />
           <FontAwesome5Icon name="chevron-circle-down" size={16} color="#666" style={{ marginRight: 10 }} />
         </TouchableOpacity>
       </View>
 
       <View style={{ marginBottom: 20, width: "100%" }}>
-        <Text style={styles.label}>Address</Text>
-        <View style={[styles.inputContainer, { height: 60 }]}>
+        <Text style={[styles.label, theme === "dark" && globalStyles.textLight]}>Address</Text>
+        <View style={[styles.inputContainer, { height: 60 }, theme === "dark" && globalStyles.cardDark]}>
           <TextInput
             value={address}
             onChangeText={(text) => setAddress(text)}
+            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
             multiline={true}
             autoCorrect={false}
             style={[globalStyles.inputTextt, { textAlign: "left", width: "100%" }]}

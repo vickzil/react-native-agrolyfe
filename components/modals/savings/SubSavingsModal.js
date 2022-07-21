@@ -16,11 +16,13 @@ import colors from "../../../styles/colors";
 import IconSearch from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import SavingsCard from "../../savings/SavingsCard";
+import { globalStyles } from "../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
 const SubSavingsModal = () => {
   const modal = useSelector((state) => state.alert.subCategorySavingsModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   return (
@@ -36,7 +38,7 @@ const SubSavingsModal = () => {
         );
       }}
     >
-      <View>
+      <View style={[{ flex: 1 }, theme === "dark" ? globalStyles.containerDark : { backgroundColor: "#fff" }]}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
             name="arrow-left"
@@ -62,14 +64,17 @@ const SubSavingsModal = () => {
           </View> */}
           <View style={{ marginTop: 30 }}>
             <Text
-              style={{
-                marginTop: 0,
-                textAlign: "center",
-                fontFamily: "PoppinsBold",
-                fontSize: 17,
-                fontWeight: "600",
-                marginBottom: 40,
-              }}
+              style={[
+                {
+                  marginTop: 0,
+                  textAlign: "center",
+                  fontFamily: "PoppinsBold",
+                  fontSize: 17,
+                  fontWeight: "600",
+                  marginBottom: 40,
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
             >
               Choose a {modal?.payload ? modal?.payload?.code : "Sub "} plan
             </Text>

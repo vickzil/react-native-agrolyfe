@@ -17,11 +17,13 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AllTransactions from "../../transactions/AllTransactions";
 import colors from "../../../styles/colors";
 import HeaderBalance from "../../extra/HeaderBalance";
+import { globalStyles } from "../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
 const TransactionModal = () => {
   const modal = useSelector((state) => state.alert.transactionModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   return (
@@ -48,7 +50,12 @@ const TransactionModal = () => {
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={[styles.productContainer]}>
+          <View
+            style={[
+              styles.productContainer,
+              theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+            ]}
+          >
             <AllTransactions />
           </View>
         </ScrollView>
@@ -113,6 +120,7 @@ const styles = StyleSheet.create({
   },
 
   productContainer: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",

@@ -2,14 +2,16 @@ import { Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { globalStyles } from "../../styles/global";
 import AllTransactionItem from "./AllTransactionItem";
+import TransactionItem from "./TransactionItem";
 import NoItem from "../extra/NoItem";
 import { useSelector } from "react-redux";
 import LoadingComponents from "../loader/LoadingComponents";
+import colors from "../../styles/colors";
 
 const AllTransactions = () => {
   const transactions = useSelector((state) => state.transactions.transactions);
   const loading = useSelector((state) => state.transactions.loading);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const [allTransactions, setAllTransactions] = useState([]);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const AllTransactions = () => {
         <View
           style={{
             marginTop: 40,
-            backgroundColor: "#f5f5f5",
+            backgroundColor: theme === "dark" ? colors.darkBody : "#f5f5f5",
             padding: 30,
             alignItems: "center",
             paddingTop: 50,
@@ -44,10 +46,10 @@ const AllTransactions = () => {
           }}
         >
           <LoadingComponents />
-          <Text style={globalStyles.label}>Loading transactions...</Text>
+          <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>Loading transactions...</Text>
         </View>
       ) : allTransactions && allTransactions.length ? (
-        allTransactions?.map((item, index) => <AllTransactionItem item={item} key={index} index={index} />)
+        allTransactions?.map((item, index) => <TransactionItem item={item} key={index} index={index} />)
       ) : (
         <View style={{ marginTop: 40 }}>
           <NoItem item={{ type: "TRANSACTIONS", buttonText: "", message: "You have no transactions" }} />

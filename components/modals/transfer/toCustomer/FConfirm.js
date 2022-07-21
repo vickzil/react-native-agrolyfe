@@ -20,7 +20,7 @@ import { resendUserTransactionPin } from "../../../../store/auth/actions";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FConfirm = ({ pin, setPin, step }) => {
+const FConfirm = ({ pin, setPin, step, theme }) => {
   const resendPinLoading = useSelector((state) => state.oauth.resendPinLoading);
   const [autoF, setAutoF] = useState(false);
   const dispatch = useDispatch();
@@ -40,7 +40,13 @@ const FConfirm = ({ pin, setPin, step }) => {
   return (
     <View style={[styles.productContainer]}>
       <View style={{ justifyContent: "center", width: "90%", marginTop: 50, alignItems: "center", marginLeft: -20 }}>
-        <Text style={[styles.productCardContentItemLeft, { fontSize: 22, fontWeight: "900", marginBottom: 4 }]}>
+        <Text
+          style={[
+            styles.productCardContentItemLeft,
+            { fontSize: 22, fontWeight: "900", marginBottom: 4 },
+            theme === "dark" && globalStyles.textLight,
+          ]}
+        >
           Transaction Pin
         </Text>
         <View style={{ alignItems: "center", marginBottom: 60 }}>
@@ -48,17 +54,24 @@ const FConfirm = ({ pin, setPin, step }) => {
             style={[
               globalStyles.label,
               { fontSize: 15, textAlign: "center", fontFamily: "Montserrat", letterSpacing: -0.35644 },
+              theme === "dark" && globalStyles.textLightLight,
             ]}
           >
             Enter your 4-digit TRANSACTION PIN to approve this transfer
           </Text>
         </View>
         <KeycodeInput
-          style={{ fontFamily: "Poppins", letterSpacing: -0.35644 }}
+          style={{
+            fontFamily: "Poppins",
+            letterSpacing: -0.35644,
+            backgroundColor: theme === "dark" && "#aaa",
+            borderRadius: theme === "dark" && 6,
+          }}
           alphaNumeric={false}
           autoFocus={autoF}
           numeric={true}
           tintColor={colors.greenColor}
+          textColor={theme === "dark" ? "white" : "black"}
           keyboardType="numeric"
           onChange={(value) => {
             setPin(value);

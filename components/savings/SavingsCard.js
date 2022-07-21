@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPurchaseSavingsModal } from "../../store/alert/alertSlice";
 import { addComma } from "../helpers/globalFunction";
 import { setSelectedSavingsType, setSelectedSavingsTypeDetails } from "../../store/savings/savingsSlice";
+import { globalStyles } from "../../styles/global";
 
 const SavingsCard = ({ item, category }) => {
   const walletOptions = useSelector((state) => state.wallet.walletOptions);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
   const [card, setCard] = useState(null);
 
@@ -40,10 +42,16 @@ const SavingsCard = ({ item, category }) => {
   };
 
   return (
-    <TouchableOpacity style={styles.productCard} activeOpacity={0.7} onPress={() => showInitiateModal()}>
+    <TouchableOpacity
+      style={[styles.productCard, theme === "dark" && globalStyles.cardDark]}
+      activeOpacity={0.7}
+      onPress={() => showInitiateModal()}
+    >
       <View style={styles.productCardContent}>
         <View style={styles.productCardContentSub}>
-          <Text style={styles.productCardContentSubTitle}>{item?.savingsMainCategoryCode}</Text>
+          <Text style={[styles.productCardContentSubTitle, theme === "dark" && globalStyles.textLightLight]}>
+            {item?.savingsMainCategoryCode}
+          </Text>
 
           <IconSearch
             name="lock"
@@ -57,13 +65,18 @@ const SavingsCard = ({ item, category }) => {
                 textAlign: "center",
                 fontFamily: "MontserratBold",
               },
+              theme === "dark" && globalStyles.textLightLight,
             ]}
           />
         </View>
 
-        <Text style={styles.productCardContentTitle}>{item?.name}</Text>
+        <Text style={[styles.productCardContentTitle, theme === "dark" && globalStyles.textLight]}>{item?.name}</Text>
+
         <View
-          style={{ width: "100%", backgroundColor: "#fff", height: 3, paddingHorizontal: 40, marginBottom: 30 }}
+          style={[
+            { width: "100%", backgroundColor: "#fff", height: 3, paddingHorizontal: 40, marginBottom: 30 },
+            theme === "dark" && { backgroundColor: colors.greenDarkColor },
+          ]}
         ></View>
         <View style={{ flexDirection: "row", marginBottom: 22, justifyContent: "space-between" }}>
           <View>
@@ -71,7 +84,7 @@ const SavingsCard = ({ item, category }) => {
               style={{
                 fontSize: 14,
                 fontWeight: "600",
-                color: colors.greenColor,
+                color: colors.greenLightDarkColor,
                 marginRight: 15,
                 fontFamily: "Poppins",
               }}
@@ -81,7 +94,7 @@ const SavingsCard = ({ item, category }) => {
             <Text
               style={{
                 fontSize: 15,
-                color: "#444",
+                color: theme === "dark" ? "#fff" : "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
                 fontFamily: "Montserrat",
@@ -95,7 +108,7 @@ const SavingsCard = ({ item, category }) => {
               style={{
                 fontSize: 14,
                 fontWeight: "600",
-                color: colors.greenColor,
+                color: colors.greenLightDarkColor,
                 fontFamily: "Poppins",
                 textAlign: "right",
               }}
@@ -105,7 +118,7 @@ const SavingsCard = ({ item, category }) => {
             <Text
               style={{
                 fontSize: 15,
-                color: "#444",
+                color: theme === "dark" ? "#fff" : "#444",
                 fontWeight: "600",
                 justifyContent: "flex-end",
                 fontFamily: "Montserrat",
@@ -135,7 +148,7 @@ const SavingsCard = ({ item, category }) => {
             <Text
               style={{
                 fontSize: 15,
-                color: "#444",
+                color: theme === "dark" ? "#fff" : "#444",
                 fontWeight: "600",
                 flexDirection: "row",
                 justifyContent: "flex-end",

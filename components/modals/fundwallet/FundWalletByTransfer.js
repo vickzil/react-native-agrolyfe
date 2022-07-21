@@ -23,6 +23,7 @@ import LoadingComponents from "../../loader/LoadingComponents";
 import NoItem from "../../extra/NoItem";
 import RenderHtml from "react-native-render-html";
 import SvgComponent from "../../customs/SvgComponent";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 
 const { height, width } = Dimensions.get("window");
 const FundWalletByTransfer = () => {
@@ -30,6 +31,7 @@ const FundWalletByTransfer = () => {
   const modal = useSelector((state) => state.alert.fundwalletByLocalTransferModal);
   const walletOptions = useSelector((state) => state.wallet.walletOptions);
   const loading = useSelector((state) => state.wallet.optionLoading);
+  const theme = useSelector((state) => state.oauth.theme);
   const [localTransfer, setLocalTransfer] = useState(null);
   // ref
   const bottomSheetRef = useRef(null);
@@ -79,11 +81,11 @@ const FundWalletByTransfer = () => {
 
   //   draggable={false}
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: "#fff" }]}>
-      {modal && (
-        <View>
-          <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
-        </View>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
       )}
 
       <BottomSheet
@@ -92,7 +94,7 @@ const FundWalletByTransfer = () => {
         onClose={() => closeFundModal()}
         onRequestClose={() => closeFundModal()}
         height={height}
-        sheetBackgroundColor="#fff"
+        sheetBackgroundColor={theme === "dark" ? colors.darkCard : "#fff"}
         radius={1}
       >
         <SvgComponent />
@@ -100,10 +102,10 @@ const FundWalletByTransfer = () => {
           <Icon
             name="chevron-left"
             size={40}
-            style={[styles.modalHeaderIcon, { color: "#222", marginLeft: -10 }]}
+            style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222", marginLeft: -10 }]}
             onPress={() => closeFundModal()}
           />
-          <Text style={styles.modalHeaderText}></Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}></Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 12 }}>
@@ -112,11 +114,18 @@ const FundWalletByTransfer = () => {
               style={[
                 globalStyles.label,
                 { fontSize: 18, textAlign: "left", marginBottom: 10, fontWeight: "600", fontFamily: "PoppinsBold" },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               Bank Transfer (NGN)
             </Text>
-            <Text style={[globalStyles.label, { fontSize: 14, textAlign: "left", marginBottom: 0, fontWeight: "500" }]}>
+            <Text
+              style={[
+                globalStyles.label,
+                { fontSize: 14, textAlign: "left", marginBottom: 0, fontWeight: "500" },
+                theme === "dark" && globalStyles.textLightLight,
+              ]}
+            >
               {localTransfer ? localTransfer?.message : ""}
             </Text>
           </View>
@@ -129,7 +138,12 @@ const FundWalletByTransfer = () => {
             localTransfer?.items?.map((item, index) => (
               <Collapse
                 key={index}
-                style={{ marginBottom: 20, borderBottomWidth: 2, borderColor: "#e8e8e8", paddingBottom: 0 }}
+                style={{
+                  marginBottom: 20,
+                  borderBottomWidth: 2,
+                  borderColor: theme === "dark" ? colors.greenLightDarkColor : "#e8e8e8",
+                  paddingBottom: 0,
+                }}
               >
                 <CollapseHeader
                   style={{ flexDirection: "row", alignItems: "flex-start", padding: 0, marginBottom: 12 }}
@@ -144,14 +158,19 @@ const FundWalletByTransfer = () => {
                       //   textAlign: "left",
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontWeight: "600", fontSize: 15, color: colors.greenColor }]}>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontWeight: "600", fontSize: 15, color: theme === "dark" ? "white" : colors.greenColor },
+                      ]}
+                    >
                       {item.accountBank}
                     </Text>
                     <View style={{ alignItems: "flex-end" }}>
                       <Icon
                         name="chevron-down"
                         size={33}
-                        style={[styles.modalHeaderIcon, { color: "#111", padding: 2 }]}
+                        style={[styles.modalHeaderIcon, { color: theme === "dark" ? "white" : "#111", padding: 2 }]}
                       />
                     </View>
                   </View>
@@ -164,18 +183,33 @@ const FundWalletByTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Account number</Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                      ]}
+                    >
+                      Account number
+                    </Text>
                     <TouchableOpacity
                       style={{ flexDirection: "row", alignItems: "center" }}
                       onPress={() => handleCopy(item.accountNumber)}
                     >
-                      <Text style={[globalStyles.label, { fontSize: 14, color: colors.greenDarkColor }]}>
+                      <Text
+                        style={[
+                          globalStyles.label,
+                          { fontSize: 14, color: theme === "dark" ? "#aaa" : colors.greenDarkColor },
+                        ]}
+                      >
                         {item.accountNumber}
                       </Text>
                       <Ionicons
                         name="copy-outline"
                         size={19}
-                        style={[styles.modalHeaderIcon, { color: "#111", padding: 0, marginLeft: 6, marginTop: -7 }]}
+                        style={[
+                          styles.modalHeaderIcon,
+                          { color: theme === "dark" ? "#aaa" : "#111", padding: 0, marginLeft: 6, marginTop: -7 },
+                        ]}
                       />
                     </TouchableOpacity>
                   </View>
@@ -186,8 +220,22 @@ const FundWalletByTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>currency</Text>
-                    <Text style={[globalStyles.label, { fontSize: 14, marginRight: 10 }]}>{item.currency}</Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                      ]}
+                    >
+                      currency
+                    </Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, marginRight: 10, color: theme === "dark" ? "#aaa" : "#777" },
+                      ]}
+                    >
+                      {item.currency}
+                    </Text>
                   </View>
                   <View
                     style={{
@@ -196,9 +244,26 @@ const FundWalletByTransfer = () => {
                       marginBottom: 16,
                     }}
                   >
-                    <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Account Name</Text>
+                    <Text
+                      style={[
+                        globalStyles.label,
+                        { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                      ]}
+                    >
+                      Account Name
+                    </Text>
                     <View style={{ width: "50%", alignItems: "flex-end", justifyContent: "flex-end" }}>
-                      <Text style={[globalStyles.label, { textAlign: "right", fontSize: 14, marginRight: 10 }]}>
+                      <Text
+                        style={[
+                          globalStyles.label,
+                          {
+                            textAlign: "right",
+                            fontSize: 14,
+                            marginRight: 10,
+                            color: theme === "dark" ? "#aaa" : "#777",
+                          },
+                        ]}
+                      >
                         {item.accountName}
                       </Text>
                     </View>
@@ -210,7 +275,14 @@ const FundWalletByTransfer = () => {
                     }}
                   >
                     <View style={{ width: "100%" }}>
-                      <Text style={[globalStyles.label, { fontSize: 14, color: "#777" }]}>Message</Text>
+                      <Text
+                        style={[
+                          globalStyles.label,
+                          { fontSize: 14, color: theme === "dark" ? colors.greenLightDarkColor : "#777" },
+                        ]}
+                      >
+                        Message
+                      </Text>
                       {/* <Text style={[globalStyles.label, { textAlign: "left", fontSize: 14, marginRight: 10 }]}>
                         {item.message}
                       </Text> */}
@@ -218,6 +290,11 @@ const FundWalletByTransfer = () => {
                         style={[globalStyles.label, { textAlign: "left", fontSize: 14, marginRight: 10 }]}
                         contentWidth={width}
                         source={{ html: item.message }}
+                        tagsStyles={{
+                          p: { color: theme === "dark" && "white" },
+                          a: { color: theme === "dark" && "white" },
+                          span: { color: theme === "dark" && "white" },
+                        }}
                       />
                     </View>
                   </View>

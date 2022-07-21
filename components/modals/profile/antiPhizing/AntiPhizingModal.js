@@ -13,6 +13,7 @@ const { width } = Dimensions.get("screen");
 
 const AntiPhizingModal = () => {
   const modal = useSelector((state) => state.alert.antiPhizingModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const [phrase, setPhrase] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [emptyFields, setEmptyFields] = useState(true);
@@ -28,7 +29,7 @@ const AntiPhizingModal = () => {
   return (
     <Modal visible={modal} animationType="slide" onRequestClose={() => closeModal()}>
       <ScreenLoading visibility={{ status: isLoading, message: "Please wait ..." }} />
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#f8f8f8" }}>
         <SvgComponent2 />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
@@ -53,6 +54,7 @@ const AntiPhizingModal = () => {
               setEmptyFields={setEmptyFields}
               setIsLoading={setIsLoading}
               closeModal={closeModal}
+              theme={theme}
             />
           </View>
         </ScrollView>

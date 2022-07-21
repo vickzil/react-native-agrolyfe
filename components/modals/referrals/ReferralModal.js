@@ -21,6 +21,7 @@ import AllReferrals from "../../referrals/AllReferrals";
 import { copyLink } from "../../helpers/globalFunction";
 import SvgComponent2 from "../../customs/SvgComponent2";
 import SvgComponent from "../../customs/SvgComponent";
+import { globalStyles } from "../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
@@ -31,6 +32,7 @@ const ReferralModal = () => {
   const walletLoading = useSelector((state) => state.wallet.loading);
   const referrals = useSelector((state) => state.referrals.referrals);
   const referralLoading = useSelector((state) => state.referrals.loading);
+  const theme = useSelector((state) => state.oauth.theme);
 
   const dispatch = useDispatch();
 
@@ -60,7 +62,7 @@ const ReferralModal = () => {
         dispatch(setReferralModal(false));
       }}
     >
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#f8f8f8" }}>
         <SvgComponent />
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           <Icon
@@ -96,11 +98,12 @@ const ReferralModal = () => {
                   <ActivityIndicator size="small" color="#14961E" />
                 </View>
               ) : referrals && referrals?.link ? (
-                <View style={[styles.modalSearch]}>
+                <View style={[styles.modalSearch, theme === "dark" && globalStyles.containerDark]}>
                   <TextInput
                     style={[
                       styles.searchInput,
                       { textAlign: "left", alignItems: "flex-start", textAlignVertical: "top" },
+                      theme === "dark" && globalStyles.textLight,
                     ]}
                     placeholder="referral link"
                     value={referrals?.link}

@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const SavingDuration = ({ setDuration, payload, item, allDurations }) => {
+const SavingDuration = ({ setDuration, payload, item, allDurations, theme }) => {
   const [selectedCustom, setSelectedCustom] = useState(false);
   const [date, setDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -63,6 +63,7 @@ const SavingDuration = ({ setDuration, payload, item, allDurations }) => {
                 letterSpacing: -0.35644,
                 color: colors.greenDarkDarkColor,
               },
+              theme === "dark" && globalStyles.textLight,
             ]}
           >
             How long would you like to save?
@@ -71,14 +72,14 @@ const SavingDuration = ({ setDuration, payload, item, allDurations }) => {
             <RadioForm
               radio_props={radioButtonsData}
               // initial={0}
-              buttonColor={colors.greenColor}
-              selectedButtonColor={colors.greenColor}
+              buttonColor={theme === "dark" ? "#fff" : colors.greenColor}
+              selectedButtonColor={theme === "dark" ? "#fff" : colors.greenColor}
               animation={true}
               labelStyle={{
                 fontSize: 17,
                 fontFamily: "Poppins",
                 letterSpacing: -0.35644,
-
+                color: theme === "dark" && "#fff",
                 paddingTop: 10,
                 marginBottom: 20,
               }}
@@ -96,10 +97,25 @@ const SavingDuration = ({ setDuration, payload, item, allDurations }) => {
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
             />
-            <TouchableOpacity style={[styles.inputContainer, { height: 60 }]} onPress={showDatePicker}>
-              <Icon name="calendar-today" size={22} color="#888" style={{ marginRight: 10 }} />
+            <TouchableOpacity
+              style={[styles.inputContainer, { height: 60 }, theme === "dark" && globalStyles.containerDark]}
+              onPress={showDatePicker}
+            >
+              <Icon
+                name="calendar-today"
+                size={22}
+                color={theme === "dark" ? "#fff" : "#888"}
+                style={{ marginRight: 10 }}
+              />
               <View style={globalStyles.inputTextt}>
-                <Text style={{ fontSize: 20, fontFamily: "Poppins", letterSpacing: -0.35644 }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontFamily: "Poppins",
+                    letterSpacing: -0.35644,
+                    color: theme === "dark" && "#fff",
+                  }}
+                >
                   {removeFormatDate(date)}
                 </Text>
               </View>

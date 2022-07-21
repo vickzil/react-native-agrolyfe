@@ -25,6 +25,7 @@ const AddBankForm = ({
   setAccountName,
   accountNameError,
   setAccountNameError,
+  theme,
 }) => {
   const modal = useSelector((state) => state.alert.addbvnModal);
   const selectedBank = useSelector((state) => state.alert.selectedAllBank);
@@ -220,11 +221,17 @@ const AddBankForm = ({
         <View style={[globalStyles.productContainer, { width: "100%" }]}>
           <View style={{ width: "90%" }}>
             <View style={{ marginTop: 20, marginBottom: 10 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}>
+              <Text
+                style={[
+                  styles.productCardContentItemLeft,
+                  { fontSize: 18, marginBottom: 5, fontWeight: "800" },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
                 Select Bank
               </Text>
               <TouchableOpacity
-                style={[globalStyles.inputContainer, { height: 50 }]}
+                style={[globalStyles.inputContainer, { height: 50 }, theme === "dark" && globalStyles.cardDark]}
                 onPress={() =>
                   dispatch(
                     setSelectAllBankModal({
@@ -234,23 +241,32 @@ const AddBankForm = ({
                   )
                 }
               >
-                <Text style={globalStyles.inputTextt}> {selectedBank ? selectedBank.name : "Select bank"} </Text>
+                <Text style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}>
+                  {" "}
+                  {selectedBank ? selectedBank.name : "Select bank"}{" "}
+                </Text>
                 <Icon name="chevron-down" size={24} style={[{ color: "#222", marginLeft: -10 }]} />
               </TouchableOpacity>
             </View>
 
             <View style={{ marginTop: 20, marginBottom: 30 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 18, marginBottom: 5, fontWeight: "800" }]}>
+              <Text
+                style={[
+                  styles.productCardContentItemLeft,
+                  { fontSize: 18, marginBottom: 5, fontWeight: "800" },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
                 Account Number
               </Text>
-              <View style={[globalStyles.inputContainer, { height: 57 }]}>
+              <View style={[globalStyles.inputContainer, { height: 57 }, theme === "dark" && globalStyles.cardDark]}>
                 <TextInput
                   keyboardType="numeric"
                   value={accountNumber}
                   onChangeText={(text) => setAccountNumber(text)}
                   onBlur={() => checkIfInputs()}
                   autoCorrect={false}
-                  style={globalStyles.inputTextt}
+                  style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
                 />
               </View>
               {accountNameError ? (

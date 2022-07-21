@@ -4,11 +4,12 @@ import colors from "../../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector } from "react-redux";
 import { addComma } from "../../../helpers/globalFunction";
+import { globalStyles } from "../../../../styles/global";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FSummary = ({ calculatedUser, amount }) => {
+const FSummary = ({ calculatedUser, amount, theme }) => {
   const user = useSelector((state) => state.oauth.user);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -23,7 +24,7 @@ const FSummary = ({ calculatedUser, amount }) => {
                   fontSize: 20,
                   marginBottom: 35,
                   fontWeight: "700",
-                  color: colors.greenDarkDarkColor,
+                  color: theme === "dark" ? "#fff" : colors.greenDarkDarkColor,
                   fontFamily: "Poppins",
                   letterSpacing: -0.35644,
                 },
@@ -36,17 +37,39 @@ const FSummary = ({ calculatedUser, amount }) => {
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>From</Text>
-                  <Text style={styles.productCardContentItemRight}>{user.firstName + " " + user.lastName}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {user.firstName + " " + user.lastName}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>To</Text>
-                  <Text style={styles.productCardContentItemRight}>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
                     {calculatedUser?.firstName + " " + calculatedUser?.lastName}
                   </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Amount</Text>
-                  <Text style={styles.productCardContentItemRight}>{amount ? addComma(amount) : 0}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {amount ? addComma(amount) : 0}
+                  </Text>
+                </View>
+                <View style={styles.productCardContentItem}>
+                  <Text style={styles.productCardContentItemLeft}>Charges</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    ₦ 0.00
+                  </Text>
+                </View>
+                <View style={[styles.productCardContentItem]}>
+                  <Text style={[styles.productCardContentItemLeft, { fontWeight: "900", fontSize: 22 }]}>Total</Text>
+                  <Text
+                    style={[
+                      styles.productCardContentItemRight,
+                      { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 22 },
+                      theme === "dark" && globalStyles.textLight,
+                    ]}
+                  >
+                    {amount ? addComma(amount) + ".00" : 0}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -73,7 +96,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     marginTop: 10,
     marginBottom: 20,
   },

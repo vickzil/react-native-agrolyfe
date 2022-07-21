@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FAmount = ({ amount, setAmount, calculatedUser }) => {
+const FAmount = ({ amount, setAmount, calculatedUser, theme }) => {
   const dispatch = useDispatch();
 
   return (
@@ -27,11 +27,23 @@ const FAmount = ({ amount, setAmount, calculatedUser }) => {
                 />
               </View>
 
-              <Text style={[globalStyles.accountUserFullName, { fontSize: 14 }]}>
+              <Text
+                style={[
+                  globalStyles.accountUserFullName,
+                  { fontSize: 14 },
+                  theme === "dark" && globalStyles.textLightLight,
+                ]}
+              >
                 {calculatedUser?.firstName + " " + calculatedUser?.lastName}
               </Text>
-              <Text style={[globalStyles.accountTitle, { fontSize: 16, fontFamily: "PoppinsBold" }]}>
-                {calculatedUser?.userName}
+              <Text
+                style={[
+                  globalStyles.accountTitle,
+                  { fontSize: 16, fontFamily: "PoppinsBold" },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
+                @{calculatedUser?.userName}
               </Text>
             </View>
           </View>
@@ -48,7 +60,7 @@ const FAmount = ({ amount, setAmount, calculatedUser }) => {
                   fontWeight: "800",
                   fontFamily: "Poppins",
                   letterSpacing: -0.35644,
-                  color: colors.greenDarkDarkColor,
+                  color: theme === "dark" ? "#aaa" : colors.greenDarkDarkColor,
                 },
               ]}
             >
@@ -65,6 +77,7 @@ const FAmount = ({ amount, setAmount, calculatedUser }) => {
                 suffixUnit: "",
               }}
               placeholder="0"
+              placeholderTextColor={theme === "dark" ? "#fff" : "444"}
               value={amount}
               onChangeText={(text) => {
                 setAmount(text);
@@ -84,6 +97,7 @@ const FAmount = ({ amount, setAmount, calculatedUser }) => {
                   fontWeight: "700",
                   textAlign: "center",
                 },
+                theme === "dark" && globalStyles.textLight,
               ]}
             />
           </View>

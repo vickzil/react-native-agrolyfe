@@ -7,11 +7,13 @@ import { setAlertModal, setLoading, setTermsAndCModal } from "../../../store/ale
 import colors from "../../../styles/colors";
 import { setAgreeTerms } from "../../../store/auth/authSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { globalStyles } from "../../../styles/global";
 
 const { width, height } = Dimensions.get("screen");
 
 const TermsAndConditionModal = () => {
   const modal = useSelector((state) => state.alert.termsAndCModal);
+  const theme = useSelector((state) => state.oauth.theme);
 
   const dispatch = useDispatch();
 
@@ -61,10 +63,16 @@ const TermsAndConditionModal = () => {
       onBackdropPress={() => closeModal()}
       onSwipeComplete={() => closeModal()}
       // swipeDirection="right"
-      style={{ width: width, height: height, margin: 0, padding: 0, backgroundColor: "#fff" }}
+      style={{
+        width: width,
+        height: height,
+        margin: 0,
+        padding: 0,
+        backgroundColor: theme === "dark" ? colors.darkBody : "#fff",
+      }}
     >
       {/* <StatusBar barStyle="light-content" /> */}
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+      <View style={{ flex: 1 }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}>
           {/* <Icon
             name="arrow-left"
@@ -99,7 +107,7 @@ const TermsAndConditionModal = () => {
                   textAlign: "left",
                 }}
               ></Text>
-              <Text style={[styles.userCardText]}>
+              <Text style={[styles.userCardText, theme === "dark" && globalStyles.textLight]}>
                 That I must abide by all rules and regulations guiding the farmland sales
               </Text>
             </View>
@@ -124,7 +132,9 @@ const TermsAndConditionModal = () => {
                   textAlign: "left",
                 }}
               ></Text>
-              <Text style={[styles.userCardText]}>That an agency fee and legal fee apply on the rental income</Text>
+              <Text style={[styles.userCardText, theme === "dark" && globalStyles.textLight]}>
+                That an agency fee and legal fee apply on the rental income
+              </Text>
             </View>
             <View
               style={{
@@ -147,7 +157,9 @@ const TermsAndConditionModal = () => {
                   textAlign: "left",
                 }}
               ></Text>
-              <Text style={[styles.userCardText]}>That the attendant fees on rental payment must be paid</Text>
+              <Text style={[styles.userCardText, theme === "dark" && globalStyles.textLight]}>
+                That the attendant fees on rental payment must be paid
+              </Text>
             </View>
             <View
               style={{
@@ -170,7 +182,9 @@ const TermsAndConditionModal = () => {
                   textAlign: "left",
                 }}
               ></Text>
-              <Text style={[styles.userCardText]}>That the farmland sales have a zero-termination policy</Text>
+              <Text style={[styles.userCardText, theme === "dark" && globalStyles.textLight]}>
+                That the farmland sales have a zero-termination policy
+              </Text>
             </View>
             <View
               style={{
@@ -193,7 +207,7 @@ const TermsAndConditionModal = () => {
                   textAlign: "left",
                 }}
               ></Text>
-              <Text style={[styles.userCardText]}>
+              <Text style={[styles.userCardText, theme === "dark" && globalStyles.textLight]}>
                 That the farmland sales subsist for the stipulated period with the deed of agreement
               </Text>
             </View>
@@ -218,7 +232,7 @@ const TermsAndConditionModal = () => {
                   textAlign: "left",
                 }}
               ></Text>
-              <Text style={[styles.userCardText]}>
+              <Text style={[styles.userCardText, theme === "dark" && globalStyles.textLight]}>
                 That the client is to obtain rental income every 3 months (90 days).
               </Text>
             </View>

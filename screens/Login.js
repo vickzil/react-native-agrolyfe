@@ -23,12 +23,14 @@ import { getTransactionsInfo } from "../store/transactions/actions";
 import * as LocalAuthentication from "expo-local-authentication";
 import SvgComponent from "../components/customs/SvgComponent";
 import AnimatedView from "../components/customs/AnimatedView";
+import { globalStyles } from "../styles/global";
+import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
 
 const Login = ({ navigation }) => {
   const userImage = require("../assets/img/user-default.png");
 
   const dispatch = useDispatch();
-
+  const theme = useSelector((state) => state.oauth.theme);
   const loginIdentity = useSelector((state) => state.oauth.loginIdentity);
   const hasLogin = useSelector((state) => state.oauth.hasLogin);
   const baseURL = useSelector((state) => state.oauth.baseURL);
@@ -399,6 +401,7 @@ const Login = ({ navigation }) => {
       );
     }, 1400);
   };
+
   const logoutUserIdentityForPassword = () => {
     dispatch(
       setLoading({
@@ -431,9 +434,18 @@ const Login = ({ navigation }) => {
 
   return (
     <SafeAreaView
-      style={{ backgroundColor: "#fff", flex: 1, fontFamily: "Poppins", position: "relative", width: "100%" }}
+      style={[
+        { backgroundColor: "#fff", flex: 1, fontFamily: "Poppins", position: "relative", width: "100%" },
+        theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+      ]}
     >
       <SvgComponent />
+
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
 
       <ScrollView
         contentContainerStyle={[
@@ -450,20 +462,28 @@ const Login = ({ navigation }) => {
           ]}
         >
           <Text
-            style={{
-              color: "black",
-              fontSize: 22,
-              fontWeight: "700",
-              fontFamily: "Poppins",
-              paddingTop: 0,
-              letterSpacing: -0.35644,
-              textAlign: "center",
-              marginTop: -17,
-            }}
+            style={[
+              {
+                color: "black",
+                fontSize: 22,
+                fontWeight: "700",
+                fontFamily: "Poppins",
+                paddingTop: 0,
+                letterSpacing: -0.35644,
+                textAlign: "center",
+                marginTop: -17,
+              },
+              theme === "dark" && globalStyles.textLight,
+            ]}
           >
             {hasLogin ? "Welcome Back" : "Login"}
           </Text>
-          <Text style={{ color: "gray", fontSize: 16, marginVertical: 2, textAlign: "center" }}>
+          <Text
+            style={[
+              { color: "gray", fontSize: 16, marginVertical: 2, textAlign: "center" },
+              theme === "dark" && globalStyles.textLightLight,
+            ]}
+          >
             Please sign in to your account
           </Text>
 
@@ -486,12 +506,15 @@ const Login = ({ navigation }) => {
                   )}
                 </View>
                 <Text
-                  style={{
-                    fontFamily: "Poppins",
-                    marginTop: 14,
-                    fontSize: 16,
-                    color: "#222",
-                  }}
+                  style={[
+                    {
+                      fontFamily: "Poppins",
+                      marginTop: 14,
+                      fontSize: 16,
+                      color: "#222",
+                    },
+                    theme === "dark" && globalStyles.textLight,
+                  ]}
                 >
                   {loginIdentity?.fullName}
                 </Text>
@@ -567,7 +590,7 @@ const Login = ({ navigation }) => {
                 <Text
                   onPress={() => logoutUserIdentity()}
                   style={{
-                    color: colors.greenDarkDarkColor,
+                    color: colors.greenColor,
                     textAlign: "center",
                     fontSize: 16,
                     fontWeight: "600",
@@ -592,7 +615,7 @@ const Login = ({ navigation }) => {
               <Text
                 onPress={() => navigation.navigate("Register")}
                 style={{
-                  color: colors.greenDarkDarkColor,
+                  color: colors.greenColor,
                   textAlign: "center",
                   fontSize: 16,
                   fontWeight: "600",

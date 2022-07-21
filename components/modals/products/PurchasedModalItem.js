@@ -3,35 +3,62 @@ import React from "react";
 import colors from "../../../styles/colors";
 import { addComma, formateDateByName } from "../../helpers/globalFunction";
 import SvgComponent2 from "../../customs/SvgComponent2";
+import { useSelector } from "react-redux";
+import { globalStyles } from "../../../styles/global";
 
 const PurchasedModalItem = ({ item }) => {
+  const theme = useSelector((state) => state.oauth.theme);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.productCard}>
+      <View style={[styles.productCard]}>
         <SvgComponent2 />
         <View style={styles.productCardContent}>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Code</Text>
-            <Text style={styles.productCardContentItemRight}>{item?.code}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Code
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {item?.code}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Duration</Text>
-            <Text style={styles.productCardContentItemRight}>{item?.duration} Months</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Duration
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {item?.duration} Months
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Rental Fee (%)</Text>
-            <Text style={styles.productCardContentItemRight}>{item?.newInterestRate}%</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Rental Fee (%)
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {item?.newInterestRate}%
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Amount Purchased</Text>
-            <Text style={styles.productCardContentItemRight}>₦ {addComma(item?.amountInvested)}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Amount Purchased
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              ₦ {addComma(item?.amountInvested)}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Date Purchased</Text>
-            <Text style={styles.productCardContentItemRight}>{formateDateByName(item.createdOn)}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Date Purchased
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {formateDateByName(item.createdOn)}
+            </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}> Status</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              {" "}
+              Status
+            </Text>
 
             <Text
               style={[
@@ -45,15 +72,27 @@ const PurchasedModalItem = ({ item }) => {
             </Text>
           </View>
           <View style={styles.productCardContentItem}>
-            <Text style={styles.productCardContentItemLeft}>Maturity Date</Text>
-            <Text style={styles.productCardContentItemRight}>{formateDateByName(item.maturityDate)}</Text>
+            <Text style={[styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight]}>
+              Maturity Date
+            </Text>
+            <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+              {formateDateByName(item.maturityDate)}
+            </Text>
           </View>
           <View style={[styles.productCardContentItem, { flexDirection: "column" }]}>
-            <Text style={[styles.productCardContentItemLeft, { fontWeight: "900" }]}>Total Payout</Text>
+            <Text
+              style={[
+                [styles.productCardContentItemLeft, theme === "dark" && globalStyles.textLightLight],
+                { fontWeight: "900" },
+              ]}
+            >
+              Total Payout
+            </Text>
             <Text
               style={[
                 styles.productCardContentItemRight,
                 { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 23 },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               ₦{addComma(item?.totalPayoutAmount)}
@@ -83,7 +122,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 2,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     // borderWidth: 1,
     // borderColor: "#f0f0f0",
     marginTop: 50,

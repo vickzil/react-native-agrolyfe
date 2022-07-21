@@ -6,7 +6,7 @@ import colors from "../../../../styles/colors";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const SavingsName = ({ name, setName }) => {
+const SavingsName = ({ name, setName, theme }) => {
   return (
     <View style={[styles.productContainer]}>
       <View style={{ marginTop: 50, marginBottom: 10, width: "95%", paddingRight: 10 }}>
@@ -21,6 +21,7 @@ const SavingsName = ({ name, setName }) => {
               letterSpacing: -0.35644,
               color: colors.greenDarkDarkColor,
             },
+            theme === "dark" && globalStyles.textLight,
           ]}
         >
           What would you like to name this plan?
@@ -36,18 +37,24 @@ const SavingsName = ({ name, setName }) => {
               fontFamily: "Poppins",
               letterSpacing: -0.35644,
             },
+            theme === "dark" && globalStyles.textLightLight,
           ]}
         >
-          Name
+          Saving Name
         </Text>
         <View
           style={[globalStyles.inputContainer, { height: 57, borderWidth: 0, borderBottomWidth: 1.5, paddingLeft: 5 }]}
         >
           <TextInput
             value={name}
+            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
             onChangeText={(text) => setName(text)}
             autoCorrect={false}
-            style={[globalStyles.inputTextt, { fontSize: 20, fontWeight: "700" }]}
+            style={[
+              globalStyles.inputTextt,
+              { fontSize: 20, fontWeight: "700" },
+              theme === "dark" && globalStyles.textLight,
+            ]}
           />
         </View>
       </View>

@@ -2,11 +2,12 @@ import { Dimensions, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import colors from "../../../../styles/colors";
 import RadioForm from "react-native-simple-radio-button";
+import { globalStyles } from "../../../../styles/global";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const SavingFrequency = ({ frequency, setFrequency, payload, item, allFrequencies }) => {
+const SavingFrequency = ({ frequency, setFrequency, payload, item, allFrequencies, theme }) => {
   return (
     <View style={[styles.productContainer]}>
       <View style={{ marginTop: 60, marginBottom: 10, width: "95%", paddingRight: 10 }}>
@@ -21,6 +22,7 @@ const SavingFrequency = ({ frequency, setFrequency, payload, item, allFrequencie
               letterSpacing: -0.35644,
               color: colors.greenDarkDarkColor,
             },
+            theme === "dark" && globalStyles.textLight,
           ]}
         >
           How often do you want to save?
@@ -29,8 +31,8 @@ const SavingFrequency = ({ frequency, setFrequency, payload, item, allFrequencie
           <RadioForm
             radio_props={allFrequencies}
             // initial={0}
-            buttonColor={colors.greenColor}
-            selectedButtonColor={colors.greenColor}
+            buttonColor={theme === "dark" ? "#fff" : colors.greenColor}
+            selectedButtonColor={theme === "dark" ? "#fff" : colors.greenColor}
             animation={true}
             labelStyle={{
               fontSize: 17,
@@ -38,6 +40,7 @@ const SavingFrequency = ({ frequency, setFrequency, payload, item, allFrequencie
               letterSpacing: -0.35644,
               paddingTop: 10,
               marginBottom: 40,
+              color: theme === "dark" && "#fff",
             }}
             onPress={(value) => {
               setFrequency(value);

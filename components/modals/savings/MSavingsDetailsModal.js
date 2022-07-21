@@ -15,11 +15,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { setMySavingsDetailsModal } from "../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PurchasedSavingsItemModal from "./PurchasedSavingsItemModal";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import colors from "../../../styles/colors";
+import { globalStyles } from "../../../styles/global";
+import SvgComponent from "../../customs/SvgComponent";
 
 const { width } = Dimensions.get("screen");
 
 const MSavingsDetailsModal = () => {
   const modal = useSelector((state) => state.alert.mySavingsDetailsModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -33,18 +38,26 @@ const MSavingsDetailsModal = () => {
 
   return (
     <Modal visible={modal?.status} animationType="slide" onRequestClose={() => closeModal()}>
-      <View>
-        <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
-      </View>
-      <View style={{ flex: 1 }}>
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
+      <View
+        style={[
+          { flex: 1, marginTop: -40 },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
+      >
+        <SvgComponent />
+        <View style={[styles.modalHeader, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
           <Icon
             name="arrow-left"
             size={33}
-            style={[styles.modalHeaderIcon, { color: "#222" }]}
+            style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222" }]}
             onPress={() => closeModal()}
           />
-          <Text style={styles.modalHeaderText}> Savings Details</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}> Savings Details</Text>
           <Text></Text>
         </View>
 

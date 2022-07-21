@@ -12,6 +12,7 @@ import LoadingComponents from "../../loader/LoadingComponents";
 const Banks = () => {
   const banks = useSelector((state) => state.bank.userBankAccount);
   const loading = useSelector((state) => state.bank.loading);
+  const theme = useSelector((state) => state.oauth.theme);
 
   const dispatch = useDispatch();
   const [hasBank] = useState(false);
@@ -33,7 +34,7 @@ const Banks = () => {
               <View
                 style={{
                   marginTop: 40,
-                  backgroundColor: "#fff",
+                  backgroundColor: theme === "dark" ? colors.darkCard : "#fff",
                   padding: 30,
                   alignItems: "center",
                   paddingTop: 50,
@@ -42,7 +43,9 @@ const Banks = () => {
                 }}
               >
                 <LoadingComponents />
-                <Text style={globalStyles.label}>Loading saved banks...</Text>
+                <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>
+                  Loading saved banks...
+                </Text>
               </View>
             ) : allBanks && allBanks.length ? (
               allBanks?.map((item, index) => <BankItem item={item} key={index} index={index} />)

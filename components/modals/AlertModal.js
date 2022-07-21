@@ -10,6 +10,7 @@ const { width } = Dimensions.get("screen");
 
 const AlertModal = () => {
   const modal = useSelector((state) => state.alert.alertModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -27,15 +28,23 @@ const AlertModal = () => {
   return (
     <Modal transparent visible={modal?.status} animationType="fade" onRequestClose={() => closeModal()}>
       <View style={[styles.modalBackground, { flex: 1 }]}>
-        <View style={[styles.modalContainer]}>
+        <View style={[styles.modalContainer, theme === "dark" && globalStyles.cardDark]}>
           <View style={{ alignItems: "center" }}>
             {/* <View style={styles.header}>
               <AntDesignIcon name="close" size={20} />
             </View> */}
             {modal?.type === "SUCCESS" ? (
-              <AntDesignIcon name="checkcircle" size={90} style={[styles.Icon, { marginTop: 30 }]} />
+              <AntDesignIcon
+                name="checkcircle"
+                size={90}
+                style={[styles.Icon, { marginTop: 30 }, theme === "dark" && { borderWidth: 0 }]}
+              />
             ) : (
-              <AntDesignIcon name="closecircle" size={90} style={[styles.Icon, { marginTop: 30, color: "red" }]} />
+              <AntDesignIcon
+                name="closecircle"
+                size={90}
+                style={[styles.Icon, { marginTop: 30, color: "red" }, theme === "dark" && { borderWidth: 0 }]}
+              />
             )}
 
             <Text
@@ -48,11 +57,17 @@ const AlertModal = () => {
                   fontFamily: "PoppinsBold",
                   fontWeight: "600",
                 },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               {modal?.title}
             </Text>
-            <Text style={[{ marginVertical: 20, fontSize: 15, textAlign: "center", fontFamily: "Poppins" }]}>
+            <Text
+              style={[
+                { marginVertical: 20, fontSize: 15, textAlign: "center", fontFamily: "Poppins" },
+                theme === "dark" && globalStyles.textLightLight,
+              ]}
+            >
               {modal?.des}
             </Text>
 

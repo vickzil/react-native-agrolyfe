@@ -1,20 +1,25 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
-// import { bankList } from "../../../constant/bankList";
-// const bankImage = require("../../../assets/img/bank.png");
+import { globalStyles } from "../../../styles/global";
+import { useSelector } from "react-redux";
 
 const BankItem = ({ item }) => {
   let bankImage = require("../../../assets/img/bank.png");
+  const theme = useSelector((state) => state.oauth.theme);
   // bankList.find((imageBank) => imageBank.code == item.bankCode)?.flag || require("../../../assets/img/bank.png");
 
   return (
-    <View style={styles.bankGridItem}>
-      <Text style={styles.bankGridItemHeaderText}>{item?.accountNumber}</Text>
-      <Text style={styles.bankGridItemParaText}>{item?.bankName}</Text>
+    <View style={[styles.bankGridItem, theme === "dark" && globalStyles.cardDark]}>
+      <Text style={[styles.bankGridItemHeaderText, theme === "dark" && globalStyles.textLight]}>
+        {item?.accountNumber}
+      </Text>
+      <Text style={[styles.bankGridItemParaText, theme === "dark" && globalStyles.textLight]}>{item?.bankName}</Text>
       <View style={styles.bankImage}>
-        <Image source={bankImage} style={[{ width: "40%", height: 80, borderRadius: 100 }]} resizeMode="contain" />
+        <Image source={bankImage} style={[{ width: "30%", height: 58, borderRadius: 100 }]} resizeMode="contain" />
       </View>
-      <Text style={styles.bankGridItemBottomParaText}>{item?.accountName}</Text>
+      <Text style={[styles.bankGridItemBottomParaText, theme === "dark" && globalStyles.textLight]}>
+        {item?.accountName}
+      </Text>
     </View>
   );
 };

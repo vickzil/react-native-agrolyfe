@@ -3,25 +3,26 @@ import React, { useState } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector } from "react-redux";
 import colors from "../../styles/colors";
+import { globalStyles } from "../../styles/global";
 
 const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...props }) => {
-  const darkMode = useSelector((state) => state.oauth.darkMode);
+  const theme = useSelector((state) => state.oauth.theme);
   const [IsFocused, setIsFocused] = useState(false);
   const [hidePassword, setHidePassword] = useState(password);
 
   return (
     <View style={{ marginBottom: 20 }}>
-      <Text style={[styles.label, { color: darkMode ? "#fff" : "gray" }]}>{lable}</Text>
+      <Text style={[styles.label, theme === "dark" ? globalStyles.textLight : { color: "gray" }]}>{lable}</Text>
 
       <View
         style={[
           styles.inputContainer,
           { borderColor: error ? "red" : IsFocused ? "#777" : "#ced4ed" },
-          { backgroundColor: darkMode ? colors.darkCard : "#f8f8f8" },
+          theme === "dark" ? globalStyles.cardDark : { backgroundColor: "#f8f8f8" },
           // IsFocused && styles.nprmalBackground,
         ]}
       >
-        <Icon name={iconName} size={18} color={darkMode ? "#aaa" : "#666"} style={{ marginRight: 16 }} />
+        <Icon name={iconName} size={18} color={theme === "dark" ? "#aaa" : "#666"} style={{ marginRight: 16 }} />
         <TextInput
           secureTextEntry={hidePassword}
           // autoCorrect={false}
@@ -35,7 +36,7 @@ const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...
           //   setIsFocused(false);
           // }}
 
-          placeholderTextColor={darkMode ? "#aaa" : "#333"}
+          placeholderTextColor={theme === "dark" ? "#aaa" : "#333"}
           style={[
             {
               flex: 1,
@@ -46,14 +47,14 @@ const CustomInput = ({ lable, iconName, error, password, onFocus = () => {}, ...
               padding: 0,
               fontSize: 16,
             },
-            { color: darkMode ? "#fff" : "#333" },
+            { color: theme === "dark" ? "#fff" : "#333" },
           ]}
           {...props}
         />
         {password && (
           <Icon
             onPress={() => setHidePassword(!hidePassword)}
-            style={{ fontSize: 20, color: darkMode ? "#aaa" : "#666" }}
+            style={{ fontSize: 20, color: theme === "dark" ? "#aaa" : "#666" }}
             name={hidePassword ? "eye-outline" : "eye-off-outline"}
           />
         )}

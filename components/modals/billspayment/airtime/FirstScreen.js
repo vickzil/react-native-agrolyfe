@@ -25,7 +25,15 @@ const GLOImage = require("../../../../assets/img/glo.png");
 const AirtelImage = require("../../../../assets/img/airtel.jpg");
 const EtisalatImage = require("../../../../assets/img/etisalat.jpg");
 
-const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobileNumber, airtimeDataProviders }) => {
+const FirstScreen = ({
+  amount,
+  setAmount,
+  setMobileNumber,
+  selectedNetwork,
+  mobileNumber,
+  airtimeDataProviders,
+  theme,
+}) => {
   const dispatch = useDispatch();
 
   const selectItemm = (item) => {
@@ -45,6 +53,7 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
           styles.imageCard,
 
           { padding: 10, backgroundColor: "#fff", justifyContent: "center", alignItems: "center" },
+          theme === "dark" && globalStyles.cardDark,
         ]}
       >
         {item?.name === "mtn" && (
@@ -68,7 +77,13 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
       <View style={[styles.productContainer]}>
         <View style={{ marginTop: 30, marginBottom: 10, width: "95%", paddingRight: 10 }}>
           <View style={{ marginBottom: 30 }}>
-            <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 20, fontWeight: "600" }]}>
+            <Text
+              style={[
+                styles.productCardContentItemLeft,
+                { fontSize: 15, marginBottom: 20, fontWeight: "600" },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
               Select network provider
             </Text>
             <FlatList
@@ -82,7 +97,13 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
             />
           </View>
           <View style={{ marginTop: 0, marginBottom: 10, width: "100%", paddingRight: 0 }}>
-            <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 2, fontWeight: "600" }]}>
+            <Text
+              style={[
+                styles.productCardContentItemLeft,
+                { fontSize: 15, marginBottom: 2, fontWeight: "600" },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
               Amount
             </Text>
 
@@ -96,18 +117,26 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
                 suffixUnit: "",
               }}
               placeholder="0"
+              placeholderTextColor={theme === "dark" ? "#fff" : "444"}
               value={amount}
               onChangeText={(text) => {
                 setAmount(text);
               }}
               style={[
                 { borderBottomWidth: 1, borderColor: colors.greenColor, height: 50, fontSize: 33, fontWeight: "700" },
+                theme === "dark" && globalStyles.textLight,
               ]}
             />
           </View>
           <View>
             <View style={{ marginTop: 20, marginBottom: 10, width: "100%", paddingRight: 0 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 2, fontWeight: "600" }]}>
+              <Text
+                style={[
+                  styles.productCardContentItemLeft,
+                  { fontSize: 15, marginBottom: 2, fontWeight: "600" },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
                 Mobile Number
               </Text>
               <View style={[globalStyles.inputContainer, { height: 57 }]}>
@@ -116,7 +145,11 @@ const FirstScreen = ({ amount, setAmount, setMobileNumber, selectedNetwork, mobi
                   keyboardType="numeric"
                   onChangeText={(text) => setMobileNumber(text)}
                   autoCorrect={false}
-                  style={[globalStyles.inputTextt, { fontSize: 19, fontWeight: "600" }]}
+                  style={[
+                    globalStyles.inputTextt,
+                    { fontSize: 19, fontWeight: "600" },
+                    theme === "dark" && globalStyles.textLight,
+                  ]}
                 />
               </View>
             </View>

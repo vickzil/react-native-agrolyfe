@@ -37,6 +37,7 @@ import { getTransactionsInfo } from "../../../store/transactions/actions";
 import { addComma } from "../../helpers/globalFunction";
 import SvgComponent2 from "../../customs/SvgComponent2";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -51,7 +52,7 @@ const BuyAirtimeModal = () => {
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
@@ -280,10 +281,20 @@ const BuyAirtimeModal = () => {
     >
       <ScreenLoading visibility={screenLoading} />
 
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
+
       <KeyboardAvoidingView
-        style={{
-          flex: 1,
-        }}
+        style={[
+          {
+            flex: 1,
+            marginTop: -30,
+          },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={{ height: screenHeight }}>
@@ -326,14 +337,16 @@ const BuyAirtimeModal = () => {
               mobileNumber={mobileNumber}
               selectedNetwork={selectedNetwork}
               airtimeDataProviders={airtimeDataProviders}
+              theme={theme}
             />
             <FSummary
               amount={amount}
               mobileNumber={mobileNumber}
               selectedNetwork={selectedNetwork}
               summaryDetails={summaryDetails}
+              theme={theme}
             />
-            <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} step={step} />
+            <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} step={step} theme={theme} />
           </ScrollView>
 
           <View
@@ -341,8 +354,8 @@ const BuyAirtimeModal = () => {
               globalStyles.buttonFloat,
               {
                 width: "100%",
-                justifyContent: "flex-end",
-                marginBottom: 0,
+                // justifyContent: "flex-end",
+                marginBottom: 20,
                 marginLeft: 0,
                 padding: 0,
                 marginRight: 0,

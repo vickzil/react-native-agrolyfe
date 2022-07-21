@@ -8,7 +8,7 @@ import { setAlertModal } from "../../../../store/alert/alertSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "../../../../store/auth/actions";
 
-const AntiPhizingForm = ({ phrase, setPhrase, emptyFields, setEmptyFields, setIsLoading, closeModal }) => {
+const AntiPhizingForm = ({ phrase, setPhrase, emptyFields, setEmptyFields, setIsLoading, closeModal, theme }) => {
   const user = useSelector((state) => state.oauth.user);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -130,19 +130,20 @@ const AntiPhizingForm = ({ phrase, setPhrase, emptyFields, setEmptyFields, setIs
         >
           Why Anti-phishing?
         </Text>
-        <Text style={[styles.label, { fontSize: 17 }]}>
+        <Text style={[styles.label, { fontSize: 17 }, theme === "dark" && globalStyles.textLight]}>
           This is to prevent you from acting on unauthorized or fake E-mails that might be posing to be Agrovest.
         </Text>
       </View>
       <View style={{ marginBottom: 20, width: "100%" }}>
-        <Text style={styles.label}>phrase</Text>
-        <View style={[styles.inputContainer]}>
+        <Text style={[styles.label, theme === "dark" && globalStyles.textLight]}>phrase</Text>
+        <View style={[styles.inputContainer, theme === "dark" && globalStyles.cardDark]}>
           <TextInput
             value={phrase}
             onChangeText={(text) => passwordHandle(text)}
             autoCorrect={false}
             placeholder="Enter phrase..."
-            style={globalStyles.inputTextt}
+            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
           />
         </View>
       </View>
