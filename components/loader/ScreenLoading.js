@@ -1,14 +1,16 @@
 import { ActivityIndicator, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import React from "react";
 import { globalStyles } from "../../styles/global";
+import { useSelector } from "react-redux";
 
 const ScreenLoading = ({ visibility }) => {
   const { height, width } = useWindowDimensions();
+  const theme = useSelector((state) => state.oauth.theme);
 
   return (
     visibility?.status && (
       <View style={[styles.container, { height, width }]}>
-        <View style={[styles.loader]}>
+        <View style={[styles.loader, theme === "dark" && globalStyles.cardDark]}>
           <ActivityIndicator size="large" color="#14961E" />
           {visibility?.message ? (
             <View>
@@ -16,6 +18,7 @@ const ScreenLoading = ({ visibility }) => {
                 style={[
                   globalStyles.label,
                   { marginBottom: -5, fontSize: 16, marginTop: 19, fontWeight: "700", color: "#4d4b4b" },
+                  theme === "dark" && globalStyles.textLight,
                 ]}
               >
                 {visibility?.message}

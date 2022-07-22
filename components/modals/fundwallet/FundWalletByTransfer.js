@@ -9,6 +9,7 @@ import {
   ScrollView,
   Dimensions,
   StatusBar,
+  Modal,
 } from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,8 +32,8 @@ const FundWalletByTransfer = () => {
   const modal = useSelector((state) => state.alert.fundwalletByLocalTransferModal);
   const walletOptions = useSelector((state) => state.wallet.walletOptions);
   const loading = useSelector((state) => state.wallet.optionLoading);
-  const theme = useSelector((state) => state.oauth.theme);
   const [localTransfer, setLocalTransfer] = useState(null);
+  const theme = useSelector((state) => state.oauth.theme);
   // ref
   const bottomSheetRef = useRef(null);
 
@@ -45,20 +46,7 @@ const FundWalletByTransfer = () => {
     // console.log(height);
   }, [walletOptions]);
 
-  useEffect(() => {
-    if (modal) {
-      bottomSheetRef.current.show();
-    } else {
-      bottomSheetRef.current.close();
-      dispatch(setFundwalletByLocalTransferModal(false));
-    }
-
-    // console.log(modal);
-    // console.log(height);
-  }, [modal]);
-
   const closeFundModal = () => {
-    bottomSheetRef.current.close();
     dispatch(setFundwalletByLocalTransferModal(false));
   };
   const handleCopy = (refLink) => {
@@ -81,21 +69,15 @@ const FundWalletByTransfer = () => {
 
   //   draggable={false}
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
+    <Modal visible={modal} animationType="fade" onRequestClose={() => closeFundModal()}>
       {theme === "dark" ? (
         <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
       ) : (
         <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
       )}
 
-      <BottomSheet
-        ref={bottomSheetRef}
-        draggable={false}
-        onClose={() => closeFundModal()}
-        onRequestClose={() => closeFundModal()}
-        height={height}
-        sheetBackgroundColor={theme === "dark" ? colors.darkCard : "#fff"}
-        radius={1}
+      <View
+        style={[{ flex: 1, marginTop: -30 }, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight]}
       >
         <SvgComponent />
         <View style={[styles.modalHeader]}>
@@ -105,7 +87,7 @@ const FundWalletByTransfer = () => {
             style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222", marginLeft: -10 }]}
             onPress={() => closeFundModal()}
           />
-          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}></Text>
+          <Text style={styles.modalHeaderText}></Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 12 }}>
@@ -231,7 +213,8 @@ const FundWalletByTransfer = () => {
                     <Text
                       style={[
                         globalStyles.label,
-                        { fontSize: 14, marginRight: 10, color: theme === "dark" ? "#aaa" : "#777" },
+                        { fontSize: 14, marginRight: 10 },
+                        theme === "dark" && { color: "#aaa" },
                       ]}
                     >
                       {item.currency}
@@ -256,12 +239,8 @@ const FundWalletByTransfer = () => {
                       <Text
                         style={[
                           globalStyles.label,
-                          {
-                            textAlign: "right",
-                            fontSize: 14,
-                            marginRight: 10,
-                            color: theme === "dark" ? "#aaa" : "#777",
-                          },
+                          { textAlign: "right", fontSize: 14, marginRight: 10 },
+                          theme === "dark" && { color: "#aaa" },
                         ]}
                       >
                         {item.accountName}
@@ -307,8 +286,8 @@ const FundWalletByTransfer = () => {
             </View>
           )}
         </ScrollView>
-      </BottomSheet>
-    </SafeAreaView>
+      </View>
+    </Modal>
   );
 };
 

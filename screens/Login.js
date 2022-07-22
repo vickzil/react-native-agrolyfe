@@ -606,7 +606,7 @@ const Login = ({ navigation }) => {
                     onPress={() => handleBiometricAuth()}
                     name={"fingerprint"}
                     size={48}
-                    color="#666"
+                    color={theme === "dark" ? "#ccc" : "#666"}
                     style={{ marginTop: 22, textAlign: "center" }}
                   />
                 )}

@@ -37,6 +37,7 @@ import { getTransactionsInfo } from "../../../store/transactions/actions";
 import SvgComponent2 from "../../customs/SvgComponent2";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
 import { addComma } from "../../helpers/globalFunction";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -50,6 +51,7 @@ const CableSubscription = () => {
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
@@ -282,9 +284,13 @@ const CableSubscription = () => {
       <ScreenLoading visibility={screenLoading} />
 
       <KeyboardAvoidingView
-        style={{
-          flex: 1,
-        }}
+        style={[
+          {
+            flex: 1,
+            marginTop: 0,
+          },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={{ height: screenHeight }}>
@@ -330,6 +336,7 @@ const CableSubscription = () => {
               selectedPackage={selectedPackage}
               setSelectedPackage={setSelectedPackage}
               cableTvProviders={cableTvProviders}
+              theme={theme}
             />
             <FSummary
               amount={amount}
@@ -337,8 +344,9 @@ const CableSubscription = () => {
               selectedPackage={selectedPackage}
               selectedProduct={selectedProduct}
               summaryDetails={summaryDetails}
+              theme={theme}
             />
-            <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} step={step} />
+            <FConfirm isEnabled={isEnabled} theme={theme} setIsEnabled={setIsEnabled} step={step} />
           </ScrollView>
 
           <View
@@ -347,7 +355,7 @@ const CableSubscription = () => {
               {
                 width: "100%",
                 justifyContent: "flex-end",
-                marginBottom: 0,
+                marginBottom: 10,
                 marginLeft: 0,
                 padding: 0,
                 marginRight: 0,

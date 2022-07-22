@@ -37,6 +37,7 @@ import { getTransactionsInfo } from "../../../store/transactions/actions";
 import { addComma } from "../../helpers/globalFunction";
 import SvgComponent2 from "../../customs/SvgComponent2";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
+import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -46,7 +47,7 @@ const BuyDataModal = () => {
   const selectedNetwork = useSelector((state) => state.alert.selectedNetwork);
 
   const airtimeDataProviders = useSelector((state) => state.utility.airtimeDataProviders);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const user = useSelector((state) => state.oauth.user);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -283,10 +284,20 @@ const BuyDataModal = () => {
     >
       <ScreenLoading visibility={screenLoading} />
 
+      {/* {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )} */}
+
       <KeyboardAvoidingView
-        style={{
-          flex: 1,
-        }}
+        style={[
+          {
+            flex: 1,
+            marginTop: 0,
+          },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={{ height: screenHeight }}>
@@ -331,6 +342,7 @@ const BuyDataModal = () => {
               selectedPackage={selectedPackage}
               setSelectedPackage={setSelectedPackage}
               airtimeDataProviders={airtimeDataProviders}
+              theme={theme}
             />
             <FSummary
               amount={amount}
@@ -338,8 +350,10 @@ const BuyDataModal = () => {
               selectedNetwork={selectedNetwork}
               selectedPackage={selectedPackage}
               summaryDetails={summaryDetails}
+              theme={theme}
             />
-            <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} step={step} />
+
+            <FConfirm isEnabled={isEnabled} setIsEnabled={setIsEnabled} step={step} theme={theme} />
           </ScrollView>
 
           <View
@@ -348,7 +362,7 @@ const BuyDataModal = () => {
               {
                 width: "100%",
                 justifyContent: "flex-end",
-                marginBottom: 0,
+                marginBottom: 10,
                 marginLeft: 0,
                 padding: 0,
                 marginRight: 0,

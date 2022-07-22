@@ -5,7 +5,7 @@ import { globalStyles } from "../../../../styles/global";
 import { setAddbvnModal, setBvnModal } from "../../../../store/alert/alertSlice";
 import { useDispatch } from "react-redux";
 
-const BvnForm = () => {
+const BvnForm = ({ theme }) => {
   const dispatch = useDispatch();
 
   return (
@@ -23,7 +23,7 @@ const BvnForm = () => {
               fontWeight: "600",
               fontSize: 18,
               textAlign: "center",
-              color: colors.greenColor,
+              color: theme === "dark" ? "#fff" : colors.greenColor,
               fontFamily: "PoppinsBold",
             },
           ]}
@@ -52,6 +52,7 @@ const BvnForm = () => {
                 textAlign: "center",
                 marginBottom: 0,
                 paddingBottom: 0,
+                color: theme === "dark" ? "#ccc" : "#333",
               },
             ]}
           >
@@ -66,6 +67,7 @@ const BvnForm = () => {
                 marginTop: 10,
                 paddingTop: 0,
                 fontWeight: "700",
+                color: theme === "dark" ? "#ccc" : "#333",
               },
             ]}
           >

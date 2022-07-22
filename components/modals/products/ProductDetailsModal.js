@@ -89,34 +89,27 @@ const ProductDetailsModal = () => {
             loop={false}
           />
         </View>
-        <View style={styles.bodyTopContainer}>
-          {/* <View style={styles.bodyTopCard}>
-            <Text style={[styles.productDetailsBodyProductName, { color: "#fff", textTransform: "capitalize" }]}>
-              {modal?.payload?.name}
-            </Text>
-            <View style={[styles.productDetailsBodyNameRate, { marginTop: 20 }]}>
-              <Text style={[styles.productDetailsBodyLabel, { fontSize: 17, fontWeight: "500", color: "#fff" }]}>
-                Rental fee (%){" "}
-              </Text>
-              <Text style={[styles.productDetailsBodyLabel, { fontSize: 20, fontWeight: "800", color: "#fff" }]}>
-                {modal?.payload?.newInterestRate}%
-              </Text>
-            </View>
-          </View> */}
-        </View>
-        <ScrollView style={styles.productDetailsBody} showsVerticalScrollIndicator={false}>
+
+        <ScrollView
+          style={[styles.productDetailsBody, theme === "dark" && globalStyles.containerDark]}
+          showsVerticalScrollIndicator={false}
+        >
           <View style={styles.productDetailsBodyContainer}>
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>Product Name</Text>
-              <Text style={styles.productCardContentItemRight}>{modal?.payload?.name}</Text>
+              <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                {modal?.payload?.name}
+              </Text>
             </View>
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>Rental fee (%)</Text>
-              <Text style={styles.productCardContentItemRight}>{modal?.payload?.newInterestRate}%</Text>
+              <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                {modal?.payload?.newInterestRate}%
+              </Text>
             </View>
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>Price Per Acre</Text>
-              <Text style={styles.productCardContentItemRight}>
+              <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
                 ₦{" "}
                 {modal?.payload ? addComma(modal?.payload?.pricePerUnit) + " " + modal?.payload?.unitOfMeasurement : 0}{" "}
               </Text>
@@ -124,35 +117,47 @@ const ProductDetailsModal = () => {
 
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>Duration</Text>
-              <Text style={styles.productCardContentItemRight}>{modal?.payload?.duration} Months</Text>
+              <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                {modal?.payload?.duration} Months
+              </Text>
             </View>
 
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>Min Amount</Text>
-              <Text style={styles.productCardContentItemRight}>
+              <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
                 ₦ {modal?.payload ? addComma(modal?.payload?.minimumAmount) : 0}{" "}
               </Text>
             </View>
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>Max Amount</Text>
-              <Text style={styles.productCardContentItemRight}>
+              <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
                 ₦ {modal?.payload ? addComma(modal?.payload?.maximumAmount) : 0}{" "}
               </Text>
             </View>
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>Country</Text>
-              <Text style={styles.productCardContentItemRight}>
+              <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
                 {modal?.payload && modal?.payload?.country === "NG" ? "Nigeria" : modal?.payload?.country}
               </Text>
             </View>
             <View style={styles.productCardContentItem}>
               <Text style={styles.productCardContentItemLeft}>State</Text>
-              <Text style={styles.productCardContentItemRight}>{modal?.payload?.state}</Text>
+              <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                {modal?.payload?.state}
+              </Text>
             </View>
-            <Text style={[styles.productDetailsBodyLabel, { fontWeight: "600", fontFamily: "PoppinsBold" }]}>
+            <Text
+              style={[
+                styles.productDetailsBodyLabel,
+                { fontWeight: "600", fontFamily: "PoppinsBold" },
+                theme === "dark" && globalStyles.textLightLight,
+              ]}
+            >
               Description
             </Text>
-            <Text style={styles.productDetailsBodyDesc}>{modal?.payload?.description}</Text>
+            <Text style={[styles.productDetailsBodyDesc, theme === "dark" && globalStyles.textLight]}>
+              {modal?.payload?.description}
+            </Text>
           </View>
         </ScrollView>
         <View style={[globalStyles.buttonFloat, { marginTop: 50 }]}>

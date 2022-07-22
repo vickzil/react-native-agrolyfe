@@ -15,43 +15,61 @@ import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import AnimatedViewComp from "../../customs/AnimatedViewComp";
+import { useSelector } from "react-redux";
+import { globalStyles } from "../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
 const SelectPackageModal = ({ data, closeModal, choosenPage, selectedPackage }) => {
+  const theme = useSelector((state) => state.oauth.theme);
   // useEffect(() => {
   //   console.log(data);
   // }, [data]);
   return (
     <Modal visible={data?.status} animationType="fade" onRequestClose={() => closeModal()}>
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
 
-      <View style={{ marginTop: -40 }}>
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      <View
+        style={[
+          { flex: 1, marginTop: -40 },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
+      >
+        <View style={[styles.modalHeader, theme === "dark" ? globalStyles.containerDark : { backgroundColor: "#fff" }]}>
           <Icon
             name="arrow-left"
             size={25}
-            style={[styles.modalHeaderIcon, { color: "#222" }]}
+            style={[styles.modalHeaderIcon, theme === "dark" ? globalStyles.textLight : { color: "#222" }]}
             onPress={() => closeModal()}
           />
-          <Text style={styles.modalHeaderText}>Select Package</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Select Package</Text>
           <Text></Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[styles.productContainer, { marginTop: 0 }]}>
             {data && data?.data && data.data.length ? (
-              <View>
+              <View style={{ paddingHorizontal: 10 }}>
                 {data?.data.map((item, index) => (
                   <AnimatedViewComp index={index} key={index}>
                     <TouchableOpacity
                       style={[
                         styles.container,
                         selectedPackage && selectedPackage?.code == item.code ? styles.selectedItem : null,
+                        theme === "dark" && globalStyles.cardDark,
+                        theme === "dark" && { marginBottom: 5, borderBottomWidth: 0 },
                       ]}
                       onPress={() => choosenPage(item)}
                     >
                       <View style={styles.content}>
-                        <Text style={[styles.contentText, styles.contentText1]}>{item?.name}</Text>
+                        <Text
+                          style={[styles.contentText, styles.contentText1, theme === "dark" && globalStyles.textLight]}
+                        >
+                          {item?.name}
+                        </Text>
                       </View>
                     </TouchableOpacity>
                   </AnimatedViewComp>
@@ -79,7 +97,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 17,
     paddingHorizontal: 10,
-    elevation: 3,
+    // elevation: 3,
   },
 
   modalHeaderIcon: {
@@ -119,8 +137,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 2,
     // elevation: 2,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e9e6e6",
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#e9e6e6",
   },
 
   content: {

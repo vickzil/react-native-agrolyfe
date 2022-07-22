@@ -16,11 +16,14 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AddBvnForm from "./AddBvnForm";
 import FocusAwareStatusBar from "../../../customs/statusbar/FocusAwareStatusBar";
 import { setAddbvnModal, setSelectedAllBank } from "../../../../store/alert/alertSlice";
+import colors from "../../../../styles/colors";
+import { globalStyles } from "../../../../styles/global";
 
 const { width } = Dimensions.get("screen");
 
 const AddBVNModal = () => {
   const modal = useSelector((state) => state.alert.addbvnModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const [accountNumber, setAccountNumber] = useState("");
@@ -54,17 +57,21 @@ const AddBVNModal = () => {
 
   return (
     <Modal visible={modal} animationType="fade" onRequestClose={() => closeModal()}>
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
 
-      <View style={{ marginTop: -40 }}>
-        <View style={[styles.modalHeader, { backgroundColor: "#fff" }]}>
+      <View style={[{ flex: 1, marginTop: -40 }, theme === "dark" && globalStyles.containerDark]}>
+        <View style={[styles.modalHeader, theme === "dark" ? globalStyles.cardDark : { backgroundColor: "#fff" }]}>
           <Icon
             name="arrow-left"
             size={33}
-            style={[styles.modalHeaderIcon, { color: "#222" }]}
+            style={[styles.modalHeaderIcon, theme === "dark" ? globalStyles.textLight : { color: "#222" }]}
             onPress={() => closeModal()}
           />
-          <Text style={styles.modalHeaderText}>Add Bvn</Text>
+          <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Add Bvn</Text>
           <Text></Text>
         </View>
         <AddBvnForm
@@ -83,6 +90,7 @@ const AddBVNModal = () => {
           setAccountName={setAccountName}
           accountNameError={accountNameError}
           setAccountNameError={setAccountNameError}
+          theme={theme}
         />
       </View>
     </Modal>

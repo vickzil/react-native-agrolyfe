@@ -5,12 +5,14 @@ import { setBvnModal } from "../../../../store/alert/alertSlice";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import BvnForm from "./BvnForm";
 import { LinearGradient } from "expo-linear-gradient";
+import { globalStyles } from "../../../../styles/global";
 
 const { width } = Dimensions.get("window");
 const banner = require("../../../../assets/img/agric.jpg");
 
 const BvnModal = () => {
   const modal = useSelector((state) => state.alert.bvnModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -78,8 +80,8 @@ const BvnModal = () => {
           </View>
         </View>
 
-        <View style={[styles.productContainer]}>
-          <BvnForm />
+        <View style={[styles.productContainer, theme === "dark" && globalStyles.cardDark]}>
+          <BvnForm theme={theme} />
         </View>
       </View>
     </Modal>

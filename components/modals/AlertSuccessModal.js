@@ -12,6 +12,7 @@ const { width } = Dimensions.get("screen");
 const AlertSuccessModal = () => {
   const modal = useSelector((state) => state.alert.alertModalSuccess);
   const hasFeedBack = useSelector((state) => state.oauth.hasFeedBack);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -29,21 +30,28 @@ const AlertSuccessModal = () => {
 
   return (
     <Modal visible={modal?.status} animationType="slide" onRequestClose={() => closeModal()}>
-      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+      <View style={{ flex: 1, backgroundColor: theme === "dark" ? colors.darkBody : "#f8f8f8" }}>
         <View style={[styles.modalHeader, { backgroundColor: colors.greenDarkColor }]}></View>
-        <View style={styles.bodyContainer}>
-          <View style={styles.userCard}>
+        <View style={[styles.bodyContainer]}>
+          <View style={[styles.userCard, theme === "dark" && globalStyles.cardDark]}>
             <AntDesignIcon name="checksquare" size={20} style={[styles.Icon]} />
 
             {/* <View style={{ marginTop: 30 }}> */}
-            <Text style={[globalStyles.label, styles.amountInput]}>
+            <Text style={[globalStyles.label, styles.amountInput, theme === "dark" && globalStyles.textLight]}>
               NGN {modal?.payload ? addComma(modal?.payload?.amount) : 0}
             </Text>
             <Text style={[globalStyles.label, { color: "#f7ab07", textAlign: "center" }]}>PROCESSING</Text>
             <View style={{ alignItems: "center", textAlign: "center", justifyContent: "center", marginTop: -4 }}>
               <View style={styles.bottomBorder}></View>
             </View>
-            <Text style={[globalStyles.label, styles.userCardText, { color: "#222", textAlign: "center" }]}>
+            <Text
+              style={[
+                globalStyles.label,
+                styles.userCardText,
+                { color: "#222", textAlign: "center" },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
               {modal?.payload?.message}
             </Text>
 

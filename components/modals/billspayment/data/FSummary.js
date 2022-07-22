@@ -3,11 +3,12 @@ import React from "react";
 import colors from "../../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { addComma } from "../../../helpers/globalFunction";
+import { globalStyles } from "../../../../styles/global";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FSummary = ({ amount, mobileNumber, selectedNetwork, selectedPackage }) => {
+const FSummary = ({ amount, mobileNumber, selectedNetwork, selectedPackage, theme }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer, { marginBottom: 50 }]}>
@@ -21,7 +22,7 @@ const FSummary = ({ amount, mobileNumber, selectedNetwork, selectedPackage }) =>
                   fontSize: 20,
                   marginBottom: 35,
                   fontWeight: "600",
-                  color: colors.greenDarkDarkColor,
+                  color: theme === "dark" ? "#fff" : colors.greenDarkDarkColor,
                   fontFamily: "PoppinsBold",
                   letterSpacing: -0.35644,
                 },
@@ -34,25 +35,45 @@ const FSummary = ({ amount, mobileNumber, selectedNetwork, selectedPackage }) =>
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}> Amount</Text>
-                  <Text style={styles.productCardContentItemRight}>₦{amount ? addComma(amount) + ".00" : 0}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    ₦{amount ? addComma(amount) + ".00" : 0}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Mobile Number</Text>
-                  <Text style={styles.productCardContentItemRight}>{mobileNumber}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {mobileNumber}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Biller</Text>
-                  <Text style={[styles.productCardContentItemRight, { textTransform: "capitalize" }]}>
+                  <Text
+                    style={[
+                      styles.productCardContentItemRight,
+                      { textTransform: "capitalize" },
+                      theme === "dark" && globalStyles.textLight,
+                    ]}
+                  >
                     {selectedNetwork?.name}
                   </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Package</Text>
-                  <Text style={[styles.productCardContentItemRight, { fontSize: 15 }]}>{selectedPackage?.name}</Text>
+                  <Text
+                    style={[
+                      styles.productCardContentItemRight,
+                      { fontSize: 15 },
+                      theme === "dark" && globalStyles.textLight,
+                    ]}
+                  >
+                    {selectedPackage?.name}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Charges</Text>
-                  <Text style={styles.productCardContentItemRight}>₦ 0.00</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    ₦ 0.00
+                  </Text>
                 </View>
                 <View style={[styles.productCardContentItem]}>
                   <Text style={[styles.productCardContentItemLeft, { fontWeight: "900", fontSize: 22 }]}>Total</Text>
@@ -60,6 +81,7 @@ const FSummary = ({ amount, mobileNumber, selectedNetwork, selectedPackage }) =>
                     style={[
                       styles.productCardContentItemRight,
                       { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 22 },
+                      theme === "dark" && globalStyles.textLight,
                     ]}
                   >
                     ₦{amount ? addComma(amount) + ".00" : 0}

@@ -53,6 +53,7 @@ const BuyAirtimeModal = () => {
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
   const theme = useSelector((state) => state.oauth.theme);
+
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
@@ -281,17 +282,11 @@ const BuyAirtimeModal = () => {
     >
       <ScreenLoading visibility={screenLoading} />
 
-      {theme === "dark" ? (
-        <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="light-content" />
-      ) : (
-        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
-      )}
-
       <KeyboardAvoidingView
         style={[
           {
             flex: 1,
-            marginTop: -30,
+            marginTop: 0,
           },
           theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
         ]}

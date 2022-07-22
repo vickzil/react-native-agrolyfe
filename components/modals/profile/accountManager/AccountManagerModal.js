@@ -7,6 +7,7 @@ import colors from "../../../../styles/colors";
 import NoItem from "../../../extra/NoItem";
 import LoadingComponents from "../../../loader/LoadingComponents";
 import Modal from "react-native-modal";
+import { globalStyles } from "../../../../styles/global";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -58,7 +59,7 @@ const AccountManagerModal = () => {
                 <LoadingComponents />
               </View>
             ) : accountManager ? (
-              <View style={styles.userCard}>
+              <View style={[styles.userCard, theme === "dark" && globalStyles.cardDark]}>
                 <View style={{ width: 100, height: 100, borderRadius: 100, padding: 4, backgroundColor: "#fff" }}>
                   <Image
                     source={{ uri: accountManager.photo }}
@@ -66,16 +67,31 @@ const AccountManagerModal = () => {
                     resizeMode="cover"
                   />
                 </View>
-                <Text style={[styles.userCardText, { color: colors.greenColor }]}>
+                <Text style={[styles.userCardText, { color: theme === "dark" ? "#fff" : colors.greenColor }]}>
                   {accountManager ? accountManager.firstName + " " + accountManager.lastName : "-----"}
                 </Text>
-                <Text style={[styles.userCardText, { color: "#888", marginTop: 12, fontSize: 15 }]}>
+                <Text
+                  style={[
+                    styles.userCardText,
+                    { color: theme === "dark" ? "#aaa" : "#888", marginTop: 12, fontSize: 15 },
+                  ]}
+                >
                   {accountManager?.phoneNumber || "-----"}
                 </Text>
-                <Text style={[styles.userCardText, { color: "#888", marginTop: 3, fontSize: 15 }]}>
+                <Text
+                  style={[
+                    styles.userCardText,
+                    { color: theme === "dark" ? "#aaa" : "#888", marginTop: 3, fontSize: 15 },
+                  ]}
+                >
                   {accountManager?.email || "-----"}
                 </Text>
-                <Text style={[styles.userCardText, { color: "#888", marginTop: 3, fontSize: 15 }]}>
+                <Text
+                  style={[
+                    styles.userCardText,
+                    { color: theme === "dark" ? "#aaa" : "#888", marginTop: 3, fontSize: 15 },
+                  ]}
+                >
                   {accountManager?.countryName || "-----"}
                 </Text>
               </View>

@@ -3,11 +3,12 @@ import React from "react";
 import colors from "../../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { addComma } from "../../../helpers/globalFunction";
+import { globalStyles } from "../../../../styles/global";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FSummary = ({ summaryDetails }) => {
+const FSummary = ({ summaryDetails, theme }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.productContainer, { marginBottom: 0 }]}>
@@ -21,7 +22,7 @@ const FSummary = ({ summaryDetails }) => {
                   fontSize: 20,
                   marginBottom: 35,
                   fontWeight: "600",
-                  color: colors.greenDarkDarkColor,
+                  color: theme === "dark" ? "#fff" : colors.greenDarkDarkColor,
                   fontFamily: "PoppinsBold",
                   letterSpacing: -0.35644,
                 },
@@ -53,6 +54,7 @@ const FSummary = ({ summaryDetails }) => {
                   color: "#555",
                   fontFamily: "Poppins",
                 },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               {summaryDetails?.additionalInformation}
@@ -62,17 +64,19 @@ const FSummary = ({ summaryDetails }) => {
               <View style={styles.productCardContent}>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Product</Text>
-                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.name}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {summaryDetails?.name}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Principal</Text>
-                  <Text style={styles.productCardContentItemRight}>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
                     ₦ {summaryDetails?.principal ? addComma(summaryDetails?.principal) : 0}
                   </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Price Per Acre</Text>
-                  <Text style={styles.productCardContentItemRight}>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
                     ₦
                     {summaryDetails?.pricePerUnit
                       ? addComma(summaryDetails?.pricePerUnit) + " " + summaryDetails?.unitOfMeasurement
@@ -81,15 +85,19 @@ const FSummary = ({ summaryDetails }) => {
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Duration</Text>
-                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.durationInMonths} months</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {summaryDetails?.durationInMonths} months
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Rental Fee (%)</Text>
-                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.interestRate}%</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {summaryDetails?.interestRate}%
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Post Charges</Text>
-                  <Text style={styles.productCardContentItemRight}>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
                     {summaryDetails?.interestRateAmountAfterCharges
                       ? addComma(summaryDetails?.interestRateAmountAfterCharges)
                       : 0}
@@ -97,18 +105,22 @@ const FSummary = ({ summaryDetails }) => {
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Mgt. Fee</Text>
-                  <Text style={styles.productCardContentItemRight}>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
                     {summaryDetails?.managementFeeAmount ? addComma(summaryDetails?.managementFeeAmount) : 0} (
                     {summaryDetails?.managementFeeRate + "%"})
                   </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Frequency</Text>
-                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.frequency}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {summaryDetails?.frequency}
+                  </Text>
                 </View>
                 <View style={styles.productCardContentItem}>
                   <Text style={styles.productCardContentItemLeft}>Currency</Text>
-                  <Text style={styles.productCardContentItemRight}>{summaryDetails?.currency}</Text>
+                  <Text style={[styles.productCardContentItemRight, theme === "dark" && globalStyles.textLight]}>
+                    {summaryDetails?.currency}
+                  </Text>
                 </View>
                 <View
                   style={[
@@ -121,6 +133,7 @@ const FSummary = ({ summaryDetails }) => {
                     style={[
                       styles.productCardContentItemRight,
                       { fontWeight: "900", color: "#555", fontFamily: "MontserratBold", fontSize: 23 },
+                      theme === "dark" && globalStyles.textLight,
                     ]}
                   >
                     ₦{summaryDetails?.totalPayoutAmount ? addComma(summaryDetails?.totalPayoutAmount) : 0}

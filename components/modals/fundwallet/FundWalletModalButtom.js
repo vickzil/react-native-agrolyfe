@@ -114,7 +114,10 @@ const FundWalletModalButtom = ({ bottomSheet, closeModal }) => {
             </View>
             {/* <AntDesignIcon name="right" size={19} style={[styles.accountTabsRightAngel, { marginLeft: 30 }]} /> */}
           </TouchableOpacity>
-          <TouchableOpacity style={styles.accountTabsLinks} onPress={() => showFundWalletTransferModal()}>
+          <TouchableOpacity
+            style={styles.accountTabsLinks}
+            onPress={() => dispatch(setFundwalletByForeignTransferModal(true))}
+          >
             <View>
               <Icon
                 name="bank-transfer"

@@ -127,7 +127,7 @@ export default function MainApp({ bearerToken, hasLoggedIn }) {
         // let themeS = JSON.parse(theme);
         dispatch(setTheme(theme));
 
-        console.log(theme);
+        // console.log(theme);
       }
     })();
   }, []);

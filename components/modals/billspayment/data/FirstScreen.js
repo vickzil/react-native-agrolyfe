@@ -15,6 +15,7 @@ import { setSelectedNetwork } from "../../../../store/alert/alertSlice";
 import { useDispatch } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import SelectPackageModal from "../SelectPackageModal";
+import colors from "../../../../styles/colors";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
@@ -33,6 +34,7 @@ const FirstScreen = ({
   selectedPackage,
   setSelectedPackage,
   airtimeDataProviders,
+  theme,
 }) => {
   const dispatch = useDispatch();
 
@@ -59,6 +61,7 @@ const FirstScreen = ({
           styles.imageCard,
 
           { padding: 10, backgroundColor: "#fff", justifyContent: "center", alignItems: "center" },
+          theme === "dark" && globalStyles.cardDark,
         ]}
       >
         {item?.name === "mtn" && (
@@ -111,7 +114,13 @@ const FirstScreen = ({
       <View style={[styles.productContainer, { paddingBottom: 270 }]}>
         <View style={{ marginTop: 30, marginBottom: 0, width: "95%", paddingRight: 10 }}>
           <View style={{ marginBottom: 50 }}>
-            <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 20, fontWeight: "600" }]}>
+            <Text
+              style={[
+                styles.productCardContentItemLeft,
+                { fontSize: 15, marginBottom: 5, fontWeight: "600" },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
               Select network provider
             </Text>
             <FlatList
@@ -129,7 +138,11 @@ const FirstScreen = ({
               <>
                 <View style={{ marginTop: 0, marginBottom: 30, width: "100%", paddingRight: 0 }}>
                   <Text
-                    style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}
+                    style={[
+                      styles.productCardContentItemLeft,
+                      { fontSize: 15, marginBottom: 5, fontWeight: "600" },
+                      theme === "dark" && globalStyles.textLight,
+                    ]}
                   >
                     Select Package
                   </Text>
@@ -137,17 +150,25 @@ const FirstScreen = ({
                     style={[globalStyles.inputContainer, { height: 57 }]}
                     onPress={() => choosePackage()}
                   >
-                    <Text style={globalStyles.inputTextt}>
+                    <Text style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}>
                       {" "}
                       {selectedPackage ? selectedPackage.name : "Selected Package"}{" "}
                     </Text>
-                    <Icon name="chevron-down" size={24} style={[{ color: "#222", marginLeft: -10 }]} />
+                    <Icon
+                      name="chevron-down"
+                      size={24}
+                      style={[{ color: theme === "dark" ? "#fff" : "#222", marginLeft: -10 }]}
+                    />
                   </TouchableOpacity>
                 </View>
 
                 <View style={{ marginTop: 0, marginBottom: 10, width: "100%", paddingRight: 0 }}>
                   <Text
-                    style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}
+                    style={[
+                      styles.productCardContentItemLeft,
+                      { fontSize: 15, marginBottom: 5, fontWeight: "600" },
+                      theme === "dark" && globalStyles.textLight,
+                    ]}
                   >
                     Mobile Number
                   </Text>
@@ -157,14 +178,22 @@ const FirstScreen = ({
                       keyboardType="numeric"
                       onChangeText={(text) => setMobileNumber(text)}
                       autoCorrect={false}
-                      style={[globalStyles.inputTextt, { fontSize: 19, fontWeight: "600" }]}
+                      style={[
+                        globalStyles.inputTextt,
+                        { fontSize: 19, fontWeight: "600" },
+                        theme === "dark" && globalStyles.textLight,
+                      ]}
                     />
                   </View>
                 </View>
 
                 <View style={{ marginTop: 20, marginBottom: 10, width: "100%", paddingRight: 0 }}>
                   <Text
-                    style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}
+                    style={[
+                      styles.productCardContentItemLeft,
+                      { fontSize: 15, marginBottom: 5, fontWeight: "600" },
+                      theme === "dark" && globalStyles.textLight,
+                    ]}
                   >
                     Amount
                   </Text>

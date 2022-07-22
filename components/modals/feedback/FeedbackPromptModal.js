@@ -10,6 +10,7 @@ const { width } = Dimensions.get("screen");
 
 const FeedbackPromptModal = () => {
   const modal = useSelector((state) => state.alert.feedbackPromptModal);
+  const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -24,7 +25,7 @@ const FeedbackPromptModal = () => {
   return (
     <Modal transparent visible={modal} animationType="fade" onRequestClose={() => closeModal()}>
       <View style={[styles.modalBackground, { flex: 1 }]}>
-        <View style={[styles.modalContainer]}>
+        <View style={[styles.modalContainer, theme === "dark" && globalStyles.cardDark]}>
           <View style={{ alignItems: "center" }}>
             <AntDesignIcon
               name="form"
@@ -44,11 +45,17 @@ const FeedbackPromptModal = () => {
             <Text
               style={[
                 { marginVertical: 10, fontSize: 20, textAlign: "center", marginLeft: -10, fontFamily: "PoppinsBold" },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               We'd welcome your feedback
             </Text>
-            <Text style={[{ marginVertical: 20, fontSize: 15, textAlign: "center", fontFamily: "Poppins" }]}>
+            <Text
+              style={[
+                { marginVertical: 20, fontSize: 15, textAlign: "center", fontFamily: "Poppins" },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
               Thank you for making use of our platform. Would you like to participate in a brief customer satisfaction
               survey to let us know how we can improve your experience.
             </Text>

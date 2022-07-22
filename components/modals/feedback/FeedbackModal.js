@@ -46,7 +46,7 @@ const FeedbackModal = () => {
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const [emptyFields, setEmptyFields] = useState(true);
   const [rating, setRating] = useState();
   const [description, setDescription] = useState("");
@@ -198,9 +198,22 @@ const FeedbackModal = () => {
       onBackdropPress={() => closeModal()}
       onSwipeComplete={() => closeModal()}
       swipeDirection="right"
-      style={{ width: width, height: screenHeight, margin: 0, padding: 0, backgroundColor: "#fff" }}
+      style={{
+        width: width,
+        height: screenHeight,
+        margin: 0,
+        padding: 0,
+        backgroundColor: theme === "dark" ? colors.greenDarkColor : "#fff",
+      }}
     >
-      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      {/* <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" /> */}
+
+      {theme === "dark" ? (
+        <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="light-content" />
+      ) : (
+        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
+      )}
+
       <ScreenLoading visibility={screenLoading} />
       <POPUpModal
         visible={showCModal}
@@ -215,6 +228,7 @@ const FeedbackModal = () => {
                 style={[
                   globalStyles.selectContainer,
                   feedbackType?.value == item.value ? globalStyles.selectedItem : null,
+                  theme === "dark" && globalStyles.cardDark,
                 ]}
                 onPress={() => {
                   setShowCModal(false);
@@ -222,7 +236,15 @@ const FeedbackModal = () => {
                 }}
               >
                 <View style={globalStyles.selectContent} key={index}>
-                  <Text style={[globalStyles.selectContentText, globalStyles.selectContentText1]}>{item?.name}</Text>
+                  <Text
+                    style={[
+                      globalStyles.selectContentText,
+                      globalStyles.selectContentText1,
+                      theme === "dark" && globalStyles.textLight,
+                    ]}
+                  >
+                    {item?.name}
+                  </Text>
                 </View>
               </TouchableOpacity>
             </AnimatedViewComp>
@@ -230,16 +252,16 @@ const FeedbackModal = () => {
         </View>
       </POPUpModal>
 
-      <KeyboardAvoidingView style={{ marginTop: -30, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={{ height: screenHeight }}>
           <View style={[styles.modalHeader]}>
             <Icon
               name="arrow-left"
               size={33}
-              style={[styles.modalHeaderIcon, { color: "#111" }]}
+              style={[styles.modalHeaderIcon, theme === "dark" ? globalStyles.textLight : { color: "#111" }]}
               onPress={() => closeModal()}
             />
-            <Text style={styles.modalHeaderText}>Feedback</Text>
+            <Text style={[styles.modalHeaderText, theme === "dark" && globalStyles.textLight]}>Feedback</Text>
             <Text></Text>
           </View>
           <ScrollView
@@ -263,6 +285,7 @@ const FeedbackModal = () => {
                         color: "#555",
                         textAlign: "center",
                       },
+                      theme === "dark" && globalStyles.textLight,
                     ]}
                   >
                     How was your experience?
@@ -279,6 +302,7 @@ const FeedbackModal = () => {
                           color: "#555",
                           textAlign: "center",
                         },
+                        theme === "dark" && globalStyles.textLight,
                       ]}
                     >
                       {rating === 5 && "Excellent"}
@@ -295,7 +319,13 @@ const FeedbackModal = () => {
                       size={40}
                       style={[
                         { marginHorizontal: 10 },
-                        { color: ["1", "2", "3", "4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
+                        {
+                          color: ["1", "2", "3", "4", "5"].includes(String(rating))
+                            ? "#ffa602"
+                            : theme === "dark"
+                            ? "#fff"
+                            : "#777",
+                        },
                       ]}
                       onPress={() => setRating(1)}
                     />
@@ -304,7 +334,13 @@ const FeedbackModal = () => {
                       size={40}
                       style={[
                         { marginHorizontal: 10 },
-                        { color: ["2", "3", "4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
+                        {
+                          color: ["2", "3", "4", "5"].includes(String(rating))
+                            ? "#ffa602"
+                            : theme === "dark"
+                            ? "#fff"
+                            : "#777",
+                        },
                       ]}
                       onPress={() => setRating(2)}
                     />
@@ -313,7 +349,13 @@ const FeedbackModal = () => {
                       size={40}
                       style={[
                         { marginHorizontal: 10 },
-                        { color: ["3", "4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
+                        {
+                          color: ["3", "4", "5"].includes(String(rating))
+                            ? "#ffa602"
+                            : theme === "dark"
+                            ? "#fff"
+                            : "#777",
+                        },
                       ]}
                       onPress={() => setRating(3)}
                     />
@@ -322,14 +364,17 @@ const FeedbackModal = () => {
                       size={40}
                       style={[
                         { marginHorizontal: 10 },
-                        { color: ["4", "5"].includes(String(rating)) ? "#ffa602" : "#777" },
+                        { color: ["4", "5"].includes(String(rating)) ? "#ffa602" : theme === "dark" ? "#fff" : "#777" },
                       ]}
                       onPress={() => setRating(4)}
                     />
                     <EntypoIcon
                       name="star"
                       size={40}
-                      style={[{ marginHorizontal: 10 }, { color: ["5"].includes(String(rating)) ? "#ffa602" : "#777" }]}
+                      style={[
+                        { marginHorizontal: 10 },
+                        { color: ["5"].includes(String(rating)) ? "#ffa602" : theme === "dark" ? "#fff" : "#777" },
+                      ]}
                       onPress={() => setRating(5)}
                     />
                   </View>
@@ -346,23 +391,31 @@ const FeedbackModal = () => {
                           color: "#555",
                           textAlign: "center",
                         },
+                        theme === "dark" && globalStyles.textLight,
                       ]}
                     >
                       Type of feedback
                     </Text>
 
                     <TouchableOpacity
-                      style={[globalStyles.inputContainer, { backgroundColor: "#f8f8f8", borderColor: "#ced4ed" }]}
+                      style={[
+                        globalStyles.inputContainer,
+                        { backgroundColor: theme === "dark" ? colors.darkCard : "#f8f8f8", borderColor: "#ced4ed" },
+                      ]}
                       onPress={() => setShowCModal(true)}
                     >
-                      <TextInput value={feedbackType?.name} editable={false} style={globalStyles.inputTextt} />
+                      <TextInput
+                        value={feedbackType?.name}
+                        editable={false}
+                        style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
+                      />
                       <FontAwesome5Icon name="chevron-circle-down" size={16} color="#666" style={{ marginRight: 10 }} />
                     </TouchableOpacity>
                   </View>
                   <View style={{ marginTop: 40 }}>
                     <View
                       style={{
-                        backgroundColor: "#f8f8f8",
+                        backgroundColor: theme === "dark" ? colors.greenDarkColor : "#f8f8f8",
                         borderColor: "#ced4ed",
                         borderWidth: 1,
                         borderRadius: 10,
@@ -374,14 +427,19 @@ const FeedbackModal = () => {
                         numberOfLines={7}
                         onChangeText={(text) => setDescription(text)}
                         value={description}
-                        style={{
-                          padding: 10,
-                          paddingVertical: 10,
-                          fontSize: 18,
-                          height: "70%",
-                          fontFamily: "Poppins",
-                          letterSpacing: -0.35644,
-                        }}
+                        style={[
+                          {
+                            padding: 10,
+                            paddingVertical: 10,
+                            fontSize: 18,
+                            height: "70%",
+                            fontFamily: "Poppins",
+                            letterSpacing: -0.35644,
+                            color: theme === "dark" ? "#fff" : "#222",
+                          },
+                          theme === "dark" && globalStyles.textLight,
+                        ]}
+                        placeholderTextColor={theme === "dark" ? "#fff" : "444"}
                         placeholder="Your feedback text here..."
                       />
                     </View>

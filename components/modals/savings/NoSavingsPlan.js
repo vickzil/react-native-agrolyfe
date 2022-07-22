@@ -1,8 +1,10 @@
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { setMySavingsModal, setSavingsModal } from "../../../store/alert/alertSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import colors from "../../../styles/colors";
+import { globalStyles } from "../../../styles/global";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
@@ -10,6 +12,7 @@ const noImage = require("../../../assets/img/savings.png");
 
 const NoSavingsPlan = () => {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.oauth.theme);
 
   const showSavingsPlan = () => {
     dispatch(setSavingsModal(true));
@@ -20,20 +23,43 @@ const NoSavingsPlan = () => {
   };
 
   return (
-    <View style={[styles.productContainer]}>
+    <View style={[styles.productContainer, theme === "dark" && globalStyles.cardDark]}>
       <View style={{ alignItems: "center", marginTop: -50 }}>
         <View style={styles.productImage}>
-          <Image
-            source={noImage}
-            style={{ width: 160, height: 160, borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
-            resizeMode="cover"
-          />
+          {theme !== "dark" ? (
+            <Image
+              source={noImage}
+              style={{ width: 160, height: 160, borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
+              resizeMode="cover"
+            />
+          ) : (
+            <Icon
+              name="wallet-outline"
+              size={115}
+              style={[{ paddingRight: 19, color: theme === "dark" ? "#fff" : colors.greenColor, marginLeft: 15 }]}
+            />
+          )}
         </View>
-        <Text style={{ fontSize: 18, fontWeight: "600", marginTop: 40, fontFamily: "PoppinsBold" }}>
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "600",
+            marginTop: 40,
+            fontFamily: "PoppinsBold",
+            color: theme === "dark" ? "#fff" : "#222",
+          }}
+        >
           Your Rewarding Savings
         </Text>
         <Text
-          style={{ fontSize: 16, marginTop: 20, textAlign: "center", fontFamily: "Poppins", paddingHorizontal: 20 }}
+          style={{
+            fontSize: 16,
+            marginTop: 20,
+            textAlign: "center",
+            fontFamily: "Poppins",
+            paddingHorizontal: 20,
+            color: theme === "dark" ? "#fff" : "#222",
+          }}
         >
           Get started, choose the most suitable and convenient savings plan for you.
         </Text>

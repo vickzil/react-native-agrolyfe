@@ -9,6 +9,7 @@ import {
   ScrollView,
   Dimensions,
   StatusBar,
+  Modal,
 } from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,20 +46,7 @@ const FundWalletByForeignTransfer = () => {
     // console.log(height);
   }, [walletOptions]);
 
-  useEffect(() => {
-    if (modal) {
-      bottomSheetRef.current.show();
-    } else {
-      bottomSheetRef.current.close();
-      dispatch(setFundwalletByForeignTransferModal(false));
-    }
-
-    // console.log(modal);
-    // console.log(height);
-  }, [modal]);
-
   const closeFundModal = () => {
-    bottomSheetRef.current.close();
     dispatch(setFundwalletByForeignTransferModal(false));
   };
   const handleCopy = (refLink) => {
@@ -81,20 +69,14 @@ const FundWalletByForeignTransfer = () => {
 
   //   draggable={false}
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme === "dark" ? colors.darkCard : "#fff" }]}>
+    <Modal visible={modal} animationType="fade" onRequestClose={() => closeFundModal()}>
       {theme === "dark" ? (
         <FocusAwareStatusBar backgroundColor={colors.darkCard} barStyle="light-content" />
       ) : (
         <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
       )}
-      <BottomSheet
-        ref={bottomSheetRef}
-        draggable={false}
-        onClose={() => closeFundModal()}
-        onRequestClose={() => closeFundModal()}
-        height={height}
-        sheetBackgroundColor={theme === "dark" ? colors.darkCard : "#fff"}
-        radius={1}
+      <View
+        style={[{ flex: 1, marginTop: -40 }, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight]}
       >
         <SvgComponent />
         <View style={[styles.modalHeader]}>
@@ -398,8 +380,8 @@ const FundWalletByForeignTransfer = () => {
             </View>
           )}
         </ScrollView>
-      </BottomSheet>
-    </SafeAreaView>
+      </View>
+    </Modal>
   );
 };
 

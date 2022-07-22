@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FConfirm = ({ isEnabled, setIsEnabled }) => {
+const FConfirm = ({ isEnabled, setIsEnabled, theme }) => {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const agreeTerms = useSelector((state) => state.oauth.agreeTerms);
 
@@ -29,7 +29,13 @@ const FConfirm = ({ isEnabled, setIsEnabled }) => {
         <Text
           style={[
             styles.productCardContentItemLeft,
-            { fontSize: 22, fontWeight: "600", marginBottom: 6, color: "#444", fontFamily: "PoppinsBold" },
+            {
+              fontSize: 22,
+              fontWeight: "600",
+              marginBottom: 6,
+              color: theme === "dark" ? "#fff" : "#444",
+              fontFamily: "PoppinsBold",
+            },
           ]}
         >
           Confirm Purchase
@@ -46,6 +52,7 @@ const FConfirm = ({ isEnabled, setIsEnabled }) => {
                 fontFamily: "Poppins",
                 marginBottom: 6,
               },
+              theme === "dark" && globalStyles.textLight,
             ]}
           >
             Are you sure you want to purchase this products
@@ -61,6 +68,7 @@ const FConfirm = ({ isEnabled, setIsEnabled }) => {
                 fontFamily: "Poppins",
                 marginBottom: 60,
               },
+              theme === "dark" && globalStyles.textLight,
             ]}
           >
             I certify that I have read, understand and accept{" "}

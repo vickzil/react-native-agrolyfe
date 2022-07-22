@@ -10,7 +10,7 @@ import POPUpModal from "../../POPUpModal";
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
 
-const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
+const FAmount = ({ amount, setAmount, duration, setDuration, payload, theme }) => {
   const dispatch = useDispatch();
   const [showDurationModal, setShowDurationModal] = useState(false);
 
@@ -48,8 +48,16 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
                 />
               </View>
 
-              <Text style={globalStyles.accountUserFullName}>{payload?.name}</Text>
-              <Text style={[globalStyles.accountTitle, { fontWeight: "600", fontFamily: "PoppinsBold", fontSize: 18 }]}>
+              <Text style={[globalStyles.accountUserFullName, theme === "dark" && globalStyles.textLight]}>
+                {payload?.name}
+              </Text>
+              <Text
+                style={[
+                  globalStyles.accountTitle,
+                  { fontWeight: "600", fontFamily: "PoppinsBold", fontSize: 18 },
+                  theme === "dark" && globalStyles.textLightLight,
+                ]}
+              >
                 {payload?.newInterestRate}% Rental Fee
               </Text>
             </View>
@@ -67,6 +75,7 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
                   color: colors.greenDarkDarkColor,
                   textAlign: "center",
                 },
+                theme === "dark" && globalStyles.textLight,
               ]}
             >
               How much farm lands do you want to purchase
@@ -82,6 +91,7 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
                 suffixUnit: "",
               }}
               placeholder="0"
+              placeholderTextColor={theme === "dark" ? "#fff" : "444"}
               value={amount}
               onChangeText={(text) => {
                 setAmount(text);
@@ -101,6 +111,7 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload }) => {
                   fontWeight: "700",
                   textAlign: "center",
                 },
+                theme === "dark" && globalStyles.textLight,
               ]}
             />
           </View>

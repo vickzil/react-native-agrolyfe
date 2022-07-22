@@ -30,6 +30,7 @@ const FirstScreen = ({
   selectedPackage,
   setSelectedPackage,
   cableTvProviders,
+  theme,
 }) => {
   const dispatch = useDispatch();
 
@@ -109,24 +110,40 @@ const FirstScreen = ({
         <View style={{ marginTop: 30, marginBottom: 0, width: "95%", paddingRight: 10 }}>
           <View>
             <View style={{ marginTop: 0, marginBottom: 30, width: "100%", paddingRight: 0 }}>
-              <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}>
+              <Text
+                style={[
+                  styles.productCardContentItemLeft,
+                  { fontSize: 15, marginBottom: 5, fontWeight: "600" },
+                  theme === "dark" && globalStyles.textLight,
+                ]}
+              >
                 Select Package
               </Text>
               <TouchableOpacity style={[globalStyles.inputContainer, { height: 57 }]} onPress={() => choosePackage()}>
-                <Text style={globalStyles.inputTextt}>
+                <Text style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}>
                   {" "}
                   {selectedPackage ? selectedPackage.name : "Selected Package"}{" "}
                 </Text>
-                <Icon name="chevron-down" size={24} style={[{ color: "#222", marginLeft: -10 }]} />
+                <Icon
+                  name="chevron-down"
+                  size={24}
+                  style={[{ color: theme === "dark" ? "#f4f4f4" : "#222", marginLeft: -10 }]}
+                />
               </TouchableOpacity>
             </View>
             {selectedPackage ? (
               <View style={{ marginTop: 0, marginBottom: 30, width: "100%", paddingRight: 0 }}>
-                <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}>
+                <Text
+                  style={[
+                    styles.productCardContentItemLeft,
+                    { fontSize: 15, marginBottom: 5, fontWeight: "600" },
+                    theme === "dark" && globalStyles.textLight,
+                  ]}
+                >
                   Select Product
                 </Text>
                 <TouchableOpacity style={[globalStyles.inputContainer, { height: 57 }]} onPress={() => chooseProduct()}>
-                  <Text style={globalStyles.inputTextt}>
+                  <Text style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}>
                     {" "}
                     {selectedProduct ? selectedProduct.name : "Selected Product"}{" "}
                   </Text>
@@ -136,7 +153,13 @@ const FirstScreen = ({
             ) : null}
             {selectedProduct ? (
               <View style={{ marginTop: 0, marginBottom: 10, width: "100%", paddingRight: 0 }}>
-                <Text style={[styles.productCardContentItemLeft, { fontSize: 15, marginBottom: 5, fontWeight: "600" }]}>
+                <Text
+                  style={[
+                    styles.productCardContentItemLeft,
+                    { fontSize: 15, marginBottom: 5, fontWeight: "600" },
+                    theme === "dark" && globalStyles.textLight,
+                  ]}
+                >
                   Smart Card Number
                 </Text>
                 <View style={[globalStyles.inputContainer, { height: 57 }]}>
@@ -144,14 +167,24 @@ const FirstScreen = ({
                     value={ICUNumber}
                     onChangeText={(text) => setICUNumber(text)}
                     autoCorrect={false}
-                    style={[globalStyles.inputTextt, { fontSize: 19, fontWeight: "600" }]}
+                    style={[
+                      globalStyles.inputTextt,
+                      { fontSize: 19, fontWeight: "600" },
+                      theme === "dark" && globalStyles.textLight,
+                    ]}
                   />
                 </View>
               </View>
             ) : null}
             {selectedProduct ? (
               <View style={{ marginTop: 20, marginBottom: 10, width: "100%", paddingRight: 0 }}>
-                <Text style={[styles.productCardContentItemLeft, { fontSize: 17, marginBottom: 5, fontWeight: "600" }]}>
+                <Text
+                  style={[
+                    styles.productCardContentItemLeft,
+                    { fontSize: 17, marginBottom: 5, fontWeight: "600" },
+                    theme === "dark" && globalStyles.textLight,
+                  ]}
+                >
                   Amount
                 </Text>
                 <View style={[globalStyles.inputContainer, globalStyles.inputContainerDisabled, { height: 57 }]}>

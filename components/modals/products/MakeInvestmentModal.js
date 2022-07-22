@@ -12,13 +12,14 @@ import FSummary from "./makeinvestment/FSummary";
 import FConfirm from "./makeinvestment/FConfirm";
 import { addComma } from "../../helpers/globalFunction";
 import SvgComponent2 from "../../customs/SvgComponent2";
+import colors from "../../../styles/colors";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
 
 const MakeInvestmentModal = () => {
   const modal = useSelector((state) => state.alert.makeInvestmentModal);
-
+  const theme = useSelector((state) => state.oauth.theme);
   const user = useSelector((state) => state.oauth.user);
   const baseURL = useSelector((state) => state.oauth.baseURL);
   const bearerToken = useSelector((state) => state.oauth.bearerToken);
@@ -337,21 +338,37 @@ const MakeInvestmentModal = () => {
       visible={modal?.status}
       animationType="fade"
       onRequestClose={() => previousStep()}
-      style={{ flex: 1, backgroundColor: "#fff" }}
+      style={{ flex: 1, backgroundColor: theme === "dark" ? colors.greenDarkColor : "#fff" }}
     >
       <ScreenLoading visibility={screenLoading} />
 
-      <KeyboardAvoidingView style={{ marginTop: -40, flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <KeyboardAvoidingView
+        style={[
+          {
+            flex: 1,
+            marginTop: -40,
+          },
+          theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight,
+        ]}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <View style={{ height: screenHeight }}>
           <SvgComponent2 />
-          <View style={[styles.modalHeader, { backgroundColor: "#fff", marginTop: 30, paddingBottom: 0 }]}>
+          <View
+            style={[
+              styles.modalHeader,
+              { backgroundColor: theme === "dark" ? colors.greenDarkColor : "#fff", marginTop: 30, paddingBottom: 0 },
+            ]}
+          >
             <Icon
               name="arrow-left"
               size={40}
-              style={[styles.modalHeaderIcon, { color: "#222" }]}
+              style={[styles.modalHeaderIcon, { color: theme === "dark" ? "#fff" : "#222" }]}
               onPress={() => previousStep()}
             />
-            <Text style={[styles.modalHeaderText, { color: "#333" }]}>Purchase Farm land</Text>
+            <Text style={[styles.modalHeaderText, { color: theme === "dark" ? "#fff" : "#222" }]}>
+              Purchase Farm land
+            </Text>
           </View>
 
           <ScrollView
@@ -367,9 +384,10 @@ const MakeInvestmentModal = () => {
               setAmount={setAmount}
               setDuration={setDuration}
               duration={duration}
+              theme={theme}
             />
-            <FSummary payload={modal?.payload} summaryDetails={summaryDetails} />
-            <FConfirm payload={modal?.payload} isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
+            <FSummary payload={modal?.payload} summaryDetails={summaryDetails} theme={theme} />
+            <FConfirm payload={modal?.payload} isEnabled={isEnabled} setIsEnabled={setIsEnabled} theme={theme} />
           </ScrollView>
 
           <View
@@ -403,7 +421,7 @@ const styles = StyleSheet.create({
     width,
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 15,
+    paddingVertical: 22,
     paddingHorizontal: 10,
   },
 
