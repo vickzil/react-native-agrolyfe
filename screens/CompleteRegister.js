@@ -25,6 +25,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ConfirmationModalButtom from "../components/modals/ConfirmationModalButtom";
 import axios from "axios";
 import SvgComponent from "../components/customs/SvgComponent";
+import { useEffect } from "react";
 
 const CompleteRegister = ({ navigation, route }) => {
   const { email, code } = route.params;
@@ -59,6 +60,10 @@ const CompleteRegister = ({ navigation, route }) => {
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
+
+  useEffect(() => {
+    setInputs((prevState) => ({ ...prevState, email: email }));
+  }, [email]);
 
   const closeModal = () => {
     confirmationModal.current.close();
