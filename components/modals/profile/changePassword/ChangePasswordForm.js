@@ -149,7 +149,7 @@ const ChangePasswordForm = ({
             onChangeText={(text) => setPassword(text)}
             autoCorrect={false}
             placeholder="Enter old password"
-            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
             style={[globalStyles.inputTextt, { fontSize: 18 }, theme === "dark" && globalStyles.textLight]}
           />
           <Icon
@@ -172,7 +172,7 @@ const ChangePasswordForm = ({
             onChangeText={(text) => setNewPassword(text)}
             autoCorrect={false}
             placeholder="Enter new password"
-            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
             style={[globalStyles.inputTextt, { fontSize: 18 }, theme === "dark" && globalStyles.textLight]}
           />
           <Icon

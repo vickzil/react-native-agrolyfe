@@ -49,11 +49,12 @@ export default function MainApp({ bearerToken, hasLoggedIn }) {
   }, [bearerToken]);
 
   useLayoutEffect(() => {
-    if (hasLoggedIn) {
+    if (hasLoggedIn && hasLoggedIn === "yes") {
       dispatch(setHasLogin(true));
     } else {
       dispatch(setHasLogin(false));
     }
+    // console.log(typeof hasLoggedIn);
   }, [hasLoggedIn]);
 
   useLayoutEffect(() => {

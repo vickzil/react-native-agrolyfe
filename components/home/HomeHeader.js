@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogoutModal } from "../../store/alert/alertSlice";
+import colors from "../../styles/colors";
 const HomeHeader = ({ navigation }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.oauth.user);
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#25453b",
+    backgroundColor: colors.greenDarkColor,
     paddingHorizontal: 15,
     paddingTop: 15,
     paddingBottom: 160,

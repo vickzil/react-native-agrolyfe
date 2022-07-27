@@ -439,7 +439,7 @@ const FeedbackModal = () => {
                           },
                           theme === "dark" && globalStyles.textLight,
                         ]}
-                        placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+                        placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
                         placeholder="Your feedback text here..."
                       />
                     </View>

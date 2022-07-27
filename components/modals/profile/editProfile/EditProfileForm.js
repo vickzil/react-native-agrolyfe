@@ -164,7 +164,7 @@ const EditProfileForm = ({ handleLoading, theme }) => {
             autoFocus={true}
             onChangeText={(text) => setMiddleName(text.replace(/\s/g, ""))}
             autoCorrect={false}
-            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
             placeholder="Enter middle name"
             style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
           />
@@ -238,7 +238,7 @@ const EditProfileForm = ({ handleLoading, theme }) => {
           <TextInput
             value={selectedCountry ? selectedCountry?.name : country}
             editable={false}
-            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
             style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
           />
           <FontAwesome5Icon

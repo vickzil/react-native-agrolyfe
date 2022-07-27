@@ -99,7 +99,7 @@ const FName = ({ userName, setUserName, calculatedUser, setCalculatedUser, remov
                     selectionColor="#f8f8f8"
                     onChangeText={(text) => setUserName(text.replace(/\s/g, ""))}
                     autoCorrect={false}
-                    placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+                    placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
                     style={[
                       globalStyles.inputTextt,
                       styles.inputField,

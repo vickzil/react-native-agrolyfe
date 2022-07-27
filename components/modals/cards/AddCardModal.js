@@ -25,7 +25,7 @@ import {
 import { globalStyles } from "../../../styles/global";
 import colors from "../../../styles/colors";
 import PayStackPackage from "../../customs/PayStackPackage";
-import { setPaystackRef } from "../../../store/auth/authSlice";
+import { setPaystackRef, setRefreshing } from "../../../store/auth/authSlice";
 
 const { width } = Dimensions.get("screen");
 
@@ -98,6 +98,8 @@ const AddCardModal = () => {
     dispatch(setMySavingsModal(false));
 
     dispatch(setCardModal(false));
+
+    dispatch(setRefreshing(true));
   };
 
   const onError = () => {

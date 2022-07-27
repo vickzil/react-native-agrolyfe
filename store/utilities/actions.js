@@ -93,14 +93,14 @@ export const otherFunctions = createAsyncThunk("util/otherFunctions", async (pay
   dispatch(getWalletOptions(user?.code));
   dispatch(getAirtimeDataProvidersPlans(user?.code));
   dispatch(getCableTVProviders(user?.code));
-
-  console.log("here");
 });
 
 export const otherGlobalFunctions = createAsyncThunk(
   "util/otherGlobalFunctions",
   async (payload, { getState, dispatch }) => {
     const user = getState().oauth.user;
+
+    console.log("here");
 
     dispatch(getTransactionsInfo(user?.code));
     dispatch(fetchAllInvestment(user?.code));

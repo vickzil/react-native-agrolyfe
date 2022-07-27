@@ -142,7 +142,7 @@ const AntiPhizingForm = ({ phrase, setPhrase, emptyFields, setEmptyFields, setIs
             onChangeText={(text) => passwordHandle(text)}
             autoCorrect={false}
             placeholder="Enter phrase..."
-            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
             style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
           />
         </View>

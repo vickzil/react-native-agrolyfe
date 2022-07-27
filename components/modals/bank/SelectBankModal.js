@@ -57,16 +57,19 @@ const SelectBankModal = () => {
   };
 
   const selectBank = (item) => {
-    closeModal();
     dispatch(setSelectedBank(item));
     if (modal.type === "TRANSFER_TO_BANK") {
-      dispatch(
-        setTransferToBankModal({
-          status: true,
-          bank: item,
-        }),
-      );
+      // dispatch(
+      //   setTransferToBankModal({
+      //     status: true,
+      //     bank: item,
+      //   }),
+      // );
+
+      console.log(item);
     }
+
+    closeModal();
 
     // if (modal.type === "ADD_BANK") {
     //   setSelectedBank(item);

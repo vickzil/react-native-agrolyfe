@@ -1,8 +1,6 @@
 import { Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useEffect, useRef } from "react";
-import IconSearch from "react-native-vector-icons/AntDesign";
 import ProductCard from "./ProductCard";
-import colors from "../../styles/colors";
 import { useIsFocused } from "@react-navigation/native";
 import LoadingComponents from "../loader/LoadingComponents";
 import { useSelector } from "react-redux";
@@ -27,77 +25,79 @@ const AllProducts = () => {
   }, [isFocused]);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      ref={scrollViewRef}
-      style={[{ position: "relative" }, theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight]}
-    >
+    <View style={[{ flex: 1 }, theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight]}>
       <SvgComponent />
-      <View style={[styles.productContainer]}>
-        <View style={[styles.modalSearchContainer]}>
-          {/* <View style={[styles.modalSearch]}>
+      <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef} style={[{ position: "relative" }]}>
+        <View style={[styles.productContainer]}>
+          <View style={[styles.modalSearchContainer]}>
+            {/* <View style={[styles.modalSearch]}>
             <IconSearch name="search1" size={20} style={[styles.searchIcon, { color: colors.greenColor }]} />
             <TextInput style={styles.searchInput} placeholder="Search products..." />
           </View> */}
-        </View>
-        <View>
-          <Text
-            style={[
-              globalStyles.siteTitle,
-              {
-                fontWeight: "600",
-                fontSize: 17,
-                textTransform: "capitalize",
-                fontFamily: "PoppinsBold",
-                marginBottom: 30,
-                textAlign: "center",
-                width: "100%",
-              },
-              theme === "dark" && globalStyles.textLight,
-            ]}
-          >
-            Available Farm Lands
-          </Text>
-        </View>
+          </View>
+          <View>
+            <Text
+              style={[
+                globalStyles.siteTitle,
+                {
+                  fontWeight: "600",
+                  fontSize: 17,
+                  textTransform: "capitalize",
+                  fontFamily: "PoppinsBold",
+                  marginBottom: 30,
+                  textAlign: "center",
+                  width: "100%",
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
+              Available Farm Lands
+            </Text>
+          </View>
 
-        {loading ? (
-          <View
-            style={[
-              {
-                marginTop: 40,
-                backgroundColor: "#fff",
-                padding: 30,
-                alignItems: "center",
-                paddingTop: 50,
-                height: "100%",
-                width: "100%",
-              },
-              theme === "dark" && globalStyles.cardDark,
-            ]}
-          >
-            <LoadingComponents />
-            <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>Loading farm lands...</Text>
-          </View>
-        ) : products && products.length ? (
-          products?.map((item, index) => <ProductCard key={index} item={item} index={index} />)
-        ) : (
-          <View
-            style={[
-              {
-                width,
-                height,
-                // justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#fff",
-              },
-              theme === "dark" && globalStyles.cardDark,
-            ]}
-          >
-            <NoItem item={{ type: "PRODUCTS", buttonText: "", message: "There are currently no available product" }} />
-          </View>
-        )}
-      </View>
-    </ScrollView>
+          {loading ? (
+            <View
+              style={[
+                {
+                  marginTop: 40,
+                  backgroundColor: "#fff",
+                  padding: 30,
+                  alignItems: "center",
+                  paddingTop: 50,
+                  height: "100%",
+                  width: "100%",
+                },
+                theme === "dark" && globalStyles.cardDark,
+              ]}
+            >
+              <LoadingComponents />
+              <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>
+                Loading farm lands...
+              </Text>
+            </View>
+          ) : products && products.length ? (
+            products?.map((item, index) => <ProductCard key={index} item={item} index={index} />)
+          ) : (
+            <View
+              style={[
+                {
+                  width,
+                  height,
+                  // justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#fff",
+                },
+                theme === "dark" && globalStyles.cardDark,
+              ]}
+            >
+              <NoItem
+                item={{ type: "PRODUCTS", buttonText: "", message: "There are currently no available product" }}
+              />
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 

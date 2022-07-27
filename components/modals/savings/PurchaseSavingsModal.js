@@ -40,6 +40,7 @@ import SvgComponent from "../../customs/SvgComponent";
 import { addComma } from "../../helpers/globalFunction";
 import { getUserInfo } from "../../../store/auth/actions";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
+import { setRefreshing } from "../../../store/auth/authSlice";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -391,7 +392,7 @@ const PurchaseSavingsModal = () => {
         dispatch(setMySavingsModal(false));
 
         dispatch(getUserInfo(user?.code));
-        dispatch(otherGlobalFunctions());
+        dispatch(setRefreshing(true));
         if (response?.data?.success == true) {
           // console.log(response?.data?.data);
           setScreenLoading({
@@ -456,8 +457,6 @@ const PurchaseSavingsModal = () => {
         <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
       )}
       <ScreenLoading visibility={screenLoading} />
-      {/* <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" /> */}
-      {/* <StatusBar translucent barStyle={statusbar} /> */}
       <KeyboardAvoidingView
         style={[{ marginTop: -40, flex: 1 }, theme === "dark" ? globalStyles.cardDark : globalStyles.containerLight]}
         behavior={Platform.OS === "ios" ? "padding" : "height"}

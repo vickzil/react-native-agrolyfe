@@ -35,6 +35,8 @@ import { getUserWalletBalance } from "../../../store/wallet/actions";
 import { getUserInfo } from "../../../store/auth/actions";
 import { getTransactionsInfo } from "../../../store/transactions/actions";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import { otherGlobalFunctions } from "../../../store/utilities/actions";
+import { setRefreshing } from "../../../store/auth/authSlice";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -202,11 +204,12 @@ const TransferToBankModal = () => {
       Amount: newAmount,
       PIN: pin,
       Narration: "",
-      UserBankAccountCode: selectedBank.code,
+      UserBankAccountCode: selectedBank?.code,
       AdditionalInfo: "",
-      SourceOfDebit: selectedWallet.code,
+      SourceOfDebit: selectedWallet?.value,
     };
 
+    // console.log(selectedWallet);
     // console.log(newPayload);
 
     axios
@@ -235,9 +238,8 @@ const TransferToBankModal = () => {
             }),
           );
 
-          dispatch(getUserWalletBalance(user?.code));
           dispatch(getUserInfo(user?.code));
-          dispatch(getTransactionsInfo(user?.code));
+          dispatch(setRefreshing(true));
 
           closeModal();
         } else {
@@ -279,11 +281,7 @@ const TransferToBankModal = () => {
   return (
     <Modal visible={modal?.status} animationType="fade" onRequestClose={() => previousStep()}>
       <ScreenLoading visibility={screenLoading} />
-      {theme === "dark" ? (
-        <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="light-content" />
-      ) : (
-        <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
-      )}
+      <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="light-content" />
 
       <KeyboardAvoidingView
         style={[

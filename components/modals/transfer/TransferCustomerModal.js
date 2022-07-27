@@ -38,6 +38,7 @@ import SvgComponent from "../../customs/SvgComponent";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
 import colors from "../../../styles/colors";
+import { setRefreshing } from "../../../store/auth/authSlice";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -320,7 +321,7 @@ const TransferCustomerModal = () => {
           );
 
           dispatch(getUserInfo(user?.code));
-          dispatch(otherGlobalFunctions());
+          dispatch(setRefreshing(true));
         } else {
           setEmptyFields(false);
           setScreenLoading({

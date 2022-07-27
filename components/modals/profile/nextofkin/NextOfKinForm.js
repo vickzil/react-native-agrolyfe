@@ -184,7 +184,7 @@ const EditProfileForm = ({ isLoading, setIsLoading, theme }) => {
             onChangeText={(text) => setFullName(text)}
             autoCorrect={false}
             placeholder="Enter full name"
-            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
             style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
           />
         </View>
@@ -197,7 +197,7 @@ const EditProfileForm = ({ isLoading, setIsLoading, theme }) => {
             onChangeText={(text) => setEmail(text)}
             autoCorrect={false}
             placeholder="Enter email"
-            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
             style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
           />
         </View>
@@ -211,7 +211,7 @@ const EditProfileForm = ({ isLoading, setIsLoading, theme }) => {
             autoCorrect={false}
             keyboardType="numeric"
             placeholder="Enter phone"
-            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
             style={[globalStyles.inputTextt, theme === "dark" && globalStyles.textLight]}
           />
         </View>
@@ -267,7 +267,7 @@ const EditProfileForm = ({ isLoading, setIsLoading, theme }) => {
           <TextInput
             value={address}
             onChangeText={(text) => setAddress(text)}
-            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
             multiline={true}
             autoCorrect={false}
             style={[globalStyles.inputTextt, { textAlign: "left", width: "100%" }]}

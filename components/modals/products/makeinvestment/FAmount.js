@@ -78,7 +78,7 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload, theme }) =
                 theme === "dark" && globalStyles.textLight,
               ]}
             >
-              How much farm lands do you want to purchase
+              How much do you want to purchase
             </Text>
 
             <TextInputMask
@@ -91,7 +91,7 @@ const FAmount = ({ amount, setAmount, duration, setDuration, payload, theme }) =
                 suffixUnit: "",
               }}
               placeholder="0"
-              placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+              placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
               value={amount}
               onChangeText={(text) => {
                 setAmount(text);

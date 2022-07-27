@@ -28,6 +28,7 @@ import { getUserInfo } from "../../../store/auth/actions";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
 import SvgComponent from "../../customs/SvgComponent";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import { setRefreshing } from "../../../store/auth/authSlice";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -217,7 +218,7 @@ const FundWalletByCardModal = () => {
           );
 
           dispatch(getUserInfo(user?.code));
-          dispatch(otherGlobalFunctions());
+          dispatch(setRefreshing(true));
 
           closeModal();
         } else {
@@ -267,7 +268,7 @@ const FundWalletByCardModal = () => {
       {theme === "dark" ? (
         <FocusAwareStatusBar backgroundColor={colors.darkBody} barStyle="light-content" />
       ) : (
-        <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="dark-content" />
+        <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="light-content" />
       )}
 
       <KeyboardAvoidingView

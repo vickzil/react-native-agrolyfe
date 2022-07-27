@@ -6,7 +6,11 @@ import colors from "../../../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { setSelectBankModal, setTransferToCustomerModal } from "../../../store/alert/alertSlice";
+import {
+  setSelectBankModal,
+  setTransferToBankModal,
+  setTransferToCustomerModal,
+} from "../../../store/alert/alertSlice";
 import CustomerModalButtom from "./CustomerModalButtom";
 import { globalStyles } from "../../../styles/global";
 
@@ -56,9 +60,9 @@ const TransferModalButtom = ({ bottomSheet, closeTransferModal }) => {
             style={styles.accountTabsLinks}
             onPress={() => {
               dispatch(
-                setSelectBankModal({
+                setTransferToBankModal({
                   status: true,
-                  type: "TRANSFER_TO_BANK",
+                  bank: null,
                 }),
               );
 

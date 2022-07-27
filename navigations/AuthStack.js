@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Welcome from "../screens/Welcome";
+import OnBoarding from "../screens/OnBoarding";
 import Login from "../screens/Login";
 import Register from "../screens/Register";
 import ForgotPassword from "../screens/ForgotPassword";
@@ -52,6 +53,7 @@ const AuthStack = () => {
     <>
       <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={hasLogin ? "Login" : "Welcome"}>
         <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="OnBoarding" component={OnBoarding} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />

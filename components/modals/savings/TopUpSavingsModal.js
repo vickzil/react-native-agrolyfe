@@ -282,7 +282,7 @@ const TopUpSavingsModal = () => {
                         suffixUnit: "",
                       }}
                       placeholder="0"
-                      placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+                      placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
                       editable={false}
                       value={amount}
                       onChangeText={(text) => {

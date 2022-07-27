@@ -47,7 +47,7 @@ const SavingsName = ({ name, setName, theme }) => {
         >
           <TextInput
             value={name}
-            placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+            placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
             onChangeText={(text) => setName(text)}
             autoCorrect={false}
             style={[

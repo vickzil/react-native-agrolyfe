@@ -1,13 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Products from "../screens/products/Products";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import MyProducts from "../components/products/MyProducts";
 import AllProducts from "../components/products/AllProducts";
-import TopBarTab from "./TopBarTab";
 import colors from "../styles/colors";
-import GeneralStatusBarColor from "../components/customs/statusbar/GeneralStatusBarColor";
 import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import SvgComponent from "../components/customs/SvgComponent";

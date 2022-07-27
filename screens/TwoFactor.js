@@ -173,8 +173,8 @@ const TwoFactor = ({ navigation, route }) => {
                 letterSpacing: -0.35644,
                 borderColor: colors.greenColor,
                 marginTop: 30,
-                backgroundColor: theme === "dark" && "#aaa",
-                borderRadius: theme === "dark" && 6,
+                backgroundColor: theme === "dark" ? "#aaa" : 0,
+                borderRadius: theme === "dark" ? 6 : 0,
               }}
               textColor={customColor}
               tintColor={colors.greenColor}

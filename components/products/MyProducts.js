@@ -6,6 +6,7 @@ import { globalStyles } from "../../styles/global";
 import NoInvestments from "./NoInvestments";
 import { useSelector } from "react-redux";
 import LoadingComponents from "../loader/LoadingComponents";
+import SvgComponent from "../customs/SvgComponent";
 
 const products = [];
 
@@ -29,71 +30,71 @@ const MyProducts = () => {
   }, [products]);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={[{ position: "relative" }, theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight]}
-    >
-      <View style={[styles.productContainer]}>
-        {loading ? (
-          <View
-            style={[
-              {
-                marginTop: 40,
-                backgroundColor: "#fff",
-                padding: 30,
-                alignItems: "center",
-                paddingTop: 50,
-                height: "100%",
-                width: "100%",
-              },
-              theme === "dark" && globalStyles.textLight,
-            ]}
-          >
-            <LoadingComponents />
-            <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>
-              Loading my purchases...
-            </Text>
-          </View>
-        ) : myProducts && myProducts.length ? (
-          <View style={{ marginTop: 60, width: "100%", paddingBottom: 100 }}>
-            <View>
-              <Text
-                style={[
-                  globalStyles.siteTitle,
-                  {
-                    fontWeight: "600",
-                    fontSize: 17,
-                    textTransform: "capitalize",
-                    fontFamily: "PoppinsBold",
-                    textAlign: "center",
-                    width: "100%",
-                  },
-                  theme === "dark" && globalStyles.textLight,
-                ]}
-              >
-                Purchased Farm Lands
+    <View style={[{ flex: 1 }, theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight]}>
+      <SvgComponent />
+      <ScrollView showsVerticalScrollIndicator={false} style={[{ position: "relative" }]}>
+        <View style={[styles.productContainer]}>
+          {loading ? (
+            <View
+              style={[
+                {
+                  marginTop: 40,
+                  backgroundColor: "#fff",
+                  padding: 30,
+                  alignItems: "center",
+                  paddingTop: 50,
+                  height: "100%",
+                  width: "100%",
+                },
+                theme === "dark" && globalStyles.textLight,
+              ]}
+            >
+              <LoadingComponents />
+              <Text style={[globalStyles.label, theme === "dark" && globalStyles.textLight]}>
+                Loading my purchases...
               </Text>
             </View>
+          ) : myProducts && myProducts.length ? (
+            <View style={{ marginTop: 60, width: "100%", paddingBottom: 100 }}>
+              <View>
+                <Text
+                  style={[
+                    globalStyles.siteTitle,
+                    {
+                      fontWeight: "600",
+                      fontSize: 17,
+                      textTransform: "capitalize",
+                      fontFamily: "PoppinsBold",
+                      textAlign: "center",
+                      width: "100%",
+                    },
+                    theme === "dark" && globalStyles.textLight,
+                  ]}
+                >
+                  Purchased Farm Lands
+                </Text>
+              </View>
 
-            <View
-              style={{
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 30,
-                paddingHorizontal: 15,
-              }}
-            >
-              {myProducts?.map((item, index) => (
-                <PurchaseCard key={index} item={item} index={index} />
-              ))}
+              <View
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 30,
+                  paddingHorizontal: 15,
+                }}
+              >
+                {myProducts?.map((item, index) => (
+                  <PurchaseCard key={index} item={item} index={index} />
+                ))}
+              </View>
             </View>
-          </View>
-        ) : (
-          <NoInvestments />
-        )}
-      </View>
-    </ScrollView>
+          ) : (
+            <NoInvestments />
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 

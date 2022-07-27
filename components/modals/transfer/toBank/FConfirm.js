@@ -64,8 +64,8 @@ const FConfirm = ({ pin, setPin, step, theme }) => {
           style={{
             fontFamily: "Poppins",
             letterSpacing: -0.35644,
-            backgroundColor: theme === "dark" && "#aaa",
-            borderRadius: theme === "dark" && 6,
+            backgroundColor: theme === "dark" ? "#aaa" : 0,
+            borderRadius: theme === "dark" ? 6 : 0,
           }}
           alphaNumeric={false}
           autoFocus={autoF}

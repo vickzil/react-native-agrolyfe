@@ -38,6 +38,7 @@ import { addComma } from "../../helpers/globalFunction";
 import SvgComponent2 from "../../customs/SvgComponent2";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import { setRefreshing } from "../../../store/auth/authSlice";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -232,7 +233,7 @@ const BuyAirtimeModal = () => {
           );
 
           dispatch(getUserInfo(user?.code));
-          dispatch(otherGlobalFunctions());
+          dispatch(setRefreshing(true));
 
           closeModal();
         } else {

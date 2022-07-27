@@ -23,6 +23,7 @@ import {
   setGreetings,
   setHasFeedBack,
   setPaystackRef,
+  setRefreshing,
   setResendPinCompleted,
   setShowBalances,
   setToken,
@@ -50,6 +51,7 @@ import UserInactivity from "react-native-user-inactivity";
 import { removeStorageItemValue } from "../components/helpers/globalFunction";
 import { setUserWalletBalance } from "../store/wallet/walletSlice";
 import { useNavigation } from "@react-navigation/native";
+import AllApiCalls from "../components/helpers/AllApiCalls";
 
 const Tab = createBottomTabNavigator();
 const AppStack = () => {
@@ -64,6 +66,7 @@ const AppStack = () => {
   const AppId = useSelector((state) => state.oauth.AppId);
   const RequestId = useSelector((state) => state.oauth.RequestId);
   const secretKey = useSelector((state) => state.oauth.secretKey);
+  const refreshing = useSelector((state) => state.oauth.refreshing);
 
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.oauth.user);
@@ -120,6 +123,14 @@ const AppStack = () => {
       }, 3500);
     }
   }, [resendPinCompleted]);
+
+  useEffect(() => {
+    if (refreshing === true) {
+      setTimeout(() => {
+        dispatch(setRefreshing(false));
+      }, 3500);
+    }
+  }, [refreshing]);
 
   useEffect(() => {
     getGreetings();
@@ -359,6 +370,7 @@ const AppStack = () => {
         </Tab.Navigator>
         <AllModals />
       </UserInactivity>
+      {refreshing ? <AllApiCalls /> : null}
     </>
   );
 };

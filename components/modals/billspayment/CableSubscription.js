@@ -38,6 +38,7 @@ import SvgComponent2 from "../../customs/SvgComponent2";
 import { otherGlobalFunctions } from "../../../store/utilities/actions";
 import { addComma } from "../../helpers/globalFunction";
 import FocusAwareStatusBar from "../../customs/statusbar/FocusAwareStatusBar";
+import { setRefreshing } from "../../../store/auth/authSlice";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -237,7 +238,7 @@ const CableSubscription = () => {
           );
 
           dispatch(getUserInfo(user?.code));
-          dispatch(otherGlobalFunctions());
+          dispatch(setRefreshing(true));
         } else {
           setEmptyFields(false);
           setScreenLoading({

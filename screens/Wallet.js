@@ -10,18 +10,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { otherGlobalFunctions } from "../store/utilities/actions";
 import { getUserInfo } from "../store/auth/actions";
 import SvgComponent from "../components/customs/SvgComponent";
-import { setSelectedMenu } from "../store/auth/authSlice";
+import { setRefreshing, setSelectedMenu } from "../store/auth/authSlice";
 
 import * as Animatable from "react-native-animatable";
 import { globalStyles } from "../styles/global";
+import colors from "../styles/colors";
 
 const Wallet = ({ navigation }) => {
   const user = useSelector((state) => state.oauth.user);
   const selectedMenu = useSelector((state) => state.oauth.selectedMenu);
   const theme = useSelector((state) => state.oauth.theme);
   const dispatch = useDispatch();
-
-  const [refreshing, setRefreshing] = useState(false);
+  const refreshing = useSelector((state) => state.oauth.refreshing);
 
   const scrollViewRef = useRef();
   const isFocused = useIsFocused();
@@ -39,27 +39,14 @@ const Wallet = ({ navigation }) => {
   }, [selectedMenu]);
 
   const onRefresh = () => {
-    setRefreshing(true);
+    dispatch(setRefreshing(true));
     dispatch(getUserInfo(user?.code));
-    dispatch(otherGlobalFunctions());
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 3500);
-  };
-
-  const fadeIn = {
-    from: {
-      opacity: 0,
-    },
-    to: {
-      opacity: 1,
-    },
   };
 
   return (
     <SafeAreaView style={[{ flex: 1 }, theme === "dark" ? globalStyles.containerDark : globalStyles.containerLight]}>
       <SvgComponent />
-      <FocusAwareStatusBar backgroundColor="#25453b" barStyle="light-content" />
+      <FocusAwareStatusBar backgroundColor={colors.greenDarkColor} barStyle="light-content" />
 
       <ScrollView
         ref={scrollViewRef}

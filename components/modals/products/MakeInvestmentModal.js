@@ -13,6 +13,8 @@ import FConfirm from "./makeinvestment/FConfirm";
 import { addComma } from "../../helpers/globalFunction";
 import SvgComponent2 from "../../customs/SvgComponent2";
 import colors from "../../../styles/colors";
+import { getUserInfo } from "../../../store/auth/actions";
+import { setRefreshing } from "../../../store/auth/authSlice";
 
 const { width } = Dimensions.get("screen");
 const screenHeight = Dimensions.get("window").height;
@@ -292,6 +294,9 @@ const MakeInvestmentModal = () => {
             }),
           );
           closeModal();
+
+          dispatch(getUserInfo(user?.code));
+          dispatch(setRefreshing(true));
 
           setScreenLoading({
             status: false,

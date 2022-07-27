@@ -16,9 +16,10 @@ import MarqueeTextSample from "../components/extra/MarqueeTextSample";
 import { getUserInfo } from "../store/auth/actions";
 import SvgComponent from "../components/customs/SvgComponent";
 import HomeProducts from "../components/home/HomeProducts";
-import { setSelectedMenu } from "../store/auth/authSlice";
+import { setRefreshing, setSelectedMenu } from "../store/auth/authSlice";
 import HomeAdverts from "../components/home/HomeAdverts";
 import { globalStyles } from "../styles/global";
+import allApiCalls from "../components/helpers/AllApiCalls";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const Home = ({ navigation }) => {
   const userWalletBalance = useSelector((state) => state.wallet.userWalletBalance);
   const selectedMenu = useSelector((state) => state.oauth.selectedMenu);
   const theme = useSelector((state) => state.oauth.theme);
+  const refreshing = useSelector((state) => state.oauth.refreshing);
 
   // const ref = useRef(null);
   const scrollViewRef = useRef();
@@ -55,8 +57,6 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {}, [userWalletBalance, user]);
 
-  const [refreshing, setRefreshing] = useState(false);
-
   // const onRefresh = useCallback(() => {
   //   setRefreshing(true);
   //   // getUserInfos()
@@ -84,12 +84,8 @@ const Home = ({ navigation }) => {
   // }, []);
 
   const onRefresh = () => {
-    setRefreshing(true);
+    dispatch(setRefreshing(true));
     dispatch(getUserInfo(user?.code));
-    dispatch(otherGlobalFunctions());
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 3500);
   };
 
   return (

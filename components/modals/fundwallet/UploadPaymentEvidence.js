@@ -307,7 +307,7 @@ const UploadPaymentEvidence = () => {
                         suffixUnit: "",
                       }}
                       placeholder="0"
-                      placeholderTextColor={theme === "dark" ? "#fff" : "444"}
+                      placeholderTextColor={theme === "dark" ? "#fff" : "#444"}
                       value={amount}
                       onChangeText={(text) => {
                         setAmount(text);

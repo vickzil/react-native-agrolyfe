@@ -1,13 +1,19 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Welcome = ({ navigation }) => {
+  const hasLogin = useSelector((state) => state.oauth.hasLogin);
   const logo = require("../assets/img/banner.png");
 
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate("Login");
-    }, 3000);
+      if (hasLogin) {
+        navigation.navigate("Login");
+      } else {
+        navigation.navigate("OnBoarding");
+      }
+    }, 3500);
   }, []);
 
   return (

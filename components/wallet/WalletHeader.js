@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import WalletOverview from "./WalletOverview";
 import HeaderImageTop from "./HeaderImageTop";
+import colors from "../../styles/colors";
 const WalletHeader = ({ navigation }) => {
   return (
     <View style={styles.homeHeader}>
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     width: "100%",
     // flexDirection: "row",
 
-    backgroundColor: "#25453b",
+    backgroundColor: colors.greenDarkColor,
     // paddingHorizontal: 15,
     paddingTop: 15,
     paddingBottom: 0,
