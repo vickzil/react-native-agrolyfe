@@ -1,7 +1,6 @@
 import { Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { globalStyles } from "../../styles/global";
-import AllTransactionItem from "./AllTransactionItem";
 import TransactionItem from "./TransactionItem";
 import NoItem from "../extra/NoItem";
 import { useSelector } from "react-redux";

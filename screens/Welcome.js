@@ -8,11 +8,13 @@ const Welcome = ({ navigation }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (hasLogin) {
-        navigation.navigate("Login");
-      } else {
-        navigation.navigate("OnBoarding");
-      }
+      // if (hasLogin) {
+      //   navigation.navigate("Login");
+      // } else {
+      //   navigation.navigate("OnBoarding");
+      // }
+
+      navigation.navigate("Login");
     }, 3500);
   }, []);
 

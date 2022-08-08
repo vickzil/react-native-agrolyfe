@@ -13,7 +13,7 @@ const initialState = {
   baseURL: "https://oxfordvestapi.azurewebsites.net/api",
   walletURL: "https://oxfordwalletapi.azurewebsites.net/api",
   AppId: "agrolyfe",
-  APPVERSION: "1.0.0",
+  APPVERSION: "1.0.2",
   RequestId: "001web001web" + Math.floor(Math.random() * 10),
   secretKey: "helloworld",
   bearerToken: "",

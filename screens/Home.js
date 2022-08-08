@@ -6,7 +6,6 @@ import React, { useEffect, useRef, useState } from "react";
 import HomeHeader from "../components/home/HomeHeader";
 import HomeWalletOverview from "../components/home/HomeWalletOverview";
 import QuickMenus from "../components/home/QuickMenus";
-import Transactions from "../components/transactions/Transactions";
 import { useIsFocused } from "@react-navigation/native";
 import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +18,6 @@ import HomeProducts from "../components/home/HomeProducts";
 import { setRefreshing, setSelectedMenu } from "../store/auth/authSlice";
 import HomeAdverts from "../components/home/HomeAdverts";
 import { globalStyles } from "../styles/global";
-import allApiCalls from "../components/helpers/AllApiCalls";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();

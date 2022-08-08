@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import MyProducts from "../components/products/MyProducts";
 import AllProducts from "../components/products/AllProducts";
@@ -13,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSelectedMenu } from "../store/auth/authSlice";
 import { globalStyles } from "../styles/global";
 
-// const Stack = createNativeStackNavigator();
 const TopTab = createMaterialTopTabNavigator();
 const ProductNavigator = () => {
   const dispatch = useDispatch();

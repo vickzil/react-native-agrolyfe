@@ -7,7 +7,6 @@ import WalletHeader from "../components/wallet/WalletHeader";
 import WalletButtons from "../components/wallet/WalletButtons";
 import FocusAwareStatusBar from "../components/customs/statusbar/FocusAwareStatusBar";
 import { useDispatch, useSelector } from "react-redux";
-import { otherGlobalFunctions } from "../store/utilities/actions";
 import { getUserInfo } from "../store/auth/actions";
 import SvgComponent from "../components/customs/SvgComponent";
 import { setRefreshing, setSelectedMenu } from "../store/auth/authSlice";

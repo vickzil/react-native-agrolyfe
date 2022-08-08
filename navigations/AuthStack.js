@@ -14,16 +14,7 @@ import TwoFactor from "../screens/TwoFactor";
 import AlertModal from "../components/modals/AlertModal";
 import { removeStorageItemValue } from "../components/helpers/globalFunction";
 import { setUserWalletBalance } from "../store/wallet/walletSlice";
-import { getTransactionsInfo } from "../store/transactions/actions";
-import {
-  SaveLoginIdentity,
-  saveUserInfo,
-  setAdverts,
-  setDashboardMessage,
-  setToken,
-  setVerificationInfo,
-} from "../store/auth/authSlice";
-import { useNavigation } from "@react-navigation/native";
+import { saveUserInfo, setAdverts, setDashboardMessage, setToken, setVerificationInfo } from "../store/auth/authSlice";
 import { logoutAllAccount } from "../store/auth/actions";
 
 const Stack = createNativeStackNavigator();
